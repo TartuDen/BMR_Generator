@@ -1,0 +1,55 @@
+<!-- Table content -->
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Equipment</th>
+                    <th>Column 2</th>
+                    <th>Column 3</th>
+                    <th>Column 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <div class="container p-0">
+                            <div class="form-group">
+                                <label for="equipmentType">Equipment Type</label>
+                                <select class="form-control" id="equipmentType" onchange="selectItem(this)" style="width: auto;">
+                                    <option value="">--select--</option>
+                                    <% if (locals.equipment) { %>
+                                        <% for (const key in equipment) { %>
+                                            <% if (equipment.hasOwnProperty(key)) { %>
+                                                <optgroup label="<%= key %>">
+                                                    <% equipment[key].forEach(item => { %>
+                                                        <option value="<%= item %>"><%= item %></option>
+                                                    <% }); %>
+                                                </optgroup>
+                                            <% } %>
+                                        <% } %>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        
+
+
+
+
+
+
+                    </td>
+
+
+                    <td>Data 2</td>
+                    <td>Data 3</td>
+                    <td>Data 3</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</main>
