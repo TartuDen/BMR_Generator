@@ -1,7 +1,7 @@
 # User Stories and User Cases
 
 - **To create a new template**, I click "start new template".
-- **I have one row with 4 columns.** In the first column, I can select:
+- **I have one row with 4 columns.** In the first column i see a select list where I can select:
   - **First, I select Operation:**
     - Number of operation (e.g., 1);
     - **Equipment:**
@@ -34,3 +34,6 @@
       - Mass (obtained e.g., 5.0kg);
       - Volume (if available);
       - Additional Info (e.g., Toxic, smelly, handle in mask);
+- **Next I click on '+' to add new row** process repeated.
+- **As I fill out those element, second column of this table (Descriptin) and last one (Other) are being filled out with information**
+- **At the end I have full process described in form of BR, I can export it into Word file**.
