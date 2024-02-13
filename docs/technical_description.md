@@ -1,0 +1,36 @@
+# User Stories and User Cases
+
+- **To create a new template**, I click "start new template".
+- **I have one row with 4 columns.** In the first column, I can select:
+  - **First, I select Operation:**
+    - Number of operation (e.g., 1);
+    - **Equipment:**
+      - Name (e.g., reactor);
+      - Type (e.g., 002);
+      - Code (e.g., 17, so we have reactor 002-17);
+    - **Typical Activity:**
+      - Operation Type (e.g., loading of solid);
+      - **Description:**
+        - Content (detailed description of operation.);
+        - Duration MIN/Duration MAX in min or h - if relevant;
+        - Temperature MIN/Temperature MAX in Celsius centigrades - if relevant;
+        - Additional Equipment (e.g., balance, pumps, hoses, etc...)
+    - **In the description, I can choose Material IN:**
+      - Name of material (e.g., EtNH2);
+      - WH code (e.g., 1234-55-6)
+      - Mass (e.g., 5.0kg);
+      - Volume (if available);
+      - Range (e.g., 5%);
+      - Additional Info (e.g., Toxic, smelly, work with mask);
+    - **In the description, I can choose Material Out (intermediates or product):**
+      - Name of material (e.g., IP.2);
+      - WH code (e.g., TBD-0123-5 IP.2)
+      - Mass (obtained e.g., 5.0kg);
+      - Volume (if available);
+      - Range (won't be used);
+      - Additional Info (e.g., Toxic, smelly, handle in mask);
+    - **In the description, I can choose Wastes (what was produced during the operation):**
+      - Type of wastes (e.g., Organic waste);
+      - Mass (obtained e.g., 5.0kg);
+      - Volume (if available);
+      - Additional Info (e.g., Toxic, smelly, handle in mask);
