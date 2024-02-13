@@ -7,17 +7,56 @@ import MyFunctions from "./funcs.js"
 
 const port = 8080;
 const app = express();
-const equipment = {
-    "reactor":["002-12","002-13","002-14","002-17"],
-    "oven": ["012-10","012-13"],
-    "pump Membrane": ["001-22","001-24"],
-    "pump Peristaltic": ["001-13","001-29"],
-    "pump Oil": ["001-14","001-28"],
-    "balance": ["007-20","007-24"],
-    "filter Nutsch": ["046-5"],
-    "filter Druck": ["046-6"],
+
+const reactor = {
+    "name": "reactor",
+    "code":"002-17"
 }
 
+const balances = {
+    "name": "balances",
+    "code":"007-42"
+}
+
+const jug = {
+    "name": "jug",
+    "label":"tile",
+    "size": "5L",
+    "material": "plastic"
+}
+
+const funnel = {
+    "name": "jug",
+    "label":"tile",
+    "size": "5L",
+    "material": "plastic"
+}
+
+
+const loading_of_solid={
+    "content": "Required amount of {material} is weighed on the {equipment: balances} using {utensils: jug}.\nMaterial is loaded into reactor via 60 mm flange port using {utensils: funnel}\nThe 60 mm flange port is closed.",
+    "duration min":"0.5h",
+    "duration max": "1.0h",
+    "temperature min": "10°C",
+    "temperature max": "20°C",
+    "additional equipment":[balances],
+    "utensils":[jug]
+
+}
+
+const typicalActivity = {
+    "operation type": "loading of solid",
+    "description" : loading_of_solid
+}
+
+const material = {
+    "name": "EtOH",
+    "WHcode": "ETOH042",
+    "mass": "3.2kg",
+    "volume": "",
+    "range": 0.05,
+    "additional info": "Very tasty, Do not drink at work, flamable"
+}
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,8 +64,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.get("/",(req,res)=>{
+
+    let data = {
+        reactor,
+        typicalActivity,
+        material
+    }
+
     
-    res.status(200).render("index.ejs",{equipment});
+    res.status(200).render("index.ejs",{data});
 });
 
 app.listen(port,(err)=>{

@@ -6,9 +6,9 @@
                 <tr>
                     <th>#</th>
                     <th>Equipment</th>
-                    <th>Column 2</th>
-                    <th>Column 3</th>
-                    <th>Column 3</th>
+                    <th>Operations</th>
+                    <th>Description</th>
+                    <th>Other</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,37 +18,115 @@
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType" onchange="selectItem(this)" style="width: auto;">
+                                <select class="form-control" id="equipmentType" onchange="selectItem(this)"
+                                    style="width: auto;">
                                     <option value="">--select--</option>
-                                    <% if (locals.equipment) { %>
-                                        <% for (const key in equipment) { %>
-                                            <% if (equipment.hasOwnProperty(key)) { %>
+                                    <% if (locals.data.reactor) { %>
+                                        <% for (const key in data.reactor) { %>
+                                            <% if (data.reactor.hasOwnProperty(key)) { %>
                                                 <optgroup label="<%= key %>">
-                                                    <% equipment[key].forEach(item => { %>
-                                                        <option value="<%= item %>"><%= item %></option>
-                                                    <% }); %>
+                                                    <option value="<%= key %>">
+                                                        <%= data.reactor[key] %>
+                                                    </option>
                                                 </optgroup>
-                                            <% } %>
-                                        <% } %>
-                                    <% } %>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% } %>
                                 </select>
                             </div>
                         </div>
-                        
-
-
-
-
-
 
                     </td>
+                    <td>
+                        <div class="form-group">
+                            <label for="activityType">Type of Activity</label>
+                            <select class="form-control" id="activityType" onchange="selectItem(this)"
+                                style="width: auto;">
+                                <option value="">--select--</option>
+                                <% if (locals.data.typicalActivity) { %>
+                                    <option value="<%= data.typicalActivity["operation type"] %>">
+                                        <%= data.typicalActivity["operation type"] %>
+                                    </option>
+                                        <% } %>
+                            </select>
+                        </div>
+                        <!-- input duration min and max -->
+                        <br>
+                        <div class="row">
+                            <div class="col d-flex">
+                                <input class="input-group-text" type="number" name="durationMIN" id="durationMIN" placeholder="durationMIN" min="0">
+                                <select id="durationMIN_units">
+                                    <option value="hours">Hours</option>
+                                    <option value="minutes">Minutes</option>
+                                </select>
+                            </div>
+                            <div class="col d-flex">
+                                <input class="input-group-text" type="number" name="durationMAX" id="durationMAX" placeholder="durationMAX" min="0">
+                                <select id="durationMAX_units">
+                                    <option value="hours">Hours</option>
+                                    <option value="minutes">Minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- input temperature min and max -->
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="temperatureMIN" id="temperatureMIN"
+                                    placeholder="temperatureMIN, °C">
 
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="temperatureMAX" id="temperatureMAX"
+                                    placeholder="temperatureMAX, °C">
 
-                    <td>Data 2</td>
-                    <td>Data 3</td>
-                    <td>Data 3</td>
+                            </div>
+                        </div>
+                        <!-- additional equipment -->
+                        <br>
+                        <p>Additional Equipment:</p>
+                            <% for (let additionalEquipment of data.typicalActivity["description"]["additional equipment"]){%>
+                            <div class="container p-0">
+                                <div class="form-group">
+                                    <label for="equipmentType">
+                                        <%= additionalEquipment["name"] %> code
+                                    </label>
+                                    <select class="form-control" id="equipmentType" onchange="selectItem(this)"
+                                        style="width: auto;">
+                                        <option value="">--select--</option>
+                                            <option value="<%= additionalEquipment[" code"] %>">
+                                            <%= additionalEquipment["code"] %>
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <% } %>
+
+                    <!-- utensils -->
+                    <br>
+                    <p>Utensils:</p>
+                    <% for (let additionalEquipment of data.typicalActivity["description"]["utensils"]){%>
+                    <div class="container p-0">
+                        <div class="form-group">
+                            <label for="equipmentType">
+                                <%= additionalEquipment["name"] %> label
+                            </label>
+                            <select class="form-control" id="equipmentType" onchange="selectItem(this)"
+                                style="width: auto;">
+                                <option value="">--select--</option>
+                                <option value="<%= additionalEquipment["label"] %>">
+                                    <%= additionalEquipment["label"] %>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    </td>
+                    <td>description goes here</td>
+                    <td>other</td>
                 </tr>
-                <!-- Add more rows as needed -->
             </tbody>
         </table>
     </div>

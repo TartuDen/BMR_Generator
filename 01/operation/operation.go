@@ -26,6 +26,13 @@ type Equipment struct{
 	Code int
 }
 
+type Utensils struct{
+	Name string
+	Label string
+	Size string
+	Material string
+}
+
 type TypicalActivity struct {
 	OperationType string
 	Description Description
