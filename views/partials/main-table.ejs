@@ -82,11 +82,14 @@
 
                             </div>
                         </div>
+                        <hr>
                         <!-- additional equipment -->
                         <br>
+                        <div class="row">                       
                         <p>Additional Equipment:</p>
                             <% for (let additionalEquipment of data.typicalActivity["description"]["additional equipment"]){%>
-                            <div class="container p-0">
+                                <div class="col">                        
+                                <div class="container p-0">
                                 <div class="form-group">
                                     <label for="equipmentType">
                                         <%= additionalEquipment["name"] %> code
@@ -99,10 +102,12 @@
                                         </option>
 
                                     </select>
+
                                 </div>
                             </div>
+                        </div>
                             <% } %>
-
+                        </div>
                     <!-- utensils -->
                     <br>
                     <p>Utensils:</p>
@@ -122,9 +127,38 @@
                         </div>
                     </div>
                     <% } %>
+                    <!-- materials -->
+                    <br>
+                    <hr>
+                    <p>Materials:</p>
+                    <% for (let material of data.materials){%>
+                    <div class="container p-0">
+                        <div class="form-group">
+                            <select class="form-control" id="material" onchange="selectItem(this)"
+                                style="width: auto;">
+                                <option value="">--select--</option>
+                                <option value="<%= material["name"] %>">
+                                    <%= material["name"] %>
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="mass" id="mass"
+                                    placeholder="Specified loading, kg">
 
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="volume" id="volume"
+                                    placeholder="temperatureMAX, °C">
+
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
                     </td>
-                    <td>description goes here</td>
+                    <td><%= data.typicalActivity["description"]["content"] %></td>
                     <td>other</td>
                 </tr>
             </tbody>

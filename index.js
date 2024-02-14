@@ -49,14 +49,16 @@ const typicalActivity = {
     "description" : loading_of_solid
 }
 
-const material = {
-    "name": "EtOH",
-    "WHcode": "ETOH042",
-    "mass": "3.2kg",
-    "volume": "",
-    "range": 0.05,
-    "additional info": "Very tasty, Do not drink at work, flamable"
-}
+const materials = [
+    {
+        "name": "EtOH",
+        "WHcode": "ETOH042",
+        "mass": "3.2kg",
+        "volume": "",
+        "range": 0.05,
+        "additional_info": "Very tasty, Do not drink at work, flammable"
+    }
+];
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -68,7 +70,7 @@ app.get("/",(req,res)=>{
     let data = {
         reactor,
         typicalActivity,
-        material
+        materials
     }
 
     
