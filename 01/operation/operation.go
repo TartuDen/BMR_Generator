@@ -22,7 +22,6 @@ type Description struct{
 
 type Equipment struct{
 	Name string
-	Type int
 	Code int
 }
 

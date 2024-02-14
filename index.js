@@ -8,7 +8,7 @@ import MyFunctions from "./funcs.js"
 const port = 8080;
 const app = express();
 
-const reactor = {
+const equipment = {
     "name": "reactor",
     "code":"002-17"
 }
@@ -34,7 +34,7 @@ const funnel = {
 
 
 const loading_of_solid={
-    "content": "Required amount of {material} is weighed on the {equipment: balances} using {utensils: jug}.\nMaterial is loaded into reactor via 60 mm flange port using {utensils: funnel}\nThe 60 mm flange port is closed.",
+    "content": "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
     "duration min":"0.5h",
     "duration max": "1.0h",
     "temperature min": "10°C",
@@ -53,7 +53,7 @@ const materials = [
     {
         "name": "EtOH",
         "WHcode": "ETOH042",
-        "mass": "3.2kg",
+        "mass": "3.2",
         "volume": "",
         "range": 0.05,
         "additional_info": "Very tasty, Do not drink at work, flammable"
@@ -68,7 +68,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",(req,res)=>{
 
     let data = {
-        reactor,
+        equipment,
         typicalActivity,
         materials
     }

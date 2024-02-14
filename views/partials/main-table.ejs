@@ -15,36 +15,47 @@
                 <tr>
                     <td>1</td>
                     <td>
+                        <!-- type of reactor -->
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType" onchange="selectItem(this)"
-                                    style="width: auto;">
+                                <select class="form-control" id="equipmentType" onchange="saveSelectedItem(this)">
                                     <option value="">--select--</option>
-                                    <% if (locals.data.reactor) { %>
-                                        <% for (const key in data.reactor) { %>
-                                            <% if (data.reactor.hasOwnProperty(key)) { %>
-                                                <optgroup label="<%= key %>">
-                                                    <option value="<%= key %>">
-                                                        <%= data.reactor[key] %>
-                                                    </option>
-                                                </optgroup>
-                                                <% } %>
-                                                    <% } %>
-                                                        <% } %>
+                                    <!-- Example option using EJS syntax -->
+
+                                        <option value="<%= data.equipment.name %>">
+                                            <%= data.equipment.name %>
+                                        </option>
+
                                 </select>
                             </div>
                         </div>
+                        </div>
+                        <!-- code of reactor -->
+
+                        <div class="container p-0">
+                            <div class="form-group">
+                                <label for="equipmentCode">Equipment Code</label>
+                                <select class="form-control" id="<%= data.equipment.name %>" onchange="saveSelectedItem(this)"
+                                    style="width: auto;">
+                                    <option value="">--select--</option>
+                                        <option value="<%= data.equipment["code"] %>">
+                                            <%= data.equipment["code"] %>
+                                        </option>                                                                                                 
+                                </select>
+                            </div>
+                        </div>
+
 
                     </td>
                     <td>
                         <div class="form-group">
                             <label for="activityType">Type of Activity</label>
-                            <select class="form-control" id="activityType" onchange="selectItem(this)"
+                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this)"
                                 style="width: auto;">
                                 <option value="">--select--</option>
                                 <% if (locals.data.typicalActivity) { %>
-                                    <option value="<%= data.typicalActivity["operation type"] %>">
+                                    <option value="<%= data.typicalActivity["description"]["content"] %>">
                                         <%= data.typicalActivity["operation type"] %>
                                     </option>
                                         <% } %>
@@ -91,13 +102,13 @@
                                 <div class="col">                        
                                 <div class="container p-0">
                                 <div class="form-group">
-                                    <label for="equipmentType">
+                                    <label for="additionalEquipmentType">
                                         <%= additionalEquipment["name"] %> code
                                     </label>
-                                    <select class="form-control" id="equipmentType" onchange="selectItem(this)"
+                                    <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
                                         style="width: auto;">
                                         <option value="">--select--</option>
-                                            <option value="<%= additionalEquipment[" code"] %>">
+                                            <option value="<%= additionalEquipment["code"] %>">
                                             <%= additionalEquipment["code"] %>
                                         </option>
 
@@ -114,10 +125,10 @@
                     <% for (let additionalEquipment of data.typicalActivity["description"]["utensils"]){%>
                     <div class="container p-0">
                         <div class="form-group">
-                            <label for="equipmentType">
+                            <label for="utensilsType">
                                 <%= additionalEquipment["name"] %> label
                             </label>
-                            <select class="form-control" id="equipmentType" onchange="selectItem(this)"
+                            <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
                                 style="width: auto;">
                                 <option value="">--select--</option>
                                 <option value="<%= additionalEquipment["label"] %>">
@@ -134,7 +145,7 @@
                     <% for (let material of data.materials){%>
                     <div class="container p-0">
                         <div class="form-group">
-                            <select class="form-control" id="material" onchange="selectItem(this)"
+                            <select class="form-control" id="material" onchange="saveSelectedItem(this)"
                                 style="width: auto;">
                                 <option value="">--select--</option>
                                 <option value="<%= material["name"] %>">
@@ -147,18 +158,23 @@
                             <div class="col">
                                 <input class="input-group-text" type="number" name="mass" id="mass"
                                     placeholder="Specified loading, kg">
-
                             </div>
                             <div class="col">
                                 <input class="input-group-text" type="number" name="volume" id="volume"
-                                    placeholder="temperatureMAX, °C">
-
+                                    placeholder="Specified loading, L">
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="range" id="range" placeholder="range, %" min="0" max="100">
                             </div>
                         </div>
                     </div>
                     <% } %>
                     </td>
-                    <td><%= data.typicalActivity["description"]["content"] %></td>
+                    <td>
+                        <div id="description">
+                            <%= data.typicalActivity["description"]["content"] %>
+                        </div>
+                    </td> 
                     <td>other</td>
                 </tr>
             </tbody>
