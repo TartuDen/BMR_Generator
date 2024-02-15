@@ -34,16 +34,16 @@ const funnel = {
 }
 
 
-const loading_of_solid={
-    "content": "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
-    "duration min":"0.5h",
-    "duration max": "1.0h",
-    "temperature min": "10°C",
-    "temperature max": "20°C",
-    "additional equipment":[balances],
-    "utensils":[jug]
-
-}
+const loading_of_solid = {
+  content:
+    "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {equipmentCode} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
+  "duration min": "0.5h",
+  "duration max": "1.0h",
+  "temperature min": "10°C",
+  "temperature max": "20°C",
+  "additional equipment": [balances],
+  utensils: [jug],
+};
 
 const typicalActivity = {
     "operation type": "loading of solid",
