@@ -8,6 +8,7 @@ import MyFunctions from "./funcs.js"
 const port = 8080;
 const app = express();
 
+
 const equipment = {
     "name": "reactor",
     "code":"002-17"
@@ -60,6 +61,8 @@ const materials = [
     }
 ];
 
+
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -68,16 +71,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",(req,res)=>{
 
     let data = {
-        equipment,
+        equipmentType: GetEquipmentType(),
+        reactor: GetReactorList(),
+        equipmen,
         typicalActivity,
         materials
     }
-
-    
     res.status(200).render("index.ejs",{data});
 });
 
 app.listen(port,(err)=>{
     if(err) throw err;
-    // console.log(err);
+    console.log(err);
 })
