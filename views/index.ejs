@@ -62,8 +62,6 @@
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
 
-                    console.log("Selected values:", dataFromOperation);
-
                     // Call the function to replace placeholders after selection is made
                     if (dataFromOperation["activityType"]) {
                         replacePlaceholders();
@@ -123,8 +121,6 @@
     function populateEquipmentCodes(selectedEquipmentType) {
         // Check if the selected equipment type is defined
         if (selectedEquipmentType) {
-            console.log(`selectedEquipmentType ${selectedEquipmentType}`)
-            console.log("IN selectedEquipmentType REACTOR")
 
             // Call the GetReactorList function
             GetEquipmentList(selectedEquipmentType, function (equipmentList) {

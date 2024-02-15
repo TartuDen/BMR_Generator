@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import morgan from "morgan";
-import MyFunctions from "./funcs.js"
+// import morgan from "morgan";
+// import MyFunctions from "./funcs.js"
 // import { Equipment, Description, TypicalActivity, Material, Waste, Operation } from "./funcs.js";
 
 
@@ -79,6 +79,8 @@ app.get("/",(req,res)=>{
 });
 
 app.listen(port,(err)=>{
-    if(err) throw err;
-    console.log(err);
+    if (err) {
+        console.log(err);
+        throw err;
+    }
 })

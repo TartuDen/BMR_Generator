@@ -10,9 +10,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
       {
         OperationType: "loading_of_solid",
         Content:
-          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor " +
-          equipmentType +
-          " via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {equipmentCode} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
         DurationMIN: "0.5h",
         DurationMAX: "1.0h",
         TemperatureMIN: "10°C",
