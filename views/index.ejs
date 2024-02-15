@@ -151,6 +151,31 @@
                 };
             </script>
 
+            <script>
+            // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
+                function populateActivityTypeDropdown(equipmentType) {
+                    // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
+                    GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
+                        var selectElement = document.getElementById('activityType');
+                        selectElement.innerHTML = ''; // Clear previous options
+
+                        // Add default option "--select--"
+                        var defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = '--select--';
+                        selectElement.appendChild(defaultOption);
+
+                        // Populate the dropdown with loading_of_solid activities
+                        loadingOfSolidActivities.forEach(function (activity) {
+                            var option = document.createElement('option');
+                            option.value = activity.Content;
+                            option.textContent = activity.OperationType;
+                            selectElement.appendChild(option);
+                        });
+                    });
+                }   
+            </script>
+
 </body>
 
 </html>

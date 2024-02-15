@@ -19,7 +19,7 @@
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType" onchange="saveAndPopulateCodeDropdown(this)">
+                                <select class="form-control" id="equipmentType" onchange="saveAndPopulateCodeDropdown(this); populateActivityTypeDropdown(this.value);">
                                     <option value="">--select--</option>
                                 </select>
                             </div>
@@ -35,20 +35,16 @@
                             </div>
                         </div>
                     </td>
-                    
+
                     <td>
+                        <!-- operation Type -->
                         <div class="form-group">
                             <label for="activityType">Type of Activity</label>
-                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this)"
-                                style="width: auto;">
+                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this)">
                                 <option value="">--select--</option>
-                                <% if (locals.data.typicalActivity) { %>
-                                    <option value="<%= data.typicalActivity["description"]["content"] %>">
-                                        <%= data.typicalActivity["operation type"] %>
-                                    </option>
-                                        <% } %>
                             </select>
                         </div>
+          
                         <!-- input duration min and max -->
                         <br>
                         <div class="row">

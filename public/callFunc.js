@@ -1,3 +1,24 @@
+function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
+  setTimeout(function () {
+    var loadingOfSolidActivities = [
+      {
+        OperationType: "loading_of_solid",
+        Content:
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor " +
+          equipmentType +
+          " via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
+        DurationMIN: "0.5h",
+        DurationMAX: "1.0h",
+        TemperatureMIN: "10°C",
+        TemperatureMAX: "20°C",
+      },
+      // Add more loading_of_solid activities as needed
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+}
+
 function GetReactorList(callback) {
   setTimeout(function () {
     var reactorList = [
