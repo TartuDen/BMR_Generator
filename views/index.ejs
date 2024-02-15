@@ -113,7 +113,7 @@
                     if (selectedEquipmentType === 'reactor') {
                         console.log("IN selectedEquipmentType REACTOR")
                         // Call the GetReactorList function
-                        GetReactorList(function (equipmentList) {
+                        GetEquipmentList(equipmentType, function (equipmentList) {
                             var selectElement = document.getElementById('equipmentCode');
 
                             selectElement.innerHTML = ''; // Clear previous options
@@ -134,15 +134,6 @@
                     } else {
                         console.error('No function found for the selected equipment type');
                     }
-                }
-
-
-                // Function to save selected item and populate the equipment codes dropdown
-                function saveAndPopulateCodeDropdown(selectElement) {
-                    saveSelectedItem(selectElement);
-                    let selectedEquipmentType = selectElement.value;
-                    console.log(`selectedEquipmentType ${selectedEquipmentType}`)
-                    populateEquipmentCodes(selectedEquipmentType);
                 }
 
                 // Call populateEquipmentTypes function when the page loads

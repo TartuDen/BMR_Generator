@@ -19,7 +19,9 @@
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType" onchange="saveAndPopulateCodeDropdown(this); populateActivityTypeDropdown(this.value);">
+                                <select class="form-control" id="equipmentType"
+                                    onchange="saveSelectedItem(this); populateEquipmentCodes(this.value); populateActivityTypeDropdown(this.value);">
+
                                     <option value="">--select--</option>
                                 </select>
                             </div>

@@ -19,7 +19,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
   }, 200);
 }
 
-function GetReactorList(callback) {
+function GetEquipmentList(equipmentType, callback) {
   setTimeout(function () {
     var reactorList = [
       { name: "reactor", code: "002-10" },
