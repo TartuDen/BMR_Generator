@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <title>Bootstrap Layout</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <title>Bootstrap Layout</title>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <%- include("partials/header.ejs") %>
+
+        <!-- Main content -->
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <%- include("partials/sidebar.ejs") %>
+
+                <!-- Table content -->
+                <%- include("partials/main-table.ejs") %>
+        </div>
+
+        <!-- Footer -->
+        <%- include("partials/footer.ejs") %>
+
+            <!-- Bootstrap JS -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                crossorigin="anonymous">
+            </script>
+
+            <script>
+                // script for selecting 'description' inside {} make bolt font
+                document.addEventListener("DOMContentLoaded", function () {
+                    function boldTextInBraces(text) {
+                        return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
+                    }
+
+                    // Example usage:
+                    const contentElement = document.getElementById('description');
+                    contentElement.innerHTML = boldTextInBraces(contentElement.innerHTML);
+                });
+            </script>
+            <script>
+                let dataFromOperation = {};
+
+                function saveSelectedItem(selectElement) {
+                    // Retrieve the selected value from the select element
+                    var id = selectElement.id
+                    var value = selectElement.value;
+
+                    // Add new elements into dataFromOperation
+                    dataFromOperation[id] = value;
+
+                    // Call the function to replace placeholders after selection is made
+                    if (dataFromOperation["activityType"]) {
+                        replacePlaceholders();
+                    }
+
+                }
+
+                function replacePlaceholders() {
+                    // Get the string with placeholders
+                    let stringTemplate = dataFromOperation["activityType"];
+
+                    // Iterate over each key-value pair in dataFromOperation
+                    for (const key in dataFromOperation) {
+                        if (key !== "activityType" && dataFromOperation[key] !== "") {
+                            // Construct the regular expression to match the placeholder
+                            const regex = new RegExp("\\{" + key + "\\}", "g");
+
+                            // Replace the placeholder with its corresponding value in stringTemplate
+                            stringTemplate = stringTemplate.replace(regex, dataFromOperation[key]);
+                        }
+                    }
+
+                    console.log("Replaced string:", stringTemplate);
+                    console.log("Original string:", dataFromOperation["activityType"]);
+                }
+
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+            <script src="callFunc.js"></script>
+
+<script>
+    // Function to populate the equipment types dropdown
+    function populateEquipmentTypes() {
+        GetEquipmentType(function (equipmentTypes) {
+            var selectElement = document.getElementById('equipmentType');
+
+            // Clear previous options
+            selectElement.innerHTML = '';
+
+            // Add default option "--select--"
+            addDefaultOption(selectElement);
+
+            // Add equipment types as options
+            equipmentTypes.forEach(function (equipmentType) {
+                var option = document.createElement('option');
+                option.value = equipmentType.name;
+                option.textContent = equipmentType.name;
+                selectElement.appendChild(option);
+            });
+        });
+    }
+
+    // Function to populate the equipment codes dropdown based on the selected equipment type
+    function populateEquipmentCodes(selectedEquipmentType) {
+        var selectElement = document.getElementById('equipmentCode');
+
+        // Clear previous options
+        selectElement.innerHTML = '';
+
+        if (selectedEquipmentType) {
+            // Call the GetReactorList function
+            GetEquipmentList(selectedEquipmentType, function (equipmentList) {
+                // Add default option "--select--"
+                addDefaultOption(selectElement);
+
+                // Populate the dropdown with equipment codes
+                equipmentList.forEach(function (equipment) {
+                    var option = document.createElement('option');
+                    option.value = equipment.code;
+                    option.textContent = equipment.code;
+                    selectElement.appendChild(option);
+                });
+            });
+        } else {
+            console.error('Select Equipment Type');
+            // If the selected equipment type is not defined, clear previous options
+            addDefaultOption(selectElement);
+        }
+    }
+
+    // Call populateEquipmentTypes function when the page loads
+    window.onload = function () {
+        populateEquipmentTypes();
+    };
+
+    // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
+    function populateActivityTypeDropdown(equipmentType) {
+        var selectElement = document.getElementById('activityType');
+
+        // Clear previous options
+        selectElement.innerHTML = '';
+
+        if (equipmentType) {
+            // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
+            GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
+                // Add default option "--select--"
+                addDefaultOption(selectElement);
+
+                // Populate the dropdown with loading_of_solid activities
+                loadingOfSolidActivities.forEach(function (activity) {
+                    var option = document.createElement('option');
+                    option.value = activity.Content;
+                    option.textContent = activity.OperationType;
+                    selectElement.appendChild(option);
+                });
+            });
+        } else {
+            console.error('Select Equipment Type');
+            // If the selected equipment type is not defined, clear previous options
+            addDefaultOption(selectElement);
+        }
+    }
+
+    /**
+     * Adds a default "--select--" option to a dropdown select element.
+     * 
+     * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
+     */
+    function addDefaultOption(selectElement) {
+        // Create the default option element
+        var defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '--select--';
+
+        // Append the default option to the select element
+        selectElement.appendChild(defaultOption);
+    }
+</script>
+
+
+
+</body>
+
+</html>
