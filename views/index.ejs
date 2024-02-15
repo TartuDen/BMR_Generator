@@ -39,7 +39,7 @@
                 crossorigin="anonymous"></script>
 
             <script>
-                // script for selecting 'description' inside {}
+                // script for selecting 'description' inside {} make bolt font
                 document.addEventListener("DOMContentLoaded", function () {
                     function boldTextInBraces(text) {
                         return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
@@ -64,10 +64,10 @@
                     console.log("Selected values:", dataFromOperation);
 
                     // Call the function to replace placeholders after selection is made
-                    if (dataFromOperation["activityType"]){
+                    if (dataFromOperation["activityType"]) {
                         replacePlaceholders();
-                    } 
-                    
+                    }
+
                 }
 
                 function replacePlaceholders() {
@@ -76,7 +76,7 @@
 
                     // Iterate over each key-value pair in dataFromOperation
                     for (const key in dataFromOperation) {
-                        if (key !== "activityType" && dataFromOperation[key]!=="") {
+                        if (key !== "activityType" && dataFromOperation[key] !== "") {
                             // Construct the regular expression to match the placeholder
                             const regex = new RegExp("\\{" + key + "\\}", "g");
 
@@ -89,6 +89,66 @@
                     console.log("Original string:", dataFromOperation["activityType"]);
                 }
 
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+            <script src="callFunc.js"></script>
+
+            <script>
+                // Function to populate the equipment types dropdown
+                function populateEquipmentTypes() {
+                    GetEquipmentType(function (equipmentTypes) {
+                        var selectElement = document.getElementById('equipmentType');
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.name;
+                            option.textContent = equipmentType.name;
+                            selectElement.appendChild(option);
+                        });
+                    });
+                }
+
+                // Function to populate the equipment codes dropdown based on the selected equipment type
+                function populateEquipmentCodes(selectedEquipmentType) {
+                    // Check if the selected equipment type is "reactor"
+                    if (selectedEquipmentType === 'reactor') {
+                        console.log("IN selectedEquipmentType REACTOR")
+                        // Call the GetReactorList function
+                        GetReactorList(function (equipmentList) {
+                            var selectElement = document.getElementById('equipmentCode');
+
+                            selectElement.innerHTML = ''; // Clear previous options
+                            
+                            // Add default option "--select--"
+                            var defaultOption = document.createElement('option');
+                            defaultOption.value = '';
+                            defaultOption.textContent = '--select--';
+                            selectElement.appendChild(defaultOption);
+                            
+                            equipmentList.forEach(function (equipment) {
+                                var option = document.createElement('option');
+                                option.value = equipment.code;
+                                option.textContent = equipment.code;
+                                selectElement.appendChild(option);
+                            });
+                        });
+                    } else {
+                        console.error('No function found for the selected equipment type');
+                    }
+                }
+
+
+                // Function to save selected item and populate the equipment codes dropdown
+                function saveAndPopulateCodeDropdown(selectElement) {
+                    saveSelectedItem(selectElement);
+                    let selectedEquipmentType = selectElement.value;
+                    console.log(`selectedEquipmentType ${selectedEquipmentType}`)
+                    populateEquipmentCodes(selectedEquipmentType);
+                }
+
+                // Call populateEquipmentTypes function when the page loads
+                window.onload = function () {
+                    populateEquipmentTypes();
+                };
             </script>
 
 </body>

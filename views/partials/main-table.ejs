@@ -15,39 +15,27 @@
                 <tr>
                     <td>1</td>
                     <td>
-                        <!-- type of reactor -->
+                        <!-- type of equipment -->
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType" onchange="saveSelectedItem(this)">
+                                <select class="form-control" id="equipmentType" onchange="saveAndPopulateCodeDropdown(this)">
                                     <option value="">--select--</option>
-                                    <!-- Example option using EJS syntax -->
-
-                                        <option value="<%= data.equipment.name %>">
-                                            <%= data.equipment.name %>
-                                        </option>
-
                                 </select>
                             </div>
                         </div>
-                        </div>
-                        <!-- code of reactor -->
 
+                        <!-- code of reactor -->
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentCode">Equipment Code</label>
-                                <select class="form-control" id="<%= data.equipment.name %>" onchange="saveSelectedItem(this)"
-                                    style="width: auto;">
+                                <select class="form-control" id="equipmentCode" onchange="saveSelectedItem(this)" style="width: auto;">
                                     <option value="">--select--</option>
-                                        <option value="<%= data.equipment["code"] %>">
-                                            <%= data.equipment["code"] %>
-                                        </option>                                                                                                 
                                 </select>
                             </div>
                         </div>
-
-
                     </td>
+                    
                     <td>
                         <div class="form-group">
                             <label for="activityType">Type of Activity</label>
