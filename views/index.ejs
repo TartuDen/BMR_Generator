@@ -102,10 +102,7 @@
             selectElement.innerHTML = '';
 
             // Add default option "--select--"
-            var defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = '--select--';
-            selectElement.appendChild(defaultOption);
+            addDefaultOption(selectElement);
 
             // Add equipment types as options
             equipmentTypes.forEach(function (equipmentType) {
@@ -119,21 +116,16 @@
 
     // Function to populate the equipment codes dropdown based on the selected equipment type
     function populateEquipmentCodes(selectedEquipmentType) {
-        // Check if the selected equipment type is defined
-        if (selectedEquipmentType) {
+        var selectElement = document.getElementById('equipmentCode');
 
+        // Clear previous options
+        selectElement.innerHTML = '';
+
+        if (selectedEquipmentType) {
             // Call the GetReactorList function
             GetEquipmentList(selectedEquipmentType, function (equipmentList) {
-                var selectElement = document.getElementById('equipmentCode');
-
-                // Clear previous options
-                selectElement.innerHTML = '';
-
                 // Add default option "--select--"
-                var defaultOption = document.createElement('option');
-                defaultOption.value = '';
-                defaultOption.textContent = '--select--';
-                selectElement.appendChild(defaultOption);
+                addDefaultOption(selectElement);
 
                 // Populate the dropdown with equipment codes
                 equipmentList.forEach(function (equipment) {
@@ -145,6 +137,8 @@
             });
         } else {
             console.error('Select Equipment Type');
+            // If the selected equipment type is not defined, clear previous options
+            addDefaultOption(selectElement);
         }
     }
 
@@ -155,29 +149,48 @@
 
     // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
     function populateActivityTypeDropdown(equipmentType) {
-        // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
-        GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
-            var selectElement = document.getElementById('activityType');
+        var selectElement = document.getElementById('activityType');
 
-            // Clear previous options
-            selectElement.innerHTML = '';
+        // Clear previous options
+        selectElement.innerHTML = '';
 
-            // Add default option "--select--"
-            var defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = '--select--';
-            selectElement.appendChild(defaultOption);
+        if (equipmentType) {
+            // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
+            GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
+                // Add default option "--select--"
+                addDefaultOption(selectElement);
 
-            // Populate the dropdown with loading_of_solid activities
-            loadingOfSolidActivities.forEach(function (activity) {
-                var option = document.createElement('option');
-                option.value = activity.Content;
-                option.textContent = activity.OperationType;
-                selectElement.appendChild(option);
+                // Populate the dropdown with loading_of_solid activities
+                loadingOfSolidActivities.forEach(function (activity) {
+                    var option = document.createElement('option');
+                    option.value = activity.Content;
+                    option.textContent = activity.OperationType;
+                    selectElement.appendChild(option);
+                });
             });
-        });
+        } else {
+            console.error('Select Equipment Type');
+            // If the selected equipment type is not defined, clear previous options
+            addDefaultOption(selectElement);
+        }
+    }
+
+    /**
+     * Adds a default "--select--" option to a dropdown select element.
+     * 
+     * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
+     */
+    function addDefaultOption(selectElement) {
+        // Create the default option element
+        var defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '--select--';
+
+        // Append the default option to the select element
+        selectElement.appendChild(defaultOption);
     }
 </script>
+
 
 
 </body>

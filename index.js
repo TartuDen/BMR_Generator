@@ -8,12 +8,6 @@ import bodyParser from "body-parser";
 const port = 8080;
 const app = express();
 
-
-const equipment = {
-    "name": "reactor",
-    "code":"002-17"
-}
-
 const balances = {
     "name": "balances",
     "code":"007-42"
@@ -71,7 +65,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",(req,res)=>{
 
     let data = {
-      equipment,
       typicalActivity,
       materials,
     };
