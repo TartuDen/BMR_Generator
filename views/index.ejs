@@ -36,7 +36,8 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-                crossorigin="anonymous"></script>
+                crossorigin="anonymous">
+            </script>
 
             <script>
                 // script for selecting 'description' inside {} make bolt font
@@ -93,79 +94,95 @@
             <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
             <script src="callFunc.js"></script>
 
-            <script>
-                // Function to populate the equipment types dropdown
-                function populateEquipmentTypes() {
-                    GetEquipmentType(function (equipmentTypes) {
-                        var selectElement = document.getElementById('equipmentType');
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.name;
-                            option.textContent = equipmentType.name;
-                            selectElement.appendChild(option);
-                        });
-                    });
-                }
+<script>
+    // Function to populate the equipment types dropdown
+    function populateEquipmentTypes() {
+        GetEquipmentType(function (equipmentTypes) {
+            var selectElement = document.getElementById('equipmentType');
 
-                // Function to populate the equipment codes dropdown based on the selected equipment type
-                function populateEquipmentCodes(selectedEquipmentType) {
-                    // Check if the selected equipment type is "reactor"
-                    if (selectedEquipmentType === 'reactor') {
-                        console.log("IN selectedEquipmentType REACTOR")
-                        // Call the GetReactorList function
-                        GetEquipmentList(equipmentType, function (equipmentList) {
-                            var selectElement = document.getElementById('equipmentCode');
+            // Clear previous options
+            selectElement.innerHTML = '';
 
-                            selectElement.innerHTML = ''; // Clear previous options
-                            
-                            // Add default option "--select--"
-                            var defaultOption = document.createElement('option');
-                            defaultOption.value = '';
-                            defaultOption.textContent = '--select--';
-                            selectElement.appendChild(defaultOption);
-                            
-                            equipmentList.forEach(function (equipment) {
-                                var option = document.createElement('option');
-                                option.value = equipment.code;
-                                option.textContent = equipment.code;
-                                selectElement.appendChild(option);
-                            });
-                        });
-                    } else {
-                        console.error('No function found for the selected equipment type');
-                    }
-                }
+            // Add default option "--select--"
+            var defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '--select--';
+            selectElement.appendChild(defaultOption);
 
-                // Call populateEquipmentTypes function when the page loads
-                window.onload = function () {
-                    populateEquipmentTypes();
-                };
-            </script>
+            // Add equipment types as options
+            equipmentTypes.forEach(function (equipmentType) {
+                var option = document.createElement('option');
+                option.value = equipmentType.name;
+                option.textContent = equipmentType.name;
+                selectElement.appendChild(option);
+            });
+        });
+    }
 
-            <script>
-            // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
-                function populateActivityTypeDropdown(equipmentType) {
-                    // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
-                    GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
-                        var selectElement = document.getElementById('activityType');
-                        selectElement.innerHTML = ''; // Clear previous options
+    // Function to populate the equipment codes dropdown based on the selected equipment type
+    function populateEquipmentCodes(selectedEquipmentType) {
+        // Check if the selected equipment type is defined
+        if (selectedEquipmentType) {
+            console.log(`selectedEquipmentType ${selectedEquipmentType}`)
+            console.log("IN selectedEquipmentType REACTOR")
 
-                        // Add default option "--select--"
-                        var defaultOption = document.createElement('option');
-                        defaultOption.value = '';
-                        defaultOption.textContent = '--select--';
-                        selectElement.appendChild(defaultOption);
+            // Call the GetReactorList function
+            GetEquipmentList(selectedEquipmentType, function (equipmentList) {
+                var selectElement = document.getElementById('equipmentCode');
 
-                        // Populate the dropdown with loading_of_solid activities
-                        loadingOfSolidActivities.forEach(function (activity) {
-                            var option = document.createElement('option');
-                            option.value = activity.Content;
-                            option.textContent = activity.OperationType;
-                            selectElement.appendChild(option);
-                        });
-                    });
-                }   
-            </script>
+                // Clear previous options
+                selectElement.innerHTML = '';
+
+                // Add default option "--select--"
+                var defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = '--select--';
+                selectElement.appendChild(defaultOption);
+
+                // Populate the dropdown with equipment codes
+                equipmentList.forEach(function (equipment) {
+                    var option = document.createElement('option');
+                    option.value = equipment.code;
+                    option.textContent = equipment.code;
+                    selectElement.appendChild(option);
+                });
+            });
+        } else {
+            console.error('Select Equipment Type');
+        }
+    }
+
+    // Call populateEquipmentTypes function when the page loads
+    window.onload = function () {
+        populateEquipmentTypes();
+    };
+
+    // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
+    function populateActivityTypeDropdown(equipmentType) {
+        // Call GetLoadingOfSolidActivitiesList function to get the loading_of_solid activities based on equipmentType
+        GetLoadingOfSolidActivitiesList(equipmentType, function (loadingOfSolidActivities) {
+            var selectElement = document.getElementById('activityType');
+
+            // Clear previous options
+            selectElement.innerHTML = '';
+
+            // Add default option "--select--"
+            var defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '--select--';
+            selectElement.appendChild(defaultOption);
+
+            // Populate the dropdown with loading_of_solid activities
+            loadingOfSolidActivities.forEach(function (activity) {
+                var option = document.createElement('option');
+                option.value = activity.Content;
+                option.textContent = activity.OperationType;
+                selectElement.appendChild(option);
+            });
+        });
+    }
+</script>
+
 
 </body>
 

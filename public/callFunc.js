@@ -1,3 +1,9 @@
+/**
+ * Simulates the retrieval of a list of activities for spicial equipmentType for testing purposes.
+ *
+ * @param {string} equipmentType - The type of equipment for which to retrieve activities.
+ * @param {function} callback - The callback function to execute after retrieving the list of activities.
+ */
 function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
   setTimeout(function () {
     var loadingOfSolidActivities = [
@@ -19,6 +25,12 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
   }, 200);
 }
 
+/**
+ * Simulates the retrieval of a list of equipment for spicial equipmentType for testing purposes.
+ *
+ * @param {string} equipmentType - The type of equipment to retrieve form the DataBase
+ * @param {function} callback - The callback function to execute after retrieving the equipment list.
+ */
 function GetEquipmentList(equipmentType, callback) {
   setTimeout(function () {
     var reactorList = [
@@ -35,6 +47,11 @@ function GetEquipmentList(equipmentType, callback) {
   }, 200);
 }
 
+/**
+ * Simulates the retrieval of a list of equipment types for testing purposes.
+ * 
+ * @param {function} callback - The callback function to execute after retrieving the list of equipment types.
+ */
 function GetEquipmentType(callback) {
   var equipmentTypes = [
     {
@@ -49,6 +66,14 @@ function GetEquipmentType(callback) {
   ];
   callback(equipmentTypes);
 }
+
+
+
+
+
+
+
+
 
 // Function to fetch data for the selected item
 function fetchSelectedItemData(selectElement) {
