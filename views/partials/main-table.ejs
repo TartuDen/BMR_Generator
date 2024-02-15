@@ -1,0 +1,169 @@
+<!-- Table content -->
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Equipment</th>
+                    <th>Operations</th>
+                    <th>Description</th>
+                    <th>Other</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <!-- type of equipment -->
+                        <div class="container p-0">
+                            <div class="form-group">
+                                <label for="equipmentType">Equipment Type</label>
+                                <select class="form-control" id="equipmentType"
+                                    onchange="saveSelectedItem(this); populateEquipmentCodes(this.value); populateActivityTypeDropdown(this.value);">
+
+                                    <option value="">--select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- code of reactor -->
+                        <div class="container p-0">
+                            <div class="form-group">
+                                <label for="equipmentCode">Equipment Code</label>
+                                <select class="form-control" id="equipmentCode" onchange="saveSelectedItem(this)" style="width: auto;">
+                                    <option value="">--select--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <!-- operation Type -->
+                        <div class="form-group">
+                            <label for="activityType">Type of Activity</label>
+                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this)">
+                                <option value="">--select--</option>
+                            </select>
+                        </div>
+          
+                        <!-- input duration min and max -->
+                        <br>
+                        <div class="row">
+                            <div class="col d-flex">
+                                <input class="input-group-text" type="number" name="durationMIN" id="durationMIN" placeholder="durationMIN" min="0">
+                                <select id="durationMIN_units">
+                                    <option value="hours">Hours</option>
+                                    <option value="minutes">Minutes</option>
+                                </select>
+                            </div>
+                            <div class="col d-flex">
+                                <input class="input-group-text" type="number" name="durationMAX" id="durationMAX" placeholder="durationMAX" min="0">
+                                <select id="durationMAX_units">
+                                    <option value="hours">Hours</option>
+                                    <option value="minutes">Minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- input temperature min and max -->
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="temperatureMIN" id="temperatureMIN"
+                                    placeholder="temperatureMIN, °C">
+
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="temperatureMAX" id="temperatureMAX"
+                                    placeholder="temperatureMAX, °C">
+
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- additional equipment -->
+                        <br>
+                        <div class="row">                       
+                        <p>Additional Equipment:</p>
+                            <% for (let additionalEquipment of data.typicalActivity["description"]["additional equipment"]){%>
+                                <div class="col">                        
+                                <div class="container p-0">
+                                <div class="form-group">
+                                    <label for="additionalEquipmentType">
+                                        <%= additionalEquipment["name"] %> code
+                                    </label>
+                                    <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
+                                        style="width: auto;">
+                                        <option value="">--select--</option>
+                                            <option value="<%= additionalEquipment["code"] %>">
+                                            <%= additionalEquipment["code"] %>
+                                        </option>
+
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                            <% } %>
+                        </div>
+                    <!-- utensils -->
+                    <br>
+                    <p>Utensils:</p>
+                    <% for (let additionalEquipment of data.typicalActivity["description"]["utensils"]){%>
+                    <div class="container p-0">
+                        <div class="form-group">
+                            <label for="utensilsType">
+                                <%= additionalEquipment["name"] %> label
+                            </label>
+                            <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
+                                style="width: auto;">
+                                <option value="">--select--</option>
+                                <option value="<%= additionalEquipment["label"] %>">
+                                    <%= additionalEquipment["label"] %>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <% } %>
+                    <!-- materials -->
+                    <br>
+                    <hr>
+                    <p>Materials:</p>
+                    <% for (let material of data.materials){%>
+                    <div class="container p-0">
+                        <div class="form-group">
+                            <select class="form-control" id="material" onchange="saveSelectedItem(this)"
+                                style="width: auto;">
+                                <option value="">--select--</option>
+                                <option value="<%= material["name"] %>">
+                                    <%= material["name"] %>
+                                </option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="mass" id="mass"
+                                    placeholder="Specified loading, kg">
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="volume" id="volume"
+                                    placeholder="Specified loading, L">
+                            </div>
+                            <div class="col">
+                                <input class="input-group-text" type="number" name="range" id="range" placeholder="range, %" min="0" max="100">
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    </td>
+                    <td>
+                        <div id="description">
+                            <%= data.typicalActivity["description"]["content"] %>
+                        </div>
+                    </td> 
+                    <td>other</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
