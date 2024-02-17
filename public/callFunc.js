@@ -4,9 +4,9 @@
  * @param {string} equipmentType - The type of equipment for which to retrieve activities.
  * @param {function} callback - The callback function to execute after retrieving the list of activities.
  */
-function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
+function GetActivitiesList(equipmentType, callback) {
   setTimeout(function () {
-    var loadingOfSolidActivities = [
+    var reactorActivities = [
       {
         OperationType: "loading_of_solid",
         Content:
@@ -15,15 +15,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var loadingOfLiquidActivities = [
-      {
+      },{
         OperationType: "loading_of_liquid",
         Content:
           "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into reactor via liquid loading valve. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
@@ -31,15 +23,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var dosingOfLiquidActivities = [
-      {
+      },{
         OperationType: "dosing_of_liquid",
         Content:
           "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into dosing system. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
@@ -47,15 +31,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var argonFlowActivities = [
-      {
+      },{
         OperationType: "creating_argon_flow",
         Content:
           "Argon line is connected to the argon port of reactor. The flow is set to {setting}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
@@ -63,15 +39,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var stirringOnActivities = [
-      {
+      },{
         OperationType: "stirring_on",
         Content:
         "Stirring in reactor is turned ON. Set to {setting}rpm.",
@@ -79,15 +47,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var stirringOffActivities = [
-      {
+      }, {
         OperationType: "stirring_off",
         Content:
         "Stirring in reactor is turned OFF.",
@@ -95,15 +55,7 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         DurationMAX: "",
         TemperatureMIN: "",
         TemperatureMAX: "",
-      },
-    ];
-    // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
-  }, 200);
-
-  setTimeout(function () {
-    var heatingOnActivities = [
-      {
+      }, {
         OperationType: "heating_on",
         Content:
         "Heating is turned ON. Set to {setting}°C.",
@@ -114,9 +66,8 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
       },
     ];
     // Call the callback function with the retrieved data
-    callback(loadingOfSolidActivities);
+    callback(reactorActivities);
   }, 200);
-
 }
 
 
@@ -164,13 +115,10 @@ function GetEquipmentType(callback) {
   callback(equipmentTypes);
 }
 
-
-
-
-
-
-
-
+//makes {} elements of text BOLD
+function boldTextInBraces(text) {
+  return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
+}
 
 // Function to fetch data for the selected item
 function fetchSelectedItemData(selectElement) {
