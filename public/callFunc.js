@@ -11,17 +11,116 @@ function GetLoadingOfSolidActivitiesList(equipmentType, callback) {
         OperationType: "loading_of_solid",
         Content:
           "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {equipmentCode} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
-        DurationMIN: "0.5h",
-        DurationMAX: "1.0h",
-        TemperatureMIN: "10°C",
-        TemperatureMAX: "20°C",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
       },
-      // Add more loading_of_solid activities as needed
     ];
     // Call the callback function with the retrieved data
     callback(loadingOfSolidActivities);
   }, 200);
+
+  setTimeout(function () {
+    var loadingOfLiquidActivities = [
+      {
+        OperationType: "loading_of_liquid",
+        Content:
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into reactor via liquid loading valve. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
+  setTimeout(function () {
+    var dosingOfLiquidActivities = [
+      {
+        OperationType: "dosing_of_liquid",
+        Content:
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into dosing system. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
+  setTimeout(function () {
+    var argonFlowActivities = [
+      {
+        OperationType: "creating_argon_flow",
+        Content:
+          "Argon line is connected to the argon port of reactor. The flow is set to {setting}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
+  setTimeout(function () {
+    var stirringOnActivities = [
+      {
+        OperationType: "stirring_on",
+        Content:
+        "Stirring in reactor is turned ON. Set to {setting}rpm.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
+  setTimeout(function () {
+    var stirringOffActivities = [
+      {
+        OperationType: "stirring_off",
+        Content:
+        "Stirring in reactor is turned OFF.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
+  setTimeout(function () {
+    var heatingOnActivities = [
+      {
+        OperationType: "heating_on",
+        Content:
+        "Heating is turned ON. Set to {setting}°C.",
+        DurationMIN: "",
+        DurationMAX: "",
+        TemperatureMIN: "",
+        TemperatureMAX: "",
+      },
+    ];
+    // Call the callback function with the retrieved data
+    callback(loadingOfSolidActivities);
+  }, 200);
+
 }
+
+
+
 
 /**
  * Simulates the retrieval of a list of equipment for spicial equipmentType for testing purposes.
