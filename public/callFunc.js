@@ -120,9 +120,11 @@ function boldTextInBraces(text) {
   return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
 }
 function replaceTextWithSelect(text, materials) {
-  return text.replace(/\{([^}]+)\}/g, (_, match) => {
-      const selectOptions = materials.map(material => `<option value="${material.name}">${material.name}</option>`).join('');
-      return `<select class="form-control" onchange="saveSelectedItem(this); populateDescription()"><option value="">--select--</option>${selectOptions}</select>`;
+  return text.replace(/\{([^}]+)\}/g, function(match, capturedText) {
+      var selectOptions = materials.map(function(material) {
+          return '<option value="' + material.name + '">' + material.name + '</option>';
+      }).join('');
+      return '<select class="form-control" onchange="saveSelectedItem(this); populateDescription()"><option value="">--select--</option>' + selectOptions + '</select>';
   });
 }
 
