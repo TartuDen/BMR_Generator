@@ -63,33 +63,8 @@
 
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
-
-                    // Call the function to replace placeholders after selection is made
-                    if (dataFromOperation["activityType"]) {
-                        replacePlaceholders();
-                    }
-
                 }
 
-                function replacePlaceholders() {
-                    // Get the string with placeholders
-                    let stringTemplate = dataFromOperation["activityType"];
-
-                    // Iterate over each key-value pair in dataFromOperation
-                    for (const key in dataFromOperation) {
-                        if (key !== "activityType" && dataFromOperation[key] !== "") {
-                            // Construct the regular expression to match the placeholder
-                            const regex = new RegExp("\\{" + key + "\\}", "g");
-
-                            // Replace the placeholder with its corresponding value in stringTemplate
-                            stringTemplate = stringTemplate.replace(regex, dataFromOperation[key]);
-                            dataFromOperation["replacedContent"] = stringTemplate;
-                        }
-                    }
-
-                    console.log("Replaced string:", stringTemplate);
-                    console.log("Original string:", dataFromOperation["activityType"]);
-                }
 
             </script>
             <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
@@ -126,7 +101,7 @@
 
                     if (selectedEquipmentType) {
                         // Call the GetReactorList function
-                        GetEquipmentList(selectedEquipmentType, function (equipmentList) {
+                        GetEquipmentListByType(selectedEquipmentType, function (equipmentList) {
                             // Add default option "--select--"
                             addDefaultOption(selectElement);
 
@@ -179,33 +154,37 @@
                 }
 
 
-                /**
-                 * Populates the description of an activity within a specified div element.
-                 * @param {string} activityType - The type of activity to populate the description for.
-                 */
-                function populateDescription() {
-                    var divElement = document.getElementById('description');
-                    console.log('dataFromOperation["replacedContent"]');
-                    console.log(dataFromOperation["replacedContent"])
+    /**
+     * Populates the description of an activity within a specified div element.
+     * @param {string} activityType - The type of activity to populate the description for.
+     */
+    function populateDescription() {
+        let divElement = document.getElementById('description');
 
-                    // Clear previous content
-                    divElement.innerHTML = '';
+        // Clear previous content
+        divElement.innerHTML = '';
 
-                    if (dataFromOperation["replacedContent"]) {
-                        // Create a new <p> element
-                        var newP = document.createElement("p");
+        if (dataFromOperation["activityType"]) {
+            // Call replaceTextWithSelect to populate the description
+            replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
+                // Create a new <p> element
+                let newP = document.createElement("p");
 
-                        // Set the html content of the <p> element
-                        console.log(replaceTextWithSelect(dataFromOperation["replacedContent"],data.materials));
-                        newP.innerHTML = replaceTextWithSelect(dataFromOperation["replacedContent"],data.materials);
+                // Set the html content of the <p> element with the populated description
+                newP.innerHTML = description;
 
-                        // Append the <p> element to the div
-                        divElement.appendChild(newP);
-                    } else {
-                        console.error('Activity type is not defined');
-                        // If the activity type is not defined, handle it accordingly
-                    }
-                }
+                // Append the <p> element to the div
+                divElement.appendChild(newP);
+            }).catch((error) => {
+                console.error('Error populating description:', error);
+            });
+        } else {
+            console.error('Activity type is not defined');
+            // If the activity type is not defined, handle it accordingly
+        }
+    }
+
+
 
 
 
