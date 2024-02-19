@@ -65,7 +65,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",(req,res)=>{
 
     let data = {
-      typicalActivity,
       materials,
     };
     res.status(200).render("index.ejs",{data});

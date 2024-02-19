@@ -31,7 +31,7 @@
                         <div class="container p-0">
                             <div class="form-group">
                                 <label for="equipmentCode">Equipment Code</label>
-                                <select class="form-control" id="equipmentCode" onchange="saveSelectedItem(this)" style="width: auto;">
+                                <select class="form-control" id="equipmentCode" onchange="saveSelectedItem(this); populateDescription()" style="width: auto;">
                                     <option value="">--select--</option>
                                 </select>
                             </div>
@@ -42,7 +42,7 @@
                         <!-- operation Type -->
                         <div class="form-group">
                             <label for="activityType">Type of Activity</label>
-                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this)">
+                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this); populateDescription()">
                                 <option value="">--select--</option>
                             </select>
                         </div>
@@ -84,46 +84,13 @@
                         <br>
                         <div class="row">                       
                         <p>Additional Equipment:</p>
-                            <% for (let additionalEquipment of data.typicalActivity["description"]["additional equipment"]){%>
-                                <div class="col">                        
-                                <div class="container p-0">
-                                <div class="form-group">
-                                    <label for="additionalEquipmentType">
-                                        <%= additionalEquipment["name"] %> code
-                                    </label>
-                                    <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
-                                        style="width: auto;">
-                                        <option value="">--select--</option>
-                                            <option value="<%= additionalEquipment["code"] %>">
-                                            <%= additionalEquipment["code"] %>
-                                        </option>
-
-                                    </select>
-
-                                </div>
-                            </div>
-                        </div>
-                            <% } %>
+                        
+                            
                         </div>
                     <!-- utensils -->
                     <br>
                     <p>Utensils:</p>
-                    <% for (let additionalEquipment of data.typicalActivity["description"]["utensils"]){%>
-                    <div class="container p-0">
-                        <div class="form-group">
-                            <label for="utensilsType">
-                                <%= additionalEquipment["name"] %> label
-                            </label>
-                            <select class="form-control" id="<%= additionalEquipment["name"] %>" onchange="saveSelectedItem(this)"
-                                style="width: auto;">
-                                <option value="">--select--</option>
-                                <option value="<%= additionalEquipment["label"] %>">
-                                    <%= additionalEquipment["label"] %>
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <% } %>
+                   
                     <!-- materials -->
                     <br>
                     <hr>
@@ -131,7 +98,7 @@
                     <% for (let material of data.materials){%>
                     <div class="container p-0">
                         <div class="form-group">
-                            <select class="form-control" id="material" onchange="saveSelectedItem(this)"
+                            <select class="form-control" id="material" onchange="saveSelectedItem(this); populateDescription()"
                                 style="width: auto;">
                                 <option value="">--select--</option>
                                 <option value="<%= material["name"] %>">
@@ -158,7 +125,7 @@
                     </td>
                     <td>
                         <div id="description">
-                            <%= data.typicalActivity["description"]["content"] %>
+                            
                         </div>
                     </td> 
                     <td>other</td>
