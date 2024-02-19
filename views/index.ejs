@@ -196,7 +196,8 @@
                         var newP = document.createElement("p");
 
                         // Set the html content of the <p> element
-                        newP.innerHTML = boldTextInBraces(dataFromOperation["replacedContent"]);
+                            console.log(replaceTextWithSelect(dataFromOperation["replacedContent"],data.materials));
+                        newP.innerHTML = replaceTextWithSelect(dataFromOperation["replacedContent"],data.materials);
 
                         // Append the <p> element to the div
                         divElement.appendChild(newP);

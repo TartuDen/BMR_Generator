@@ -119,6 +119,13 @@ function GetEquipmentType(callback) {
 function boldTextInBraces(text) {
   return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
 }
+function replaceTextWithSelect(text, materials) {
+  return text.replace(/\{([^}]+)\}/g, (_, match) => {
+      const selectOptions = materials.map(material => `<option value="${material.name}">${material.name}</option>`).join('');
+      return `<select class="form-control" onchange="saveSelectedItem(this); populateDescription()"><option value="">--select--</option>${selectOptions}</select>`;
+  });
+}
+
 
 // Function to fetch data for the selected item
 function fetchSelectedItemData(selectElement) {
