@@ -19,7 +19,7 @@ function GetActivitiesList(equipmentType, callback) {
       {
         OperationType: "loading_of_liquid",
         Content:
-          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into reactor via liquid loading valve. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
         DurationMIN: "",
         DurationMAX: "",
         TemperatureMIN: "",
@@ -28,7 +28,7 @@ function GetActivitiesList(equipmentType, callback) {
       {
         OperationType: "dosing_of_liquid",
         Content:
-          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into dosing system. Peristaltic pump is set to {setting}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
+          "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
         DurationMIN: "",
         DurationMAX: "",
         TemperatureMIN: "",
@@ -37,7 +37,7 @@ function GetActivitiesList(equipmentType, callback) {
       {
         OperationType: "creating_argon_flow",
         Content:
-          "Argon line is connected to the argon port of reactor. The flow is set to {setting}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
+          "Argon line is connected to the argon port of reactor. The flow is set to {flow}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
         DurationMIN: "",
         DurationMAX: "",
         TemperatureMIN: "",
@@ -45,7 +45,7 @@ function GetActivitiesList(equipmentType, callback) {
       },
       {
         OperationType: "stirring_on",
-        Content: "Stirring in reactor is turned ON. Set to {setting}rpm.",
+        Content: "Stirring in reactor is turned ON. Set to {rpm}rpm.",
         DurationMIN: "",
         DurationMAX: "",
         TemperatureMIN: "",
@@ -61,7 +61,7 @@ function GetActivitiesList(equipmentType, callback) {
       },
       {
         OperationType: "heating_on",
-        Content: "Heating is turned ON. Set to {setting}°C.",
+        Content: "Heating is turned ON. Temperature is set to {temp}°C.",
         DurationMIN: "",
         DurationMAX: "",
         TemperatureMIN: "",
@@ -72,6 +72,20 @@ function GetActivitiesList(equipmentType, callback) {
     callback(reactorActivities);
   }, 200);
 }
+
+/**
+ * Simulates a request to a database with a time delay and retrieves data in the form of a list.
+ * @param {function} callback - The callback function to be called with the retrieved data.
+ */
+function GetParametersForOperations(callback) {
+  setTimeout(function () {
+    // Simulated data retrieved from the database
+    let data = ["time", "temp", "rpm", "flow","ppumpSet"];
+    // Call the callback function with the retrieved data
+    callback(data);
+  }, 200);
+}
+
 
 /**
  * Simulates the retrieval of a list of equipment for special equipmentType for testing purposes.
@@ -173,8 +187,15 @@ function replaceTextWithSelect(text) {
   equipmentTypes.forEach((equipmentType) => {
     let promise = new Promise((resolve) => {
       GetEquipmentListByType(equipmentType, function (equipmentList) {
+        // Check if equipmentList is empty for the current equipmentType
+        if (equipmentList.length === 0) {
+          // If equipmentList is empty, skip replacing {equipmentType}
+          resolve();
+          return; // Exit early
+        }
+
         // Add default "--select--" option
-        const defaultOption = '<option value="">--select--</option>';
+        const defaultOption = `<option value="">-${equipmentType}-</option>`;
         const selectOptions = equipmentList
           .map(
             (equipment) =>
@@ -190,10 +211,44 @@ function replaceTextWithSelect(text) {
     promises.push(promise);
   });
 
+  // Fetch parameters and replace with <input> elements
+  let parametersPromise = new Promise((resolve) => {
+    GetParametersForOperations(function (parametersList) {
+      equipmentTypes.forEach((equipmentType) => {          
+          console.log("here:");
+          console.log("parametersList");
+          console.log(parametersList);
+          console.log("equipmentType");
+          console.log(equipmentType)
+        if (parametersList.includes(equipmentType)) {
+          // Replace with input element
+;
+          const inputElement = `<input type="text" id="parameter_${equipmentType}" name="${equipmentType}" placeholder="${equipmentType}">`;
+          output = output.replace(`{${equipmentType}}`, inputElement);
+        }
+      });
+      resolve();
+    });
+  });
+
+  promises.push(parametersPromise);
+
   return Promise.all(promises).then(() => {
-    return output;
+    return boldTextInBraces(output);
   });
 }
+
+
+/**
+ * Adds bold formatting to text enclosed within braces.
+ * @param {string} text - The input text possibly containing braces.
+ * @returns {string} - The input text with content inside braces wrapped in <strong> tags.
+ */
+function boldTextInBraces(text) {
+  // Use regular expression to find text within braces and replace it with <strong> tags
+  return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
+}
+
 
 // Function to fetch data for the selected item
 function fetchSelectedItemData(selectElement) {

@@ -39,19 +39,6 @@
                 crossorigin="anonymous">
                 </script>
 
-            <script>// script for selecting 'description' inside {} make bold font
-
-                document.addEventListener("DOMContentLoaded", function () {
-                    function boldTextInBraces(text) {
-                        return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
-                    }
-
-                    // Example usage:
-                    const contentElement = document.getElementById('description');
-                    contentElement.innerHTML = boldTextInBraces(contentElement.innerHTML);
-                });
-            </script>
-
 
             <script>//
                 let dataFromOperation = {};
@@ -154,35 +141,35 @@
                 }
 
 
-    /**
-     * Populates the description of an activity within a specified div element.
-     * @param {string} activityType - The type of activity to populate the description for.
-     */
-    function populateDescription() {
-        let divElement = document.getElementById('description');
+                /**
+                 * Populates the description of an activity within a specified div element.
+                 * @param {string} activityType - The type of activity to populate the description for.
+                 */
+                function populateDescription() {
+                    let divElement = document.getElementById('description');
 
-        // Clear previous content
-        divElement.innerHTML = '';
+                    // Clear previous content
+                    divElement.innerHTML = '';
 
-        if (dataFromOperation["activityType"]) {
-            // Call replaceTextWithSelect to populate the description
-            replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
-                // Create a new <p> element
-                let newP = document.createElement("p");
+                    if (dataFromOperation["activityType"]) {
+                        // Call replaceTextWithSelect to populate the description
+                        replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
+                            // Create a new <p> element
+                            let newP = document.createElement("p");
 
-                // Set the html content of the <p> element with the populated description
-                newP.innerHTML = description;
+                            // Set the html content of the <p> element with the populated description
+                            newP.innerHTML = description;
 
-                // Append the <p> element to the div
-                divElement.appendChild(newP);
-            }).catch((error) => {
-                console.error('Error populating description:', error);
-            });
-        } else {
-            console.error('Activity type is not defined');
-            // If the activity type is not defined, handle it accordingly
-        }
-    }
+                            // Append the <p> element to the div
+                            divElement.appendChild(newP);
+                        }).catch((error) => {
+                            console.error('Error populating description:', error);
+                        });
+                    } else {
+                        console.error('Activity type is not defined');
+                        // If the activity type is not defined, handle it accordingly
+                    }
+                }
 
 
 
