@@ -2,6 +2,23 @@ const axios = require('axios');
 const { databaseServerUrl, equipmentApiEndpoint } = require('./settings');
 
 /**
+ * Retrieves a list of equipment types from the server.
+ * 
+ * @returns {Promise<Array>} A promise that resolves with the list of equipment types.
+ * @throws {Error} If an error occurs during the retrieval process.
+ */
+async function GetListEquipmentTypes() {
+    try {
+        const url = `${databaseServerUrl}${equipmentTypesApiEndpoint}`;
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching equipment types:", error);
+        throw error;
+    }
+}
+
+/**
  * Retrieves a list of equipment of a specific type from the database server.
  * @param {string} equipmentType - The type of equipment to retrieve.
  * @returns {Promise<Array>} A promise that resolves with the list of equipment.
