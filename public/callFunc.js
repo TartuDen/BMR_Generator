@@ -158,7 +158,7 @@ function boldTextInBraces(text) {
  *
  * @param {string} text - The description for operation.
  */
-function replaceTextWithSelect(text) {
+function replaceTextWithSelectOLD(text) {
   const regex = /\{([^}]+)\}/g;
   let equipmentTypes = [];
   let output = text;
@@ -172,7 +172,7 @@ function replaceTextWithSelect(text) {
 
   equipmentTypes.forEach((equipmentType) => {
     let promise = new Promise((resolve) => {
-      GetEquipmentListByType(equipmentType, function (equipmentList) {
+      GetEquipmentListByTypeMOCK(equipmentType, function (equipmentList) {
         // Add default "--select--" option
         const defaultOption = '<option value="">--select--</option>';
         const selectOptions = equipmentList

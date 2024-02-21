@@ -63,12 +63,14 @@
 
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
+                    console.log(dataFromOperation);
                 }
 
 
             </script>
             <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
             <script src="callFunc.js"></script>
+            <script src="async.js"></script>
 
             <script>
 
@@ -77,15 +79,15 @@
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
                         const equipmentTypes = await GetListEquipmentTypesMOCK();
-                
+
                         var selectElement = document.getElementById('equipmentType');
-                
+
                         // Clear previous options
                         selectElement.innerHTML = '';
-                
+
                         // Add default option "--select--"
                         addDefaultOption(selectElement);
-                
+
                         // Add equipment types as options
                         equipmentTypes.forEach(function (equipmentType) {
                             var option = document.createElement('option');
@@ -105,97 +107,70 @@
                     populateEquipmentTypes();
                 };
 
-                // Function to populate the equipment codes dropdown based on the selected equipment type
-                async function populateEquipmentCodes(selectedEquipmentType) {
-                    var selectElement = document.getElementById('equipmentCode');
-                
-                    // Clear previous options
-                    selectElement.innerHTML = '';
-                
-                    if (selectedEquipmentType) {
-                        try {
-                            // Call GetEquipmentListByTypeMOCK to retrieve the list of equipment codes
-                            const equipmentList = await GetEquipmentListByTypeMOCK(selectedEquipmentType);
-                
-                            // Add default option "--select--"
-                            addDefaultOption(selectElement);
-                
-                            // Populate the dropdown with equipment codes
-                            equipmentList.forEach(function (equipment) {
-                                var option = document.createElement('option');
-                                option.value = equipment.code;
-                                option.textContent = equipment.code;
-                                selectElement.appendChild(option);
-                            });
-                        } catch (error) {
-                            console.error("Error populating equipment codes:", error);
-                            // Handle the error if needed
-                        }
-                    } else {
-                        console.error('Select Equipment Type');
-                        // If the selected equipment type is not defined, clear previous options
+                // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
+                async function populateActivityType(equipmentType) {
+                    try {
+                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
+                        const activityTypes = await GetListReactorActivityMOCK();
+                        var selectElement = document.getElementById('activityType');
+
+                        // Clear previous options
+                        selectElement.innerHTML = '';
+
+                        // Add default option "--select--"
                         addDefaultOption(selectElement);
+
+                        // Add equipment types as options
+                        activityTypes.forEach(function (activity) {
+                            var option = document.createElement('option');
+                            option.value = activity.Content;
+                            option.textContent = activity.OperationType;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating activity types:", error);
+                        // Handle the error if needed
                     }
                 }
 
-                // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
-                function populateActivityTypeDropdown(equipmentType) {
-                    var selectElement = document.getElementById('activityType');
+                /**
+                 * Populates the description of an activity within a specified div element.
+                 * @param {string} activityType - The type of activity to populate the description for.
+                 */
+                async function populateDescription() {
+                    let divElement = document.getElementById('description');
 
-                    // Clear previous options
-                    selectElement.innerHTML = '';
+                    // Clear previous content
+                    divElement.innerHTML = '';
 
-                    if (equipmentType) {
-                        // Call GetActivitiesList function to get the loading_of_solid activities based on equipmentType
-                        GetActivitiesList(equipmentType, function (reactorActivities) {
-                            // Add default option "--select--"
-                            addDefaultOption(selectElement);
+                    if (dataFromOperation["activityType"]) {
+                        // Call replaceTextWithSelect to populate the description
+                        await replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
+                            // Create a new <p> element
+                            let newP = document.createElement("p");
 
-                            // Populate the dropdown with loading_of_solid activities
-                            reactorActivities.forEach(function (activity) {
-                                var option = document.createElement('option');
-                                option.value = activity.Content;
-                                option.textContent = activity.OperationType;
-                                selectElement.appendChild(option);
-                            });
+                            // Set the html content of the <p> element with the populated description
+                            newP.innerHTML = description;
+
+                            console.log("newP.innerHTML");
+                            console.log(newP.innerHTML);
+
+                            // Append the <p> element to the div
+                            divElement.appendChild(newP);
+                        }).catch((error) => {
+                            console.error('Error populating description:', error);
                         });
                     } else {
-                        console.error('Select Equipment Type');
-                        // If the selected equipment type is not defined, clear previous options
-                        addDefaultOption(selectElement);
+                        console.error('Activity type is not defined');
+                        // If the activity type is not defined, handle it accordingly
                     }
                 }
 
 
-    /**
-     * Populates the description of an activity within a specified div element.
-     * @param {string} activityType - The type of activity to populate the description for.
-     */
-    function populateDescription() {
-        let divElement = document.getElementById('description');
 
-        // Clear previous content
-        divElement.innerHTML = '';
 
-        if (dataFromOperation["activityType"]) {
-            // Call replaceTextWithSelect to populate the description
-            replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
-                // Create a new <p> element
-                let newP = document.createElement("p");
 
-                // Set the html content of the <p> element with the populated description
-                newP.innerHTML = description;
-
-                // Append the <p> element to the div
-                divElement.appendChild(newP);
-            }).catch((error) => {
-                console.error('Error populating description:', error);
-            });
-        } else {
-            console.error('Activity type is not defined');
-            // If the activity type is not defined, handle it accordingly
-        }
-    }
 
 
 

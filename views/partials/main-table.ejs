@@ -6,7 +6,6 @@
                 <tr>
                     <th>#</th>
                     <th>Equipment</th>
-                    <th>Operations</th>
                     <th>Description</th>
                     <th>Other</th>
                 </tr>
@@ -20,115 +19,31 @@
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
                                 <select class="form-control" id="equipmentType"
-                                    onchange="saveSelectedItem(this); populateEquipmentCodes(this.value); populateActivityTypeDropdown(this.value);">
-
+                                    onchange="saveSelectedItem(this); populateActivityType(this.value);"
+                                    style="width: auto;">
                                     <option value="">--select--</option>
                                 </select>
                             </div>
                         </div>
-
-                        <!-- code of reactor -->
-                        <div class="container p-0">
-                            <div class="form-group">
-                                <label for="equipmentCode">Equipment Code</label>
-                                <select class="form-control" id="equipmentCode" onchange="saveSelectedItem(this); populateDescription()" style="width: auto;">
-                                    <option value="">--select--</option>
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td>
                         <!-- operation Type -->
                         <div class="form-group">
                             <label for="activityType">Type of Activity</label>
-                            <select class="form-control" id="activityType" onchange="saveSelectedItem(this); populateDescription()">
+                            <select class="form-control" id="activityType"
+                                onchange="saveSelectedItem(this); populateDescription();">
                                 <option value="">--select--</option>
                             </select>
                         </div>
-          
-                        <!-- input duration min and max -->
-                        <br>
-                        <div class="row">
-                            <div class="col d-flex">
-                                <input class="input-group-text" type="number" name="durationMIN" id="durationMIN" placeholder="durationMIN" min="0">
-                                <select id="durationMIN_units">
-                                    <option value="hours">Hours</option>
-                                    <option value="minutes">Minutes</option>
-                                </select>
-                            </div>
-                            <div class="col d-flex">
-                                <input class="input-group-text" type="number" name="durationMAX" id="durationMAX" placeholder="durationMAX" min="0">
-                                <select id="durationMAX_units">
-                                    <option value="hours">Hours</option>
-                                    <option value="minutes">Minutes</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- input temperature min and max -->
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input class="input-group-text" type="number" name="temperatureMIN" id="temperatureMIN"
-                                    placeholder="temperatureMIN, °C">
-
-                            </div>
-                            <div class="col">
-                                <input class="input-group-text" type="number" name="temperatureMAX" id="temperatureMAX"
-                                    placeholder="temperatureMAX, °C">
-
-                            </div>
-                        </div>
-                        <hr>
-                        <!-- additional equipment -->
-                        <br>
-                        <div class="row">                       
-                        <p>Additional Equipment:</p>
-                        
-                            
-                        </div>
-                    <!-- utensils -->
-                    <br>
-                    <p>Utensils:</p>
-                   
-                    <!-- materials -->
-                    <br>
-                    <hr>
-                    <p>Materials:</p>
-                    <% for (let material of data.materials){%>
-                    <div class="container p-0">
-                        <div class="form-group">
-                            <select class="form-control" id="material" onchange="saveSelectedItem(this); populateDescription()"
-                                style="width: auto;">
-                                <option value="">--select--</option>
-                                <option value="<%= material["name"] %>">
-                                    <%= material["name"] %>
-                                </option>
-                            </select>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input class="input-group-text" type="number" name="mass" id="mass"
-                                    placeholder="Specified loading, kg">
-                            </div>
-                            <div class="col">
-                                <input class="input-group-text" type="number" name="volume" id="volume"
-                                    placeholder="Specified loading, L">
-                            </div>
-                            <div class="col">
-                                <input class="input-group-text" type="number" name="range" id="range" placeholder="range, %" min="0" max="100">
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
                     </td>
+
                     <td>
                         <div id="description">
-                            
+                        
                         </div>
-                    </td> 
-                    <td>other</td>
+                    </td>
+                    
+                    <td>
+
+                    </td>
                 </tr>
             </tbody>
         </table>
