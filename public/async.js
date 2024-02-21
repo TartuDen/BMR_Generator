@@ -19,6 +19,24 @@ async function GetListEquipmentTypes() {
 }
 
 /**
+ * Simulates retrieving a list of equipment types with a delay.
+ * 
+ * @returns {Promise<Array>} A promise that resolves with the simulated list of equipment types.
+ */
+async function GetListEquipmentTypesMOCK() {
+    await delay(500); // Simulating a delay of 500ms
+
+    // Simulated list of equipment types
+    const equipmentTypes = [
+        { name: "reactor" },
+        { name: "oven" },
+        { name: "balances" }
+    ];
+
+    return equipmentTypes;
+}
+
+/**
  * Retrieves a list of equipment of a specific type from the database server.
  * @param {string} equipmentType - The type of equipment to retrieve.
  * @returns {Promise<Array>} A promise that resolves with the list of equipment.
