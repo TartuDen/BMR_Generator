@@ -71,17 +71,21 @@
             <script src="callFunc.js"></script>
 
             <script>
-                // Function to populate the equipment types dropdown
-                function populateEquipmentTypes() {
-                    GetEquipmentType(function (equipmentTypes) {
-                        var selectElement = document.getElementById('equipmentType');
 
+                // Function to populate the equipment types dropdown
+                async function populateEquipmentTypes() {
+                    try {
+                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
+                        const equipmentTypes = await GetListEquipmentTypesMOCK();
+                
+                        var selectElement = document.getElementById('equipmentType');
+                
                         // Clear previous options
                         selectElement.innerHTML = '';
-
+                
                         // Add default option "--select--"
                         addDefaultOption(selectElement);
-
+                
                         // Add equipment types as options
                         equipmentTypes.forEach(function (equipmentType) {
                             var option = document.createElement('option');
@@ -89,22 +93,33 @@
                             option.textContent = equipmentType.name;
                             selectElement.appendChild(option);
                         });
-                    });
+                    } catch (error) {
+                        console.error("Error populating equipment types:", error);
+                        // Handle the error if needed
+                    }
                 }
 
-                // Function to populate the equipment codes dropdown based on the selected equipment type
-                function populateEquipmentCodes(selectedEquipmentType) {
-                    var selectElement = document.getElementById('equipmentCode');
 
+                // Call populateEquipmentTypes function when the page loads
+                window.onload = function () {
+                    populateEquipmentTypes();
+                };
+
+                // Function to populate the equipment codes dropdown based on the selected equipment type
+                async function populateEquipmentCodes(selectedEquipmentType) {
+                    var selectElement = document.getElementById('equipmentCode');
+                
                     // Clear previous options
                     selectElement.innerHTML = '';
-
+                
                     if (selectedEquipmentType) {
-                        // Call the GetReactorList function
-                        GetEquipmentListByType(selectedEquipmentType, function (equipmentList) {
+                        try {
+                            // Call GetEquipmentListByTypeMOCK to retrieve the list of equipment codes
+                            const equipmentList = await GetEquipmentListByTypeMOCK(selectedEquipmentType);
+                
                             // Add default option "--select--"
                             addDefaultOption(selectElement);
-
+                
                             // Populate the dropdown with equipment codes
                             equipmentList.forEach(function (equipment) {
                                 var option = document.createElement('option');
@@ -112,18 +127,16 @@
                                 option.textContent = equipment.code;
                                 selectElement.appendChild(option);
                             });
-                        });
+                        } catch (error) {
+                            console.error("Error populating equipment codes:", error);
+                            // Handle the error if needed
+                        }
                     } else {
                         console.error('Select Equipment Type');
                         // If the selected equipment type is not defined, clear previous options
                         addDefaultOption(selectElement);
                     }
                 }
-
-                // Call populateEquipmentTypes function when the page loads
-                window.onload = function () {
-                    populateEquipmentTypes();
-                };
 
                 // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
                 function populateActivityTypeDropdown(equipmentType) {
