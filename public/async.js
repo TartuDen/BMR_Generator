@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { databaseServerUrl, equipmentApiEndpoint } = require('./settings');
+const { databaseServerUrl, equipmentApiEndpoint, equipmentTypesApiEndpoint } = require('./settings');
 
 /**
  * Retrieves a list of equipment types from the server.
