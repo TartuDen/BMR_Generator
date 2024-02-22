@@ -3,49 +3,50 @@ package operation
 import "time"
 
 type Operation struct {
-	Number int
-	Equipment Equipment
+	Number          int
+	Equipment       Equipment
 	TypicalActivity TypicalActivity
-	MaterialIN []Material
-	MaterialOUT []Material
-	Wastes []Waste
+	MaterialIn      []Material
+	MaterialOut     []Material
+	Wastes          []Waste
 }
 
-type Description struct{
-	Content string
-	DurationMIN time.Duration
-	DurationMAX time.Duration
-	TemperatureMIN int
-	TemperatureMAX int
+type Description struct {
+	Content             string
+	DurationMIN         time.Duration
+	DurationMAX         time.Duration
+	TemperatureMIN      float64
+	TemperatureMAX      float64
 	AdditionalEquipment []Equipment
 }
 
-type Equipment struct{
-	Name string
-	Code int
-	Label string
-	Size string
+type Equipment struct {
+	Name     string
+	Code     string
+	Label    string
+	Size     string
 	Material string
 	Utensils bool
 }
 
 type TypicalActivity struct {
 	OperationType string
-	Description Description
+	Description   Description
 }
 
-type Material struct{
-	Name string
-	WHcode string
-	Mass int
-	Volume int
-	Range int
+type Material struct {
+	Name           string
+	WHcode         string
+	Mass           float64
+	Volume         float64
+	Range          int
 	AdditionalInfo string
 }
 
-type Waste struct{
-	Type string
-	Mass int
-	Volume int
+type Waste struct {
+	Type           string
+	Code           string
+	Mass           int
+	Volume         int
 	AdditionalInfo string
 }

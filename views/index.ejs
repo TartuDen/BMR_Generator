@@ -70,7 +70,10 @@
             </script>
             <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
             <script src="callFunc.js"></script>
-            <script src="async.js"></script>
+            <script src="apiMocks.js"></script>
+            <script src="api.js"></script>
+            <script src="helpers.js"></script>
+            <script src="operationClasses.js"></script>
 
             <script>
 
@@ -128,6 +131,18 @@
                             selectElement.appendChild(option);
                         });
 
+                        // Event listener for when an option is selected
+                        selectElement.addEventListener('change', function () {
+                            // Get the selected option
+                            var selectedOption = selectElement.options[selectElement.selectedIndex];
+
+                            let selectedActivityType = selectedOption.textContent;
+                            let operationType = "operationType";
+
+                            // Add operationType the dataFromOperation object
+                            dataFromOperation[operationType] = selectedActivityType;
+                        });
+
                     } catch (error) {
                         console.error("Error populating activity types:", error);
                         // Handle the error if needed
@@ -153,9 +168,6 @@
                             // Set the html content of the <p> element with the populated description
                             newP.innerHTML = description;
 
-                            console.log("newP.innerHTML");
-                            console.log(newP.innerHTML);
-
                             // Append the <p> element to the div
                             divElement.appendChild(newP);
                         }).catch((error) => {
@@ -166,14 +178,6 @@
                         // If the activity type is not defined, handle it accordingly
                     }
                 }
-
-
-
-
-
-
-
-
 
 
                 /**
@@ -190,6 +194,22 @@
                     // Append the default option to the select element
                     selectElement.appendChild(defaultOption);
                 }
+
+                // Function to parse dataFromOperation to Operation class
+                function parseDataToOperation() {
+                    // Create an instance of Equipment class
+                    let mainEquipment = new Equipment(dataFromOperation['equipmentType'])
+
+                    // Create an instance of TypicalActivity class
+                    let Activity = new TypicalActivity(dataFromOperation['operationType'], dataFromOperation['activityType'],)
+                    
+                    // Create an instance of Operation class
+                    let operation = new Operation(1, dataFromOperation['equipmentType'], Activity);
+
+                    // Do something with the operation object, such as sending it to the server or displaying it on the page
+                    console.log(operation);
+                }
+
             </script>
 
 
