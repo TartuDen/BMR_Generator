@@ -39,6 +39,7 @@
                 crossorigin="anonymous">
                 </script>
 
+            <!-- should we delete this script??? -->
             <script>// script for selecting 'description' inside {} make bold font
 
                 document.addEventListener("DOMContentLoaded", function () {
@@ -51,23 +52,26 @@
                     contentElement.innerHTML = boldTextInBraces(contentElement.innerHTML);
                 });
             </script>
+            <!-- ______________________ -->
 
-
-            <script>//
-                let dataFromOperation = {};
-
+            <script>
+                var dataFromOperation = {};
+                /**
+                 * Save the selected item from a select element into the dataFromOperation object.
+                 * 
+                 * @param {HTMLSelectElement} selectElement - The select element from which to retrieve the selected value.
+                 */
                 function saveSelectedItem(selectElement) {
                     // Retrieve the selected value from the select element
-                    var id = selectElement.id
+                    var id = selectElement.id;
                     var value = selectElement.value;
+
 
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
-                    console.log(dataFromOperation);
                 }
-
-
             </script>
+
             <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
             <script src="callFunc.js"></script>
             <script src="apiMocks.js"></script>
@@ -77,7 +81,12 @@
 
             <script>
 
-                // Function to populate the equipment types dropdown
+                /**
+                 * Function to populate the equipment types dropdown.
+                 * Retrieves the list of equipment types and populates the dropdown with them.
+                 * 
+                 * @returns {Promise<void>} A Promise that resolves when the dropdown is populated successfully.
+                 */
                 async function populateEquipmentTypes() {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
@@ -104,17 +113,17 @@
                     }
                 }
 
-
                 // Call populateEquipmentTypes function when the page loads
                 window.onload = function () {
                     populateEquipmentTypes();
                 };
 
+
                 // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const activityTypes = await GetListReactorActivityMOCK();
+                        const activityTypes = await GetListReactorActivityMOCK(dataFromOperation["equipmentType"]);
                         var selectElement = document.getElementById('activityType');
 
                         // Clear previous options
@@ -199,7 +208,7 @@
                 function parseDataToOperation() {
                     // Create an instance of TypicalActivity class
                     let Activity = new TypicalActivity(dataFromOperation['operationType'], dataFromOperation['activityType'],)
-                    
+
                     // Create an instance of Operation class
                     let operation = new Operation(1, dataFromOperation['equipmentType'], Activity);
 
