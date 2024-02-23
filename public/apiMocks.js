@@ -50,121 +50,136 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Equipment: "reactor",
       OperationType: "loading_of_solid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
+        "Required amount of {material} is weighed on the balances {balances} using jug {jug}, weighted material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
     },
     {
       Equipment: "reactor",
       OperationType: "loading_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
+        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, weighted material is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
     },
     {
       Equipment: "reactor",
       OperationType: "dosing_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, {material} is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
+        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, weighted material is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
     },
     {
       Equipment: "reactor",
       OperationType: "creating_argon_flow",
       Content:
-        "Argon line is connected to the argon port of reactor. The flow is set to {flow}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
+        "Argon line is connected to the argon port of reactor {reactor}. The Argon {material} flow is set to {flow}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
     },
     {
       Equipment: "reactor",
       OperationType: "stirring_on",
-      Content: "Stirring in reactor is turned ON. Set to {rpm}rpm.",
+      Content: "Stirring in reactor {reactor} is turned ON. Set to {rpm} rpm.",
     },
     {
       Equipment: "reactor",
       OperationType: "stirring_off",
-      Content: "Stirring in reactor is turned OFF.",
+      Content: "Stirring in reactor {reactor} is turned OFF.",
     },
     {
       Equipment: "reactor",
       OperationType: "heating_on",
-      Content: "Heating is turned ON. Temperature is set to {temp}°C.",
+      Content:
+        "Heating for reactor {reactor} is turned ON. Temperature is set to {temp}°C.",
     },
-      {
-        Equipment: "druck_filter",
-        OperationType: "preparation of filter",
-        Content: "The filter is assembled and prepared to work. Filtration cloth is prepared and properly installed. Argon and product lines are connected to the lid, pressure test is done.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "loading on filter",
-        Content: "Product is loaded on the filter via product line. Argon line is closed during loading. Once 2/3 of the filter is loaded, stop pumping and close product line.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "filtration with argon pressure",
-        Content: "Check that product line is closed, check the pressure on Argon cylinder, it must be in range 1-2bar. Open argon line on the lid of the filter and wait until no more or very little of ML is coming into the receiver (visually on level tube). At the end of operation close the argon line.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "discharging ML",
-        Content: "Check that product line and argon line are closed. Release top valve on the receiver to make sure there is no extra pressure. Connect peristaltic pump to the bottom valve of the filter using norprene hose. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "washing FK",
-        Content: "The lid of filter is opened. Required amount of material is weighed on the balances using jug. Solvent isloaded on top of filter caje, using shovel the filter cake is thoroughly mixed. The lid is closed.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "drying on filter",
-        Content: "The filter cake is additionally dried on the filter using argon flow. Argon is set to {flow} l/min, check that outlet valve is opened and the stream is led to the ventilation. Argon line is opened. Drying on filter is continued for min. After required time is passed, the argon line is closed.",
-      },
-      {
-        Equipment: "druck_filter",
-        OperationType: "unloading from filter",
-        Content: "The lid of the filter is opened. Material from the filter is unloaded using shovel <to where>.",
-      }, {
-        Equipment: "nutsche_filter",
-        OperationType: "preparation of filter",
-        Content: "The filter is assembled and prepared to work. Filtration cloth is prepared and properly installed. Membrane pump is connected.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "vacuum setting",
-        Content: "Membrane pump is set {torr} Torr.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "loading on filter",
-        Content: "Membrane pump is started. Product is loaded on the filter using jug. Once 2/3 of the filter is loaded, stop loading.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "discharging ML",
-        Content: "Stop the pump. Connect peristaltic pump to the bottom valve of the filter using norprene hose. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "washing FK",
-        Content: "Make sure the pump is stopped. Required amount of material is weighed on the balances using jug. Solvent is loaded on top of filter cake, using shovel the filter cake is thoroughly mixed.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "drying on filter",
-        Content: "The filter cake is additionally dried on the filter by keeping membrane pump sucking air through it. Membrane pump is set to {torr} Torr. Drying on filter is continued for {time} min. After required time is passed, the pump is stopped.",
-      },
-      {
-        Equipment: "nutsche_filter",
-        OperationType: "unloading from filter",
-        Content: "The lid of the filter is opened. Material from the filter is unloaded using shovel <to where>.",
-      },
-      {
-        Equipment: "membrane_pump",
-        OperationType: "vacuum setting",
-        Content: "Membrane pump is set to {torr} Torrs.",
-      },
-      {
-        Equipment: "peristaltic_pump",
-        OperationType: "speed setting",
-        Content: "Membrane pump is set to {ppumpSet} %.",
-      },
-    ];
+    {
+      Equipment: "druck_filter",
+      OperationType: "preparation of filter",
+      Content:
+        "The filter {druck_filter} is assembled and prepared to work. Filtration cloth {filtration cloth} is prepared and properly installed. Argon and product lines are connected to the lid, pressure test is done.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "loading on filter",
+      Content:
+        "Product is loaded on the filter {druck_filter} via product line. Argon line is closed during loading. Once 2/3 of the filter is loaded, stop pumping and close product line.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "filtration with argon pressure",
+      Content:
+        "Check that product line is closed, check the pressure on Argon cylinder {Argon cylinder}, it must be in range 1-2bar. Open argon line on the lid of the filter {druck_filter} and wait until no more or very little of ML is coming into the receiver (visually on level tube). At the end of operation close the argon line.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "discharging ML",
+      Content:
+        "Check that product line and argon line are closed. Release top valve on the receiver to make sure there is no extra pressure. Connect peristaltic pump {peristaltic pump} to the bottom valve of the filter {druck_filter} using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "washing FK",
+      Content:
+        "The lid of filter {druck_filter} is opened. Required amount of material is weighed on the balances {balances} using jug. Solvent is loaded on top of filter caje, using shovel {shovel} the filter cake is thoroughly mixed. The lid is closed.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "drying on filter",
+      Content:
+        "The filter cake is additionally dried on the filter {druck_filter} using argon flow - Argon cylinder {Argon cylinder}. Argon is set to {flow} l/min, check that outlet valve is opened and the stream is led to the ventilation. Argon line is opened. Drying on filter is continued for min. After required time is passed, the argon line is closed.",
+    },
+    {
+      Equipment: "druck_filter",
+      OperationType: "unloading from filter",
+      Content:
+        "The lid of the filter {druck_filter} is opened. Material from the filter is unloaded using shovel {shovel} <to where>.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "preparation of filter",
+      Content:
+        "The filter {nutsche_filter} is assembled and prepared to work. Filtration cloth is prepared and properly installed. Membrane pump {membrane_pump} is connected.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "vacuum setting",
+      Content: "Membrane pump {membrane_pump} is set {torr} Torr.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "loading on filter",
+      Content:
+        "Membrane pump {membrane_pump} is started. Product is loaded on the filter {nutsche_filter} using jug. Once 2/3 of the filter is loaded, stop loading.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "discharging ML",
+      Content:
+        "Stop the pump. Connect peristaltic pump {peristaltic_pump} to the bottom valve of the filter using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "washing FK",
+      Content:
+        "Make sure the pump is stopped. Required amount of material is weighed on the balances {balances} using jug. Solvent {material} is loaded on top of filter cake, using shovel {shovel} the filter cake is thoroughly mixed.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "drying on filter",
+      Content:
+        "The filter cake is additionally dried on the filter by keeping membrane pump sucking air through it. Membrane pump {membrane_pump} is set to {torr} Torr. Drying on filter is continued for {time} min. After required time is passed, the pump is stopped.",
+    },
+    {
+      Equipment: "nutsche_filter",
+      OperationType: "unloading from filter",
+      Content:
+        "The lid of the filter {nutsche_filter} is opened. Material from the filter is unloaded using shovel {shovel} <to where>.",
+    },
+    {
+      Equipment: "membrane_pump",
+      OperationType: "vacuum setting",
+      Content: "Membrane pump {membrane_pump} is set to {torr} Torrs.",
+    },
+    {
+      Equipment: "peristaltic_pump",
+      OperationType: "speed setting",
+      Content: "Peristaltic pump {peristaltic_pump} is set to {ppumpSet} %.",
+    },
+  ];
     
 
   // Filter activities based on the equipment type
