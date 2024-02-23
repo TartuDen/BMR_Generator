@@ -56,13 +56,13 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Equipment: "reactor",
       OperationType: "loading_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, weighted material is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
+        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
     },
     {
       Equipment: "reactor",
       OperationType: "dosing_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic pump} and norprene hose {norprene hose}, weighted material is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
+        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
     },
     {
       Equipment: "reactor",
@@ -108,7 +108,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Equipment: "druck_filter",
       OperationType: "discharging ML",
       Content:
-        "Check that product line and argon line are closed. Release top valve on the receiver to make sure there is no extra pressure. Connect peristaltic pump {peristaltic pump} to the bottom valve of the filter {druck_filter} using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
+        "Check that product line and argon line are closed. Release top valve on the receiver to make sure there is no extra pressure. Connect peristaltic pump {peristaltic_pump} to the bottom valve of the filter {druck_filter} using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic_pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
     },
     {
       Equipment: "druck_filter",
@@ -149,7 +149,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Equipment: "nutsche_filter",
       OperationType: "discharging ML",
       Content:
-        "Stop the pump. Connect peristaltic pump {peristaltic_pump} to the bottom valve of the filter using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
+        "Stop the pump. Connect peristaltic pump {peristaltic_pump} to the bottom valve of the filter using norprene hose {norprene hose}. Second end of the hose is securely fixed into receiving container canister, set the speed of peristaltic pump {peristaltic_pump} %. Start the pump. Continue the process until all ML is unloaded into respective receiver.",
     },
     {
       Equipment: "nutsche_filter",
