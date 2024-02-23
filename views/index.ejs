@@ -69,6 +69,7 @@
 
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
+                    console.log(dataFromOperation);
                 }
             </script>
 
@@ -206,8 +207,26 @@
 
                 // Function to parse dataFromOperation to Operation class
                 function parseDataToOperation() {
+                    // Create an list of instances of Equipment class
+                    let equipmentList = [];
+                    for (let key in dataFromOperation) {
+                        if (key.startsWith('equipment_')) {
+                            let equipmentName = key.replace('equipment_', '');
+                            let equipment = new Equipment(equipmentName, dataFromOperation[key]);
+                            equipmentList.push(equipment);
+                        }
+                    }
+                    
                     // Create an instance of TypicalActivity class
-                    let Activity = new TypicalActivity(dataFromOperation['operationType'], dataFromOperation['activityType'],)
+                    let Activity = new TypicalActivity(
+                        dataFromOperation['operationType'],
+                        dataFromOperation['activityType'],
+                        null,
+                        null,
+                        null,
+                        null,
+                        equipmentList
+                    );
 
                     // Create an instance of Operation class
                     let operation = new Operation(1, dataFromOperation['equipmentType'], Activity);
@@ -215,6 +234,18 @@
                     // Do something with the operation object, such as sending it to the server or displaying it on the page
                     console.log(operation);
                 }
+
+                // Function to purge dataFromOperation object
+                function purgeDataFromOperation() {
+                    // Clear the dataFromOperation object EXCEPT equipmentType
+                    for (let key in dataFromOperation) {
+                        if (key !== 'equipmentType') {
+                            delete dataFromOperation[key];
+                        }
+                    }
+                    console.log("Data from operation purged.");
+                }
+
 
             </script>
 

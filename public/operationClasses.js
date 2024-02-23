@@ -32,8 +32,8 @@ class TypicalActivity {
     this.content = content !== undefined ? content : "";
     this.durationMIN = durationMIN !== undefined ? durationMIN : null; // or -1
     this.durationMAX = durationMAX !== undefined ? durationMAX : null; // or -1
-    this.temperatureMIN = temperatureMIN !== undefined ? temperatureMIN : 0;
-    this.temperatureMAX = temperatureMAX !== undefined ? temperatureMAX : 0;
+    this.temperatureMIN = temperatureMIN !== undefined ? temperatureMIN : null;
+    this.temperatureMAX = temperatureMAX !== undefined ? temperatureMAX : null;
     this.additionalEquipment =
       additionalEquipment !== undefined ? additionalEquipment : [];
   }
