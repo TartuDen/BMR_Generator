@@ -9,7 +9,7 @@ async function GetParametersForOperationsMOCK() {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of parameters for operations
-  const parameters = ["time", "temp", "rpm", "flow", "ppumpSet"];
+  const parameters = ["time", "temp", "rpm", "flow", "ppumpSet","torr"];
 
   return parameters;
 }
@@ -113,7 +113,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       {
         Equipment: "druck_filter",
         OperationType: "drying on filter",
-        Content: "The filter cake is additionally dried on the filter using argon flow. Argon is set to l/min, check that outlet valve is opened and the stream is led to the ventilation. Argon line is opened. Drying on filter is continued for min. After required time is passed, the argon line is closed.",
+        Content: "The filter cake is additionally dried on the filter using argon flow. Argon is set to {flow} l/min, check that outlet valve is opened and the stream is led to the ventilation. Argon line is opened. Drying on filter is continued for min. After required time is passed, the argon line is closed.",
       },
       {
         Equipment: "druck_filter",
@@ -127,7 +127,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       {
         Equipment: "nutsche_filter",
         OperationType: "vacuum setting",
-        Content: "Membrane pump is set % setting Torr.",
+        Content: "Membrane pump is set {torr} Torr.",
       },
       {
         Equipment: "nutsche_filter",
@@ -147,7 +147,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       {
         Equipment: "nutsche_filter",
         OperationType: "drying on filter",
-        Content: "The filter cake is additionally dried on the filter by keeping membrane pump sucking air through it. Membrane pump is set to setting Torr. Drying on filter is continued for setting min. After required time is passed, the pump is stopped.",
+        Content: "The filter cake is additionally dried on the filter by keeping membrane pump sucking air through it. Membrane pump is set to {torr} Torr. Drying on filter is continued for {time} min. After required time is passed, the pump is stopped.",
       },
       {
         Equipment: "nutsche_filter",
@@ -157,12 +157,12 @@ async function GetListReactorActivityMOCK(equipmentType) {
       {
         Equipment: "membrane_pump",
         OperationType: "vacuum setting",
-        Content: "Membrane pump is set to setting Torrs.",
+        Content: "Membrane pump is set to {torr} Torrs.",
       },
       {
         Equipment: "peristaltic_pump",
         OperationType: "speed setting",
-        Content: "Membrane pump is set to setting %.",
+        Content: "Membrane pump is set to {ppumpSet} %.",
       },
     ];
     
