@@ -38,15 +38,22 @@
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
                 </script>
-            
-            <!-- Script for storing the received JWT token in local storage -->
-            <script>
-                // Retrieve the token passed from the server
-                const token = '<%= token %>';
 
-                // Store the token in local storage
-                localStorage.setItem("jwtToken",token)
+            <!-- should we delete this script??? -->
+            <script>// script for selecting 'description' inside {} make bold font
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    function boldTextInBraces(text) {
+                        return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
+                    }
+
+                    // Example usage:
+                    const contentElement = document.getElementById('description');
+                    contentElement.innerHTML = boldTextInBraces(contentElement.innerHTML);
+                });
             </script>
+            <!-- ______________________ -->
+
             <script>
                 var dataFromOperation = {};
                 /**
