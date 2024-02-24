@@ -1,6 +1,37 @@
 // apiMocks.js
 
 /**
+ * Mock function to simulate fetching an authorization token.
+ * This function returns a hardcoded token.
+ * 
+ * @param {string} username - The username for authentication.
+ * @param {string} password - The password for authentication.
+ * @returns {Promise<string>} A Promise that resolves with the mock authorization token.
+ */
+async function GetAuthTokenMOCK(username, password) {
+    const tokenExpirationTime = 3600 * 1000; // Token expiration time in milliseconds (e.g., 1 hour)
+    
+    // Check if token exists in the session and is not expired
+    const storedToken = sessionStorage.getItem('authToken');
+    const storedTokenTimestamp = sessionStorage.getItem('authTokenTimestamp');
+    const currentTime = new Date().getTime();
+
+    if (storedToken && storedTokenTimestamp && (currentTime - storedTokenTimestamp < tokenExpirationTime)) {
+        // Token exists and is not expired, return it
+        return Promise.resolve(storedToken);
+    } else {
+        // Generate a new token (mocked)
+        const mockToken = 'mockAuthToken123';
+        
+        // Store the new token and timestamp in the session
+        sessionStorage.setItem('authToken', mockToken);
+        sessionStorage.setItem('authTokenTimestamp', currentTime.toString());
+        
+        return Promise.resolve(mockToken);
+    }
+}
+
+/**
  * Simulates retrieving a list of parameters for operations with a delay.
  *
  * @returns {Promise<Array>} A promise that resolves with the simulated list of parameters for operations.
