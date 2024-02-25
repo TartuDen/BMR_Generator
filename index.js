@@ -32,7 +32,6 @@ app.use(mockAuthentication);
 
 
 
-
 app.get("/", (req, res) => {
     console.log("1token:");
     console.log(req.token);

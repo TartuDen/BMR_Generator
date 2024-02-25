@@ -102,7 +102,7 @@
 
 
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        let response = await axios.get(url);
+                        let response = await axios.get(url,config);
                         let equipmentTypes = (response.data)
                         equipmentTypes = JSON.parse(response.data)
                         var selectElement = document.getElementById('equipmentType');

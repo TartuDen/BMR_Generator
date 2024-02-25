@@ -4,6 +4,7 @@ const settings = {
   equipmentTypesApiEndpoint: "/equipment_list",
   activityApiEndpoint: "/api/activities",
   parametersApiEndpoint: "/api/parameters",
+  authApiEndpoint: "/auth"
 };
 
 // Export the settings object so it can be imported in other files
