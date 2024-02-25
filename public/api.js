@@ -1,4 +1,6 @@
 // api.js
+import settings from '/settings.js';
+
 
 /**
  * Function to fetch the authorization token from the server.
@@ -9,6 +11,7 @@
  */
 async function GetAuthToken(username, password) {
     try {
+      console.log(`${settings.databaseServerUrl}${settings.authApiEndpoint}`);
         const response = await fetch(`${settings.databaseServerUrl}${settings.authApiEndpoint}`, {
             method: 'POST',
             headers: {
@@ -50,19 +53,26 @@ async function GetParametersForOperations() {
 /**
  * Retrieves a list of equipment types from the server.
  *
+ * @param {string} token - The JWT token to include in the request headers.
  * @returns {Promise<Array>} A promise that resolves with the list of equipment types.
  * @throws {Error} If an error occurs during the retrieval process.
  */
-async function GetListEquipmentTypes() {
+async function GetListEquipmentTypes(token) {
   try {
     const url = `${databaseServerUrl}${equipmentTypesApiEndpoint}`;
-    const response = await axios.get(url);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const response = await axios.get(url, config);
     return response.data;
   } catch (error) {
     console.error("Error fetching equipment types:", error);
     throw error;
   }
 }
+
 
 /**
  * Retrieves a list of activities for a specific equipment type from the server.
