@@ -38,14 +38,14 @@
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
                 </script>
-            
+
             <!-- Script for storing the received JWT token in local storage -->
             <script>
                 // Retrieve the token passed from the server
                 const token = '<%= token %>';
-
                 // Store the token in local storage
-                localStorage.setItem("jwtToken",token)
+                localStorage.setItem("jwtToken", token)
+
             </script>
             <script>
                 var dataFromOperation = {};
@@ -86,15 +86,25 @@
                  */
                 async function populateEquipmentTypes() {
                     try {
+                        //Retireve the JWT token from the local storage:
+                        const token = localStorage.getItem("jwtToken");
+
+
+                        // Set the JWT token as a header in the request
+                        const config = {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        };
+
                         let url = settings.databaseServerUrl + settings.equipmentTypesApiEndpoint;
+
+
+
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
                         let response = await axios.get(url);
                         let equipmentTypes = (response.data)
                         equipmentTypes = JSON.parse(response.data)
-                        console.log("here:");
-                        console.log(response);
-                        console.log(equipmentTypes);
-
                         var selectElement = document.getElementById('equipmentType');
 
                         // Clear previous options
@@ -218,7 +228,7 @@
                             equipmentList.push(equipment);
                         }
                     }
-                    
+
                     // Create an instance of TypicalActivity class
                     let Activity = new TypicalActivity(
                         dataFromOperation['operationType'],

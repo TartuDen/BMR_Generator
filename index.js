@@ -16,9 +16,6 @@ const mockUser = {// Mock user details
 }
 const secretKey = crypto.randomBytes(32).toString('hex');
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Middleware to generate JWT token
 function mockAuthentication(req, res, next) {
     //Generate JWT token for the mock user
@@ -28,10 +25,17 @@ function mockAuthentication(req, res, next) {
     // Call the next middleware
     next();
 }
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(mockAuthentication);
+
+
 
 
 
 app.get("/", (req, res) => {
+    console.log("1token:");
+    console.log(req.token);
 
     res.status(200).render("index.ejs", {token: req.token});
 });
