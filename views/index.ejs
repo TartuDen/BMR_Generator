@@ -66,12 +66,15 @@
                 }
             </script>
 
-            <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
             <script src="callFunc.js"></script>
             <script src="apiMocks.js"></script>
             <script src="api.js"></script>
             <script src="helpers.js"></script>
             <script src="operationClasses.js"></script>
+            <script src="settings.js"></script>
+
+
 
             <script>
 
@@ -83,8 +86,14 @@
                  */
                 async function populateEquipmentTypes() {
                     try {
+                        let url = settings.databaseServerUrl + settings.equipmentTypesApiEndpoint;
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const equipmentTypes = await GetListEquipmentTypesMOCK();
+                        let response = await axios.get(url);
+                        let equipmentTypes = (response.data)
+                        equipmentTypes = JSON.parse(response.data)
+                        console.log("here:");
+                        console.log(response);
+                        console.log(equipmentTypes);
 
                         var selectElement = document.getElementById('equipmentType');
 

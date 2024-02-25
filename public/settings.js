@@ -1,9 +1,10 @@
-module.exports = {
-  databaseServerUrl: "http://database-server",
+const settings = {
+  databaseServerUrl: "http://localhost:8081",
   equipmentApiEndpoint: "/api/equipment",
-  equipmentTypesApiEndpoint: "/api/equipment/types",
+  equipmentTypesApiEndpoint: "/equipment_list",
   activityApiEndpoint: "/api/activities",
   parametersApiEndpoint: "/api/parameters",
 };
 
-module.exports = settings;
+// Export the settings object so it can be imported in other files
+window.settings = settings;
