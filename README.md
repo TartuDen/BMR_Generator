@@ -48,7 +48,7 @@ The application supports various equipment types commonly used in pharmaceutical
 
 ### Header
 After login, we start with header of the table. Header consists of 2 columns:
-![alt text](./img/header.png)
+![alt text](./public/img/header.png)
 
 **Main Equipment**
 1. **Reactor** drop down list we select reactor 002-17; Second reacotor in second dd list will remain empty, our process requires only one reactor.
