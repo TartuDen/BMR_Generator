@@ -1,32 +1,29 @@
 // api.js
+import axios from 'axios';
 
 /**
- * Function to fetch the authorization token from the server.
+ * Function to fetch the authorization token from the server using axios.
  * 
  * @param {string} username - The username for authentication.
  * @param {string} password - The password for authentication.
  * @returns {Promise<string>} A Promise that resolves with the authorization token from the server.
  */
 async function GetAuthToken(username, password) {
-    try {
-        const response = await fetch(`${settings.databaseServerUrl}${settings.authApiEndpoint}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        });
+  try {
+      const response = await axios.post(`${settings.databaseServerUrl}${settings.authApiEndpoint}`, {
+          username,
+          password
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch authorization token');
-        }
+      if (!response.data.token) {
+          throw new Error('Failed to fetch authorization token');
+      }
 
-        const { token } = await response.json();
-        return token;
-    } catch (error) {
-        console.error('Error fetching authorization token:', error.message);
-        throw error;
-    }
+      return response.data.token;
+  } catch (error) {
+      console.error('Error fetching authorization token:', error.message);
+      throw error;
+  }
 }
 
 /**

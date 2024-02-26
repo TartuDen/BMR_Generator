@@ -88,23 +88,19 @@
                     try {
                         //Retireve the JWT token from the local storage:
                         const token = localStorage.getItem("jwtToken");
-
-
                         // Set the JWT token as a header in the request
                         const config = {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
                         };
-
                         let url = settings.databaseServerUrl + settings.equipmentTypesApiEndpoint;
-
-
-
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
                         let response = await axios.get(url,config);
                         let equipmentTypes = (response.data)
                         equipmentTypes = JSON.parse(response.data)
+
+
                         var selectElement = document.getElementById('equipmentType');
 
                         // Clear previous options
