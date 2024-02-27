@@ -51,7 +51,7 @@ After login, on the top of page have header section of the table. Header consist
 ![alt text](./public/img/header.png)
 
 **Main Equipment**
-1. **Reactor** drop down list we select reactor 002-17; Second reacotor in second dd list will remain empty, our process requires only one reactor.
+1. **Reactor** drop-down list we select reactor 002-17; Second reactor in second dd list will remain empty, our process requires only one reactor.
 2. **Oven** - 012-13
 3. **Balances** - 007-42 and 007-10;
 4. **Peristaltic pump** - 001-13;
@@ -61,14 +61,14 @@ After login, on the top of page have header section of the table. Header consist
 1. In empty fields type names of the reagents / starting materials or solvents.
 
 ### Body part
-Below header we have body part, it is one row that has 3 columns:
+Below the header we have a body part, it is one row that has 3 columns:
 **Sequence number**
 **Equipment**
-has 2 drop down menues:
-1. Equipment type - selecting among mani equipment.
-2. Type of Activity - based on selected equipment, populates with specific type of operations.
-**Description** - After selecting Equipmen type and Type of activity, this cell will be populated with respective operation.
-**Other** - here will be placeholders for recording actual data during the operaiton.
+has 2 drop-down menus:
+1. Equipment type - selecting among main equipment.
+2. Type of Activity - based on selected equipment, populates with specific types of operations.
+**Description** - After selecting the Equipment type and Type of activity, this cell will be populated with the respective operations.
+**Other** - there will be placeholders for recording actual data during the operation.
 
 Here's an example of how the process description is structured:
 
@@ -76,13 +76,8 @@ Here's an example of how the process description is structured:
   - **Equipment Code**: 002-10
     - **Type of Activity**: Loading of Solid
         **Description**:
-            Required amount of {material} is weighed on the balances {balances} using jug {jug}.
-            Material is loaded into reactor {equipmentCode} via 60 mm flange port using funnel {funnel}.
+            The required amount of {select material} is weighed on the balances {select balances} using jug {jug}.
+            Material is loaded into reactor {select reactor} via 60 mm flange port using funnel {select funnel}.
             The 60 mm flange port is closed.
-            ***NB!In the description, variables within curly braces {} indicate placeholders for specific details that need to be filled in by the operator, such as materials, balances, jug, and funnel.***
-    *(next options appear in the table IF listed in the description)*
-    - **durationMin/Max,°C**: 15-25°C
-    - **additional equipment**
-        --***balances***: 007-42;
-        --***jug***: tile
-        --***funnel***: tile
+            ***NB! In the description, variables within curly braces {} indicate placeholders for specific details that need to be filled in by the operator, such as materials, balances, jug, and funnel.***
+- Press **Save** and operation, together with sequence code, all relevant equipment, utensils and material used in operation will be saved in a struct.
