@@ -67,9 +67,109 @@ This application is designed to facilitate the creation of batch records for ope
 ![creating operation, selecting main equpment](./public/img/canva1.png)
 ![creating operation, selecting activity type and description](./public/img/canva2.png)
 
-## Data Model and Database Schema
-- Overview of the data model, including entities, attributes, and relationships.
-- Database schema design based on the data model.
+## Data Model and Database Schema !!work in progress!!
+
+### Data Model
+
+The data model for the Batch Record Creation App includes entities representing users, batch records, equipment, materials, and operations.
+
+#### Entities:
+
+1. **User**
+   - Attributes:
+     - UserID (Primary Key)
+     - Email
+     - Password
+   - Relationships:
+     - One-to-Many relationship with BatchRecord entity (One user can have multiple batch records)
+
+2. **BatchRecord**
+   - Attributes:
+     - BatchRecordID (Primary Key)
+     - ProjectName
+     - TechnologicalProcess
+   - Relationships:
+     - One-to-Many relationship with Operation entity (One batch record can have multiple operations)
+     - Many-to-One relationship with User entity (Many batch records belong to one user)
+
+3. **Operation**
+   - Attributes:
+     - OperationID (Primary Key)
+     - SequenceNumber
+     - EquipmentType
+     - ActivityType
+     - Description
+     - OtherData
+   - Relationships:
+     - Many-to-One relationship with BatchRecord entity (Many operations belong to one batch record)
+
+4. **Equipment**
+   - Attributes:
+     - EquipmentID (Primary Key)
+     - EquipmentType
+     - EquipmentCode
+   - Relationships:
+     - Many-to-Many relationship with Operation entity (Many operations can involve multiple pieces of equipment)
+
+5. **Material**
+   - Attributes:
+     - MaterialID (Primary Key)
+     - MaterialName
+   - Relationships:
+     - Many-to-Many relationship with Operation entity (Many operations can involve multiple materials)
+
+### Database Schema
+
+Based on the data model, the database schema would consist of tables for each entity and their respective attributes. Here's an example of how the database schema could be designed:
+
+#### Tables:
+
+1. **Users**
+   - Columns:
+     - UserID (Primary Key)
+     - Email
+     - Password
+
+2. **BatchRecords**
+   - Columns:
+     - BatchRecordID (Primary Key)
+     - UserID (Foreign Key)
+     - ProjectName
+     - TechnologicalProcess
+
+3. **Operations**
+   - Columns:
+     - OperationID (Primary Key)
+     - BatchRecordID (Foreign Key)
+     - SequenceNumber
+     - EquipmentType
+     - ActivityType
+     - Description
+     - OtherData
+
+4. **Equipment**
+   - Columns:
+     - EquipmentID (Primary Key)
+     - EquipmentType
+     - EquipmentCode
+
+5. **Materials**
+   - Columns:
+     - MaterialID (Primary Key)
+     - MaterialName
+
+6. **OperationEquipment** (Many-to-Many Relationship Table)
+   - Columns:
+     - OperationID (Foreign Key)
+     - EquipmentID (Foreign Key)
+
+7. **OperationMaterials** (Many-to-Many Relationship Table)
+   - Columns:
+     - OperationID (Foreign Key)
+     - MaterialID (Foreign Key)
+
+This database schema reflects the relationships between entities and provides a structure for storing and managing data related to users, batch records, operations, equipment, and materials in the Batch Record Creation App.
+
 
 ## Technology Stack
 - Frontend and backend technologies and frameworks.
