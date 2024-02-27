@@ -47,7 +47,7 @@ The application supports various equipment types commonly used in pharmaceutical
 ## User case example.
 
 ### Header
-After login, we start with header of the table. Header consists of 2 columns:
+After login, on the top of page have header section of the table. Header consists of 2 columns:
 ![alt text](./public/img/header.png)
 
 **Main Equipment**
@@ -60,7 +60,15 @@ After login, we start with header of the table. Header consists of 2 columns:
 **Materials**
 1. In empty fields type names of the reagents / starting materials or solvents.
 
-
+### Body part
+Below header we have body part, it is one row that has 3 columns:
+**Sequence number**
+**Equipment**
+has 2 drop down menues:
+1. Equipment type - selecting among mani equipment.
+2. Type of Activity - based on selected equipment, populates with specific type of operations.
+**Description** - After selecting Equipmen type and Type of activity, this cell will be populated with respective operation.
+**Other** - here will be placeholders for recording actual data during the operaiton.
 
 Here's an example of how the process description is structured:
 
