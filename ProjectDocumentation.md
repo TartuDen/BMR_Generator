@@ -50,7 +50,6 @@ This application is designed to facilitate the creation of batch records for ope
   - **Acceptance Criteria:**
     - Moderators should have the ability to update, edit, or delete the core content of operations within a batch record.
 
-
 ### Dependencies
 
 1. **Database Management**
@@ -65,8 +64,8 @@ This application is designed to facilitate the creation of batch records for ope
    - Robust security measures should be implemented to protect user data, prevent unauthorized access, and ensure compliance with regulatory requirements in pharmaceutical manufacturing.
 
 ## Wireframes or Mockups
-- Visual representations of the layout and user interface.
-- Created using design tools like Figma, Sketch, or Adobe XD.
+![creating operation, selecting main equpment](./public/img/canva1.png)
+![creating operation, selecting activity type and description](./public/img/canva2.png)
 
 ## Data Model and Database Schema
 - Overview of the data model, including entities, attributes, and relationships.
