@@ -1,4 +1,4 @@
-# Project Name
+# BR_Generator
 
 ## Overview
 This application is designed to facilitate the creation of batch records for operators in pharmaceutical manufacturing. It provides a structured table format where user can input sequential operational details, equipment selections, process descriptions, and record actual data.

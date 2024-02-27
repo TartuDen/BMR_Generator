@@ -1,4 +1,4 @@
-# Batch Record Creation App for Pharma Manufacturing
+# BR_Generator
 
 ## Overview
 
