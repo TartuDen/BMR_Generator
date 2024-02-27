@@ -3,6 +3,7 @@ class Operation {
     number,
     mainEquipmentType,
     typicalActivity,
+    parameters,
     materialIn,
     materialOut,
     wastes
@@ -12,6 +13,7 @@ class Operation {
       mainEquipmentType !== undefined ? mainEquipmentType : "";
     this.typicalActivity =
       typicalActivity !== undefined ? typicalActivity : null;
+    this.parameters = parameters !== undefined ? parameters : [];
     this.materialIn = materialIn !== undefined ? materialIn : [];
     this.materialOut = materialOut !== undefined ? materialOut : [];
     this.wastes = wastes !== undefined ? wastes : [];
@@ -47,6 +49,13 @@ class Equipment {
     this.size = size !== undefined ? size : "";
     this.material = material !== undefined ? material : "";
     this.utensils = utensils !== undefined ? utensils : false;
+  }
+}
+
+class Parameter {
+  constructor(name, value) {
+    this.name = name;
+    this.value = value;
   }
 }
 

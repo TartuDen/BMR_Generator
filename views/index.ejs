@@ -209,11 +209,18 @@
                 function parseDataToOperation() {
                     // Create an list of instances of Equipment class
                     let equipmentList = [];
+                    let parametersList = [];
                     for (let key in dataFromOperation) {
                         if (key.startsWith('equipment_')) {
                             let equipmentName = key.replace('equipment_', '');
                             let equipment = new Equipment(equipmentName, dataFromOperation[key]);
                             equipmentList.push(equipment);
+                        }
+                        
+                        if (key.startsWith('parameter_')) {
+                        let parameterName = key.replace('parameter_', '');
+                        let parameter = new Parameter(parameterName, dataFromOperation[key]);
+                        parametersList.push(parameter);
                         }
                     }
                     
@@ -229,7 +236,7 @@
                     );
 
                     // Create an instance of Operation class
-                    let operation = new Operation(1, dataFromOperation['equipmentType'], Activity);
+                    let operation = new Operation(1, dataFromOperation['equipmentType'], Activity, parametersList);
 
                     // Do something with the operation object, such as sending it to the server or displaying it on the page
                     console.log(operation);
