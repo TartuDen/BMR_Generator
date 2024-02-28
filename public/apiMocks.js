@@ -9,26 +9,26 @@
  * @returns {Promise<string>} A Promise that resolves with the mock authorization token.
  */
 async function GetAuthTokenMOCK(username, password) {
-    const tokenExpirationTime = 3600 * 1000; // Token expiration time in milliseconds (e.g., 1 hour)
-    
-    // Check if token exists in the session and is not expired
-    const storedToken = sessionStorage.getItem('authToken');
-    const storedTokenTimestamp = sessionStorage.getItem('authTokenTimestamp');
-    const currentTime = new Date().getTime();
+  const tokenExpirationTime = 3600 * 1000; // Token expiration time in milliseconds (e.g., 1 hour)
 
-    if (storedToken && storedTokenTimestamp && (currentTime - storedTokenTimestamp < tokenExpirationTime)) {
-        // Token exists and is not expired, return it
-        return Promise.resolve(storedToken);
-    } else {
-        // Generate a new token (mocked)
-        const mockToken = 'mockAuthToken123';
-        
-        // Store the new token and timestamp in the session
-        sessionStorage.setItem('authToken', mockToken);
-        sessionStorage.setItem('authTokenTimestamp', currentTime.toString());
-        
-        return Promise.resolve(mockToken);
-    }
+  // Check if token exists in the session and is not expired
+  const storedToken = sessionStorage.getItem('authToken');
+  const storedTokenTimestamp = sessionStorage.getItem('authTokenTimestamp');
+  const currentTime = new Date().getTime();
+
+  if (storedToken && storedTokenTimestamp && (currentTime - storedTokenTimestamp < tokenExpirationTime)) {
+    // Token exists and is not expired, return it
+    return Promise.resolve(storedToken);
+  } else {
+    // Generate a new token (mocked)
+    const mockToken = 'mockAuthToken123';
+
+    // Store the new token and timestamp in the session
+    sessionStorage.setItem('authToken', mockToken);
+    sessionStorage.setItem('authTokenTimestamp', currentTime.toString());
+
+    return Promise.resolve(mockToken);
+  }
 }
 
 /**
@@ -40,7 +40,7 @@ async function GetParametersForOperationsMOCK() {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of parameters for operations
-  const parameters = ["time", "temp", "rpm", "flow", "ppumpSet","torr"];
+  const parameters = ["time", "temp", "rpm", "flow", "ppumpSet", "torr"];
 
   return parameters;
 }
@@ -79,27 +79,52 @@ async function GetListReactorActivityMOCK(equipmentType) {
   var activities = [
     {
       Equipment: "reactor",
+      OperationType: "preparation_of_reactor",
+      Content:
+        `The reactor {reactor} and thermostat are checked to be ready for work. Stirrer drive is installed.
+        On lid (clockwise):
+        1. Reflux condenser on ball ground joint
+        2. 60 mm flange port (with lid)
+        3. Valve (for loading liquid).
+        4. Overpressure release valve
+        5. Liquid dosage system
+        6. Thermometer
+        7. Valve with PTFE tubing for sparging of argon, closed, connected to argon cylinder with reducing valve;
+        Cold trap is connected behind the reactor.`
+
+    },
+    {
+      Equipment: "reactor",
       OperationType: "loading_of_solid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}, weighted material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.",
+        `Required amount of {material} is weighed on the balances {balances} using jug {jug}, weighted material is loaded into reactor {reactor} via 60 mm flange port using funnel {funnel}. The 60 mm flange port is closed.
+        Specified amount: ….. kg (….. - ….. kg)`,
     },
     {
       Equipment: "reactor",
       OperationType: "loading_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.",
+        `Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into reactor via liquid loading valve. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. The 60 mm flange port is closed. Hose is cleaned.
+        Specified amount: ….. kg (….. - ….. kg)`,
     },
     {
       Equipment: "reactor",
       OperationType: "dosing_of_liquid",
       Content:
-        "Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.",
+        `Required amount of {material} is weighed on the balances {balances} using jug {jug}. Using peristaltic pump  {peristaltic_pump} and norprene hose {norprene hose}, weighted material is pumped into dosing system. Peristaltic pump is set to {ppumpSet}%. After loading is done, pump is stopped, hose is removed. Dosing system is closed. Hose is cleaned.
+        Specified amount: ….. kg (….. - ….. kg)`,
     },
     {
       Equipment: "reactor",
       OperationType: "creating_argon_flow",
       Content:
         "Argon line is connected to the argon port of reactor {reactor}. The Argon {material} flow is set to {flow}l/min. The valve is opened. After required time is passed, the argon flow is closed.",
+    },    
+    {
+      Equipment: "reactor",
+      OperationType: "hold_time",
+      Content:
+        "Reaction mixture is stirred during {time}-{time}h. Temperature set is {tepm}°C. Stirring is set to {rpm}rpm.",
     },
     {
       Equipment: "reactor",
@@ -115,7 +140,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Equipment: "reactor",
       OperationType: "heating_on",
       Content:
-        "Heating for reactor {reactor} is turned ON. Temperature is set to {temp}°C.",
+        "Heating for reactor {reactor} is turned ON. Temperature is set to {temp}°C. Target temperature is {temp}-{temp}°C. Once temperature is in given range, setting is changed to {temp}°C.",
     },
     {
       Equipment: "druck_filter",
@@ -211,7 +236,7 @@ async function GetListReactorActivityMOCK(equipmentType) {
       Content: "Peristaltic pump {peristaltic_pump} is set to {ppumpSet} %.",
     },
   ];
-    
+
 
   // Filter activities based on the equipment type
   if (equipmentType) {
