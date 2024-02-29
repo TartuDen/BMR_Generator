@@ -1,5 +1,5 @@
 // api.js
-import settings from './public/settings.js';
+import settings from '/settings.js'; 
 
 
 /**
