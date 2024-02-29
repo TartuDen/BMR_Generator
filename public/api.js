@@ -1,5 +1,5 @@
 // api.js
-import settings from '/settings.js';
+import settings from './public/settings.js';
 
 
 /**
@@ -10,6 +10,7 @@ import settings from '/settings.js';
  * @returns {Promise<string>} A Promise that resolves with the authorization token from the server.
  */
 async function GetAuthToken(username, password) {
+  console.log("hello")
     try {
       console.log(`${settings.databaseServerUrl}${settings.authApiEndpoint}`);
         const response = await fetch(`${settings.databaseServerUrl}${settings.authApiEndpoint}`, {

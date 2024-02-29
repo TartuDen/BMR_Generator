@@ -82,12 +82,8 @@
 
             <script>
 
-                /**
-                 * Function to populate the equipment types dropdown.
-                 * Retrieves the list of equipment types and populates the dropdown with them.
-                 * 
-                 * @returns {Promise<void>} A Promise that resolves when the dropdown is populated successfully.
-                 */
+
+
                 async function populateEquipmentTypes() {
                     try {
                         let token = await GetAuthToken("den", "123");
@@ -121,8 +117,14 @@
                 }
 
                 // Call populateEquipmentTypes function when the page loads
-                window.onload = function () {
-                    populateEquipmentTypes();
+                window.onload = async function () {
+                    try {
+                        // Call populateEquipmentTypes to fetch equipment types and handle token retrieval
+                        await populateEquipmentTypes();
+                    } catch (error) {
+                        console.error("Error populating equipment types:", error);
+                        // Handle the error if needed
+                    }
                 };
 
 
