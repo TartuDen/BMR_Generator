@@ -1,5 +1,12 @@
 // api.js
-import settings from '/settings.js'; 
+const settings = {
+  databaseServerUrl: "http://localhost:8080/",
+  equipmentApiEndpoint: "/api/equipment",
+  equipmentTypesApiEndpoint: "/api/equipment/types",
+  activityApiEndpoint: "/api/activities",
+  parametersApiEndpoint: "/api/parameters",
+  authApiEndpoint: "/login"
+}; 
 
 
 /**
@@ -12,8 +19,8 @@ import settings from '/settings.js';
 async function GetAuthToken(username, password) {
   console.log("hello")
     try {
-      console.log(`${settings.databaseServerUrl}${settings.authApiEndpoint}`);
-        const response = await fetch(`${settings.databaseServerUrl}${settings.authApiEndpoint}`, {
+      console.log(`${databaseServerUrl}${authApiEndpoint}`);
+        const response = await fetch(`${databaseServerUrl}${authApiEndpoint}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

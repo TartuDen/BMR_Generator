@@ -39,21 +39,6 @@
                 crossorigin="anonymous">
                 </script>
 
-            <!-- should we delete this script??? -->
-            <script>// script for selecting 'description' inside {} make bold font
-
-                document.addEventListener("DOMContentLoaded", function () {
-                    function boldTextInBraces(text) {
-                        return text.replace(/\{([^}]+)\}/g, '<strong>{$1}</strong>');
-                    }
-
-                    // Example usage:
-                    const contentElement = document.getElementById('description');
-                    contentElement.innerHTML = boldTextInBraces(contentElement.innerHTML);
-                });
-            </script>
-            <!-- ______________________ -->
-
             <script>
                 var dataFromOperation = {};
                 /**
@@ -73,10 +58,9 @@
                 }
             </script>
 
-            <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
             <script src="callFunc.js"></script>
             <script src="apiMocks.js"></script>
-            <script type="module" src="api.js"></script>
             <script src="helpers.js"></script>
             <script src="operationClasses.js"></script>
 
@@ -86,53 +70,43 @@
 
                 async function populateEquipmentTypes() {
                     try {
-                        let token = await GetAuthToken("den", "123");
+                        let response = await axios.get("http://localhost:8081/equipment_list");
+                        
+                        let equipmentTypes = JSON.parse(response.data);
 
-                        // Store the token in sessionStorage
-                        sessionStorage.setItem('jwtToken', token);
-
-
-                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const equipmentTypes = await GetListEquipmentTypes(sessionStorage.getItem('jwtToken'));
-
-                        var selectElement = document.getElementById('equipmentType');
-
-                        // Clear previous options
-                        selectElement.innerHTML = '';
-
-                        // Add default option "--select--"
-                        addDefaultOption(selectElement);
-
-                        // Add equipment types as options
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.name;
-                            option.textContent = equipmentType.name;
-                            selectElement.appendChild(option);
-                        });
+                        // Check if equipmentTypes is an array or not
+                        if (Array.isArray(equipmentTypes)) {
+                            var selectElement = document.getElementById('equipmentType');
+                            selectElement.innerHTML = '';
+                            addDefaultOption(selectElement);
+                            equipmentTypes.forEach(function (equipmentType) {
+                                var option = document.createElement('option');
+                                option.value = equipmentType.name;
+                                option.textContent = equipmentType.name;
+                                selectElement.appendChild(option);
+                            });
+                        } else {
+                            console.error("Received data is not an array:", equipmentTypes);
+                            // Handle the case where data is not an array
+                        }
                     } catch (error) {
                         console.error("Error populating equipment types:", error);
                         // Handle the error if needed
                     }
                 }
 
-                // Call populateEquipmentTypes function when the page loads
                 window.onload = async function () {
-                    try {
-                        // Call populateEquipmentTypes to fetch equipment types and handle token retrieval
-                        await populateEquipmentTypes();
-                    } catch (error) {
-                        console.error("Error populating equipment types:", error);
-                        // Handle the error if needed
-                    }
+                    await populateEquipmentTypes();
                 };
+
 
 
                 // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const activityTypes = await GetListReactorActivityMOCK(dataFromOperation["equipmentType"]);
+                        const response = await axios.post("http://localhost:8081/filter?equipmentType="+dataFromOperation["equipmentType"]);
+                        let activityTypes = JSON.parse(response.data);
                         var selectElement = document.getElementById('activityType');
 
                         // Clear previous options
