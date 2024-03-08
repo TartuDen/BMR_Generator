@@ -27,50 +27,48 @@
                     <h2>Main Table</h2>
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <th>Reactor:</th>
-                                <td>
-                                    <select id="reactor1" class="form-select"></select>
-                                </td>
-                                <td>
-                                    <select id="reactor2" class="form-select"></select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Oven:</th>
-                                <td colspan="2"><select id="oven"  class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Membrane pump:</th>
-                                <td><select id="m_pump1" class="form-select"></select></td>
-                                <td><select id="m_pump2" class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Peristaltic pump:</th>
-                                <td><select id="p_pump1" class="form-select"></select></td>
-                                <td><select id="p_pump2" class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Oil pump:</th>
-                                <td colspan="2"><select id="o_pump" class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Nutsche filter:</th>
-                                <td colspan="2"><select id="nutsche_filter" class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Druck filter:</th>
-                                <td colspan="2"><select id="druck_filter" class="form-select"></select></td>
-                            </tr>
-                            <tr>
-                                <th>Balances:</th>
-                                <td>
-                                    <select id="balances1" class="form-select"></select>
-                                </td>
-                                <td>
-                                    <select id="balances2" class="form-select"></select>
-                                </td>
-                            </tr>
+                            <form action="/" method="post">
+                                <tr>
+                                    <th>Reactor:</th>
+                                    <td><select id="reactor1" name="reactor1" class="form-select"></select></td>
+                                    <td><select id="reactor2" name="reactor2" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Oven:</th>
+                                    <td colspan="2"><select id="oven" name="oven" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Membrane pump:</th>
+                                    <td><select id="m_pump1" name="m_pump1" class="form-select"></select></td>
+                                    <td><select id="m_pump2" name="m_pump2" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Peristaltic pump:</th>
+                                    <td><select id="p_pump1" name="p_pump1" class="form-select"></select></td>
+                                    <td><select id="p_pump2" name="p_pump2" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Oil pump:</th>
+                                    <td colspan="2"><select id="o_pump" name="o_pump" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Nutsche filter:</th>
+                                    <td colspan="2"><select id="nutsche_filter" name="nutsche_filter" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Druck filter:</th>
+                                    <td colspan="2"><select id="druck_filter" name="druck_filter" class="form-select"></select></td>
+                                </tr>
+                                <tr>
+                                    <th>Balances:</th>
+                                    <td><select id="balances1" name="balances1" class="form-select"></select></td>
+                                    <td><select id="balances2" name="balances2" class="form-select"></select></td>
+                                </tr>
+
+                                <button class="btn bnt-primary" type="submit">submit</button>
+
+                            </form>
+
                         </tbody>
                     </table>
                 </div>
@@ -318,12 +316,12 @@
                     await nutsheFilter();
                     await druckFilter();
                     await balances();
-                    
+
                 };
             </script>
 
             <script>
-                
+
 
 
             </script>
