@@ -16,42 +16,28 @@ app.get("/",(req,res)=>{
     res.status(200).render("main_table.ejs",{});
 });
 
-app.post("/operation_table",(req,res)=>{
-    const {reactor1, reactor2, oven, m_pump1, 
-        m_pump2, p_pump1, p_pump2, o_pump, nutsche_filter, 
-        druck_filter, balances1, balances2} = req.body
-        let equipmentTypes = [];
-    if(reactor1!==""|| reactor2!==""){
-        equipmentTypes.push({name: "reactor"});
-    }
-    if (oven!==""){
-        equipmentTypes.push({name:"oven"});
-    }
-    if (m_pump1!==""|| m_pump2!==""){
-        equipmentTypes.push({name:"membrane_pump"});
-    }
-    if (p_pump1!==""|| p_pump2!==""){
-        equipmentTypes.push({name:"peristaltic_pump"});
-    }
-    if (o_pump!==""){
-        equipmentTypes.push({name:"oil_pump"});
-    }
-    if (nutsche_filter!==""){
-        equipmentTypes.push({name:"nutsche_filter"});
-    }
-    if (druck_filter!==""){
-        equipmentTypes.push({name:"druck_filter"});
-    }
-    if (balances1!==""||balances2!==""){
-        equipmentTypes.push({name:"balances"});
-    }
+app.post("/operation_table", (req, res) => {
+    const { reactor1, reactor2, oven, m_pump1, m_pump2, p_pump1, p_pump2, o_pump, nutsche_filter, druck_filter, balances1, balances2 } = req.body;
 
-    res.status(200).render("index.ejs",{equipmentTypes});
+    const equipmentNames = [
+        { name: "reactor", condition: reactor1 !== "" || reactor2 !== "" },
+        { name: "oven", condition: oven !== "" },
+        { name: "membrane_pump", condition: m_pump1 !== "" || m_pump2 !== "" },
+        { name: "peristaltic_pump", condition: p_pump1 !== "" || p_pump2 !== "" },
+        { name: "oil_pump", condition: o_pump !== "" },
+        { name: "nutsche_filter", condition: nutsche_filter !== "" },
+        { name: "druck_filter", condition: druck_filter !== "" },
+        { name: "balances", condition: balances1 !== "" || balances2 !== "" }
+    ];
+
+    const equipmentTypes = equipmentNames.filter(equipment => equipment.condition).map(equipment => ({ name: equipment.name }));
+
+    res.status(200).render("index.ejs", { equipmentTypes });
 });
 
-app.listen(port,(err)=>{
+app.listen(port, (err) => {
     if (err) {
         console.log(err);
         throw err;
     }
-})
+});
