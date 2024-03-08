@@ -68,12 +68,12 @@
 
                 async function populateEquipmentTypes() {
                     try {
-                        let equipmentTypes = <%- JSON.stringify(equipmentTypes) %>;
-                        console.log("eq types");
-                        console.log(equipmentTypes);
+                        let response = await axios.get("http://localhost:8081/equipment_list");
+                        
+                        let equipmentTypes = JSON.parse(response.data);
 
                         // Check if equipmentTypes is an array or not
-
+                        if (Array.isArray(equipmentTypes)) {
                             var selectElement = document.getElementById('equipmentType');
                             selectElement.innerHTML = '';
                             addDefaultOption(selectElement);
@@ -83,7 +83,10 @@
                                 option.textContent = equipmentType.name;
                                 selectElement.appendChild(option);
                             });
-
+                        } else {
+                            console.error("Received data is not an array:", equipmentTypes);
+                            // Handle the case where data is not an array
+                        }
                     } catch (error) {
                         console.error("Error populating equipment types:", error);
                         // Handle the error if needed
