@@ -12,10 +12,15 @@ const app = express();
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
-
-
 app.get("/",(req,res)=>{
+    res.status(200).render("main_table.ejs",{});
+});
 
+app.post("/",(req,res)=>{
+    res.status(200).render("main_table.ejs",{});
+});
+
+app.get("/operation_table",(req,res)=>{
     res.status(200).render("index.ejs",{});
 });
 

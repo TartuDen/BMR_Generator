@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <title>Main Table</title>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <%- include("partials/header.ejs") %>
+
+        <!-- Main content -->
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <%- include("partials/sidebar.ejs") %>
+
+                <div class="container mt-3">
+                    <h2>Main Table</h2>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Reactor:</th>
+                                <td>
+                                    <select id="reactor1" class="form-select"></select>
+                                </td>
+                                <td>
+                                    <select id="reactor2" class="form-select"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Oven:</th>
+                                <td colspan="2"><select id="oven"  class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Membrane pump:</th>
+                                <td><select id="m_pump1" class="form-select"></select></td>
+                                <td><select id="m_pump2" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Peristaltic pump:</th>
+                                <td><select id="p_pump1" class="form-select"></select></td>
+                                <td><select id="p_pump2" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Oil pump:</th>
+                                <td colspan="2"><select id="o_pump" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Nutsche filter:</th>
+                                <td colspan="2"><select id="nutsche_filter" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Druck filter:</th>
+                                <td colspan="2"><select id="druck_filter" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <th>Balances:</th>
+                                <td>
+                                    <select id="balances1" class="form-select"></select>
+                                </td>
+                                <td>
+                                    <select id="balances2" class="form-select"></select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+
+
+        <!-- Footer -->
+        <%- include("partials/footer.ejs") %>
+
+            <!-- axios -->
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                crossorigin="anonymous">
+                </script>
+            <script>
+                /**
+                 * Adds a default "--select--" option to a dropdown select element.
+                 * 
+                 * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
+                 */
+                function addDefaultOption(selectElement) {
+                    // Create the default option element
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = '--select--';
+
+                    // Append the default option to the select element
+                    selectElement.appendChild(defaultOption);
+                }
+            </script>
+            <script>
+                async function populateReactors() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/reactor");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('reactor1');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+                        var selectElement = document.getElementById('reactor2');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+
+                async function populateOven() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/oven");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('oven');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                async function populateMPump() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/m_pump");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('m_pump1');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+                        var selectElement = document.getElementById('m_pump2');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+                async function populatePPump() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/p_pump");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('p_pump1');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+                        var selectElement = document.getElementById('p_pump2');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                async function populateOPump() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/o_pump");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('o_pump');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                async function nutsheFilter() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/nutsche_filter");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('nutsche_filter');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                async function druckFilter() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/druck_filter");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('druck_filter');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                async function balances() {
+                    try {
+                        let response = await axios.get("http://localhost:8081/main_table/balances");
+                        let equipmentTypes = JSON.parse(response.data);
+                        // Check if equipmentTypes is an array or not
+                        var selectElement = document.getElementById('balances1');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+                        var selectElement = document.getElementById('balances2');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.code;
+                            option.textContent = equipmentType.code;
+                            selectElement.appendChild(option);
+                        });
+
+                    } catch (error) {
+                        console.error("Error populating reactor codes:", error);
+                        // Handle the error if needed
+                    }
+                }
+
+                window.onload = async function () {
+                    await populateReactors();
+                    await populateOven();
+                    await populateMPump();
+                    await populatePPump();
+                    await populateOPump();
+                    await nutsheFilter();
+                    await druckFilter();
+                    await balances();
+                    
+                };
+            </script>
+
+            <script>
+                
+
+
+            </script>
+
+
+
+</body>
+
+</html>
