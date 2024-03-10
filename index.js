@@ -49,6 +49,7 @@ app.get("/", (req, res) => {
  * @returns {void}
  */
 app.post("/operation_table", (req, res) => {
+    const {project, TP} = req.body
     // Extracting data from the request body
     const { reactor1, reactor2, oven, m_pump1, m_pump2, p_pump1, p_pump2, o_pump, nutsche_filter, druck_filter, balances1, balances2 } = req.body;
     const materials = []; // Array to store materials data
@@ -96,7 +97,7 @@ app.post("/operation_table", (req, res) => {
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentList data
-    res.status(200).render("index.ejs", { equipmentTypes, equipmentList, materials });
+    res.status(200).render("index.ejs", {project, TP, equipmentTypes, equipmentList, materials });
 });
 
 // Server listening on specified port

@@ -177,9 +177,11 @@
                     if (dataFromOperation["activityType"]) {
                         const equipmentList = <%- JSON.stringify(equipmentList) %>;
                         const materials = <%- JSON.stringify(materials) %>;
-                        console.log(materials);
+                        const project = <%- JSON.stringify(project) %>;
+                        const tp = <%- JSON.stringify(TP) %>;
+                        console.log(project);
                         // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials).then((description) => {
+                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials, project, tp).then((description) => {
                             // Create a new <p> element
                             const newP = document.createElement("p");
 

@@ -13,7 +13,7 @@ function delay(ms) {
  * @param {string} text - The description for operation.
  * @returns {Promise<string>} A promise that resolves with the modified text.
  */
-async function replaceTextWithSelect(text, equipmentList, materials) {
+async function replaceTextWithSelect(text, equipmentList, materials, project, tp) {
   const regex = /\{([^}]+)\}/g;
   let output = text;
 
@@ -54,6 +54,15 @@ async function replaceTextWithSelect(text, equipmentList, materials) {
         }).join("");
         const materialSelectList = `<select id="material" onchange="saveSelectedItem(this)" name="material"><option value="">-material-</option>${materialsOptions}</select>`;
         output = output.replace("{material}", materialSelectList);
+      } else if (output.includes("{jug}") || output.includes("{funnel}") || output.includes("{hose}")) {
+       if (output.includes("{jug}")){
+          output = output.replace("{jug}", `"${project} ${tp}"`);
+       }else if (output.includes("{funnel}")){
+          output = output.replace("{funnel}", `"${project} ${tp}"`);
+       }else if (output.includes("{hose}")){
+        output = output.replace("{hose}", `"${project} ${tp}"`);
+       }
+        
       } else {
         // Unknown equipment type or parameter, do nothing
       }
