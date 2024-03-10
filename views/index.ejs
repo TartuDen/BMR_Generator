@@ -169,17 +169,19 @@
                  * @returns {void}
                  */
                 async function populateDescription() {
-                    let divElement = document.getElementById('description');
+                    const divElement = document.getElementById('description');
 
                     // Clear previous content
                     divElement.innerHTML = '';
 
                     if (dataFromOperation["activityType"]) {
-                        let equipmentList = <%- JSON.stringify(equipmentList) %>;
+                        const equipmentList = <%- JSON.stringify(equipmentList) %>;
+                        const materials = <%- JSON.stringify(materials) %>;
+                        console.log(materials);
                         // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList).then((description) => {
+                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials).then((description) => {
                             // Create a new <p> element
-                            let newP = document.createElement("p");
+                            const newP = document.createElement("p");
 
                             // Set the html content of the <p> element with the populated description
                             newP.innerHTML = description;

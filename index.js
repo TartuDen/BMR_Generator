@@ -74,6 +74,8 @@ app.post("/operation_table", (req, res) => {
         { name: "druck_filter", condition: druck_filter !== "" },
         { name: "balances", condition: balances1 !== "" || balances2 !== "" }
     ];
+    // Extracting equipment types from the equipmentNames array based on condition
+    const equipmentTypes = equipmentNames.filter(equipment => equipment.condition).map(equipment => ({ name: equipment.name }));
 
     // Definitions for equipment list with their codes and conditions
     const equipmentList = [
@@ -91,11 +93,10 @@ app.post("/operation_table", (req, res) => {
         {name: "balances", code: balances2, condition: balances2!==""},
     ];
 
-    // Extracting equipment types from the equipmentNames array based on condition
-    const equipmentTypes = equipmentNames.filter(equipment => equipment.condition).map(equipment => ({ name: equipment.name }));
+
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentList data
-    res.status(200).render("index.ejs", { equipmentTypes, equipmentList });
+    res.status(200).render("index.ejs", { equipmentTypes, equipmentList, materials });
 });
 
 // Server listening on specified port

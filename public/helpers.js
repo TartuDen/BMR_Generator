@@ -13,7 +13,7 @@ function delay(ms) {
  * @param {string} text - The description for operation.
  * @returns {Promise<string>} A promise that resolves with the modified text.
  */
-async function replaceTextWithSelect(text,equipmentList) {
+async function replaceTextWithSelect(text, equipmentList, materials) {
   const regex = /\{([^}]+)\}/g;
   let output = text;
 
@@ -29,7 +29,7 @@ async function replaceTextWithSelect(text,equipmentList) {
     const parametersForOperations = await GetParametersForOperationsMOCK();
 
     // Fetch equipment list
-   
+
 
     // Replace {placeHolders} with select lists or input elements
     equipmentTypes.forEach((equipmentType) => {
@@ -45,10 +45,15 @@ async function replaceTextWithSelect(text,equipmentList) {
           .join("");
         const selectList = `<select id="equipment_${equipmentType}" onchange="saveSelectedItem(this)" name="${equipmentType}">${defaultOption}${selectOptions}</select>`;
         output = output.replace(`{${equipmentType}}`, selectList);
-      } else if (parametersForOperations.includes(equipmentType)) {
-        // Equipment type not found, check if it's a parameter, replace with input element
-        const inputElement = `<input type="text" oninput="saveSelectedItem(this)" id="parameter_${equipmentType}" name="${equipmentType}" placeholder="${equipmentType}">`;
-        output = output.replace(`{${equipmentType}}`, inputElement);
+      } else if (output.includes("{material}")) {
+        // Check if {material} is inside the text, replace with select list from materials variable
+        const materialsOptions = materials.map((material) => {
+          const materialKey = Object.keys(material)[0];
+          const materialValue = Object.values(material)[0];
+          return `<option value="${materialKey}"><strong>${materialKey} (${materialValue}kg)</strong)</option>`;
+        }).join("");
+        const materialSelectList = `<select id="material" onchange="saveSelectedItem(this)" name="material"><option value="">-material-</option>${materialsOptions}</select>`;
+        output = output.replace("{material}", materialSelectList);
       } else {
         // Unknown equipment type or parameter, do nothing
       }
