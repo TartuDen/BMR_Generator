@@ -1,3 +1,4 @@
+<!-- main_table.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,62 +25,81 @@
             <%- include("partials/sidebar.ejs") %>
 
                 <div class="container mt-3">
-                    <h2>Main Table</h2>
-                    <table class="table">
-                        <tbody>
-                            <form action="/operation_table" method="post">
-                                <tr>
-                                    <th>Reactor:</th>
-                                    <td><select id="reactor1" name="reactor1" class="form-select"></select></td>
-                                    <td><select id="reactor2" name="reactor2" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Oven:</th>
-                                    <td colspan="2"><select id="oven" name="oven" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Membrane pump:</th>
-                                    <td><select id="m_pump1" name="m_pump1" class="form-select"></select></td>
-                                    <td><select id="m_pump2" name="m_pump2" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Peristaltic pump:</th>
-                                    <td><select id="p_pump1" name="p_pump1" class="form-select"></select></td>
-                                    <td><select id="p_pump2" name="p_pump2" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Oil pump:</th>
-                                    <td colspan="2"><select id="o_pump" name="o_pump" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Nutsche filter:</th>
-                                    <td colspan="2"><select id="nutsche_filter" name="nutsche_filter"
-                                            class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Druck filter:</th>
-                                    <td colspan="2"><select id="druck_filter" name="druck_filter"
-                                            class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th>Balances:</th>
-                                    <td><select id="balances1" name="balances1" class="form-select"></select></td>
-                                    <td><select id="balances2" name="balances2" class="form-select"></select></td>
-                                </tr>
-                                <tr>
-                                    <th> <button class="btn btn-secondary" type="submit">submit</button>
-                                    </th>
-                                    <td></td>
-                                    <td>
+                    
+                    <form action="/operation_table" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <h2>Select equipment</h2>
+                                    <tbody>
+                                        <tr>
+                                            <th>Reactor:</th>
+                                            <td><select id="reactor1" name="reactor1" class="form-select"></select></td>
+                                            <td><select id="reactor2" name="reactor2" class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Oven:</th>
+                                            <td colspan="2"><select id="oven" name="oven" class="form-select"></select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Membrane pump:</th>
+                                            <td><select id="m_pump1" name="m_pump1" class="form-select"></select></td>
+                                            <td><select id="m_pump2" name="m_pump2" class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Peristaltic pump:</th>
+                                            <td><select id="p_pump1" name="p_pump1" class="form-select"></select></td>
+                                            <td><select id="p_pump2" name="p_pump2" class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Oil pump:</th>
+                                            <td colspan="2"><select id="o_pump" name="o_pump"
+                                                    class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nutsche filter:</th>
+                                            <td colspan="2"><select id="nutsche_filter" name="nutsche_filter"
+                                                    class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Druck filter:</th>
+                                            <td colspan="2"><select id="druck_filter" name="druck_filter"
+                                                    class="form-select"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Balances:</th>
+                                            <td><select id="balances1" name="balances1" class="form-select"></select>
+                                            </td>
+                                            <td><select id="balances2" name="balances2" class="form-select"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                    </td>
-                                </tr>
+                            <!-- New table for loading materials -->
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <h2>Insert Materials</h2>
+                                    <tbody>
 
-
-                            </form>
-
-                        </tbody>
-                    </table>
+                                        <!-- 10 rows for loading materials -->
+                                        <% for (let i=0; i < 10; i++) { %>
+                                            <tr>
+                                                <td><input type="text" name="reagent<%= i %>" class="form-control"
+                                                        placeholder="Reagent here"></td>
+                                                <td><input type="number" name="amount<%= i %>" class="form-control"
+                                                        placeholder="Amounts in kg" step="any"></td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Submit button -->
+                        <button class="btn btn-secondary" type="submit">Submit</button>
+                    </form>
                 </div>
         </div>
 

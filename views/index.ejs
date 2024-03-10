@@ -1,3 +1,4 @@
+<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,8 +65,15 @@
 
             <script>
 
-
-
+                /**
+                 * Asynchronously populates the equipment types dropdown menu.
+                 * Retrieves equipment types data and dynamically creates options for the dropdown.
+                 * 
+                 * @async
+                 * @function populateEquipmentTypes
+                 * @memberof window
+                 * @returns {void}
+                 */
                 async function populateEquipmentTypes() {
                     try {
                         let equipmentTypes = <%- JSON.stringify(equipmentTypes) %>;
@@ -74,15 +82,15 @@
 
                         // Check if equipmentTypes is an array or not
 
-                            var selectElement = document.getElementById('equipmentType');
-                            selectElement.innerHTML = '';
-                            addDefaultOption(selectElement);
-                            equipmentTypes.forEach(function (equipmentType) {
-                                var option = document.createElement('option');
-                                option.value = equipmentType.name;
-                                option.textContent = equipmentType.name;
-                                selectElement.appendChild(option);
-                            });
+                        var selectElement = document.getElementById('equipmentType');
+                        selectElement.innerHTML = '';
+                        addDefaultOption(selectElement);
+                        equipmentTypes.forEach(function (equipmentType) {
+                            var option = document.createElement('option');
+                            option.value = equipmentType.name;
+                            option.textContent = equipmentType.name;
+                            selectElement.appendChild(option);
+                        });
 
                     } catch (error) {
                         console.error("Error populating equipment types:", error);
@@ -90,17 +98,33 @@
                     }
                 }
 
+                /**
+                 * Event handler for when the window loads.
+                 * Calls populateEquipmentTypes function to populate equipment types dropdown menu.
+                 * 
+                 * @async
+                 * @function
+                 * @memberof window
+                 * @returns {void}
+                 */
                 window.onload = async function () {
                     await populateEquipmentTypes();
                 };
 
-
-
-                // Function to fetch and populate the activityType dropdown with loading_of_solid activities based on equipmentType
+                /**
+                 * Asynchronously populates the activity types dropdown menu based on the selected equipment type.
+                 * Retrieves activity types data and dynamically creates options for the dropdown.
+                 * 
+                 * @async
+                 * @function populateActivityType
+                 * @memberof window
+                 * @param {string} equipmentType - The selected equipment type.
+                 * @returns {void}
+                 */
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const response = await axios.post("http://localhost:8081/filter?equipmentType="+dataFromOperation["equipmentType"]);
+                        const response = await axios.post("http://localhost:8081/filter?equipmentType=" + dataFromOperation["equipmentType"]);
                         let activityTypes = JSON.parse(response.data);
                         var selectElement = document.getElementById('activityType');
 
@@ -138,7 +162,11 @@
 
                 /**
                  * Populates the description of an activity within a specified div element.
-                 * @param {string} activityType - The type of activity to populate the description for.
+                 * 
+                 * @async
+                 * @function populateDescription
+                 * @memberof window
+                 * @returns {void}
                  */
                 async function populateDescription() {
                     let divElement = document.getElementById('description');
@@ -147,8 +175,9 @@
                     divElement.innerHTML = '';
 
                     if (dataFromOperation["activityType"]) {
+                        let equipmentList = <%- JSON.stringify(equipmentList) %>;
                         // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"]).then((description) => {
+                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList).then((description) => {
                             // Create a new <p> element
                             let newP = document.createElement("p");
 
@@ -166,11 +195,13 @@
                     }
                 }
 
-
                 /**
                  * Adds a default "--select--" option to a dropdown select element.
                  * 
+                 * @function addDefaultOption
+                 * @memberof window
                  * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
+                 * @returns {void}
                  */
                 function addDefaultOption(selectElement) {
                     // Create the default option element
@@ -182,7 +213,13 @@
                     selectElement.appendChild(defaultOption);
                 }
 
-                // Function to parse dataFromOperation to Operation class
+                /**
+                 * Parses dataFromOperation to create an Operation object.
+                 * 
+                 * @function parseDataToOperation
+                 * @memberof window
+                 * @returns {void}
+                 */
                 function parseDataToOperation() {
                     // Create an list of instances of Equipment class
                     let equipmentList = [];
@@ -212,7 +249,13 @@
                     console.log(operation);
                 }
 
-                // Function to purge dataFromOperation object
+                /**
+                 * Purges dataFromOperation object except for the equipmentType property.
+                 * 
+                 * @function purgeDataFromOperation
+                 * @memberof window
+                 * @returns {void}
+                 */
                 function purgeDataFromOperation() {
                     // Clear the dataFromOperation object EXCEPT equipmentType
                     for (let key in dataFromOperation) {
@@ -222,7 +265,6 @@
                     }
                     console.log("Data from operation purged.");
                 }
-
 
             </script>
 

@@ -13,7 +13,7 @@ function delay(ms) {
  * @param {string} text - The description for operation.
  * @returns {Promise<string>} A promise that resolves with the modified text.
  */
-async function replaceTextWithSelect(text) {
+async function replaceTextWithSelect(text,equipmentList) {
   const regex = /\{([^}]+)\}/g;
   let output = text;
 
@@ -29,7 +29,7 @@ async function replaceTextWithSelect(text) {
     const parametersForOperations = await GetParametersForOperationsMOCK();
 
     // Fetch equipment list
-    const equipmentList = await GetEquipmentListMOCK();
+   
 
     // Replace {placeHolders} with select lists or input elements
     equipmentTypes.forEach((equipmentType) => {
