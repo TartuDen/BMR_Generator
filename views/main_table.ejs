@@ -147,34 +147,56 @@
             </script>
             <script>
                 async function populateReactors() {
+                    const equipmentList = <%- JSON.stringify(equipmentList) %>;
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/reactor");
                         let equipmentTypes = JSON.parse(response.data);
                         // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('reactor1');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                        });
-                        var selectElement = document.getElementById('reactor2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                        });
+                        if (Array.isArray(equipmentTypes)) {
+                            equipmentTypes.forEach(function (equipmentType) {
+                                var selectElement = document.getElementById('reactor1');
+                                selectElement.innerHTML = '';
+                                addDefaultOptionNew(selectElement);
+                                var option = document.createElement('option');
+                                option.value = equipmentType.code;
+                                option.textContent = equipmentType.code;
+                                selectElement.appendChild(option);
 
+                                var selectElement2 = document.getElementById('reactor2');
+                                selectElement2.innerHTML = '';
+                                addDefaultOptionNew(selectElement2);
+                                var option2 = document.createElement('option');
+                                option2.value = equipmentType.code;
+                                option2.textContent = equipmentType.code;
+                                selectElement2.appendChild(option2);
+                            });
+                        } else {
+                            console.error("Equipment types data is not an array.");
+                        }
+
+                        // Check for reactor codes in equipmentList
+                        const reactorCodes = equipmentList.filter(item => item.name === 'reactor' && item.code !== '');
+                        if (reactorCodes.length > 0) {
+                            // Set default value for reactor1
+                            document.getElementById('reactor1').value = reactorCodes[0].code;
+                            // Set default value for reactor2 if available
+                            if (reactorCodes.length > 1) {
+                                document.getElementById('reactor2').value = reactorCodes[1].code;
+                            }
+                        }
                     } catch (error) {
                         console.error("Error populating reactor codes:", error);
                         // Handle the error if needed
                     }
                 }
+
+                function addDefaultOptionNew(selectElement) {
+                    var option = document.createElement('option');
+                    option.value = "";
+                    option.textContent = "-Select-";
+                    selectElement.appendChild(option);
+                }
+
 
 
                 async function populateOven() {

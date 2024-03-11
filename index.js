@@ -14,6 +14,7 @@ import bodyParser from "body-parser"; // Importing body-parser middleware for pa
 // Constants
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
+var equipmentList = [];
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -34,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded reques
  */
 app.get("/", (req, res) => {
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", {});
+    res.status(200).render("main_table.ejs", {equipmentList});
 });
 
 /**
@@ -79,7 +80,7 @@ app.post("/operation_table", (req, res) => {
     const equipmentTypes = equipmentNames.filter(equipment => equipment.condition).map(equipment => ({ name: equipment.name }));
 
     // Definitions for equipment list with their codes and conditions
-    const equipmentList = [
+    equipmentList = [
         {name: "reactor", code: reactor1, condition: reactor1!==""},
         {name: "reactor", code: reactor2, condition: reactor2!==""},
         {name: "oven", code: oven, condition: oven!==""},
