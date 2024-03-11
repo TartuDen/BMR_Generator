@@ -147,27 +147,39 @@
             </script>
             <script>
                 async function populateReactors() {
+                    const equipmentList = <%- JSON.stringify(equipmentList) %>;
+
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/reactor");
                         let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
+                        
+                        // Filter out the reactor codes from equipmentList
+                        const reactorCodes = equipmentList.filter(item => item.name === 'reactor' && item.condition === true);
+                        
                         var selectElement = document.getElementById('reactor1');
                         selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
+                        // If reactorCodes exist and has a code, set it as default option
+                        if (reactorCodes.length > 0 && reactorCodes[0].code) {
+                            addOption(selectElement, reactorCodes[0].code, reactorCodes[0].code, true);
+                        } else {
+                            addDefaultOption(selectElement);
+                        }
+
                         equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
+                            addOption(selectElement, equipmentType.code, equipmentType.code, false);
                         });
-                        var selectElement = document.getElementById('reactor2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
+
+                        var selectElement2 = document.getElementById('reactor2');
+                        selectElement2.innerHTML = '';
+                        // If reactorCodes exist and has a code, set it as default option
+                        if (reactorCodes.length > 0 && reactorCodes[0].code) {
+                            addOption(selectElement2, reactorCodes[0].code, reactorCodes[0].code, true);
+                        } else {
+                            addDefaultOption(selectElement2);
+                        }
+
                         equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
+                            addOption(selectElement2, equipmentType.code, equipmentType.code, false);
                         });
 
                     } catch (error) {
@@ -175,6 +187,26 @@
                         // Handle the error if needed
                     }
                 }
+
+                // Function to add an option to a select element
+                function addOption(selectElement, value, text, selected) {
+                    var option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = text;
+                    if (selected) {
+                        option.setAttribute('selected', 'selected');
+                    }
+                    selectElement.appendChild(option);
+                }
+
+                // Function to add default option to a select element
+                function addDefaultOption(selectElement) {
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.textContent = "- Select -";
+                    selectElement.appendChild(defaultOption);
+                }
+
 
 
                 async function populateOven() {
