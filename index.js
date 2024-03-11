@@ -96,7 +96,7 @@ app.post("/operation_table", (req, res) => {
     ];
 
 
-
+    console.log(equipmentList);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentList data
     res.status(200).render("index.ejs", {project, TP, equipmentTypes, equipmentList, materials });
 });

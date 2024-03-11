@@ -141,12 +141,36 @@
                     defaultOption.value = '';
                     defaultOption.textContent = '--select--';
 
+
                     // Append the default option to the select element
                     selectElement.appendChild(defaultOption);
                 }
             </script>
             <script>
+                function getEqCodesFromMemory(eq) {
+                    let equipmentList = <%- JSON.stringify(equipmentList) %>;
+                    let eq1 = "";
+                    let eq2 = "";
+                    let eqCount = 0;
+
+                    for (let i = 0; i < equipmentList.length; i++) {
+                        const equipment = equipmentList[i];
+                        if (equipment.name === eq && equipment.condition === true) {
+                            eqCount++;
+                            if (eqCount === 1) {
+                                eq1 = equipment.code;
+                            } else if (eqCount === 2) {
+                                eq2 = equipment.code;
+                                break; // Once both reactors found, exit loop
+                            }
+                        }
+                    }
+
+                    return [ eq1, eq2 ];
+                }
                 async function populateReactors() {
+                    let reactor1 = getEqCodesFromMemory("reactor")[0];
+                    let reactor2 = getEqCodesFromMemory("reactor")[1];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/reactor");
                         let equipmentTypes = JSON.parse(response.data);
@@ -154,12 +178,17 @@
                         var selectElement = document.getElementById('reactor1');
                         selectElement.innerHTML = '';
                         addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
+                            equipmentTypes.forEach(function (equipmentType) {
                             var option = document.createElement('option');
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === reactor1) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
+                        
+
                         var selectElement = document.getElementById('reactor2');
                         selectElement.innerHTML = '';
                         addDefaultOption(selectElement);
@@ -168,6 +197,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === reactor2) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -178,6 +210,7 @@
 
 
                 async function populateOven() {
+                    let oven = getEqCodesFromMemory("oven")[0];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/oven");
                         let equipmentTypes = JSON.parse(response.data);
@@ -190,6 +223,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if(option.value === oven){
+                                option.selected = true
+                            }
                         });
 
                     } catch (error) {
@@ -199,6 +235,8 @@
                 }
 
                 async function populateMPump() {
+                    let m_pump1 = getEqCodesFromMemory("membrane_pump")[0];
+                    let m_pump2 = getEqCodesFromMemory("membrane_pump")[1];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/m_pump");
                         let equipmentTypes = JSON.parse(response.data);
@@ -211,6 +249,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === m_pump1) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
                         var selectElement = document.getElementById('m_pump2');
                         selectElement.innerHTML = '';
@@ -220,6 +261,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === m_pump2) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -228,6 +272,8 @@
                     }
                 }
                 async function populatePPump() {
+                    let p_pump1 = getEqCodesFromMemory("peristaltic_pump")[0];
+                    let p_pump2 = getEqCodesFromMemory("peristaltic_pump")[1];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/p_pump");
                         let equipmentTypes = JSON.parse(response.data);
@@ -240,6 +286,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === p_pump1) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
                         var selectElement = document.getElementById('p_pump2');
                         selectElement.innerHTML = '';
@@ -249,6 +298,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === p_pump2) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -258,6 +310,8 @@
                 }
 
                 async function populateOPump() {
+                    let o_pump = getEqCodesFromMemory("oil_pump")[0];
+
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/o_pump");
                         let equipmentTypes = JSON.parse(response.data);
@@ -270,6 +324,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === o_pump) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -279,6 +336,7 @@
                 }
 
                 async function nutsheFilter() {
+                    let n_filter = getEqCodesFromMemory("nutsche_filter")[0];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/nutsche_filter");
                         let equipmentTypes = JSON.parse(response.data);
@@ -291,6 +349,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === n_filter) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -300,6 +361,7 @@
                 }
 
                 async function druckFilter() {
+                    let d_filter = getEqCodesFromMemory("druck_filter")[0];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/druck_filter");
                         let equipmentTypes = JSON.parse(response.data);
@@ -312,6 +374,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === d_filter) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
@@ -321,6 +386,8 @@
                 }
 
                 async function balances() {
+                    let balances1 = getEqCodesFromMemory("balances")[0];
+                    let balances2 = getEqCodesFromMemory("balances")[1];
                     try {
                         let response = await axios.get("http://localhost:8081/main_table/balances");
                         let equipmentTypes = JSON.parse(response.data);
@@ -333,6 +400,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === balances1) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
                         var selectElement = document.getElementById('balances2');
                         selectElement.innerHTML = '';
@@ -342,6 +412,9 @@
                             option.value = equipmentType.code;
                             option.textContent = equipmentType.code;
                             selectElement.appendChild(option);
+                            if (option.value === balances2) {
+                                option.selected = true; // Set as default if match found
+                            }
                         });
 
                     } catch (error) {
