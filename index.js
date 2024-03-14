@@ -19,7 +19,7 @@ var equipmentList = [];
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded request bodies
-
+app.use(bodyParser.json());
 // Route definitions
 
 /**
@@ -95,8 +95,6 @@ app.post("/operation_table", (req, res) => {
         {name: "balances", code: balances2, condition: balances2!==""},
     ];
 
-
-    console.log(equipmentList);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentList data
     res.status(200).render("index.ejs", {project, TP, equipmentTypes, equipmentList, materials });
 });
