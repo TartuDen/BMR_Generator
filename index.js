@@ -67,7 +67,17 @@ app.get("/", async (req, res) => {
  * @param {Object} res - The response object.
  * @returns {void}
  */
-app.post("/operation_table", (req, res) => {
+app.post("/operation_table", async (req, res) => {
+    let parametersForOperations;
+
+    try{
+    // Fetch parameters for operations
+    parametersForOperations = await axios.get("http://localhost:8081/eq_params");
+    parametersForOperations = JSON.stringify(parametersForOperations.data);
+    }catch(error){
+        console.error(error);
+    }
+
     const { project, TP } = req.body
     // Extracting data from the request body
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
@@ -114,7 +124,7 @@ app.post("/operation_table", (req, res) => {
     ];
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials });
+    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations });
 });
 
 // Server listening on specified port

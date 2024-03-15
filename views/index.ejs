@@ -58,8 +58,7 @@
             </script>
 
             <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-            <script src="callFunc.js"></script>
-            <script src="apiMocks.js"></script>
+
             <script src="helpers.js"></script>
             <script src="operationClasses.js"></script>
 
@@ -177,9 +176,9 @@
                         const materials = <%- JSON.stringify(materials) %>;
                         const project = <%- JSON.stringify(project) %>;
                         const tp = <%- JSON.stringify(TP) %>;
-                        console.log(project);
+                        const eqParams = <%- JSON.parse(parametersForOperations) %>;
                         // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials, project, tp).then((description) => {
+                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials, project, tp, eqParams).then((description) => {
                             // Create a new <p> element
                             const newP = document.createElement("p");
 

@@ -33,8 +33,8 @@
                                     <tbody>
                                         <tr>
                                             <td><input type="text" name="project" class="form-control"
-                                                    placeholder="Project"></td>
-                                            <td><input type="text" name="TP" class="form-control" placeholder="TP"></td>
+                                                    placeholder="Project" value="tile"></td>
+                                            <td><input type="text" name="TP" class="form-control" placeholder="TP" value="tp.5"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -103,9 +103,9 @@
                                         <% for (let i=0; i < 10; i++) { %>
                                             <tr>
                                                 <td><input type="text" name="reagent<%= i %>" class="form-control"
-                                                        placeholder="Reagent here"></td>
+                                                        placeholder="Reagent here" value=<%- "reagent"+i %>></td>
                                                 <td><input type="number" name="amount<%= i %>" class="form-control"
-                                                        placeholder="Amounts in kg" step="any"></td>
+                                                        placeholder="Amounts in kg" step="any" value=<%- 1+i %>></td>
                                             </tr>
                                             <% } %>
                                     </tbody>
@@ -194,9 +194,6 @@
                     for (let i = 0; i < eqInField.length; i++) {
                         const eq = eqInField[i];
                         const eqFromMemory = getEqCodesFromMemory(eq)[i];
-                        console.log("eqFromMemory:")
-                        console.log(eqFromMemory);
-                        console.log("***************")
                         const selectElement = document.getElementById(eq + (i + 1));
                         selectElement.innerHTML = '';
                         addDefaultOption(selectElement);
