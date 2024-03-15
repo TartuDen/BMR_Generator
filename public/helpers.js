@@ -55,14 +55,14 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
         const materialSelectList = `<select id="material" onchange="saveSelectedItem(this)" name="material"><option value="">-material-</option>${materialsOptions}</select>`;
         output = output.replace("{material}", materialSelectList);
       } else if (output.includes("{jug}") || output.includes("{funnel}") || output.includes("{hose}")) {
-       if (output.includes("{jug}")){
+        if (output.includes("{jug}")) {
           output = output.replace("{jug}", `"${project} ${tp}"`);
-       }else if (output.includes("{funnel}")){
+        } else if (output.includes("{funnel}")) {
           output = output.replace("{funnel}", `"${project} ${tp}"`);
-       }else if (output.includes("{hose}")){
-        output = output.replace("{hose}", `"${project} ${tp}"`);
-       }
-        
+        } else if (output.includes("{hose}")) {
+          output = output.replace("{hose}", `"${project} ${tp}"`);
+        }
+
       } else {
         // Unknown equipment type or parameter, do nothing
       }

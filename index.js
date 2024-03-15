@@ -10,11 +10,14 @@
 // Importing necessary modules
 import express from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
+import axios from 'axios';
 
 // Constants
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
-var equipmentList = [];
+var equipmentListMemory = [];
+const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"]
+
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -33,9 +36,24 @@ app.use(bodyParser.json());
  * @param {Object} res - The response object.
  * @returns {void}
  */
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    let eqNameCode = {};
+    let apiResp; 
+    for (let equipment of eqList) {
+        try {
+            apiResp = await axios.get("http://localhost:8081/main_table/" + equipment);
+            apiResp = JSON.parse(apiResp.data);
+            eqNameCode[equipment] = apiResp;
+            
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", {equipmentList});
+    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCode });
+
 });
 
 /**
@@ -50,9 +68,9 @@ app.get("/", (req, res) => {
  * @returns {void}
  */
 app.post("/operation_table", (req, res) => {
-    const {project, TP} = req.body
+    const { project, TP } = req.body
     // Extracting data from the request body
-    const { reactor1, reactor2, oven, m_pump1, m_pump2, p_pump1, p_pump2, o_pump, nutsche_filter, druck_filter, balances1, balances2 } = req.body;
+    const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
     const materials = []; // Array to store materials data
 
     // Iterating through up to 10 possible material inputs
@@ -68,35 +86,35 @@ app.post("/operation_table", (req, res) => {
     // Definitions for equipment names and their conditions
     const equipmentNames = [
         { name: "reactor", condition: reactor1 !== "" || reactor2 !== "" },
-        { name: "oven", condition: oven !== "" },
-        { name: "membrane_pump", condition: m_pump1 !== "" || m_pump2 !== "" },
-        { name: "peristaltic_pump", condition: p_pump1 !== "" || p_pump2 !== "" },
-        { name: "oil_pump", condition: o_pump !== "" },
-        { name: "nutsche_filter", condition: nutsche_filter !== "" },
-        { name: "druck_filter", condition: druck_filter !== "" },
+        { name: "oven", condition: oven1 !== "" },
+        { name: "m_pump", condition: m_pump1 !== "" || m_pump2 !== "" },
+        { name: "p_pump", condition: p_pump1 !== "" || p_pump2 !== "" },
+        { name: "o_pump", condition: o_pump1 !== "" },
+        { name: "n_filter", condition: n_filter1 !== "" },
+        { name: "d_filter", condition: d_filter1 !== "" },
         { name: "balances", condition: balances1 !== "" || balances2 !== "" }
     ];
     // Extracting equipment types from the equipmentNames array based on condition
     const equipmentTypes = equipmentNames.filter(equipment => equipment.condition).map(equipment => ({ name: equipment.name }));
 
     // Definitions for equipment list with their codes and conditions
-    equipmentList = [
-        {name: "reactor", code: reactor1, condition: reactor1!==""},
-        {name: "reactor", code: reactor2, condition: reactor2!==""},
-        {name: "oven", code: oven, condition: oven!==""},
-        {name: "membrane_pump", code: m_pump1, condition: m_pump1!==""},
-        {name: "membrane_pump", code: m_pump2, condition: m_pump2!==""},
-        {name: "peristaltic_pump", code: p_pump1, condition: p_pump1!==""},
-        {name: "peristaltic_pump", code: p_pump2, condition: p_pump2!==""},
-        {name: "oil_pump", code: o_pump, condition: o_pump!==""},
-        {name: "nutsche_filter", code: nutsche_filter, condition: nutsche_filter!==""},
-        {name: "druck_filter", code: druck_filter, condition: druck_filter!==""},
-        {name: "balances", code: balances1, condition: balances1!==""},
-        {name: "balances", code: balances2, condition: balances2!==""},
+    equipmentListMemory = [
+        { name: "reactor", code: reactor1, condition: reactor1 !== "" },
+        { name: "reactor", code: reactor2, condition: reactor2 !== "" },
+        { name: "oven", code: oven1, condition: oven1 !== "" },
+        { name: "m_pump", code: m_pump1, condition: m_pump1 !== "" },
+        { name: "m_pump", code: m_pump2, condition: m_pump2 !== "" },
+        { name: "p_pump", code: p_pump1, condition: p_pump1 !== "" },
+        { name: "p_pump", code: p_pump2, condition: p_pump2 !== "" },
+        { name: "o_pump", code: o_pump1, condition: o_pump1 !== "" },
+        { name: "n_filter", code: n_filter1, condition: n_filter1 !== "" },
+        { name: "d_filter", code: d_filter1, condition: d_filter1 !== "" },
+        { name: "balances", code: balances1, condition: balances1 !== "" },
+        { name: "balances", code: balances2, condition: balances2 !== "" },
     ];
 
-    // Rendering the "index.ejs" template with equipmentTypes and equipmentList data
-    res.status(200).render("index.ejs", {project, TP, equipmentTypes, equipmentList, materials });
+    // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
+    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials });
 });
 
 // Server listening on specified port

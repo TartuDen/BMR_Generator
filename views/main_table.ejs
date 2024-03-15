@@ -25,20 +25,21 @@
             <%- include("partials/sidebar.ejs") %>
 
                 <div class="container mt-3">
-                    
+
                     <form action="/operation_table" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td><input type="text" name="project" class="form-control" placeholder="Project"></td>
+                                            <td><input type="text" name="project" class="form-control"
+                                                    placeholder="Project"></td>
                                             <td><input type="text" name="TP" class="form-control" placeholder="TP"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                
-                               
+
+
                             </div>
                         </div>
                         <div class="row">
@@ -53,7 +54,7 @@
                                         </tr>
                                         <tr>
                                             <th>Oven:</th>
-                                            <td colspan="2"><select id="oven" name="oven" class="form-select"></select>
+                                            <td colspan="2"><select id="oven1" name="oven1" class="form-select"></select>
                                             </td>
                                         </tr>
                                         <tr>
@@ -68,17 +69,17 @@
                                         </tr>
                                         <tr>
                                             <th>Oil pump:</th>
-                                            <td colspan="2"><select id="o_pump" name="o_pump"
+                                            <td colspan="2"><select id="o_pump1" name="o_pump1"
                                                     class="form-select"></select></td>
                                         </tr>
                                         <tr>
                                             <th>Nutsche filter:</th>
-                                            <td colspan="2"><select id="nutsche_filter" name="nutsche_filter"
+                                            <td colspan="2"><select id="n_filter1" name="n_filter1"
                                                     class="form-select"></select></td>
                                         </tr>
                                         <tr>
                                             <th>Druck filter:</th>
-                                            <td colspan="2"><select id="druck_filter" name="druck_filter"
+                                            <td colspan="2"><select id="d_filter1" name="d_filter1"
                                                     class="form-select"></select></td>
                                         </tr>
                                         <tr>
@@ -147,291 +148,81 @@
                 }
             </script>
             <script>
+                let eqNameCodeFromServer = <%- JSON.stringify(eqNameCode) %>;
+                /**
+                 * Retrieves equipment codes from memory based on the provided equipment name.
+                 * @param {string} eq - The name of the equipment to search for.
+                 * @returns {Array<string>} An array containing equipment codes. If one or more matching equipments are found, their codes are returned; otherwise, empty strings are returned.
+                 */
                 function getEqCodesFromMemory(eq) {
-                    let equipmentList = <%- JSON.stringify(equipmentList) %>;
+                    // Retrieve equipment list from memory
+                    let equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
+
+                    // Initialize variables to store equipment codes
                     let eq1 = "";
                     let eq2 = "";
+
+                    // Initialize counter for matching equipments
                     let eqCount = 0;
 
+                    // Iterate through the equipment list
                     for (let i = 0; i < equipmentList.length; i++) {
                         const equipment = equipmentList[i];
+
+                        // Check if the equipment matches the provided name and is in a valid condition
                         if (equipment.name === eq && equipment.condition === true) {
                             eqCount++;
+
+                            // Store the first matching equipment code
                             if (eqCount === 1) {
                                 eq1 = equipment.code;
-                            } else if (eqCount === 2) {
+                            }
+                            // Store the second matching equipment code and exit the loop
+                            else if (eqCount === 2) {
                                 eq2 = equipment.code;
-                                break; // Once both reactors found, exit loop
+                                break;
                             }
                         }
                     }
 
-                    return [ eq1, eq2 ];
-                }
-                async function populateReactors() {
-                    let reactor1 = getEqCodesFromMemory("reactor")[0];
-                    let reactor2 = getEqCodesFromMemory("reactor")[1];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/reactor");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('reactor1');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                            equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === reactor1) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-                        
-
-                        var selectElement = document.getElementById('reactor2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === reactor2) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
+                    // Return an array containing the equipment codes
+                    return [eq1, eq2];
                 }
 
-
-                async function populateOven() {
-                    let oven = getEqCodesFromMemory("oven")[0];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/oven");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('oven');
+                async function populateEquipment(...eqInField) {
+                    // Iterate over each equipment type
+                    for (let i = 0; i < eqInField.length; i++) {
+                        const eq = eqInField[i];
+                        const eqFromMemory = getEqCodesFromMemory(eq)[i];
+                        console.log("eqFromMemory:")
+                        console.log(eqFromMemory);
+                        console.log("***************")
+                        const selectElement = document.getElementById(eq + (i + 1));
                         selectElement.innerHTML = '';
                         addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if(option.value === oven){
-                                option.selected = true
-                            }
-                        });
 
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function populateMPump() {
-                    let m_pump1 = getEqCodesFromMemory("membrane_pump")[0];
-                    let m_pump2 = getEqCodesFromMemory("membrane_pump")[1];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/m_pump");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('m_pump1');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
+                        // Populate select element with options for the current equipment type
+                        eqNameCodeFromServer[eq].forEach(function (eqName) {
+                            const option = document.createElement('option');
+                            option.value = eqName.code;
+                            option.textContent = eqName.code;
                             selectElement.appendChild(option);
-                            if (option.value === m_pump1) {
+                            if (option.value === eqFromMemory) {
                                 option.selected = true; // Set as default if match found
                             }
                         });
-                        var selectElement = document.getElementById('m_pump2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === m_pump2) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-                async function populatePPump() {
-                    let p_pump1 = getEqCodesFromMemory("peristaltic_pump")[0];
-                    let p_pump2 = getEqCodesFromMemory("peristaltic_pump")[1];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/p_pump");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('p_pump1');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === p_pump1) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-                        var selectElement = document.getElementById('p_pump2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === p_pump2) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function populateOPump() {
-                    let o_pump = getEqCodesFromMemory("oil_pump")[0];
-
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/o_pump");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('o_pump');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === o_pump) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function nutsheFilter() {
-                    let n_filter = getEqCodesFromMemory("nutsche_filter")[0];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/nutsche_filter");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('nutsche_filter');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === n_filter) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function druckFilter() {
-                    let d_filter = getEqCodesFromMemory("druck_filter")[0];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/druck_filter");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('druck_filter');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === d_filter) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function balances() {
-                    let balances1 = getEqCodesFromMemory("balances")[0];
-                    let balances2 = getEqCodesFromMemory("balances")[1];
-                    try {
-                        let response = await axios.get("http://localhost:8081/main_table/balances");
-                        let equipmentTypes = JSON.parse(response.data);
-                        // Check if equipmentTypes is an array or not
-                        var selectElement = document.getElementById('balances1');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === balances1) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-                        var selectElement = document.getElementById('balances2');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.code;
-                            option.textContent = equipmentType.code;
-                            selectElement.appendChild(option);
-                            if (option.value === balances2) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating reactor codes:", error);
-                        // Handle the error if needed
                     }
                 }
 
                 window.onload = async function () {
-                    await populateReactors();
-                    await populateOven();
-                    await populateMPump();
-                    await populatePPump();
-                    await populateOPump();
-                    await nutsheFilter();
-                    await druckFilter();
-                    await balances();
+                    await populateEquipment("reactor","reactor");
+                    await populateEquipment("oven");
+                    await populateEquipment("m_pump","m_pump");
+                    await populateEquipment("p_pump","p_pump");
+                    await populateEquipment("o_pump");
+                    await populateEquipment("n_filter");
+                    await populateEquipment("d_filter");
+                    await populateEquipment("balances","balances");
 
                 };
             </script>
