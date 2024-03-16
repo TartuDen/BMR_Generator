@@ -31,11 +31,23 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
+                                        <% if(projectList.length >0){ %> 
+                                            
+                                        <tr>
+                                            <td><input type="text" name="project" class="form-control"
+                                                    placeholder="Project" value="<%= projectList[0]  %>"></td>
+                                            <td><input type="text" name="TP" class="form-control" placeholder="TP"
+                                                    value="<%= projectList[1]  %>"></td>
+                                        </tr>
+                                        <% }else{ %> 
                                         <tr>
                                             <td><input type="text" name="project" class="form-control"
                                                     placeholder="Project" value="tile"></td>
-                                            <td><input type="text" name="TP" class="form-control" placeholder="TP" value="tp.5"></td>
+                                            <td><input type="text" name="TP" class="form-control" placeholder="TP"
+                                                    value="tp.5"></td>
                                         </tr>
+                                        <% } %> 
+
                                     </tbody>
                                 </table>
 
@@ -54,7 +66,8 @@
                                         </tr>
                                         <tr>
                                             <th>Oven:</th>
-                                            <td colspan="2"><select id="oven1" name="oven1" class="form-select"></select>
+                                            <td colspan="2"><select id="oven1" name="oven1"
+                                                    class="form-select"></select>
                                             </td>
                                         </tr>
                                         <tr>
@@ -103,7 +116,7 @@
                                         <% for (let i=0; i < 10; i++) { %>
                                             <tr>
                                                 <td><input type="text" name="reagent<%= i %>" class="form-control"
-                                                        placeholder="Reagent here" value=<%- "reagent"+i %>></td>
+                                                        placeholder="Reagent here" value=<%- "reagent" +i %>></td>
                                                 <td><input type="number" name="amount<%= i %>" class="form-control"
                                                         placeholder="Amounts in kg" step="any" value=<%- 1+i %>></td>
                                             </tr>
@@ -212,14 +225,14 @@
                 }
 
                 window.onload = async function () {
-                    await populateEquipment("reactor","reactor");
+                    await populateEquipment("reactor", "reactor");
                     await populateEquipment("oven");
-                    await populateEquipment("m_pump","m_pump");
-                    await populateEquipment("p_pump","p_pump");
+                    await populateEquipment("m_pump", "m_pump");
+                    await populateEquipment("p_pump", "p_pump");
                     await populateEquipment("o_pump");
                     await populateEquipment("n_filter");
                     await populateEquipment("d_filter");
-                    await populateEquipment("balances","balances");
+                    await populateEquipment("balances", "balances");
 
                 };
             </script>

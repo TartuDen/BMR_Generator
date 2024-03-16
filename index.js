@@ -15,8 +15,10 @@ import axios from 'axios';
 // Constants
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
-var equipmentListMemory = [];
-const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"]
+let equipmentListMemory = [];
+const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"];
+let projectList = [];
+let materials = [];
 
 
 // Middleware setup
@@ -52,7 +54,7 @@ app.get("/", async (req, res) => {
     }
 
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCode });
+    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCode, materials, projectList });
 
 });
 
@@ -79,9 +81,13 @@ app.post("/operation_table", async (req, res) => {
     }
 
     const { project, TP } = req.body
+    projectList = [];
+    projectList.push(project);
+    projectList.push(TP);
+
     // Extracting data from the request body
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
-    const materials = []; // Array to store materials data
+
 
     // Iterating through up to 10 possible material inputs
     for (let i = 0; i < 10; i++) {
@@ -92,6 +98,8 @@ app.post("/operation_table", async (req, res) => {
             materials.push(material);
         }
     }
+
+
 
     // Definitions for equipment names and their conditions
     const equipmentNames = [
@@ -124,7 +132,7 @@ app.post("/operation_table", async (req, res) => {
     ];
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations });
+    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations, projectList });
 });
 
 // Server listening on specified port
