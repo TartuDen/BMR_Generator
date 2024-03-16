@@ -60,18 +60,18 @@
                                     <h2>Select equipment</h2>
                                     <tbody>
                                         <tr>
-                                            <th>Reactor:</th>
+                                            <th>Reactor: </th>
                                             <td><select id="reactor1" name="reactor1" class="form-select"></select></td>
                                             <td><select id="reactor2" name="reactor2" class="form-select"></select></td>
                                         </tr>
                                         <tr>
-                                            <th>Oven:</th>
+                                            <th>Oven: </th>
                                             <td colspan="2"><select id="oven1" name="oven1"
                                                     class="form-select"></select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Membrane pump:</th>
+                                            <th>Membrane pump: </th>
                                             <td><select id="m_pump1" name="m_pump1" class="form-select"></select></td>
                                             <td><select id="m_pump2" name="m_pump2" class="form-select"></select></td>
                                         </tr>
@@ -111,16 +111,37 @@
                                 <table class="table">
                                     <h2>Insert Materials</h2>
                                     <tbody>
-
-                                        <!-- 10 rows for loading materials -->
-                                        <% for (let i=0; i < 10; i++) { %>
-                                            <tr>
-                                                <td><input type="text" name="reagent<%= i %>" class="form-control"
-                                                        placeholder="Reagent here" value=<%- "reagent" +i %>></td>
-                                                <td><input type="number" name="amount<%= i %>" class="form-control"
-                                                        placeholder="Amounts in kg" step="any" value=<%- 1+i %>></td>
-                                            </tr>
+                                        <% if (materials.length > 0) { %>
+                                            <!-- Render input fields based on materials data -->
+                                            <% materials.forEach((material, index) => { %>
+                                                <% const materialName = Object.keys(material)[0]; %>
+                                                <% const materialAmount = material[materialName]; %>
+                                                <tr>
+                                                    <td><input type="text" name="reagent<%= index %>" class="form-control" placeholder="Reagent here" value="<%- materialName %>"></td>
+                                                    <td><input type="number" name="amount<%= index %>" class="form-control" placeholder="Amounts in kg" step="any" value="<%- materialAmount %>"></td>
+                                                </tr>
+                                            <% }); %>
+                                            <!-- Render additional input fields if needed -->
+                                            <% for (let i = materials.length; i < 10; i++) { %>
+                                                <tr>
+                                                    <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
+                                                    <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
+                                                </tr>
                                             <% } %>
+                                        <% } else { %>
+                                            <!-- Render default input fields with empty values and placeholders -->
+                                            <% for (let i = 0; i < 10; i++) { %>
+                                                <tr>
+                                                    <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
+                                                    <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
+                                                </tr>
+                                            <% } %>
+                                        <% } %>
+                                        
+                                        
+                                        
+                                        
+                                        
                                     </tbody>
                                 </table>
                             </div>

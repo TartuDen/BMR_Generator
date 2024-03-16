@@ -89,6 +89,7 @@ app.post("/operation_table", async (req, res) => {
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
 
 
+    materials = [];
     // Iterating through up to 10 possible material inputs
     for (let i = 0; i < 10; i++) {
         // If both reagent and amount are provided, create an object and push it to the materials array
@@ -130,6 +131,7 @@ app.post("/operation_table", async (req, res) => {
         { name: "balances", code: balances1, condition: balances1 !== "" },
         { name: "balances", code: balances2, condition: balances2 !== "" },
     ];
+
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations, projectList });
