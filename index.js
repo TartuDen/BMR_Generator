@@ -19,6 +19,7 @@ let equipmentListMemory = [];
 const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"];
 let projectList = [];
 let materials = [];
+let dataFromOperationServer = {};
 
 
 // Middleware setup
@@ -88,6 +89,8 @@ app.post("/operation_table", async (req, res) => {
     // Extracting data from the request body
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
 
+    // dataFromOperationServer = req.body.dataFromOperation;
+    
 
     materials = [];
     // Iterating through up to 10 possible material inputs
@@ -134,7 +137,7 @@ app.post("/operation_table", async (req, res) => {
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations, projectList });
+    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations, projectList, dataFromOperationServer });
 });
 
 // Server listening on specified port
