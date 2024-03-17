@@ -27,10 +27,11 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
 	// Replace parameters with input elements
 	parametersForOperations.forEach((param) => {
 		if (output.includes(`{${param}}`)) {
-			const inputField = `<input type="text" id="${param}" name="${param}" placeholder="${param}">`;
+			const inputField = `<input type="text" id="params_${param}" name="params_${param}" placeholder="${param}" oninput="saveSelectedItem(this)">`;
 			output = output.replace(`{${param}}`, inputField);
 		}
 	});
+	
 
 	// Replace {placeHolders} with select lists or input elements
 	equipmentTypes.forEach((equipmentType) => {
@@ -51,7 +52,7 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
 			const materialsOptions = materials.map((material) => {
 				const materialKey = Object.keys(material)[0];
 				const materialValue = Object.values(material)[0];
-				return `<option value="${materialKey}"><strong>${materialKey} (${materialValue}kg)</strong)</option>`;
+				return `<option value="${materialKey} (${materialValue}kg)"><strong>${materialKey} (${materialValue}kg)</strong)</option>`;
 			}).join("");
 			const materialSelectList = `<select id="material" onchange="saveSelectedItem(this)" name="material"><option value="">-material-</option>${materialsOptions}</select>`;
 			output = output.replace("{material}", materialSelectList);

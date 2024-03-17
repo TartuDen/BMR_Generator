@@ -52,8 +52,6 @@
                     // Retrieve the selected value from the select element
                     var id = selectElement.id;
                     var value = selectElement.value;
-
-
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
                     console.log(dataFromOperation);
@@ -183,11 +181,10 @@
                         // Call replaceTextWithSelect to populate the description
                         await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials, project, tp, eqParams).then((description) => {
                             // Create a new <p> element
-                            const newP = document.createElement("p");
+                            const newP = document.createElement("pre");
 
                             // Set the html content of the <p> element with the populated description
                             newP.innerHTML = description;
-
                             // Append the <p> element to the div
                             divElement.appendChild(newP);
                         }).catch((error) => {
@@ -225,6 +222,11 @@
                  * @returns {void}
                  */
                 function parseDataToOperation() {
+
+                    // Retrieve the content of the <pre> element with id 'description'
+                    let finalText = document.getElementById('description').innerHTML;
+
+
                     // Create an list of instances of Equipment class
                     let equipmentList = [];
                     for (let key in dataFromOperation) {
