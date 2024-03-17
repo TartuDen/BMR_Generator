@@ -51,10 +51,10 @@ async function getParamsForOps() {
     }
 }
 
-function getLastOpNumber(opsFromServer){
+async function getLastOpNumber(opsFromServer){
     if (opsFromServer.length > 0){
         let lastOp = opsFromServer[opsFromServer.length-1];
-        let lastNumber = lastOp.Operation;
+        let lastNumber = lastOp.number;
         return lastNumber;
     }
     return null;
@@ -84,7 +84,7 @@ app.get("/", async (req, res) => {
 app.post("/operation_table", async (req, res) => {
     let parametersForOperations = await getParamsForOps();
     let operationsFromServer = await getOpFromServer();
-    let lastOpNum = getLastOpNumber(operationsFromServer);
+    let lastOpNum = await getLastOpNumber(operationsFromServer);
     if (lastOpNum===null){
         lastOpNum = 1
     }
@@ -149,9 +149,14 @@ app.post("/operation_table", async (req, res) => {
 });
 
 app.post("/update_operations",async (req,res)=>{
-    const {opsFromServer}=req.body;
+    const {newOp}=req.body;
+    console.log("******* newOp ************");
+    console.log(newOp);
     try{
-        await axios.post()
+        let apiResp = await axios.post("http://localhost:8081/addOp", newOp)
+        console.log('Operations updated successfully:', apiResp.data);
+        res.status(201).redirect("/operation_table")
+
     }catch(error){
         console.error(error)
     }
