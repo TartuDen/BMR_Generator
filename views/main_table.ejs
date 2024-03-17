@@ -31,13 +31,13 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
-                                        <% if(projectList.length >0){ %> 
+                                        <% if(projectListMemory.length >0){ %> 
                                             
                                         <tr>
                                             <td><input type="text" name="project" class="form-control"
-                                                    placeholder="Project" value="<%= projectList[0]  %>"></td>
+                                                    placeholder="Project" value="<%= projectListMemory[0]  %>"></td>
                                             <td><input type="text" name="TP" class="form-control" placeholder="TP"
-                                                    value="<%= projectList[1]  %>"></td>
+                                                    value="<%= projectListMemory[1]  %>"></td>
                                         </tr>
                                         <% }else{ %> 
                                         <tr>
@@ -111,9 +111,9 @@
                                 <table class="table">
                                     <h2>Insert Materials</h2>
                                     <tbody>
-                                        <% if (materials.length > 0) { %>
-                                            <!-- Render input fields based on materials data -->
-                                            <% materials.forEach((material, index) => { %>
+                                        <% if (materialsMemory.length > 0) { %>
+                                            <!-- Render input fields based on materialsMemory data -->
+                                            <% materialsMemory.forEach((material, index) => { %>
                                                 <% const materialName = Object.keys(material)[0]; %>
                                                 <% const materialAmount = material[materialName]; %>
                                                 <tr>
@@ -122,7 +122,7 @@
                                                 </tr>
                                             <% }); %>
                                             <!-- Render additional input fields if needed -->
-                                            <% for (let i = materials.length; i < 10; i++) { %>
+                                            <% for (let i = materialsMemory.length; i < 10; i++) { %>
                                                 <tr>
                                                     <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
                                                     <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
@@ -182,12 +182,8 @@
                 }
             </script>
             <script>
-                let eqNameCodeFromServer = <%- JSON.stringify(eqNameCode) %>;
-                /**
-                 * Retrieves equipment codes from memory based on the provided equipment name.
-                 * @param {string} eq - The name of the equipment to search for.
-                 * @returns {Array<string>} An array containing equipment codes. If one or more matching equipments are found, their codes are returned; otherwise, empty strings are returned.
-                 */
+                let eqNameCodeFromServer = <%- JSON.stringify(eqNameCodeFromServer) %>;
+
                 function getEqCodesFromMemory(eq) {
                     // Retrieve equipment list from memory
                     let equipmentList = <%- JSON.stringify(equipmentListMemory) %>;

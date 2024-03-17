@@ -17,9 +17,10 @@ const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 let equipmentListMemory = [];
 const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"];
-let projectList = [];
-let materials = [];
+let projectListMemory = [];
+let materialsMemory = [];
 let dataFromOperationServer = {};
+
 
 
 // Middleware setup
@@ -28,26 +29,46 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded reques
 app.use(bodyParser.json());
 // Route definitions
 
-/**
- * Handles GET requests to the root URL ("/").
- * Renders the main_table.ejs template.
- * 
- * @name GET /
- * @function
- * @memberof module:index.js
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {void}
- */
+async function getOpFromServer() {
+    try {
+        let opFromServer = await axios.get("http://localhost:8081/operations");
+        return opFromServer.data
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
+
+async function getParamsForOps() {
+    try {
+        // Fetch parameters for operations
+        let parametersForOperations = await axios.get("http://localhost:8081/eq_params");
+        parametersForOperations = JSON.stringify(parametersForOperations.data);
+        return parametersForOperations
+    } catch (error) {
+        console.error(error);
+        return null
+    }
+}
+
+function getLastOpNumber(opsFromServer){
+    if (opsFromServer.length > 0){
+        let lastOp = opsFromServer[opsFromServer.length-1];
+        let lastNumber = lastOp.Operation;
+        return lastNumber;
+    }
+    return null;
+}
+
 app.get("/", async (req, res) => {
-    let eqNameCode = {};
-    let apiResp; 
+    let eqNameCodeFromServer = {};
+    let apiResp;
     for (let equipment of eqList) {
         try {
             apiResp = await axios.get("http://localhost:8081/main_table/" + equipment);
             apiResp = JSON.parse(apiResp.data);
-            eqNameCode[equipment] = apiResp;
-            
+            eqNameCodeFromServer[equipment] = apiResp;
+
         } catch (error) {
             console.error(error);
         }
@@ -55,51 +76,38 @@ app.get("/", async (req, res) => {
     }
 
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCode, materials, projectList });
+    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCodeFromServer, materialsMemory, projectListMemory });
 
 });
 
-/**
- * Handles POST requests to the "/operation_table" endpoint.
- * Processes request data and renders the index.ejs template with equipment information.
- * 
- * @name POST /operation_table
- * @function
- * @memberof module:index.js
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {void}
- */
-app.post("/operation_table", async (req, res) => {
-    let parametersForOperations;
 
-    try{
-    // Fetch parameters for operations
-    parametersForOperations = await axios.get("http://localhost:8081/eq_params");
-    parametersForOperations = JSON.stringify(parametersForOperations.data);
-    }catch(error){
-        console.error(error);
+app.post("/operation_table", async (req, res) => {
+    let parametersForOperations = await getParamsForOps();
+    let operationsFromServer = await getOpFromServer();
+    let lastOpNum = getLastOpNumber(operationsFromServer);
+    if (lastOpNum===null){
+        lastOpNum = 1
     }
 
     const { project, TP } = req.body
-    projectList = [];
-    projectList.push(project);
-    projectList.push(TP);
+    projectListMemory = [];
+    projectListMemory.push(project);
+    projectListMemory.push(TP);
 
     // Extracting data from the request body
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
 
     // dataFromOperationServer = req.body.dataFromOperation;
-    
 
-    materials = [];
+
+    materialsMemory = [];
     // Iterating through up to 10 possible material inputs
     for (let i = 0; i < 10; i++) {
         // If both reagent and amount are provided, create an object and push it to the materials array
         if (req.body["reagent" + i] !== "" && req.body["amount" + i]) {
             const material = {};
             material[req.body["reagent" + i]] = req.body["amount" + i];
-            materials.push(material);
+            materialsMemory.push(material);
         }
     }
 
@@ -137,8 +145,17 @@ app.post("/operation_table", async (req, res) => {
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { project, TP, equipmentTypes, equipmentListMemory, materials, parametersForOperations, projectList, dataFromOperationServer });
+    res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum });
 });
+
+app.post("/update_operations",async (req,res)=>{
+    const {opsFromServer}=req.body;
+    try{
+        await axios.post()
+    }catch(error){
+        console.error(error)
+    }
+})
 
 // Server listening on specified port
 app.listen(port, (err) => {

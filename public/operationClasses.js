@@ -22,18 +22,22 @@ class TypicalActivity {
   constructor(
     operationType,
     content,
-    durationMIN,
-    durationMAX,
-    temperatureMIN,
-    temperatureMAX,
+    time,
+    temp,
+    rpm,
+    flow,
+    ppumpSet,
+    torr,
     additionalEquipment
   ) {
     this.operationType = operationType !== undefined ? operationType : "";
     this.content = content !== undefined ? content : "";
-    this.durationMIN = durationMIN !== undefined ? durationMIN : null; // or -1
-    this.durationMAX = durationMAX !== undefined ? durationMAX : null; // or -1
-    this.temperatureMIN = temperatureMIN !== undefined ? temperatureMIN : null;
-    this.temperatureMAX = temperatureMAX !== undefined ? temperatureMAX : null;
+    this.time = time !== undefined ? time : null; // or -1
+    this.temp = temp !== undefined ? temp : null;
+    this.rpm = rpm !== undefined ? rpm : null;
+    this.flow = flow !== undefined ? flow : null;
+    this.ppumpSet = ppumpSet !== undefined ? ppumpSet : null;
+    this.torr = torr !== undefined ? torr : null;
     this.additionalEquipment =
       additionalEquipment !== undefined ? additionalEquipment : [];
   }

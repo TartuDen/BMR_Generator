@@ -5,16 +5,17 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>#</th>
+                    
                     <th>Equipment</th>
+                    <th>Op.#</th>
                     <th>Description</th>
                     <th>Other</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>
+                    
+                    <td style="width: 15%;">
                         <!-- type of equipment -->
                         <div class="container p-0">
                             <div class="form-group">
@@ -35,14 +36,18 @@
                             </select>
                         </div>
                     </td>
-
+                    <% if(locals.lastOpNum) { %>
+                        <td style="width: 5%; padding: 0; margin: 0;">
+                            <input type="number" class="form-control" id="op" name="op" value="<%= lastOpNum %>">
+                        </td>                        
+                    <% } %>
                     <td>
                         <div id="description">
                         
                         </div>
                     </td>
                     
-                    <td>
+                    <td style="width: 10%;">
                         <!-- Button to parse dataFromOperation -->
                         <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
                     </td>

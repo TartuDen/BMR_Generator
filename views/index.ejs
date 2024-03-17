@@ -43,11 +43,7 @@
             </script>
             <script>
                 
-                /**
-                 * Save the selected item from a select element into the dataFromOperation object.
-                 * 
-                 * @param {HTMLSelectElement} selectElement - The select element from which to retrieve the selected value.
-                 */
+
                 function saveSelectedItem(selectElement) {
                     // Retrieve the selected value from the select element
                     var id = selectElement.id;
@@ -65,15 +61,6 @@
 
             <script>
 
-                /**
-                 * Asynchronously populates the equipment types dropdown menu.
-                 * Retrieves equipment types data and dynamically creates options for the dropdown.
-                 * 
-                 * @async
-                 * @function populateEquipmentTypes
-                 * @memberof window
-                 * @returns {void}
-                 */
                 async function populateEquipmentTypes() {
                     try {
                         let equipmentTypes = <%- JSON.stringify(equipmentTypes) %>;
@@ -96,29 +83,12 @@
                     }
                 }
 
-                /**
-                 * Event handler for when the window loads.
-                 * Calls populateEquipmentTypes function to populate equipment types dropdown menu.
-                 * 
-                 * @async
-                 * @function
-                 * @memberof window
-                 * @returns {void}
-                 */
+
                 window.onload = async function () {
                     await populateEquipmentTypes();
                 };
 
-                /**
-                 * Asynchronously populates the activity types dropdown menu based on the selected equipment type.
-                 * Retrieves activity types data and dynamically creates options for the dropdown.
-                 * 
-                 * @async
-                 * @function populateActivityType
-                 * @memberof window
-                 * @param {string} equipmentType - The selected equipment type.
-                 * @returns {void}
-                 */
+
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
@@ -158,14 +128,7 @@
                     }
                 }
 
-                /**
-                 * Populates the description of an activity within a specified div element.
-                 * 
-                 * @async
-                 * @function populateDescription
-                 * @memberof window
-                 * @returns {void}
-                 */
+
                 async function populateDescription() {
                     const divElement = document.getElementById('description');
 
@@ -174,12 +137,12 @@
 
                     if (dataFromOperation["activityType"]) {
                         const equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
-                        const materials = <%- JSON.stringify(materials) %>;
-                        const project = <%- JSON.stringify(project) %>;
-                        const tp = <%- JSON.stringify(TP) %>;
+                        const materialsMemory = <%- JSON.stringify(materialsMemory) %>;
+                        const project = <%- JSON.stringify(projectListMemory[0]) %>;
+                        const tp = <%- JSON.stringify(projectListMemory[1]) %>;
                         const eqParams = <%- JSON.parse(parametersForOperations) %>;
                         // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materials, project, tp, eqParams).then((description) => {
+                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materialsMemory, project, tp, eqParams).then((description) => {
                             // Create a new <p> element
                             const newP = document.createElement("pre");
 
@@ -196,14 +159,6 @@
                     }
                 }
 
-                /**
-                 * Adds a default "--select--" option to a dropdown select element.
-                 * 
-                 * @function addDefaultOption
-                 * @memberof window
-                 * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
-                 * @returns {void}
-                 */
                 function addDefaultOption(selectElement) {
                     // Create the default option element
                     var defaultOption = document.createElement('option');
@@ -214,14 +169,9 @@
                     selectElement.appendChild(defaultOption);
                 }
 
-                /**
-                 * Parses dataFromOperation to create an Operation object.
-                 * 
-                 * @function parseDataToOperation
-                 * @memberof window
-                 * @returns {void}
-                 */
                 function parseDataToOperation() {
+
+                    let lastOpNum = document.getElementById("op").value;
 
                     // Retrieve the content of the <pre> element with id 'description'
                     let finalText = document.getElementById('description').innerHTML;
@@ -241,27 +191,25 @@
                     let Activity = new TypicalActivity(
                         dataFromOperation['operationType'],
                         dataFromOperation['activityType'],
-                        null,
-                        null,
-                        null,
-                        null,
+                        dataFromOperation["params_time"],
+                        dataFromOperation["params_temp"],
+                        dataFromOperation["params_rpm"],
+                        dataFromOperation["params_flow"],
+                        dataFromOperation["params_ppumpSet"],
+                        dataFromOperation["params_torr"],
                         equipmentList
                     );
 
                     // Create an instance of Operation class
-                    let operation = new Operation(1, dataFromOperation['equipmentType'], Activity);
+                    let newOp = new Operation(lastOpNum, dataFromOperation['equipmentType'], Activity);
 
-                    // Do something with the operation object, such as sending it to the server or displaying it on the page
-                    console.log(operation);
+                    console.log("*********** newOp *************");
+                    console.log(newOp);
+                    // sendOpsToServer(newOp);
+
                 }
 
-                /**
-                 * Purges dataFromOperation object except for the equipmentType property.
-                 * 
-                 * @function purgeDataFromOperation
-                 * @memberof window
-                 * @returns {void}
-                 */
+
                 function purgeDataFromOperation() {
                     // Clear the dataFromOperation object EXCEPT equipmentType
                     for (let key in dataFromOperation) {
@@ -271,6 +219,16 @@
                     }
                     console.log("Data from operation purged.");
                 }
+
+                async function sendOpsToServer(opsFromServer) {
+                    try {
+                        const response = await axios.post('/update_operations', opsFromServer);
+                        console.log('Operations updated successfully:', response.data);
+                    } catch (error) {
+                        console.error('Error updating operations:', error);
+                    }
+                }
+
 
             </script>
 
