@@ -169,7 +169,7 @@
                     selectElement.appendChild(defaultOption);
                 }
 
-                function parseDataToOperation() {
+                async function parseDataToOperation() {
 
                     let lastOpNum = document.getElementById("op").value;
 
@@ -203,9 +203,13 @@
                     // Create an instance of Operation class
                     let newOp = new Operation(lastOpNum, dataFromOperation['equipmentType'], Activity);
 
-                    console.log("*********** newOp *************");
-                    console.log(newOp);
-                    sendOpsToServer(newOp);
+                    //send newOp to local server
+                    try {
+                        const localServerResp = await axios.post('/update_operations', newOp);
+                        console.log('Operations updated successfully:', localServerResp.data);
+                    } catch (error) {
+                        console.error('Error updating operations:', error);
+                    }
 
                 }
 
@@ -218,15 +222,6 @@
                         }
                     }
                     console.log("Data from operation purged.");
-                }
-
-                async function sendOpsToServer(newOp) {
-                    try {
-                        const localServerResp = await axios.post('/update_operations', newOp);
-                        console.log('Operations updated successfully:', localServerResp.data);
-                    } catch (error) {
-                        console.error('Error updating operations:', error);
-                    }
                 }
 
 

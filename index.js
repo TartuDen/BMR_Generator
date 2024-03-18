@@ -86,7 +86,9 @@ app.post("/operation_table", async (req, res) => {
     let operationsFromServer = await getOpFromServer();
     let lastOpNum = await getLastOpNumber(operationsFromServer);
     if (lastOpNum===null){
-        lastOpNum = 1
+        lastOpNum = 1;
+    }else{
+        lastOpNum = lastOpNum+1;
     }
 
     const { project, TP } = req.body
@@ -148,12 +150,11 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum });
 });
 
+//receive newOp from the client and post it to apiServer
 app.post("/update_operations",async (req,res)=>{
-    const {newOp}=req.body;
-    console.log("******* newOp ************");
-    console.log(newOp);
+
     try{
-        let apiResp = await axios.post("http://localhost:8081/addOp", newOp)
+        let apiResp = await axios.post("http://localhost:8081/addOp", req.body)
         console.log('Operations updated successfully:', apiResp.data);
         res.status(201).redirect("/operation_table")
 
