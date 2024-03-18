@@ -13,8 +13,56 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                
+
+                <% operationsFromServer.forEach((operation, index) => { %>
+                    <tr>
+                        <!-- First column -->
+                        <td style="width: 15%;">
+                            <!-- Type of equipment -->
+                            <div class="container p-0">
+                                <div class="form-group">
+                                    <label for="equipmentType">Equipment Type</label>
+                                    <select class="form-control" id="equipmentType<%= index %>"
+                                        onchange="saveSelectedItem(this); populateActivityType(this.value);"
+                                        style="width: auto;">
+                                        <option value="">--select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Operation Type -->
+                            <div class="form-group">
+                                <label for="activityType">Type of Activity</label>
+                                <select class="form-control" id="activityType<%= index %>"
+                                    onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription();">
+                                    <option value="">--select--</option>
+                                </select>
+                            </div>
+                        </td>
+                        <!-- Second column -->
+                        <% if(locals.lastOpNum) { %>
+                        <td style="width: 5%; padding: 0; margin: 0;">
+                            <input type="number" class="form-control" id="op<%= index %>" name="op<%= index %>"
+                                value="<%= operation.number %>">
+                        </td>
+                        <% } %>
+                        <!-- Third column -->
+                        <td>
+                            <!-- Description -->
+                            <div id="description<%= index %>">
+                                <%= operation.typicalActivity.content %>
+                            </div>
+                        </td>
+                        <!-- Fourth column -->
+                        <td style="width: 10%;">
+                            <!-- Other fields -->
+                        </td>
+                    </tr>
+                    <% }) %>
                     
+
+
+                <tr>
                     <td style="width: 15%;">
                         <!-- type of equipment -->
                         <div class="container p-0">
@@ -48,11 +96,12 @@
                     </td>
                     
                     <td style="width: 10%;">
-                        <!-- Button to parse dataFromOperation -->
-                        <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
+
                     </td>
                 </tr>
             </tbody>
         </table>
+        <!-- Button to parse dataFromOperation -->
+        <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
     </div>
 </main>

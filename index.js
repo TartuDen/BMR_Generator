@@ -88,7 +88,7 @@ app.post("/operation_table", async (req, res) => {
     if (lastOpNum===null){
         lastOpNum = 1;
     }else{
-        lastOpNum = lastOpNum+1;
+        lastOpNum = parseInt(lastOpNum)+1;
     }
 
     const { project, TP } = req.body
