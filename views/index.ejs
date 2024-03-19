@@ -25,7 +25,115 @@
             <%- include("partials/sidebar.ejs") %>
 
                 <!-- Table content -->
-                <%- include("partials/operation_table.ejs",{populatePrevOps: populatePrevOps}) %>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                    <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Equipment</th>
+                                    <th>Op.#</th>
+                                    <th>Description</th>
+                                    <th>Other</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                
+                                <% operationsFromServer.forEach((operation, index) => { %>
+                                    <tr>
+                                        <td style="width: 15%;">
+                                            <!-- Type of equipment -->
+                                            
+                                            <!-- Operation Type -->
+                                           
+                                        </td>
+                    
+                                        <td style="width: 5%; padding: 0; margin: 0;">
+                                            <input type="number" class="form-control" id="op<%= index %>" name="op<%= index %>"
+                                                value="<%= operation.number %>">
+                                        </td>
+                    
+                                        <!-- Third column -->
+                                        <td>
+                                            <!-- Description -->
+                                            <div id="description<%= index %>">
+                                                <textarea id="descriptionTextarea<%= index %>" class="form-control" rows="1"><%= populatePrevOps(operation) %></textarea>
+                                            </div>
+                                            
+                                        </td>
+                                        <script>
+                                            // Function to adjust textarea height based on content
+                                            function adjustTextareaHeight(textarea) {
+                                                textarea.style.height = 'auto'; // Reset height to auto
+                                                textarea.style.height = (textarea.scrollHeight + 2) + 'px'; // Set height to content height
+                                            }
+                            
+                                            // Get the textarea element
+                                            var textarea = document.getElementById("descriptionTextarea<%= index %>");
+                            
+                                            // Call the adjustTextareaHeight function when the content changes
+                                            textarea.addEventListener('input', function() {
+                                                adjustTextareaHeight(textarea);
+                                            });
+                            
+                                            // Call the adjustTextareaHeight function initially
+                                            adjustTextareaHeight(textarea);
+                                        </script>
+
+
+                                        <!-- Fourth column -->
+                                        <td style="width: 10%;">
+                                            <!-- Other fields -->
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    
+                
+                
+                                <tr>
+                                    <td style="width: 15%;">
+                                        <!-- type of equipment -->
+                                        <div class="container p-0">
+                                            <div class="form-group">
+                                                <label for="equipmentType">Equipment Type</label>
+                                                <select class="form-control" id="equipmentType"
+                                                    onchange="saveSelectedItem(this); populateActivityType(this.value);"
+                                                    style="width: auto;">
+                                                    <option value="">--select--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- operation Type -->
+                                        <div class="form-group">
+                                            <label for="activityType">Type of Activity</label>
+                                            <select class="form-control" id="activityType"
+                                                onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription();">
+                                                <option value="">--select--</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <% if(locals.lastOpNum) { %>
+                                        <td style="width: 5%; padding: 0; margin: 0;">
+                                            <input type="number" class="form-control" id="op" name="op" value="<%= lastOpNum %>">
+                                        </td>                        
+                                    <% } %>
+                                    <td>
+                                        <div id="description">
+                                        
+                                        </div>
+                                    </td>
+                                    
+                                    <td style="width: 10%;">
+                
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Button to parse dataFromOperation -->
+                    <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
+                </main>
         </div>
 
         <!-- Footer -->
@@ -224,9 +332,12 @@
                     }
                     console.log("Data from operation purged.");
                 }
-
-
             </script>
+
+
+
+
+            
 
 
 
