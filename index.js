@@ -60,6 +60,53 @@ async function getLastOpNumber(opsFromServer){
     return null;
 }
 
+
+function populatePrevOps(data) {
+    const reactorEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "reactor");
+    const balancesEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "balances");
+    const ovenEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "oven");
+    const m_pumpEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "m_pump");
+    const p_pumpEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "p_pump");
+    const o_pumpEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "o_pump");
+    const n_filterEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "n_filter");
+    const d_filterEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "d_filter");
+
+
+
+    const placeholders = {
+        material: data.materialIn || null,
+        reactor: reactorEquipment ? reactorEquipment.code : null,
+        balances: balancesEquipment ? balancesEquipment.code : null,
+        oven: ovenEquipment ? ovenEquipment.code : null,
+        m_pump: m_pumpEquipment ? m_pumpEquipment.code : null,
+        p_pump: p_pumpEquipment ? p_pumpEquipment.code : null,
+        o_pump: o_pumpEquipment ? o_pumpEquipment.code : null,
+        n_filter: n_filterEquipment ? n_filterEquipment.code : null,
+        d_filter: d_filterEquipment ? d_filterEquipment.code : null,
+        torr: data.typicalActivity.torr,
+        time: data.typicalActivity.time,
+        rpm: data.typicalActivity.rpm,
+        temp: data.typicalActivity.temp,
+        flow: data.typicalActivity.flow,
+        ppumpSet: data.typicalActivity.ppumpSet,
+        jug: `${data.project} ${data.TP}`,
+        funnel: `${data.project} ${data.TP}`,
+        hose: `${data.project} ${data.TP}`
+
+    };
+    
+
+    // Replace placeholders with actual values
+    let content = data.typicalActivity.content;
+    Object.entries(placeholders).forEach(([placeholder, value]) => {
+        content = content.replace(new RegExp(`{${placeholder}}`, 'g'), value);
+    });
+
+    return content;
+}
+
+
+
 app.get("/", async (req, res) => {
     let eqNameCodeFromServer = {};
     let apiResp;
@@ -147,7 +194,7 @@ app.post("/operation_table", async (req, res) => {
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum });
+    res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum, populatePrevOps: populatePrevOps });
 });
 
 //receive newOp from the client and post it to apiServer

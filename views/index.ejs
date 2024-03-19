@@ -25,7 +25,7 @@
             <%- include("partials/sidebar.ejs") %>
 
                 <!-- Table content -->
-                <%- include("partials/operation_table.ejs") %>
+                <%- include("partials/operation_table.ejs",{populatePrevOps: populatePrevOps}) %>
         </div>
 
         <!-- Footer -->
@@ -199,9 +199,10 @@
                         dataFromOperation["params_torr"],
                         equipmentList
                     );
-
+                    const project = <%- JSON.stringify(projectListMemory[0]) %>;
+                    const tp = <%- JSON.stringify(projectListMemory[1]) %>;
                     // Create an instance of Operation class
-                    let newOp = new Operation(lastOpNum, dataFromOperation['equipmentType'], Activity);
+                    let newOp = new Operation(project,tp,lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
 
                     //send newOp to local server
                     try {

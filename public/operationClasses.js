@@ -1,5 +1,7 @@
 class Operation {
   constructor(
+    project,
+    TP,
     number,
     mainEquipmentType,
     typicalActivity,
@@ -7,6 +9,8 @@ class Operation {
     materialOut,
     wastes
   ) {
+    this.project = project !== undefined ? project : "";
+    this.TP = TP !== undefined ? TP : "";
     this.number = number !== undefined ? number : 0;
     this.mainEquipmentType =
       mainEquipmentType !== undefined ? mainEquipmentType : "";
