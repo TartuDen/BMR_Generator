@@ -26,6 +26,7 @@ class TypicalActivity {
   constructor(
     operationType,
     content,
+    other,
     time,
     temp,
     rpm,
@@ -36,6 +37,7 @@ class TypicalActivity {
   ) {
     this.operationType = operationType !== undefined ? operationType : "";
     this.content = content !== undefined ? content : "";
+    this.other = other !== undefined ? other: "";
     this.time = time !== undefined ? time : null; // or -1
     this.temp = temp !== undefined ? temp : null;
     this.rpm = rpm !== undefined ? rpm : null;

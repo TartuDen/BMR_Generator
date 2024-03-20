@@ -83,8 +83,11 @@
 
 
                                         <!-- Fourth column -->
-                                        <td style="width: 10%;">
+                                        <td style="width: 15%;">
                                             <!-- Other fields -->
+                                            <div id="other<%= index %>">
+                                                <textarea id="otherTextarea<%= index %>" class="form-control" rows="4"><%= operation.typicalActivity.other %></textarea>
+                                            </div>
                                         </td>
                                     </tr>
                                     <% }) %>
@@ -108,7 +111,7 @@
                                         <div class="form-group">
                                             <label for="activityType">Type of Activity</label>
                                             <select class="form-control" id="activityType"
-                                                onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription();">
+                                                onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription(); populateOther(this);">
                                                 <option value="">--select--</option>
                                             </select>
                                         </div>
@@ -125,6 +128,9 @@
                                     </td>
                                     
                                     <td style="width: 10%;">
+                                        <div id="other">
+
+                                        </div>
                 
                                     </td>
                                 </tr>
@@ -196,12 +202,22 @@
                     await populateEquipmentTypes();
                 };
 
+                async function getActivityType(){
+                    try{
+                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
+                        const response = await axios.post("http://localhost:8081/filter?equipmentType=" + dataFromOperation["equipmentType"]);
+                        let activityTypes = JSON.parse(response.data);
+                        return activityTypes;
+                    }catch(error){
+                        console.log(error);
+                        return null;
+                    }
+                }
 
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const response = await axios.post("http://localhost:8081/filter?equipmentType=" + dataFromOperation["equipmentType"]);
-                        let activityTypes = JSON.parse(response.data);
+                        let activityTypes = await getActivityType();
                         var selectElement = document.getElementById('activityType');
 
                         // Clear previous options
@@ -236,13 +252,34 @@
                     }
                 }
 
+                async function populateOther(selectedElement){
+                    let selectedDescription = selectedElement.value;
+                    let activityTypes = await getActivityType();
+
+                   
+
+                    activityTypes.forEach(function (activity) {
+
+                        if (selectedDescription === activity.Content){
+                            const divElementOther = document.getElementById('other');
+                            divElementOther.innerHTML = '';
+                            const newPreOther = document.createElement("pre");
+                            newPreOther.innerHTML = activity.Other;
+                            divElementOther.appendChild(newPreOther);
+                        }
+
+                    });
+
+
+
+
+                }
 
                 async function populateDescription() {
-                    const divElement = document.getElementById('description');
-
+                    const divElementDescription = document.getElementById('description');
                     // Clear previous content
-                    divElement.innerHTML = '';
-
+                    divElementDescription.innerHTML = '';
+                    
                     if (dataFromOperation["activityType"]) {
                         const equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
                         const materialsMemory = <%- JSON.stringify(materialsMemory) %>;
@@ -257,7 +294,7 @@
                             // Set the html content of the <p> element with the populated description
                             newP.innerHTML = description;
                             // Append the <p> element to the div
-                            divElement.appendChild(newP);
+                            divElementDescription.appendChild(newP);
                         }).catch((error) => {
                             console.error('Error populating description:', error);
                         });
@@ -284,6 +321,8 @@
                     // Retrieve the content of the <pre> element with id 'description'
                     let finalText = document.getElementById('description').innerHTML;
 
+                    let other = document.getElementById("other").innerText;
+
 
                     // Create an list of instances of Equipment class
                     let equipmentList = [];
@@ -299,6 +338,7 @@
                     let Activity = new TypicalActivity(
                         dataFromOperation['operationType'],
                         dataFromOperation['activityType'],
+                        other,
                         dataFromOperation["params_time"],
                         dataFromOperation["params_temp"],
                         dataFromOperation["params_rpm"],
