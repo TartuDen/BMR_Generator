@@ -79,9 +79,10 @@
                                             <!-- Other fields -->
                                             <div id="other<%= index %>">
                                                 <textarea id="otherTextarea<%= index %>" class="form-control"
-                                                    rows="4"><%= operation.typicalActivity.other %></textarea>
+                                                    rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
                                             </div>
                                         </td>
+                                        
                                     </tr>
                                     <% }) %>
 
