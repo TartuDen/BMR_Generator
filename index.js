@@ -198,17 +198,26 @@ app.post("/operation_table", async (req, res) => {
 });
 
 //receive newOp from the client and post it to apiServer
-app.post("/update_operations",async (req,res)=>{
-
-    try{
-        let apiResp = await axios.post("http://localhost:8081/addOp", req.body)
-        console.log('Operations updated successfully:', apiResp.data);
-        res.status(201).redirect("/operation_table")
-
-    }catch(error){
-        console.error(error)
+app.post("/update_operations", async (req, res) => {
+    try {
+        const apiResp = await axios.post("http://localhost:8081/addOp", req.body);
+        console.log('Success: ', apiResp.data.message);
+        res.status(201).json(apiResp.data)
+    } catch (error) {
+        console.error("Error updating operations:", error.message);
+        if (error.response) {
+            // The request was made and the server responded with a non-2xx status code
+            res.status(error.response.status).send(error.response.data);
+        } else if (error.request) {
+            // The request was made but no response was received
+            res.status(500).send("No response received from the server.");
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            res.status(500).send("Error occurred while sending the request.");
+        }
     }
-})
+});
+
 
 // Server listening on specified port
 app.listen(port, (err) => {

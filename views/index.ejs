@@ -164,7 +164,6 @@
                     var value = selectElement.value;
                     // Add new elements into dataFromOperation
                     dataFromOperation[id] = value;
-                    console.log(dataFromOperation);
                 }
             </script>
 
@@ -355,7 +354,7 @@
                     //send newOp to local server
                     try {
                         const localServerResp = await axios.post('/update_operations', newOp);
-                        console.log('Operations updated successfully:', localServerResp.data);
+                        window.location.reload();
                     } catch (error) {
                         console.error('Error updating operations:', error);
                     }
