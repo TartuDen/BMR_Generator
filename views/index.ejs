@@ -30,37 +30,29 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    
-                                    <th>Equipment</th>
+                                   
                                     <th>Op.#</th>
                                     <th>Description</th>
                                     <th>Other</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
-                
-                                <% operationsFromServer.forEach((operation, index) => { %>
+                                <% operationsFromServer.forEach((operation, index)=> { %>
                                     <tr>
-                                        <td style="width: 15%;">
-                                            <!-- Type of equipment -->
-                                            
-                                            <!-- Operation Type -->
-                                           
-                                        </td>
-                    
+                                        
                                         <td style="width: 5%; padding: 0; margin: 0;">
-                                            <input type="number" class="form-control" id="op<%= index %>" name="op<%= index %>"
-                                                value="<%= operation.number %>">
+                                            <input type="number" class="form-control" id="op<%= index %>"
+                                                name="op<%= index %>" value="<%= operation.number %>">
                                         </td>
-                    
+
                                         <!-- Third column -->
                                         <td>
                                             <!-- Description -->
                                             <div id="description<%= index %>">
-                                                <textarea id="descriptionTextarea<%= index %>" class="form-control" rows="1"><%= populatePrevOps(operation) %></textarea>
+                                                <textarea id="descriptionTextarea<%= index %>" class="form-control"
+                                                    rows="1"><%= populatePrevOps(operation) %></textarea>
                                             </div>
-                                            
+
                                         </td>
                                         <script>
                                             // Function to adjust textarea height based on content
@@ -68,15 +60,15 @@
                                                 textarea.style.height = 'auto'; // Reset height to auto
                                                 textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
                                             }
-                            
+
                                             // Get the textarea element
                                             var textarea = document.getElementById("descriptionTextarea<%= index %>");
-                            
+
                                             // Call the adjustTextareaHeight function when the content changes
-                                            textarea.addEventListener('input', function() {
+                                            textarea.addEventListener('input', function () {
                                                 adjustTextareaHeight(textarea);
                                             });
-                            
+
                                             // Call the adjustTextareaHeight function initially
                                             adjustTextareaHeight(textarea);
                                         </script>
@@ -86,61 +78,63 @@
                                         <td style="width: 15%;">
                                             <!-- Other fields -->
                                             <div id="other<%= index %>">
-                                                <textarea id="otherTextarea<%= index %>" class="form-control" rows="4"><%= operation.typicalActivity.other %></textarea>
+                                                <textarea id="otherTextarea<%= index %>" class="form-control"
+                                                    rows="4"><%= operation.typicalActivity.other %></textarea>
                                             </div>
                                         </td>
                                     </tr>
                                     <% }) %>
-                                    
-                
-                
-                                <tr>
-                                    <td style="width: 15%;">
-                                        <!-- type of equipment -->
-                                        <div class="container p-0">
-                                            <div class="form-group">
-                                                <label for="equipmentType">Equipment Type</label>
-                                                <select class="form-control" id="equipmentType"
-                                                    onchange="saveSelectedItem(this); populateActivityType(this.value);"
-                                                    style="width: auto;">
-                                                    <option value="">--select--</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- operation Type -->
-                                        <div class="form-group">
-                                            <label for="activityType">Type of Activity</label>
-                                            <select class="form-control" id="activityType"
-                                                onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription(); populateOther(this);">
-                                                <option value="">--select--</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <% if(locals.lastOpNum) { %>
-                                        <td style="width: 5%; padding: 0; margin: 0;">
-                                            <input type="number" class="form-control" id="op" name="op" value="<%= lastOpNum %>">
-                                        </td>                        
-                                    <% } %>
-                                    <td>
-                                        <div id="description">
-                                        
-                                        </div>
-                                    </td>
-                                    
-                                    <td style="width: 10%;">
-                                        <div id="other">
 
-                                        </div>
-                
-                                    </td>
-                                </tr>
+                                        <tr>
+                                            
+                                            <% if(locals.lastOpNum) { %>
+                                                <td style="width: 5%; padding: 0; margin: 0;">
+                                                    <input type="number" class="form-control" id="op" name="op"
+                                                        value="<%= lastOpNum %>">
+                                                </td>
+                                                <% } %>
+                                                    <td>
+                                                        <div id="description">
+
+                                                        </div>
+                                                    </td>
+
+                                                    <td style="width: 10%;">
+                                                        <div id="other"></div>
+                                                    </td>
+                                        </tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- Button to parse dataFromOperation -->
-                    <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
+                    <!-- Equipment and Activity Type Selection, and Button to parse data -->
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="equipmentType">Equipment Type</label>
+                                <select class="form-control" id="equipmentType"
+                                    onchange="saveSelectedItem(this); populateActivityType(this.value);">
+                                    <option value="">--select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="activityType">Type of Activity</label>
+                                <select class="form-control" id="activityType"
+                                    onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription(); populateOther(this);">
+                                    <option value="">--select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1 text-center mt-4 ">
+                            <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
+                        </div>
+                    </div>
+
                 </main>
         </div>
+
+
 
         <!-- Footer -->
         <%- include("partials/footer.ejs") %>
@@ -150,13 +144,13 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
-            </script>
+                </script>
             <script>
-                    let dataFromOperation = <%- JSON.stringify(dataFromOperationServer) %>;
+                let dataFromOperation = <%- JSON.stringify(dataFromOperationServer) %>;
 
             </script>
             <script>
-                
+
 
                 function saveSelectedItem(selectElement) {
                     // Retrieve the selected value from the select element
@@ -201,13 +195,13 @@
                     await populateEquipmentTypes();
                 };
 
-                async function getActivityType(){
-                    try{
+                async function getActivityType() {
+                    try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
                         const response = await axios.post("http://localhost:8081/filter?equipmentType=" + dataFromOperation["equipmentType"]);
                         let activityTypes = JSON.parse(response.data);
                         return activityTypes;
-                    }catch(error){
+                    } catch (error) {
                         console.log(error);
                         return null;
                     }
@@ -251,15 +245,15 @@
                     }
                 }
 
-                async function populateOther(selectedElement){
+                async function populateOther(selectedElement) {
                     let selectedDescription = selectedElement.value;
                     let activityTypes = await getActivityType();
 
-                   
+
 
                     activityTypes.forEach(function (activity) {
 
-                        if (selectedDescription === activity.Content){
+                        if (selectedDescription === activity.Content) {
                             const divElementOther = document.getElementById('other');
                             divElementOther.innerHTML = '';
                             const newPreOther = document.createElement("pre");
@@ -278,7 +272,7 @@
                     const divElementDescription = document.getElementById('description');
                     // Clear previous content
                     divElementDescription.innerHTML = '';
-                    
+
                     if (dataFromOperation["activityType"]) {
                         const equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
                         const materialsMemory = <%- JSON.stringify(materialsMemory) %>;
@@ -349,7 +343,7 @@
                     const project = <%- JSON.stringify(projectListMemory[0]) %>;
                     const tp = <%- JSON.stringify(projectListMemory[1]) %>;
                     // Create an instance of Operation class
-                    let newOp = new Operation(project,tp,lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
+                    let newOp = new Operation(project, tp, lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
 
                     //send newOp to local server
                     try {
@@ -376,7 +370,7 @@
 
 
 
-            
+
 
 
 
