@@ -58,11 +58,11 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
 			output = output.replace("{material}", materialSelectList);
 		} else if (output.includes("{jug}") || output.includes("{funnel}") || output.includes("{hose}")) {
 			if (output.includes("{jug}")) {
-				output = output.replace("{jug}", `"${project} ${tp}"`);
+				output = output.replace("{jug}", `${project} ${tp}`);
 			} else if (output.includes("{funnel}")) {
-				output = output.replace("{funnel}", `"${project} ${tp}"`);
+				output = output.replace("{funnel}", `${project} ${tp}`);
 			} else if (output.includes("{hose}")) {
-				output = output.replace("{hose}", `"${project} ${tp}"`);
+				output = output.replace("{hose}", `${project} ${tp}`);
 			}
 
 		} else {
