@@ -21,36 +21,50 @@ let projectListMemory = [];
 let materialsMemory = [];
 let dataFromOperationServer = {};
 
-
-
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded request bodies
 app.use(bodyParser.json());
 // Route definitions
 
+/**
+ * Asynchronous function to fetch operations data from the operation server.
+ * @returns {Promise} A promise that resolves with the operations data fetched from the server, or null if an error occurs.
+ */
 async function getOpFromServer() {
     try {
         let opFromServer = await axios.get("http://localhost:8081/operations");
-        return opFromServer.data
-    } catch (error) {
-        console.error(error)
-        return null
-    }
-}
-
-async function getParamsForOps() {
-    try {
-        // Fetch parameters for operations
-        let parametersForOperations = await axios.get("http://localhost:8081/eq_params");
-        parametersForOperations = JSON.stringify(parametersForOperations.data);
-        return parametersForOperations
+        return opFromServer.data;
     } catch (error) {
         console.error(error);
-        return null
+        return null;
     }
 }
 
+
+
+/**
+ * Asynchronous function to fetch parameters for operations from the operation server.
+ * @returns {Promise} A promise that resolves with the parameters data fetched from the server, or null if an error occurs.
+ */
+async function getParamsForOps() {
+    try {
+        let parametersForOperations = await axios.get("http://localhost:8081/eq_params");
+        parametersForOperations = JSON.stringify(parametersForOperations.data);
+        return parametersForOperations;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+
+
+/**
+ * Retrieves the number of the last operation from the given list of operations.
+ * @param {Array} opsFromServer - List of operations fetched from the server.
+ * @returns {Number|null} The number of the last operation, or null if the list is empty.
+ */
 async function getLastOpNumber(opsFromServer){
     if (opsFromServer.length > 0){
         let lastOp = opsFromServer[opsFromServer.length-1];
@@ -61,7 +75,13 @@ async function getLastOpNumber(opsFromServer){
 }
 
 
+/**
+ * Populates placeholders in the operation content with actual values.
+ * @param {Object} data - Data object containing typical activity information.
+ * @returns {String} The content with placeholders replaced by actual values.
+ */
 function populatePrevOps(data) {
+    // Define equipment and placeholders
     const reactorEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "reactor");
     const balancesEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "balances");
     const ovenEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "oven");
@@ -71,8 +91,7 @@ function populatePrevOps(data) {
     const n_filterEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "n_filter");
     const d_filterEquipment = data.typicalActivity.additionalEquipment.find(eq => eq.name === "d_filter");
 
-
-
+    // Define placeholders
     const placeholders = {
         material: data.materialIn || null,
         reactor: reactorEquipment ? reactorEquipment.code : null,
@@ -92,9 +111,7 @@ function populatePrevOps(data) {
         jug: `${data.project} ${data.TP}`,
         funnel: `${data.project} ${data.TP}`,
         hose: `${data.project} ${data.TP}`
-
     };
-    
 
     // Replace placeholders with actual values
     let content = data.typicalActivity.content;
@@ -106,7 +123,12 @@ function populatePrevOps(data) {
 }
 
 
-
+/**
+ * Route handler for the root path ("/").
+ * Renders the "main_table.ejs" template with necessary data.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.get("/", async (req, res) => {
     let eqNameCodeFromServer = {};
     let apiResp;
@@ -128,6 +150,12 @@ app.get("/", async (req, res) => {
 });
 
 
+/**
+ * Route handler for the "/operation_table" path.
+ * Handles POST requests to create operation tables.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.post("/operation_table", async (req, res) => {
     let parametersForOperations = await getParamsForOps();
     let operationsFromServer = await getOpFromServer();
@@ -138,16 +166,13 @@ app.post("/operation_table", async (req, res) => {
         lastOpNum = parseInt(lastOpNum)+1;
     }
 
+     // Extracting data from the request body
     const { project, TP } = req.body
     projectListMemory = [];
     projectListMemory.push(project);
     projectListMemory.push(TP);
 
-    // Extracting data from the request body
     const { reactor1, reactor2, oven1, m_pump1, m_pump2, p_pump1, p_pump2, o_pump1, n_filter1, d_filter1, balances1, balances2 } = req.body;
-
-    // dataFromOperationServer = req.body.dataFromOperation;
-
 
     materialsMemory = [];
     // Iterating through up to 10 possible material inputs
@@ -197,7 +222,13 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum, populatePrevOps: populatePrevOps });
 });
 
-//receive newOp from the client and post it to apiServer
+
+/**
+ * Route handler for updating operations.
+ * Receives new operation data from the client and posts it to the API server.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.post("/update_operations", async (req, res) => {
     try {
         const apiResp = await axios.post("http://localhost:8081/addOp", req.body);
@@ -219,7 +250,12 @@ app.post("/update_operations", async (req, res) => {
 });
 
 
-// Server listening on specified port
+
+/**
+ * Starts the server listening on the specified port.
+ * @param {number} port - The port on which the server will listen.
+ * @param {Function} err - The callback function to handle errors.
+ */
 app.listen(port, (err) => {
     // Error handling
     if (err) {
