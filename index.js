@@ -130,22 +130,19 @@ function populatePrevOps(data) {
  * @param {Object} res - The response object.
  */
 app.get("/", async (req, res) => {
-    let eqNameCodeFromServer = {};
-    let apiResp;
-    for (let equipment of eqList) {
-        try {
-            apiResp = await axios.get("http://localhost:8081/main_table/" + equipment);
-            apiResp = JSON.parse(apiResp.data);
-            eqNameCodeFromServer[equipment] = apiResp;
+    let apiRespEquipmentList;
 
-        } catch (error) {
-            console.error(error);
-        }
-
+    try {
+      const apiResp = await axios.get("http://localhost:8081/equipment_list");
+        apiRespEquipmentList = JSON.parse(apiResp.data);
+    } catch (error) {
+      console.error(error);
     }
 
-    // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", { equipmentListMemory, eqNameCodeFromServer, materialsMemory, projectListMemory });
+    // Rendering the "main_table.ejs" template with the data
+    res.status(200).render("main_table_2.ejs", {
+      apiRespEquipmentList: apiRespEquipmentList,
+    });
 
 });
 

@@ -3,7 +3,12 @@ import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { GetListEquipmentTypesMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK } from './apiMocks.js';
+import {
+  GetListEquipmentTypesMOCK,
+  GetListActivityMOCK,
+  GetEquipmentListByTypeMOCK,
+  GetParametersForOperationsMOCK,
+} from "./apiMocks.js";
 
 const port = 8081;
 const app = express();

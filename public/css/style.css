@@ -1,31 +1,51 @@
-.text-muted{
-    color: antiquewhite;
+:root {
+  --text-muted-color: antiquewhite;
+  --wrapper-background: #f5f5f5;
+  --text-body-secondary-color: aliceblue;
+  --border-color: #ddd;
+  --hover-background: #f2f2f2;
 }
+
+.text-muted {
+  color: var(--text-muted-color);
+}
+
 .wrapper {
-    display: flex;
-    flex-direction: row; /* changed to row */
-    min-height: 85vh;
+  display: flex;
+  flex-direction: row;
+  min-height: 85vh;
 }
 
 .content {
-    flex: 1;
+  flex: 1;
 }
 
 .sidebar {
-    width: 250px; /* Define width of sidebar */
-    background-color: #f5f5f5; /* Example background color */
-    padding: 20px;
+  width: 250px;
+  background-color: var(--wrapper-background);
+  padding: 20px;
 }
 
 .dropdown-submenu {
-    position: relative;
+  position: relative;
 }
 
 .dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
 }
-.text-body-secondary{
-    color: aliceblue!important;
+
+.text-body-secondary {
+  color: var(--text-body-secondary-color) !important;
+}
+
+.equipment-cell {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: bold;
+}
+
+.equipment-cell:hover {
+  background-color: var(--hover-background);
 }
