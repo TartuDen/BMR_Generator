@@ -492,11 +492,11 @@ async function GetEquipmentListByTypeMOCK(equipmentType) {
       { name: "d_filter", code: "046-7", description:"ss agit 100/140L" },
     ],
     n_filter: [
-      { name: "n_filter", code: "046-1", description:"PP" },
-      { name: "n_filter", code: "046-13", description:"PP" },
-      { name: "n_filter", code: "046-14", description:"PP" },
-      { name: "n_filter", code: "046-2", description:"PP" },
-      { name: "n_filter", code: "046-3", description:"PP" },
+      { name: "n_filter", code: "046-1", description:"" },
+      { name: "n_filter", code: "046-13", description:"" },
+      { name: "n_filter", code: "046-14", description:"" },
+      { name: "n_filter", code: "046-2", description:"" },
+      { name: "n_filter", code: "046-3", description:"" },
     ],
     m_pump: [
       { name: "m_pump", code: "001-22", description:"" },

@@ -232,7 +232,7 @@
                         eqNameCodeFromServer[eq].forEach(function (eqName) {
                             const option = document.createElement('option');
                             option.value = eqName.code;
-                            option.textContent = eqName.code;
+                            option.textContent = eqName.code + " " + eqName.description;
                             selectElement.appendChild(option);
                             if (option.value === eqFromMemory) {
                                 option.selected = true; // Set as default if match found
