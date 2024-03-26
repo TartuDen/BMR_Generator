@@ -125,7 +125,7 @@ Actual loading:
       `Required amount of {material} is weighed on the balances {balances} using jug "{jug}". 
 Using peristaltic pump  {p_pump} and norprene hose "{hose}", weighted material is pumped into the reactor via a liquid loading valve. 
 The peristaltic pump is set to {ppumpSet}%. 
-After loading is done, the pump is stopped, and the hose is removed. The 60 mm flange port is closed. The hose is cleaned.
+After loading is done, the pump is stopped, and the hose is removed. The 60 mm flange port is closed. The hose is cleaned and dried.
 
 Specified amount: ….. kg (….. - ….. kg)`,
     Other:
@@ -143,7 +143,7 @@ setting: ..... %`
         `The required amount of {material} is weighed on the balances {balances} using jug "{jug}". 
 Using peristaltic pump  {p_pump} and norprene hose "{hose}", weighted material is pumped into the dosing system. 
 The peristaltic pump is set to {ppumpSet}%. After loading is done, the pump is stopped, hose is removed. 
-The dosing system is closed. The hose is cleaned.
+The dosing system is closed. The hose is cleaned and dried.
 
 Specified amount: ….. kg (….. - ….. kg)`,
 Other:
@@ -212,6 +212,25 @@ setting: ..... °C`
     },
     {
       Equipment: "reactor",
+      OperationType: "vac_dist.",
+      Content:
+      `Solvent is distilled out from reactor.
+Tap water for condenser is turned ON.
+Heating is set {temp}°C.
+Stirring is set {rpm} rpm.
+Membrane pump is connected via cold trap and turned ON.
+Vacuum is gradually decreased {torr} torr.
+Distillation is continued until <conditions>.`,
+Other:
+`Actual temp
+setting: ..... °C
+Actual stirring
+setting: ..... rpm
+Actual vacuum
+setting: ..... Torr`
+    },
+    {
+      Equipment: "reactor",
       OperationType: "reaction_cool_ON",
       Content:
       `Cooling of reactor {reactor} is turned ON. Temperature is set to {temp}°C. 
@@ -253,7 +272,7 @@ Once 2/3 of the filter is loaded, stop pumping and close the product line.`,
       Equipment: `d_filter`,
       OperationType: `filtration_with_argon`,
       Content:
-      `Check that the product line is closed, and check the pressure on Argon cylinder {Argon cylinder}, it must be in the range 0.5-1bar. 
+      `Check that the product line is closed, and check the pressure on Argon cylinder, it must be in the range 0.5-1bar. 
 Open the argon line on the lid of the filter {d_filter} and wait until no more or very little of ML is coming into the receiver (visually on the level tube). 
 At the end of operation close the argon line.`,
     Other:
@@ -266,8 +285,8 @@ At the end of operation close the argon line.`,
       `Check that the product line and argon line are closed. 
 Release the top valve on the receiver to make sure there is no extra pressure. 
 Connect peristaltic pump {p_pump} to the bottom valve of the filter {d_filter} using norprene hose "{hose}". 
-The second end of the hose is securely fixed into the receiving container canister, set the speed of the peristaltic pump {p_pump} %. 
-Start the pump. Continue the process until all ML is unloaded into the respective receiver.`,
+The second end of the hose is securely fixed into the receiving container canister, set the speed of the peristaltic pump {ppumpSet} %. 
+Start the pump. Continue the process until all ML is unloaded into the receiver.`,
      Other:
       ``
     },
