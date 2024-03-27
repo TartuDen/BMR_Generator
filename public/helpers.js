@@ -29,7 +29,7 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
 	parametersForOperations.forEach((param, index) => {
 		const paramRegex = new RegExp(`{${param}}`, 'g'); // Create regex for param
 		if (output.match(paramRegex)) {
-			const inputField = `<input type="text" id="params_${param}_${index}" name="params_${param}" placeholder="${param}" oninput="saveSelectedItem(this)">`;
+			const inputField = `<input type="text" id="params_${param}" name="params_${param}" placeholder="${param}" oninput="saveSelectedItem(this)">`;
 			output = output.replace(paramRegex, inputField); // Replace all occurrences
 		}
 	});
