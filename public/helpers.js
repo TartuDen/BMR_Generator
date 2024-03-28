@@ -17,23 +17,20 @@ function delay(ms) {
 async function replaceTextWithSelect(text, equipmentList, materials, project, tp, parametersForOperations) {
 	const regex = /\{([^}]+)\}/g;
 	let output = text;
-	
+
 	// Extract equipment types from text
 	const equipmentTypes = [];
 	let match;
 	while ((match = regex.exec(text)) !== null) {
 		equipmentTypes.push(match[1]);
 	}
-	
 	// Replace parameters with input elements
-	parametersForOperations.forEach((param, index) => {
-		const paramRegex = new RegExp(`{${param}}`, 'g'); // Create regex for param
-		if (output.match(paramRegex)) {
+	parametersForOperations.forEach((param) => {
+		if (output.includes(`{${param}}`)) {
 			const inputField = `<input type="text" id="params_${param}" name="params_${param}" placeholder="${param}" oninput="saveSelectedItem(this)">`;
-			output = output.replace(paramRegex, inputField); // Replace all occurrences
+			output = output.replace(`{${param}}`, inputField);
 		}
 	});
-	
 	
 
 	// Replace {placeHolders} with select lists or input elements

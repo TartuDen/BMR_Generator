@@ -280,7 +280,7 @@ Argon and product lines are connected to the lid, pressure test is done.`,
       Equipment: "d_filter",
       OperationType: "load_on_filter",
       Content:
-      `Product is loaded on the filter {d_filter} via product line. The Argon line is closed during loading. 
+      `Product is loaded from reactor {reactor} on the filter {d_filter} via product line. The Argon line is closed during loading. 
 Once 2/3 of the filter is loaded, stop pumping and close the product line.`,
     Other:
     ``
