@@ -3,21 +3,35 @@ import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import pg from "pg";
 import { GetListEquipmentTypesMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK } from './apiMocks.js';
+import { cache } from 'ejs';
 
 const port = 8081;
 const app = express();
 let operations = [];
+
+const client = new pg.Client({
+  user: "dverves",
+  host: "localhost",
+  database: "br_generator",
+  password: "123",
+  port: 5432
+});
 
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+async function connectToDB(){
+  try{
+    await client.connect();
+    console.log("Connected to br_generator db.");
+  }catch(error){
+    console.error("Error connecting to br_generator db: ", error);
   }
-
+}
 
 // Endpoint to handle authentication and return token
 app.post('/login', async (req, res) => {
@@ -73,7 +87,8 @@ app.post("/filter", async (req,res)=>{
   res.status(200).json(equipmentTypes);
 })
 
-app.listen(port,(err)=>{
+app.listen(port,async(err)=>{
     if(err) throw err;
+    await connectToDB();
     console.log("server is running on port: "+port)
 })
