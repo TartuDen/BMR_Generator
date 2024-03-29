@@ -347,6 +347,8 @@
                     const tp = <%- JSON.stringify(projectListMemory[1]) %>;
                     // Create an instance of Operation class
                     let newOp = new Operation(project, tp, lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
+                    console.log("*************")
+                    console.log(newOp)
 
                     //send newOp to local server
                     try {

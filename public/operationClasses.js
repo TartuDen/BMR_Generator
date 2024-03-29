@@ -1,6 +1,6 @@
 class Operation {
   constructor(
-    project,
+    project, 
     TP,
     number,
     mainEquipmentType,
@@ -24,26 +24,34 @@ class Operation {
 
 class TypicalActivity {
   constructor(
-    operationType,
-    content,
-    other,
-    time,
-    temp,
-    rpm,
-    flow,
-    ppumpSet,
-    torr,
-    additionalEquipment
+    operationType, // type of operation related to specific equipment, e.g. equipment - reactor; operation type - "material_add_dropwise".
+    content, // A String that describes opeartion, containing placeholders withing {} for inserting select elements or inputs.
+    other, // A String - second field of the table, containing placeholder for operators to record acutal data, e.g. "Actual loadin: ... kg".
+    durationRange, // An array representing the min and max allowed duration, e.g. [10, 20] min.
+    targetTempRange, // An array representing the min and max allowed temperature, e.g. [10, 20] °C.
+    initialTempSet, // The initial temperature setting of the thermostat as a single integer value in °C.
+    finalTempSet, // The final temperature setting of the thermostat as a single integer value in °C.
+    processTemp, // The process temperature as a single integer value in °C.
+    rpmRange, // An array representing the min and max allowed stirring speed of spinnable equipment e.g. [150, 200] rpm.
+    flowRange, // An array representing the min and max allowed gas flow speed, e.g. argon, e.g. [15, 20] l/min.
+    ppumpSetRange, // An array representing the min and max allowed rotation speed of peristaltic pump e.g. [60, 80] %.
+    vpumpTorrProcess, // The acutal vacuum in process as a single integer value in Torr.
+    vpumpTorrRange, // An array representing the min and max allowed vacuum pump setting, e.g. [300, 150] Torr.
+    additionalEquipment // An array of objects of Equpment Class that is mentioned in content section.
   ) {
     this.operationType = operationType !== undefined ? operationType : "";
     this.content = content !== undefined ? content : "";
-    this.other = other !== undefined ? other: "";
-    this.time = time !== undefined ? time : null; // or -1
-    this.temp = temp !== undefined ? temp : null;
-    this.rpm = rpm !== undefined ? rpm : null;
-    this.flow = flow !== undefined ? flow : null;
-    this.ppumpSet = ppumpSet !== undefined ? ppumpSet : null;
-    this.torr = torr !== undefined ? torr : null;
+    this.other = other !== undefined ? other : "";
+    this.durationRange = durationRange !== undefined ? durationRange : []; // or -1
+    this.targetTempRange = targetTempRange !== undefined ? targetTempRange : [];
+    this.initialTempSet = initialTempSet !== undefined ? initialTempSet : null;
+    this.finalTempSet = finalTempSet !== undefined ? finalTempSet : null;
+    this.processTemp = processTemp !== undefined ? processTemp : null;
+    this.rpmRange = rpmRange !== undefined ? rpmRange : [];
+    this.flowRange = flowRange !== undefined ? flowRange : [];
+    this.ppumpSetRange = ppumpSetRange !== undefined ? ppumpSetRange : [];
+    this.vpumpTorrProcess = vpumpTorrProcess !== undefined ? vpumpTorrProcess : null;
+    this.vpumpTorrRange = vpumpTorrRange !== undefined ? vpumpTorrRange : [];
     this.additionalEquipment =
       additionalEquipment !== undefined ? additionalEquipment : [];
   }

@@ -124,7 +124,7 @@ Actual loading:
       Content:
       `Loading into reactor:\nRequired amount of {material} is weighed on the balances {balances} using jug "{jug}". 
 Using peristaltic pump  {p_pump} and norprene hose "{hose}", weighted material is pumped into the reactor via a liquid loading valve. 
-The peristaltic pump is set to {ppumpSet}%. 
+The peristaltic pump is set to {ppumpSetRange}%. 
 After loading is done, the pump is stopped, and the hose is removed. The 60 mm flange port is closed. The hose is cleaned and dried.
 
 Specified amount: ….. kg (….. - ….. kg)`,
@@ -160,9 +160,10 @@ setting: ..... %`
       Content:
         `Dropwise addtion:\nMaterial is added dropwise from dropping funnel.
 Addition is temperature controlled.
-Keep the temperature of reaction mixture in range {temp}°C.
-Adjust the setting of thermostat in range {temp}°C.
-Stirring is set to {rpm}rpm.`,
+Keep the temperature of reaction mixture in range {targetTempRange}°C.
+Set the thermostat to the temperature {initialTempSet}°C.
+Once temperaute in require range, change the setting of thermostat to {finalTempSet}°C.
+Stirring is set to range {rpmRange} rpm.`,
 Other:
 `Actual thermostat
 setting: ..... °C
