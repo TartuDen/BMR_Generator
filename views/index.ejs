@@ -161,6 +161,7 @@
                     dataFromOperation[id] = value;
                     console.log("dataFromOperation");
                     console.log(dataFromOperation);
+                    console.log("*******end*******")
                 }
             </script>
 
@@ -335,25 +336,30 @@
                         dataFromOperation['operationType'],
                         dataFromOperation['activityType'],
                         other,
-                        dataFromOperation["params_time"],
-                        dataFromOperation["params_temp"],
-                        dataFromOperation["params_rpm"],
-                        dataFromOperation["params_flow"],
-                        dataFromOperation["params_ppumpSet"],
-                        dataFromOperation["params_torr"],
+                        dataFromOperation["params_durationRange"],
+                        dataFromOperation["params_targetTempRange"],
+                        dataFromOperation["params_initialTempSet"],
+                        dataFromOperation["params_finalTempSet"],
+                        dataFromOperation["params_processTemp"],
+                        dataFromOperation["params_rpmRange"],
+                        dataFromOperation["params_flowRange"],
+                        dataFromOperation["params_ppumpSetRange"],
+                        dataFromOperation["params_vpumpTorrProcess"],
+                        dataFromOperation["params_vpumpTorrRange"],
                         equipmentList
                     );
                     const project = <%- JSON.stringify(projectListMemory[0]) %>;
                     const tp = <%- JSON.stringify(projectListMemory[1]) %>;
                     // Create an instance of Operation class
                     let newOp = new Operation(project, tp, lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
-                    console.log("*************")
+                    console.log("*******newOp******")
                     console.log(newOp)
+                    console.log("******end******")
 
                     //send newOp to local server
                     try {
                         const localServerResp = await axios.post('/update_operations', newOp);
-                        window.location.reload();
+                        window.location.reload(); // this line to reaload the window when the button is pressed!
                     } catch (error) {
                         console.error('Error updating operations:', error);
                     }
