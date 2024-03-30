@@ -2,8 +2,8 @@
  * Replace {placeHolders} in description text to option select list or input element if
  * they correspond to TypicalActivity class properties.
  *
- * @param {[string]} activityContent - The description for operation.
- * @param {[string]} parametersForOperations - The array of parameters from the Server.
+ * @param {Array<string>} activityContent - The description for operation.
+ * @param {Array<string>} parametersForOperations - The array of parameters from the Server.
  * @returns {Promise<string>} A promise that resolves with the modified text.
  */
 async function getInnerHTMLForTypicalActivity(
