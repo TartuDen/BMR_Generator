@@ -165,12 +165,8 @@ app.get("/", async (req, res) => {
  */
 app.post("/operation_table", async (req, res) => {
     let parametersForOperations = await getParamsForOps();
-    console.log("РОБЕ чи не РОБЕ");
-    console.log(parametersForOperations);
     let operationsFromServer = await getOpFromServer();
-    console.log("РОБЕ чи не РОБЕ --- getOpFromServer");
-    console.log(operationsFromServer);
-   let lastOpNum = await getLastOpNumber(operationsFromServer);
+    let lastOpNum = await getLastOpNumber(operationsFromServer);
     if (lastOpNum===null){
         lastOpNum = 1;
     }else{
