@@ -4,7 +4,7 @@ import { TypicalActivity } from "./public/operationClasses.js";
  * Replace {placeHolders} in description text to option select list or input element if
  * they corresponds TypicalActivity Class
  *
- * @param {string} activityContent - The description for operation.
+ * @param {[string]} activityContent - The description for operation.
  * @param {[string]} parametersForOperations - The array of parameters from the Server.
  * @returns {Promise<string>} A promise that resolves with the modified text.
  */

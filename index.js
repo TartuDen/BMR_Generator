@@ -1,3 +1,4 @@
+import { settings } from "./public/settings.js";
 /**
  * Entry point for the server application.
  * This file sets up an Express server to handle HTTP requests.
@@ -34,6 +35,7 @@ app.use(bodyParser.json());
 async function getOpFromServer() {
     try {
         let opFromServer = await axios.get("http://localhost:8081/operations");
+        console.log(settings.databaseServerUrl);
         return opFromServer.data;
     } catch (error) {
         console.error(error);
@@ -163,8 +165,12 @@ app.get("/", async (req, res) => {
  */
 app.post("/operation_table", async (req, res) => {
     let parametersForOperations = await getParamsForOps();
+    console.log("РОБЕ чи не РОБЕ");
+    console.log(parametersForOperations);
     let operationsFromServer = await getOpFromServer();
-    let lastOpNum = await getLastOpNumber(operationsFromServer);
+    console.log("РОБЕ чи не РОБЕ --- getOpFromServer");
+    console.log(operationsFromServer);
+   let lastOpNum = await getLastOpNumber(operationsFromServer);
     if (lastOpNum===null){
         lastOpNum = 1;
     }else{
@@ -189,8 +195,6 @@ app.post("/operation_table", async (req, res) => {
             materialsMemory.push(material);
         }
     }
-
-
 
     // Definitions for equipment names and their conditions
     const equipmentNames = [
@@ -221,7 +225,6 @@ app.post("/operation_table", async (req, res) => {
         { name: "balances", code: balances1, condition: balances1 !== "" },
         { name: "balances", code: balances2, condition: balances2 !== "" },
     ];
-
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum, populatePrevOps: populatePrevOps });
