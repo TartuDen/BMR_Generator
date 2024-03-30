@@ -49,17 +49,26 @@ async function getInnerHTMLForTypicalActivity(
   return output; // Return the modified text
 }
 
+/**
+ * Extracts text within curly braces from the given text.
+ * 
+ * @param {string} text - The text containing curly braces.
+ * @returns {Array<string>} An array containing the text extracted from curly braces.
+ */
 function extractTextInCurlyBraces(text) {
+  // Regular expression to match text within curly braces
   const regex = /\{([^}]+)\}/g;
-  const matches = [];
+  const matches = []; // Array to store the extracted text
   let match;
 
+  // Loop through all matches found in the text
   while ((match = regex.exec(text)) !== null) {
-    matches.push(match[1]);
+    matches.push(match[1]); // Push the text within curly braces to the array
   }
 
-  return matches;
+  return matches; // Return the array of extracted text
 }
+
 
 /**
  * Function to save selected item from a select element into dataFromOperation object.
