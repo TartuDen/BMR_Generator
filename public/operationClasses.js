@@ -22,7 +22,7 @@ class Operation {
   }
 }
 
-export class TypicalActivity {
+class TypicalActivity {
   constructor(
     operationType, // type of operation related to specific equipment, e.g. equipment - reactor; operation type - "material_add_dropwise".
     content, // A String that describes opeartion, containing placeholders withing {} for inserting select elements or inputs.
