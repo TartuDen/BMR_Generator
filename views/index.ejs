@@ -147,12 +147,14 @@
                 crossorigin="anonymous">
                 </script>
             <script>
-                let dataFromOperation = <%- JSON.stringify(dataFromOperationServer) %>;
+                let dataFromOperation = {};
 
             </script>
             <script>
-
-
+                /**
+                 * Function to save selected item from a select element into dataFromOperation object.
+                 * @param {HTMLElement} selectElement - The select element from which the value is selected.
+                 */
                 function saveSelectedItem(selectElement) {
                     // Retrieve the selected value from the select element
                     var id = selectElement.id;
@@ -171,7 +173,9 @@
             <script src="operationClasses.js"></script>
 
             <script>
-
+                /**
+                 * Function to populate equipment types in a select element.
+                 */
                 async function populateEquipmentTypes() {
                     try {
                         let equipmentTypes = <%- JSON.stringify(equipmentTypes) %>;
@@ -198,7 +202,10 @@
                 window.onload = async function () {
                     await populateEquipmentTypes();
                 };
-
+                /**
+                 * Function to get activity types based on selected equipment type.
+                 * @returns {Array|null} An array of activity types or null if an error occurs.
+                 */
                 async function getActivityType() {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
@@ -210,7 +217,10 @@
                         return null;
                     }
                 }
-
+                /**
+                 * Function to populate activity types in a select element.
+                 * @param {string} equipmentType - The selected equipment type.
+                 */
                 async function populateActivityType(equipmentType) {
                     try {
                         // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
@@ -248,15 +258,14 @@
                         // Handle the error if needed
                     }
                 }
-
+                /**
+                 * Function to populate other details based on selected activity.
+                 * @param {HTMLElement} selectedElement - The selected element triggering the function.
+                 */
                 async function populateOther(selectedElement) {
                     let selectedDescription = selectedElement.value;
                     let activityTypes = await getActivityType();
-
-
-
                     activityTypes.forEach(function (activity) {
-
                         if (selectedDescription === activity.Content) {
                             const divElementOther = document.getElementById('other');
                             divElementOther.innerHTML = '';
@@ -266,12 +275,10 @@
                         }
 
                     });
-
-
-
-
                 }
-
+                /**
+                 * Function to populate description based on selected activity.
+                 */
                 async function populateDescription() {
                     const divElementDescription = document.getElementById('description');
                     // Clear previous content
@@ -300,7 +307,10 @@
                         // If the activity type is not defined, handle it accordingly
                     }
                 }
-
+                /**
+                 * Function to add a default option to a select element.
+                 * @param {HTMLElement} selectElement - The select element to which the default option is added.
+                 */
                 function addDefaultOption(selectElement) {
                     // Create the default option element
                     var defaultOption = document.createElement('option');
@@ -310,7 +320,9 @@
                     // Append the default option to the select element
                     selectElement.appendChild(defaultOption);
                 }
-
+                /**
+                 * Function to parse data into an Operation object and send it to the server.
+                 */
                 async function parseDataToOperation() {
 
                     let lastOpNum = document.getElementById("op").value;
@@ -365,8 +377,10 @@
                     }
 
                 }
-
-
+                /**
+                 * Function to clear the dataFromOperation object except for the equipmentType property.
+                 * This function removes all properties from the dataFromOperation object except for equipmentType.
+                 */
                 function purgeDataFromOperation() {
                     // Clear the dataFromOperation object EXCEPT equipmentType
                     for (let key in dataFromOperation) {

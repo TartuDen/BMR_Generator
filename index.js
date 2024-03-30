@@ -19,7 +19,6 @@ let equipmentListMemory = [];
 const eqList = ["reactor", "oven", "m_pump", "p_pump", "o_pump", "n_filter", "d_filter", "balances"];
 let projectListMemory = [];
 let materialsMemory = [];
-let dataFromOperationServer = {};
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -164,7 +163,7 @@ app.get("/", async (req, res) => {
 app.post("/operation_table", async (req, res) => {
     let parametersForOperations = await getParamsForOps();
     let operationsFromServer = await getOpFromServer();
-    let lastOpNum = await getLastOpNumber(operationsFromServer);
+   let lastOpNum = await getLastOpNumber(operationsFromServer);
     if (lastOpNum===null){
         lastOpNum = 1;
     }else{
@@ -222,9 +221,25 @@ app.post("/operation_table", async (req, res) => {
         { name: "balances", code: balances2, condition: balances2 !== "" },
     ];
 
+    // Print each variable with separators
+    console.log("Equipment Types:", equipmentTypes);
+    console.log("----------------------------------------");
+    console.log("Equipment List Memory:", equipmentListMemory);
+    console.log("----------------------------------------");
+    console.log("Materials Memory:", materialsMemory);
+    console.log("----------------------------------------");
+    console.log("Parameters for Operations:", parametersForOperations);
+    console.log("----------------------------------------");
+    console.log("Project List Memory:", projectListMemory);
+    console.log("----------------------------------------");
+
+    console.log("Operations From Server:", operationsFromServer);
+    console.log("----------------------------------------");
+    console.log("Last Operation Number:", lastOpNum);
+    console.log("----------------------------------------");
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, dataFromOperationServer, operationsFromServer, lastOpNum, populatePrevOps: populatePrevOps });
+    res.status(200).render("index.ejs", { equipmentTypes, equipmentListMemory, materialsMemory, parametersForOperations, projectListMemory, operationsFromServer, lastOpNum, populatePrevOps: populatePrevOps });
 });
 
 

@@ -1,0 +1,165 @@
+<mxfile host="app.diagrams.net" modified="2024-03-30T17:41:31.913Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="_GxInWUkOpKNYltHbMQk" version="24.2.1" type="device">
+  <diagram name="Página-1" id="aqd_GnFsYw65R8GQkkjb">
+    <mxGraphModel dx="1195" dy="1784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="f2TvDkhVbn70X8v4h5my-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="190" y="70.0344827586207" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="300" y="70" />
+              <mxPoint x="300" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-55" value="&lt;div style=&quot;font-size: 12px; text-wrap: wrap; background-color: rgb(251, 251, 251); text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;&lt;b&gt;eqNameCodeFromServer&amp;nbsp;&lt;/b&gt;=&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;&amp;nbsp; &amp;nbsp;reactor: [&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;&amp;nbsp;{ name: &#39;reactor&#39;, code: &#39;002-10&#39;, description: &#39;30L glass&#39; },&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;&amp;nbsp;}&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 12px; text-wrap: wrap; background-color: rgb(251, 251, 251); text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;&amp;nbsp;&lt;b&gt;materialsMemory&amp;nbsp;&lt;/b&gt;= [ { &#39;reagent A&#39;: &#39;11&#39; } ]&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 8px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 12px; text-wrap: wrap; background-color: rgb(251, 251, 251);&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;&lt;b&gt;equipmentListMemory&amp;nbsp;&lt;/b&gt;=&amp;nbsp; [&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;&amp;nbsp;{ name: &#39;reactor&#39;, code: &#39;002-10&#39;, condition: true },&lt;/span&gt;&lt;span style=&quot;font-size: 8px; background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 12px; text-wrap: wrap; background-color: rgb(251, 251, 251); text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;&lt;b&gt;projectListMemory&amp;nbsp;&lt;/b&gt;= [ &#39;tile&#39;, &#39;tp.5&#39; ]&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-24">
+          <mxGeometry x="0.063" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-2" target="f2TvDkhVbn70X8v4h5my-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="70" />
+              <mxPoint x="540" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-31" value="&lt;span style=&quot;font-size: 8px; text-wrap: wrap; background-color: rgb(251, 251, 251);&quot;&gt;axios.get(&quot;http://localhost:8081/main_table/&quot; + equipment)&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-26">
+          <mxGeometry x="-0.0066" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-2" value="app.get(&quot;/&quot;) Handler" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="410" y="50" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-4" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="702.5" y="50" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-5" value="LOCAL SERVER 8080" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="10" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-6" value="API SERVER 8081" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="684" y="10" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-7" value="CLIENT&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="10" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="f2TvDkhVbn70X8v4h5my-39">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="170" as="sourcePoint" />
+            <mxPoint x="395" y="230.0344827586207" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="130" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-43" value="project, process, eq. code, materials" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-23">
+          <mxGeometry x="0.0566" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-20" value="&lt;div&gt;main_table.ejs&lt;/div&gt;select:&amp;nbsp;&lt;div&gt;1. project,&amp;nbsp;&lt;/div&gt;&lt;div&gt;2. process,&amp;nbsp;&lt;/div&gt;&lt;div&gt;3. equipment code,&amp;nbsp;&lt;/div&gt;&lt;div&gt;4. material&lt;/div&gt;&lt;div&gt;press &quot;submit&quot;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="40" width="90" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.98;entryY=0.161;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-44" target="f2TvDkhVbn70X8v4h5my-39">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="709.9999999999998" y="220.00275862068978" as="sourcePoint" />
+            <mxPoint x="500.0000000000002" y="220.02" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="613" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-41" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[&quot;durationRange&quot;,&quot;targetTempRange&quot;,&quot;initialTempSet&quot;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-40">
+          <mxGeometry x="0.1005" y="-2" relative="1" as="geometry">
+            <mxPoint x="16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="f2TvDkhVbn70X8v4h5my-44">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="504" y="200.0044827586207" as="sourcePoint" />
+            <mxPoint x="707" y="200.0044827586207" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="604" y="201" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-30" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;await axios.get(&quot;http://localhost:8081/eq_params&quot;)&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-29">
+          <mxGeometry x="-0.0563" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.021;entryY=0.84;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-4" target="f2TvDkhVbn70X8v4h5my-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="117" />
+              <mxPoint x="650" y="117" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-46" value="&lt;div style=&quot;text-wrap: wrap; background-color: rgb(251, 251, 251); text-align: left; font-size: 7px; line-height: 120%;&quot;&gt;&lt;span style=&quot;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;&quot;&gt;reactor: [&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;{ name: &#39;reactor&#39;, code: &#39;002-10&#39;, description: &#39;30L glass&#39; },&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;}&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-34">
+          <mxGeometry x="0.5766" y="-3" relative="1" as="geometry">
+            <mxPoint x="92" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-39" target="f2TvDkhVbn70X8v4h5my-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="260" />
+              <mxPoint x="600" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-63" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;axios.get(&quot;http://localhost:8081/operations&quot;)&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="f2TvDkhVbn70X8v4h5my-56">
+          <mxGeometry x="-0.0192" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-39" value="app.post(&quot;/operation_table&quot;) Handler&lt;div&gt;save data like project, process, eq. code, materials into Memory vars.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="190" width="174" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-44" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="721" y="160" width="83" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-59" value="Operation object" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="1">
+          <mxGeometry x="721" y="320" width="140" height="30" as="geometry">
+            <mxRectangle x="910" y="230" width="240" height="490" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-60" value="&lt;div&gt;[&lt;/div&gt;&lt;div&gt;&amp;nbsp; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; project: &#39;tile&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; TP: &#39;tp.5&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; number: &#39;8&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; mainEquipmentType: &#39;reactor&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; typicalActivity: {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; operationType: &#39;reaction_hold_time&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; content: &#39;Hold time....&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; other: &#39;Actual&amp;nbsp; ..... °C&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; durationRange: &#39;20-30min&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; targetTempRange: &#39;55-60&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; initialTempSet: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; finalTempSet: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; processTemp: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; rpmRange: &#39;200-240&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; flowRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; ppumpSetRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; vpumpTorrProcess: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; vpumpTorrRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; additionalEquipment: []&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; },&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; materialIn: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; materialOut: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; wastes: []&lt;/div&gt;&lt;div&gt;&amp;nbsp; }&lt;/div&gt;&lt;div&gt;]&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="f2TvDkhVbn70X8v4h5my-59">
+          <mxGeometry y="40" width="240" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="f2TvDkhVbn70X8v4h5my-60" target="f2TvDkhVbn70X8v4h5my-39">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="335" />
+              <mxPoint x="650" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-64" value="index.ejs" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="310" width="120" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="f2TvDkhVbn70X8v4h5my-64">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="416.04" y="380" as="sourcePoint" />
+            <mxPoint x="200.00000000000003" y="469.03999999999996" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="416" y="469" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-68" value="MILTIPLE VAR FROM SERVER TO INDEX.EJS" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="1">
+          <mxGeometry x="250" y="479" width="140" height="30" as="geometry">
+            <mxRectangle x="250" y="479" width="300" height="690" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2TvDkhVbn70X8v4h5my-69" value="&lt;div&gt;Equipment Types: [&lt;/div&gt;&lt;div&gt;&amp;nbsp; { name: &#39;reactor&#39; }&lt;/div&gt;&lt;div&gt;]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Equipment List Memory: [&lt;/div&gt;&lt;div&gt;&amp;nbsp; { name: &#39;reactor&#39;, code: &#39;002-11&#39;, condition: true }&lt;/div&gt;&lt;div&gt;]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Materials Memory: [ { &#39;REAGENT A&#39;: &#39;2&#39; } ]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Parameters for Operations: [&quot;durationRange&quot;]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Project List Memory: [ &#39;tile&#39;, &#39;tp.5&#39; ]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Operations From Server: [&lt;/div&gt;&lt;div&gt;&amp;nbsp; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; project: &#39;tile&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; TP: &#39;tp.5&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; number: &#39;8&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; mainEquipmentType: &#39;reactor&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; typicalActivity: {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; operationType: &#39;reaction_hold_time&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; content: &#39;Hold time:&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; other: &#39;Actual: ..... °C&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; durationRange: &#39;20-30min&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; targetTempRange: &#39;55-60&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; initialTempSet: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; finalTempSet: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; processTemp: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; rpmRange: &#39;200-240&#39;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; flowRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; ppumpSetRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; vpumpTorrProcess: null,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; vpumpTorrRange: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; additionalEquipment: []&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; },&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; materialIn: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; materialOut: [],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; wastes: []&lt;/div&gt;&lt;div&gt;&amp;nbsp; }&lt;/div&gt;&lt;div&gt;]&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;&lt;div&gt;Last Operation Number: 10&lt;/div&gt;&lt;div&gt;----------------------------------------&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="f2TvDkhVbn70X8v4h5my-68">
+          <mxGeometry x="10" y="30" width="290" height="650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
