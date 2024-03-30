@@ -31,11 +31,7 @@ async function replaceTextWithSelect(text, equipmentList, materials, project, tp
 			output = output.replace(`{${param}}`, inputField);
 		}
 	});
-	
 
-	// Replace {placeHolders} with select lists or input elements
-	console.log("********** equipment types***********");
-	console.log(equipmentTypes);
 	equipmentTypes.forEach((equipmentType) => {
 		if (equipmentList.some((equipment) => equipment.name === equipmentType)) {
 			// Equipment type found in the equipment list, replace with select list
