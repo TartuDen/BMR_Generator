@@ -168,7 +168,7 @@ setting: ..... %`
       Equipment: "reactor",
       OperationType: "material_add_dropwise",
       Content:
-        `Dropwise addtion:
+        `Dropwise addition:
 Material is added dropwise from dropping funnel.
 Addition is temperature controlled.
 Keep the temperature of reaction mixture in range {targetTempRange}°C.
@@ -653,7 +653,7 @@ setting: ..... %`
       Equipment: "reactor",
       OperationType: "material_add_dropwise",
       Content:
-        `Dropwise addtion:
+        `Dropwise addition:
 Material is added dropwise from dropping funnel.
 Addition is temperature controlled.
 Keep the temperature of reaction mixture in range {targetTempRange}°C.
