@@ -570,7 +570,6 @@ async function GetEquipmentListByTypeMOCK(equipmentType) {
       { name: "oven", code: "012-6", description:"conv." },
       { name: "oven", code: "012-9", description:"vac." },
     ],
-    // Add more equipment types as needed
   };
 
   // Return the simulated equipment list for the specified type

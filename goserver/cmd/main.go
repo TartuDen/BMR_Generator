@@ -17,6 +17,8 @@ import (
 	"github.com/TartuDen/BMR_Generator/tree/main/goserver/repository"
 
 	"github.com/TartuDen/BMR_Generator/tree/main/goserver/handlers"
+
+	"github.com/TartuDen/BMR_Generator/tree/main/goserver/repository/wiper"
 )
 
 const Port = ":8081"
@@ -86,6 +88,8 @@ func run() (*driver.DB, error) {
 
 	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
+
+	// wiper.WipeEquipmentTable(db.SQL)
 
 	return db, nil
 }
