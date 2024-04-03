@@ -47,7 +47,7 @@ func run() (*driver.DB, error) {
 	fmt.Println("Starting application")
 
 	dbHost := flag.String("dbhost", "localhost", "Database HOST")
-	dbName := flag.String("dbname", "postgres", "Database Name")
+	dbName := flag.String("dbname", "br_generator", "Database Name")
 	dbUser := flag.String("dbuser", "thoryur", "Database user name")
 	dbPass := flag.String("dbpassword", "plot123123", "Database password")
 	dbPort := flag.String("dbport", "5432", "Database PORT")

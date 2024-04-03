@@ -14,7 +14,10 @@ sudo service postgresql start
 
 you can access the PostgreSQL shell, called
 
+
 ```
+sudo -i -u postgres
+
 psql
 ```
 
