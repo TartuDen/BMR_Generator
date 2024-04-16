@@ -141,7 +141,7 @@ app.get("/", async (req, res) => {
     let apiResp;
     for (let equipment of eqList) {
         try {
-            apiResp = await axios.get("http://localhost:8081/main_table/" + equipment);
+            apiResp = await axios.get("http://localhost:8081/main_table_equipment/");
             apiResp = JSON.parse(apiResp.data);
             eqNameCodeFromServer[equipment] = apiResp;
 
