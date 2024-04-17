@@ -1,3 +1,4 @@
+//old build 1.0
 import { settings } from "./public/settings.js";
 /**
  * Entry point for the server application.
