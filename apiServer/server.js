@@ -4,7 +4,7 @@ import axios from 'axios';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import pg from "pg";
-import { GetListEquipmentTypesMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK } from './apiMocks.js';
+import { GetListEquipmentTypesMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK } from './apiMocks copy.js';
 import { cache } from 'ejs';
 
 const port = 8081;
@@ -85,6 +85,12 @@ app.post("/filter", async (req,res)=>{
   let equipmentTypes = await GetListNonGMPActivityMOCK(eqType); // here by changing GetListNonGMPActivityMOCK for GetListActivityMOCK we can work with nonGmp instructions.
   equipmentTypes = JSON.stringify(equipmentTypes);
   res.status(200).json(equipmentTypes);
+})
+
+app.get("/main_table_equipment", async(req,res)=>{
+  let apiResp = await GetEquipmentListByTypeMOCK();
+  // console.log(apiResp);
+  res.status(200).json(apiResp);
 })
 
 app.listen(port,async(err)=>{

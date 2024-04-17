@@ -493,11 +493,6 @@ Using shovel "{shovel}" product is unloaded from each tray into PE bag.
         
   ];
     
-
-  // Filter activities based on the equipment type
-  if (equipmentType) {
-    activities = activities.filter(activity => activity.Equipment === equipmentType);
-  }
   return activities;
 }
 
@@ -508,7 +503,7 @@ Using shovel "{shovel}" product is unloaded from each tray into PE bag.
  * @param {string} equipmentType - The type of equipment to retrieve from the DataBase
  * @returns {Promise<Array>} A promise that resolves with the simulated list of equipment for the specified type.
  */
-async function GetEquipmentListByTypeMOCK(equipmentType) {
+async function GetEquipmentListByTypeMOCK() {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of equipment for different types

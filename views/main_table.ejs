@@ -31,22 +31,14 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
-                                        <% if(projectListMemory.length >0){ %> 
-                                            
-                                        <tr>
-                                            <td><input type="text" name="project" class="form-control"
-                                                    placeholder="Project" value="<%= projectListMemory[0]  %>"></td>
-                                            <td><input type="text" name="TP" class="form-control" placeholder="TP"
-                                                    value="<%= projectListMemory[1]  %>"></td>
-                                        </tr>
-                                        <% }else{ %> 
+
                                         <tr>
                                             <td><input type="text" name="project" class="form-control"
                                                     placeholder="Project" value="tile"></td>
                                             <td><input type="text" name="TP" class="form-control" placeholder="TP"
                                                     value="tp.5"></td>
                                         </tr>
-                                        <% } %> 
+
 
                                     </tbody>
                                 </table>
@@ -59,50 +51,37 @@
                                 <table class="table">
                                     <h2>Select equipment</h2>
                                     <tbody>
-                                        <tr>
-                                            <th>Reactor: </th>
-                                            <td><select id="reactor1" name="reactor1" class="form-select"></select></td>
-                                            <td><select id="reactor2" name="reactor2" class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Oven: </th>
-                                            <td colspan="2"><select id="oven1" name="oven1"
-                                                    class="form-select"></select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Membrane pump: </th>
-                                            <td><select id="m_pump1" name="m_pump1" class="form-select"></select></td>
-                                            <td><select id="m_pump2" name="m_pump2" class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Peristaltic pump:</th>
-                                            <td><select id="p_pump1" name="p_pump1" class="form-select"></select></td>
-                                            <td><select id="p_pump2" name="p_pump2" class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Oil pump:</th>
-                                            <td colspan="2"><select id="o_pump1" name="o_pump1"
-                                                    class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nutsche filter:</th>
-                                            <td colspan="2"><select id="n_filter1" name="n_filter1"
-                                                    class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Druck filter:</th>
-                                            <td colspan="2"><select id="d_filter1" name="d_filter1"
-                                                    class="form-select"></select></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Balances:</th>
-                                            <td><select id="balances1" name="balances1" class="form-select"></select>
-                                            </td>
-                                            <td><select id="balances2" name="balances2" class="form-select"></select>
-                                            </td>
-                                        </tr>
+                                        <% equipmentMap.forEach(function(item, index) { %>
+                                            <tr>
+                                                <th><%= item.equipment %></th>
+                                                <td>
+                                                    <select id="<%= item.equipment%>1_<%= index %>" name="<%= item.equipment%>1_<%= index %>" class="form-select" style="width: 70%;">
+                                                        <!-- Default option -->
+                                                        <option value="">Select</option>
+                                                        <!-- Options for select 1 -->
+                                                        <% item.eq_info.forEach(function(info) { %>
+                                                            <option value="<%= info.code %>"><%= info.code %> <%= info.description %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select id="<%= item.equipment%>2_<%= index %>" name="<%= item.equipment%>2_<%= index %>" class="form-select" style="width: 70%;">
+                                                        <!-- Default option -->
+                                                        <option value="">Select</option>
+                                                        <!-- Options for select 2 -->
+                                                        <% item.eq_info.forEach(function(info) { %>
+                                                            <option value="<%= info.code %>"><%= info.code %> <%= info.description %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
                                     </tbody>
+                                    
+                                    
+                                    
+                                    
+                                    
                                 </table>
                             </div>
 
@@ -111,24 +90,7 @@
                                 <table class="table">
                                     <h2>Insert Materials</h2>
                                     <tbody>
-                                        <% if (materialsMemory.length > 0) { %>
-                                            <!-- Render input fields based on materialsMemory data -->
-                                            <% materialsMemory.forEach((material, index) => { %>
-                                                <% const materialName = Object.keys(material)[0]; %>
-                                                <% const materialAmount = material[materialName]; %>
-                                                <tr>
-                                                    <td><input type="text" name="reagent<%= index %>" class="form-control" placeholder="Reagent here" value="<%- materialName %>"></td>
-                                                    <td><input type="number" name="amount<%= index %>" class="form-control" placeholder="Amounts in kg" step="any" value="<%- materialAmount %>"></td>
-                                                </tr>
-                                            <% }); %>
-                                            <!-- Render additional input fields if needed -->
-                                            <% for (let i = materialsMemory.length; i < 10; i++) { %>
-                                                <tr>
-                                                    <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
-                                                    <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
-                                                </tr>
-                                            <% } %>
-                                        <% } else { %>
+                                       
                                             <!-- Render default input fields with empty values and placeholders -->
                                             <% for (let i = 0; i < 10; i++) { %>
                                                 <tr>
@@ -136,11 +98,7 @@
                                                     <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
                                                 </tr>
                                             <% } %>
-                                        <% } %>
-                                        
-                                        
-                                        
-                                        
+                                             
                                         
                                     </tbody>
                                 </table>
@@ -163,105 +121,7 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
-                </script>
-            <script>
-                /**
-                 * Adds a default "--select--" option to a dropdown select element.
-                 * 
-                 * @param {HTMLElement} selectElement - The dropdown select element to which the default option will be added.
-                 */
-                function addDefaultOption(selectElement) {
-                    // Create the default option element
-                    var defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.textContent = '--select--';
-
-
-                    // Append the default option to the select element
-                    selectElement.appendChild(defaultOption);
-                }
             </script>
-            <script>
-                let eqNameCodeFromServer = <%- JSON.stringify(eqNameCodeFromServer) %>;
-
-                function getEqCodesFromMemory(eq) {
-                    // Retrieve equipment list from memory
-                    let equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
-
-                    // Initialize variables to store equipment codes
-                    let eq1 = "";
-                    let eq2 = "";
-
-                    // Initialize counter for matching equipments
-                    let eqCount = 0;
-
-                    // Iterate through the equipment list
-                    for (let i = 0; i < equipmentList.length; i++) {
-                        const equipment = equipmentList[i];
-
-                        // Check if the equipment matches the provided name and is in a valid condition
-                        if (equipment.name === eq && equipment.condition === true) {
-                            eqCount++;
-
-                            // Store the first matching equipment code
-                            if (eqCount === 1) {
-                                eq1 = equipment.code;
-                            }
-                            // Store the second matching equipment code and exit the loop
-                            else if (eqCount === 2) {
-                                eq2 = equipment.code;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Return an array containing the equipment codes
-                    return [eq1, eq2];
-                }
-
-                async function populateEquipment(...eqInField) {
-                    // Iterate over each equipment type
-                    for (let i = 0; i < eqInField.length; i++) {
-                        const eq = eqInField[i];
-                        const eqFromMemory = getEqCodesFromMemory(eq)[i];
-                        const selectElement = document.getElementById(eq + (i + 1));
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-
-                        // Populate select element with options for the current equipment type
-                        eqNameCodeFromServer[eq].forEach(function (eqName) {
-                            const option = document.createElement('option');
-                            option.value = eqName.code;
-                            option.textContent = eqName.code + " " + eqName.description;
-                            selectElement.appendChild(option);
-                            if (option.value === eqFromMemory) {
-                                option.selected = true; // Set as default if match found
-                            }
-                        });
-                    }
-                }
-
-                window.onload = async function () {
-                    await populateEquipment("reactor", "reactor");
-                    await populateEquipment("oven");
-                    await populateEquipment("m_pump", "m_pump");
-                    await populateEquipment("p_pump", "p_pump");
-                    await populateEquipment("o_pump");
-                    await populateEquipment("n_filter");
-                    await populateEquipment("d_filter");
-                    await populateEquipment("balances", "balances");
-
-                };
-            </script>
-
-            <script>
-
-
-
-            </script>
-
-
-
-</body>
+ </body>
 
 </html>
