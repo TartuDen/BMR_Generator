@@ -63,27 +63,28 @@
                                             <tr>
                                                 <th><%= item.equipment %></th>
                                                 <td>
-                                                    <select id="<%= item.equipment%>1_<%= index %>" name="<%= item.equipment%>1_<%= index %>" class="form-select" style="width: 70%;">
+                                                    <select id="<%= item.equipment %>1_<%= index %>" name="<%= item.equipment %>1_<%= index %>" class="form-select" style="width: 70%;">
                                                         <!-- Default option -->
                                                         <option value="">Select</option>
                                                         <!-- Options for select 1 -->
                                                         <% item.eq_info.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>"><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory[item.equipment + '1_' + index] === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select id="<%= item.equipment%>2_<%= index %>" name="<%= item.equipment%>2_<%= index %>" class="form-select" style="width: 70%;">
+                                                    <select id="<%= item.equipment %>2_<%= index %>" name="<%= item.equipment %>2_<%= index %>" class="form-select" style="width: 70%;">
                                                         <!-- Default option -->
                                                         <option value="">Select</option>
                                                         <!-- Options for select 2 -->
                                                         <% item.eq_info.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>"><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory[item.equipment + '2_' + index] === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
                                             </tr>
                                         <% }); %>
+                                        
                                     </tbody>
                                     
                                     
