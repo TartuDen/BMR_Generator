@@ -88,11 +88,34 @@ async function getOperations(){
     }
 }
 
+function selectOps(operationsMap, localMemory) {
+    let selectedOperationMap = [];
+
+    for (let operation of operationsMap) {
+        let equipmentKey = operation.Equipment;
+        // let equipmentKey = equipmentKeyPrefix.slice(0, -4); // Remove last 3 characters
+        if (localMemory.hasOwnProperty(equipmentKey)) {
+            let selectedOperation = {
+                Equipment: operation.Equipment,
+                OperationType: operation.OperationType,
+                Content: operation.Content,
+                Other: operation.Other
+            };
+            selectedOperationMap.push(selectedOperation);
+        }
+    }
+
+    return selectedOperationMap;
+}
+
+
+
 app.post("/operation_table", async (req, res) => {
     console.log(req.body);
     localMemory = req.body;
 
     let operationsMap = await getOperations();
+    operationsMap = selectOps(operationsMap, localMemory);
     console.log(operationsMap);
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
