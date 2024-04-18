@@ -37,6 +37,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <% if(locals.operationsFromServer) {%>
                                 <% operationsFromServer.forEach((operation, index)=> { %>
                                     <tr>
                                         
@@ -85,7 +86,7 @@
                                         
                                     </tr>
                                     <% }) %>
-
+                                    <% } %>
                                         <tr>
                                             
                                             <% if(locals.lastOpNum) { %>
@@ -93,6 +94,11 @@
                                                     <input type="number" class="form-control" id="op" name="op"
                                                         value="<%= lastOpNum %>" min="1">
                                                 </td>
+                                                <% }else{ %>
+                                                    <td style="width: 8%; padding: 0; margin: 0;">
+                                                        <input type="number" class="form-control" id="op" name="op"
+                                                            value="" min="1">
+                                                    </td>
                                                 <% } %>
                                                     <td>
                                                         <div id="description">
@@ -112,8 +118,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType"
-                                    onchange="saveSelectedItem(this); populateActivityType(this.value);">
+                                <select class="form-control" id="equipmentType">
                                     <option value="">--select--</option>
                                 </select>
                             </div>
@@ -121,14 +126,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="activityType">Type of Activity</label>
-                                <select class="form-control" id="activityType"
-                                    onchange="purgeDataFromOperation(); saveSelectedItem(this); populateDescription(); populateOther(this);">
+                                <select class="form-control" id="activityType">
                                     <option value="">--select--</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-1 text-center mt-4 ">
-                            <button class="btn btn-primary" onclick="parseDataToOperation()">Parse Data</button>
+                            <button class="btn btn-primary" >Parse Data</button>
                         </div>
                     </div>
 
@@ -145,244 +149,13 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
-                </script>
-            <script>
-                let dataFromOperation = <%- JSON.stringify(dataFromOperationServer) %>;
-
             </script>
-            <script>
-
-
-                function saveSelectedItem(selectElement) {
-                    // Retrieve the selected value from the select element
-                    var id = selectElement.id;
-                    var value = selectElement.value;
-                    // Add new elements into dataFromOperation
-                    dataFromOperation[id] = value;
-                    console.log("dataFromOperation");
-                    console.log(dataFromOperation);
-                    console.log("*******end*******")
-                }
-            </script>
+           
 
             <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
             <script src="helpers.js"></script>
             <script src="operationClasses.js"></script>
-
-            <script>
-
-                async function populateEquipmentTypes() {
-                    try {
-                        let equipmentTypes = <%- JSON.stringify(equipmentTypes) %>;
-
-                        // Check if equipmentTypes is an array or not
-
-                        var selectElement = document.getElementById('equipmentType');
-                        selectElement.innerHTML = '';
-                        addDefaultOption(selectElement);
-                        equipmentTypes.forEach(function (equipmentType) {
-                            var option = document.createElement('option');
-                            option.value = equipmentType.name;
-                            option.textContent = equipmentType.name;
-                            selectElement.appendChild(option);
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating equipment types:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-
-                window.onload = async function () {
-                    await populateEquipmentTypes();
-                };
-
-                async function getActivityType() {
-                    try {
-                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        const response = await axios.post("http://localhost:8081/filter?equipmentType=" + dataFromOperation["equipmentType"]);
-                        let activityTypes = JSON.parse(response.data);
-                        return activityTypes;
-                    } catch (error) {
-                        console.log(error);
-                        return null;
-                    }
-                }
-
-                async function populateActivityType(equipmentType) {
-                    try {
-                        // Call GetListEquipmentTypesMOCK to retrieve the list of equipment types
-                        let activityTypes = await getActivityType();
-                        var selectElement = document.getElementById('activityType');
-
-                        // Clear previous options
-                        selectElement.innerHTML = '';
-
-                        // Add default option "--select--"
-                        addDefaultOption(selectElement);
-
-                        // Add equipment types as options
-                        activityTypes.forEach(function (activity) {
-                            var option = document.createElement('option');
-                            option.value = activity.Content;
-                            option.textContent = activity.OperationType;
-                            selectElement.appendChild(option);
-                        });
-
-                        // Event listener for when an option is selected
-                        selectElement.addEventListener('change', function () {
-                            // Get the selected option
-                            var selectedOption = selectElement.options[selectElement.selectedIndex];
-
-                            let selectedActivityType = selectedOption.textContent;
-                            let operationType = "operationType";
-
-                            // Add operationType the dataFromOperation object
-                            dataFromOperation[operationType] = selectedActivityType;
-                        });
-
-                    } catch (error) {
-                        console.error("Error populating activity types:", error);
-                        // Handle the error if needed
-                    }
-                }
-
-                async function populateOther(selectedElement) {
-                    let selectedDescription = selectedElement.value;
-                    let activityTypes = await getActivityType();
-
-
-
-                    activityTypes.forEach(function (activity) {
-
-                        if (selectedDescription === activity.Content) {
-                            const divElementOther = document.getElementById('other');
-                            divElementOther.innerHTML = '';
-                            const newPreOther = document.createElement("pre");
-                            newPreOther.innerHTML = activity.Other;
-                            divElementOther.appendChild(newPreOther);
-                        }
-
-                    });
-
-
-
-
-                }
-
-                async function populateDescription() {
-                    const divElementDescription = document.getElementById('description');
-                    // Clear previous content
-                    divElementDescription.innerHTML = '';
-
-                    if (dataFromOperation["activityType"]) {
-                        const equipmentList = <%- JSON.stringify(equipmentListMemory) %>;
-                        const materialsMemory = <%- JSON.stringify(materialsMemory) %>;
-                        const project = <%- JSON.stringify(projectListMemory[0]) %>;
-                        const tp = <%- JSON.stringify(projectListMemory[1]) %>;
-                        const eqParams = <%- JSON.parse(parametersForOperations) %>;
-                        // Call replaceTextWithSelect to populate the description
-                        await replaceTextWithSelect(dataFromOperation["activityType"], equipmentList, materialsMemory, project, tp, eqParams).then((description) => {
-                            // Create a new <p> element
-                            const newP = document.createElement("pre");
-
-                            // Set the html content of the <p> element with the populated description
-                            newP.innerHTML = description;
-                            // Append the <p> element to the div
-                            divElementDescription.appendChild(newP);
-                        }).catch((error) => {
-                            console.error('Error populating description:', error);
-                        });
-                    } else {
-                        console.error('Activity type is not defined');
-                        // If the activity type is not defined, handle it accordingly
-                    }
-                }
-
-                function addDefaultOption(selectElement) {
-                    // Create the default option element
-                    var defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.textContent = '--select--';
-
-                    // Append the default option to the select element
-                    selectElement.appendChild(defaultOption);
-                }
-
-                async function parseDataToOperation() {
-
-                    let lastOpNum = document.getElementById("op").value;
-
-                    // Retrieve the content of the <pre> element with id 'description'
-                    let finalText = document.getElementById('description').innerHTML;
-
-                    let other = document.getElementById("other").innerText;
-
-
-                    // Create an list of instances of Equipment class
-                    let equipmentList = [];
-                    for (let key in dataFromOperation) {
-                        if (key.startsWith('equipment_')) {
-                            let equipmentName = key.replace('equipment_', '');
-                            let equipment = new Equipment(equipmentName, dataFromOperation[key]);
-                            equipmentList.push(equipment);
-                        }
-                    }
-
-                    // Create an instance of TypicalActivity class
-                    let Activity = new TypicalActivity(
-                        dataFromOperation['operationType'],
-                        dataFromOperation['activityType'],
-                        other,
-                        dataFromOperation["params_durationRange"],
-                        dataFromOperation["params_targetTempRange"],
-                        dataFromOperation["params_initialTempSet"],
-                        dataFromOperation["params_finalTempSet"],
-                        dataFromOperation["params_processTemp"],
-                        dataFromOperation["params_rpmRange"],
-                        dataFromOperation["params_flowRange"],
-                        dataFromOperation["params_ppumpSetRange"],
-                        dataFromOperation["params_vpumpTorrProcess"],
-                        dataFromOperation["params_vpumpTorrRange"],
-                        equipmentList
-                    );
-                    const project = <%- JSON.stringify(projectListMemory[0]) %>;
-                    const tp = <%- JSON.stringify(projectListMemory[1]) %>;
-                    // Create an instance of Operation class
-                    let newOp = new Operation(project, tp, lastOpNum, dataFromOperation['equipmentType'], Activity, dataFromOperation["material"]);
-                    console.log("*******newOp******")
-                    console.log(newOp)
-                    console.log("******end******")
-
-                    //send newOp to local server
-                    try {
-                        const localServerResp = await axios.post('/update_operations', newOp);
-                        window.location.reload(); // this line to reaload the window when the button is pressed!
-                    } catch (error) {
-                        console.error('Error updating operations:', error);
-                    }
-
-                }
-
-
-                function purgeDataFromOperation() {
-                    // Clear the dataFromOperation object EXCEPT equipmentType
-                    for (let key in dataFromOperation) {
-                        if (key !== 'equipmentType') {
-                            delete dataFromOperation[key];
-                        }
-                    }
-                    console.log("Data from operation purged.");
-                }
-            </script>
-
-
-
-
-
-
 
 
 </body>

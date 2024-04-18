@@ -31,15 +31,23 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
+                                        <% if (localMemory.project!==""){ %>
+                                            <tr>
+                                                <td><input type="text" name="project" class="form-control"
+                                                        placeholder="Project" value="<%= localMemory.project %>"></td>
+                                                <td><input type="text" name="TP" class="form-control" placeholder="TP"
+                                                        value="<%= localMemory.TP %>"></td>
+                                            </tr>
+                                        <% }else{ %>
 
                                         <tr>
                                             <td><input type="text" name="project" class="form-control"
-                                                    placeholder="Project" value="tile"></td>
+                                                    placeholder="Project" value=""></td>
                                             <td><input type="text" name="TP" class="form-control" placeholder="TP"
-                                                    value="tp.5"></td>
+                                                    value=""></td>
                                         </tr>
 
-
+                                        <% } %>
                                     </tbody>
                                 </table>
 

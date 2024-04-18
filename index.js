@@ -17,6 +17,8 @@ import axios from 'axios';
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
+let localMemory = {};
+
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -59,29 +61,42 @@ async function getLastOpNumber(opsFromServer){
     return null;
 }
 
-async function getMainTAbleEq(){
+async function getMainTableEq(){
     try {
         let apiResp = await axios.get("http://localhost:8081/main_table_equipment");
-        return apiResp.data
-    } catch (error) {
-        console.error(error);
-        return null
+        return apiResp.data;
+    } catch (err) {
+        console.error(err);
+        return null;
     }
 }
 
 app.get("/", async (req, res) => {
-    let equipmentMap = await getMainTAbleEq();
+    let equipmentMap = await getMainTableEq();
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs",{equipmentMap});
+    res.status(200).render("main_table.ejs",{equipmentMap, localMemory});
 
 });
 
+async function getOperations(){
+    try {
+        let apiResp = await axios.get("http://localhost:8081/operations");
+        return apiResp.data;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
 
 app.post("/operation_table", async (req, res) => {
     console.log(req.body);
+    localMemory = req.body;
+
+    let operationsMap = await getOperations();
+    console.log(operationsMap);
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs");
+    res.status(200).render("index.ejs",{operationsMap});
 });
 
 
