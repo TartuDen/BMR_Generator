@@ -1,0 +1,182 @@
+---
+openapi: 3.0.0
+info:
+  title: br_generator
+  description: The API for the BR Generator project
+  version: 2.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/DENVER1033/BR_Generator/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /main_table_equipment:
+    get:
+      summary: Retrieve equipment information
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+        "404":
+          description: Equipment information not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /eq_params:
+    get:
+      summary: Retrieve equipment parameters
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_1'
+        "404":
+          description: Equipment parameters not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /operations:
+    get:
+      summary: Retrieve equipment operations
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_2'
+        "404":
+          description: Equipment operations not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Equipment:
+      required:
+      - eq_info
+      - equipment
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the equipment
+        equipment:
+          type: string
+          description: The name of the equipment
+        eq_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment_eq_info'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message describing the issue
+    main_table_equipment_eq_info:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The equipment code
+          example: 007-1
+        description:
+          type: string
+          description: Description of the equipment
+          example: max=3kg
+    inline_response_200:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the equipment
+          example: 1
+        equipment:
+          type: string
+          description: The name of the equipment
+          example: balances
+        eq_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/main_table_equipment_eq_info'
+    inline_response_200_1:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the parameter
+          example: 1
+        parameter:
+          type: string
+          description: The name of the parameter
+          example: durationRange
+    operations_description:
+      type: object
+      properties:
+        operation_type:
+          type: string
+          description: Type of operation
+          example: prepare_of_reactor
+        content:
+          type: string
+          description: Description of the operation
+          example: "Reactor preparation: The reactor {reactor} and thermostat are checked to be ready for work."
+        Other:
+          type: string
+          description: Additional information about the operation
+          example: ""
+    inline_response_200_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the operation
+          example: 1
+        equipment:
+          type: string
+          description: The name of the equipment
+          example: reactor
+        description:
+          type: array
+          items:
+            $ref: '#/components/schemas/operations_description'
+    Equipment_eq_info:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The equipment code
+        description:
+          type: string
+          description: Description of the equipment
