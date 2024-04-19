@@ -17,7 +17,7 @@ import axios from 'axios';
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
-let localMemory = {};
+let localMemory = { project: '', TP: '', equipment: [], reagents: [] };
 
 
 // Middleware setup
@@ -107,15 +107,52 @@ function selectOps(operationsMap, localMemory) {
     return selectedOperationMap;
 }
 
+function convertToObject(inputObject) {
+    let outputObject = {
+        project: '',
+        TP: '',
+        equipment: [],
+        reagents: []
+    };
+
+    // Iterate through inputObject keys
+    for (let key in inputObject) {
+        if (inputObject.hasOwnProperty(key) && inputObject[key] !== '') {
+            // Check if the key represents equipment or reagent
+            if (key.startsWith('balances') || key.startsWith('reactor') || key.startsWith('d_filter') || key.startsWith('n_filter') || key.startsWith('m_pump') || key.startsWith('p_pump') || key.startsWith('o_pump') || key.startsWith('vac_oven') || key.startsWith('conv_oven')) {
+                // Add to equipment array
+                outputObject.equipment.push({
+                    eq_name: key,
+                    eq_code: inputObject[key]
+                });
+            } else if (key.startsWith('reagent')) {
+                // Add to reagents array
+                outputObject.reagents.push({
+                    reag_name: key,
+                    reag_amount: inputObject[key]
+                });
+            } else {
+                // Add other properties directly to outputObject
+                outputObject[key] = inputObject[key];
+            }
+        }
+    }
+
+    return outputObject;
+}
 
 
 app.post("/operation_table", async (req, res) => {
     // console.log(req.body);
     localMemory = req.body;
 
+    localMemory = convertToObject(localMemory);
+
     let operationsMap = await getOperations();
-    operationsMap = selectOps(operationsMap, localMemory);
-    console.log(operationsMap);
+    // operationsMap = selectOps(operationsMap, localMemory);
+    // console.log(operationsMap);
+    console.log(localMemory);
+
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs",{operationsMap});
