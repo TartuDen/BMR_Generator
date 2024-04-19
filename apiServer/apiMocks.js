@@ -50,11 +50,8 @@ async function GetAuthTokenMOCK(username, password) {
 async function GetParametersForOperationsMOCK() {
   await delay(500); // Simulating a delay of 500ms
   // Simulated list of parameters for operations
-  const parameters = ["durationRange", "targetTempRange", "initialTempSet", "finalTempSet", "processTemp", "rpmRange", "flowRange", "ppumpSetRange", "vpumpTorrProcess", "vpumpTorrRange", ];
-  return parameters;
+    return ["durationRange", "targetTempRange", "initialTempSet", "finalTempSet", "processTemp", "rpmRange", "flowRange", "ppumpSetRange", "vpumpTorrProcess", "vpumpTorrRange",];
 }
-
-    
 
 /**
  * Simulates retrieving a list of equipment types with a delay.
@@ -65,17 +62,15 @@ async function GetListEquipmentTypesMOCK() {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of equipment types
-  const equipmentTypes = [
-    { name: "reactor" },
-    { name: "oven" },
-    { name: "balances" },
-    { name: "d_filter" },
-    { name: "n_filter" },
-    { name: "m_pump" },
-    { name: "p_pump" },
+    return [
+      {name: "reactor"},
+      {name: "oven"},
+      {name: "balances"},
+      {name: "d_filter"},
+      {name: "n_filter"},
+      {name: "m_pump"},
+      {name: "p_pump"},
   ];
-
-  return equipmentTypes;
 }
 
 /**
@@ -87,7 +82,7 @@ async function GetListActivityMOCK(equipmentType) {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of equipment types
-  var activities = [
+  let activities = [
     {
       Equipment: "reactor",
       OperationType: "prepare_of_reactor",
@@ -336,8 +331,6 @@ Specified amount: ….. kg (….. - ….. kg)`,
 ...........
 Actual loading:
 ....... kg`,
-     Other:
-      ``
     },
     {
       Equipment: `d_filter`,
@@ -589,7 +582,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
   await delay(500); // Simulating a delay of 500ms
 
   // Simulated list of equipment types
-  var activities = [
+  let activities = [
     {
       Equipment: "reactor",
       OperationType: "prepare_of_reactor",
@@ -629,7 +622,7 @@ Specified amount: ….. kg (….. - ….. kg)`,
 Actual loading:
 ....... kg
 Actual pump
-setting: ..... %`  
+setting: ..... %`
     },
     {
       Equipment: "reactor",
@@ -672,7 +665,7 @@ setting: .... rpm
 Argon line is connected and set to {flowRange}l/min.`,
     Other:
 `Actual flow
-setting: .... l/min`  
+setting: .... l/min`
     },
     {
       Equipment: "reactor",
@@ -681,8 +674,8 @@ setting: .... l/min`
       `The argon flow is closed.`,
     Other:
 `Actual flow
-setting: .... l/min`  
-    },       
+setting: .... l/min`
+    },
     {
       Equipment: "reactor",
       OperationType: "reaction_hold_time",
@@ -788,8 +781,6 @@ Specified amount: ….. kg (….. - ….. kg)`,
 ...........
 Actual loading:
 ....... kg`,
-     Other:
-      ``
     },
     {
       Equipment: `d_filter`,
@@ -801,17 +792,17 @@ Argon is set to {flowRange} l/min.
 Drying on the filter is continued for {durationRange} min.`,
 Other:
 `Actual flow
-setting: .... l/min` 
+setting: .... l/min`
     },
 
     {
       Equipment: `d_filter`,
       OperationType: `unload_from_filter`,
       Content:
-        `Material from the filter {d_filter} is unloaded <to where>.`,
+        `Material from the filter {d_filter} is unloaded < to where>.`,
         Other:
 `Actual weigh:
-....... kg`  
+....... kg`
     },
     {
       Equipment: `n_filter`,
@@ -836,10 +827,10 @@ Other:
     },
     {
       Equipment: `n_filter`,
-      OperationType: `discharg_ML`,
+      OperationType: `discharge_ML`,
       Content:
       `Emptying the receiver:
-Filtrate is discharged from the filter into <to where>`,
+Filtrate is discharged from the filter into < to where>`,
     Other:
       ``
     },
@@ -857,7 +848,7 @@ Specified amount: ….. kg (….. - ….. kg)`,
 `Warehouse code:
 ...........
 Actual loading:
-....... kg`  
+....... kg`
     },
     {
       Equipment: `n_filter`,
@@ -879,7 +870,7 @@ setting: ..... Torr`
         `The material from the filter is unloaded <to where>.`,
     Other:
 `Actual weight:
-....... kg`  
+....... kg`
     },
     {
       Equipment: `p_pump`,
@@ -901,9 +892,9 @@ Timer is set to {durationRange} .
 The dryining starts.`,
           Other:
       ``
-    },    
+    },
   ];
-    
+
 
   // Filter activities based on the equipment type
   if (equipmentType) {
