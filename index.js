@@ -93,15 +93,14 @@ function selectOps(operationsMap, localMemory) {
 
     for (let operation of operationsMap) {
         let equipmentKey = operation.Equipment;
-        // let equipmentKey = equipmentKeyPrefix.slice(0, -4); // Remove last 3 characters
-        if (localMemory.hasOwnProperty(equipmentKey)) {
-            let selectedOperation = {
-                Equipment: operation.Equipment,
-                OperationType: operation.OperationType,
-                Content: operation.Content,
-                Other: operation.Other
-            };
-            selectedOperationMap.push(selectedOperation);
+        for (let memoryKey in localMemory){
+            let code = localMemory[memoryKey]
+            memoryKey = memoryKey.slice(0,-3);
+
+            if (equipmentKey === memoryKey && code !=="" ){
+                selectedOperationMap.push(operation);
+                break;
+            }
         }
     }
 
@@ -111,7 +110,7 @@ function selectOps(operationsMap, localMemory) {
 
 
 app.post("/operation_table", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     localMemory = req.body;
 
     let operationsMap = await getOperations();
