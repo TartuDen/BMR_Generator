@@ -347,8 +347,6 @@ Specified amount: ….. kg (….. - ….. kg)`,
 ...........
 Actual loading:
 ....... kg`,
-     Other:
-      ``
     },
     {
       Equipment: `d_filter`,
