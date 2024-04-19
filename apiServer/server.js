@@ -88,6 +88,7 @@ app.post("/filter", async (req, res) => {
 
 app.get("/operations", async (req, res) => {
   let apiResp = await GetListActivityMOCK();
+  console.log(apiResp);
   res.status(200).json(apiResp);
 })
 

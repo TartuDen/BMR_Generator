@@ -465,7 +465,7 @@ Pump is turned ON`,
       ``
     },
     {
-      Equipment: `oven`,
+      Equipment: `conv_oven`,
       OperationType: `material_load_on_trays`,
       Content: `Using shovel "{shovel}" product is loaded on trays.
 Each tray is weighed on balances {balances}, data is recorded into Table <number>.
@@ -478,7 +478,7 @@ The dryining starts.`,
       ``
     },
 {
-      Equipment: `oven`,
+      Equipment: `conv_oven`,
       OperationType: `material_unload_from_trays`,
       Content: `Oven is truned OFF.
 Oven is opened.
