@@ -152,12 +152,10 @@
                 </main>
         </div>
 
-
-
         <!-- Footer -->
         <%- include("partials/footer.ejs") %>
 
-            <!-- Bootstrap JS -->
+
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -166,9 +164,40 @@
            
 
             <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+            <script>
+                // Define a new JavaScript variable and assign it the value of operationsMap from EJS
+                const operationsMapData = <%- JSON.stringify(operationsMap) %>;
+            </script>
 
-            <script src="helpers.js"></script>
-            <script src="operationClasses.js"></script>
+            <script>
+                // Function to populate the "Type of Activity" select element based on the selected equipment type
+                function populateActivityTypes() {
+                    // Clear existing options
+                    const activityTypeSelect = document.getElementById('activityType');
+                    activityTypeSelect.innerHTML = '<option value="">--select--</option>';
+
+                    // Get selected equipment type
+                    const selectedEquipment = document.getElementById('equipmentType').value;
+
+                    // Populate "Type of Activity" select element with operation types corresponding to the selected equipment
+                    operationsMapData.forEach(function(operation) {
+                        if (operation.equipment === selectedEquipment) {
+                            operation.description.forEach(function(desc) {
+                                const option = document.createElement('option');
+                                option.value = desc.operation_type;
+                                option.textContent = desc.operation_type;
+                                activityTypeSelect.appendChild(option);
+                            });
+                        }
+                    });
+                }
+
+                // Add event listener for the change event on "Equipment Type" select element
+                document.getElementById('equipmentType').addEventListener('change', populateActivityTypes);
+
+                // Populate "Type of Activity" select element on page load
+                populateActivityTypes();
+            </script>
 
 
 </body>
