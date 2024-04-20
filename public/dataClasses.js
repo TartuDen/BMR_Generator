@@ -7,12 +7,3 @@ export class LocalMemory {
         this.reagents = reagents;
     }
 }
-
-export class ActivityObject {
-    constructor(Equipment, OperationType, Content, Other){
-        this.Equipment = Equipment;
-        this.OperationType = OperationType;
-        this.Content = Content;
-        this.Other = Other;
-    }
-}

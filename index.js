@@ -52,32 +52,7 @@ async function getLastOpNumber(opsFromServer){
     return null;
 }
 
-async function getMainTableEq(){
-    try {
-        let apiResp = await axios.get("http://localhost:8081/main_table_equipment");
-        return apiResp.data;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
 
-app.get("/", async (req, res) => {
-    let equipmentMap = await getMainTableEq();
-    // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs",{equipmentMap, localMemory});
-
-});
-
-async function getOperationsFromAPI(){
-    try {
-        let apiResp = await axios.get("http://localhost:8081/operations");
-        return apiResp.data;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
 
 function selectOps(operationsMap, localMemory) {
     let selectedOperationMap = [];
@@ -87,17 +62,17 @@ function selectOps(operationsMap, localMemory) {
         for (let eqSet of localMemory.equipment){
                 let code = eqSet.eq_code
                 let eq = eqSet.eq_name.slice(0,-3);
-                if (operation.Equipment === eq && code !=="" ){
+
+                if (operation.equipment === eq && code !=="" ){
                     selectedOperationMap.push(operation);
                     break;
                 }
         }
     }
-
     return selectedOperationMap;
 }
 
-function convertToObject(inputObject) {
+function convertToMemoryObj(inputObject) {
     let equipment = [];
     let reagents = [];
 
@@ -122,46 +97,63 @@ function convertToObject(inputObject) {
 
 
 app.post("/operation_table", async (req, res) => {
-    // console.log(req.body);
     localMemory = req.body;
-
-    localMemory = convertToObject(localMemory);
-
+    localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getOperationsFromAPI();
-
-    // operationsMap = selectOps(operationsMap, localMemory);
-    // console.log(operationsMap);
-    console.log(localMemory);
-
     operationsMap = selectOps(operationsMap, localMemory)
-
-
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs",{operationsMap});
 });
 
 
 
-app.post("/update_operations", async (req, res) => {
+// app.post("/update_operations", async (req, res) => {
+//     try {
+//         const apiResp = await axios.post("http://localhost:8081/addOp", req.body);
+//         console.log('Success: ', apiResp.data.message);
+//         res.status(201).json(apiResp.data)
+//     } catch (error) {
+//         console.error("Error updating operations:", error.message);
+//         if (error.response) {
+//             // The request was made and the server responded with a non-2xx status code
+//             res.status(error.response.status).send(error.response.data);
+//         } else if (error.request) {
+//             // The request was made but no response was received
+//             res.status(500).send("No response received from the server.");
+//         } else {
+//             // Something happened in setting up the request that triggered an Error
+//             res.status(500).send("Error occurred while sending the request.");
+//         }
+//     }
+// });
+
+async function getMainTableEq(){
     try {
-        const apiResp = await axios.post("http://localhost:8081/addOp", req.body);
-        console.log('Success: ', apiResp.data.message);
-        res.status(201).json(apiResp.data)
-    } catch (error) {
-        console.error("Error updating operations:", error.message);
-        if (error.response) {
-            // The request was made and the server responded with a non-2xx status code
-            res.status(error.response.status).send(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            res.status(500).send("No response received from the server.");
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            res.status(500).send("Error occurred while sending the request.");
-        }
+        let apiResp = await axios.get("http://localhost:8081/main_table_equipment");
+        return apiResp.data;
+    } catch (err) {
+        console.error(err);
+        return null;
     }
+}
+
+app.get("/", async (req, res) => {
+    let equipmentMap = await getMainTableEq();
+    // console.log(equipmentMap);
+    // Rendering the "main_table.ejs" template with no data
+    res.status(200).render("main_table.ejs",{equipmentMap, localMemory});
+
 });
 
+async function getOperationsFromAPI(){
+    try {
+        let apiResp = await axios.get("http://localhost:8081/operations");
+        return apiResp.data;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
 
 app.listen(port, (err) => {
     // Error handling
