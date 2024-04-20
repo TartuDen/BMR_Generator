@@ -2,8 +2,7 @@
 
 ## Overview
 
-<iframe width="100%" height="500px" src="https://app.swaggerhub.com/apis/DENVER1033/BR_Generator/2.0.0"></iframe>
-
+[OpenAPI Specification](https://app.swaggerhub.com/apis/DENVER1033/BR_Generator/2.0.0)
 
 This application is designed to facilitate the creation of batch records for production in GMP pharmaceutical manufacturing. 
 It consists of **login page**, and **creation page**.
