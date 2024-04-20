@@ -1,14 +1,5 @@
 import { settings } from "./public/settings.js";
-/**
- * Entry point for the server application.
- * This file sets up an Express server to handle HTTP requests.
- * 
- * @module index.js
- * @requires express
- * @requires body-parser
- */
-
-// Importing necessary modules
+import { LocalMemory } from "./public/dataClasses.js";
 import express from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import axios from 'axios';
@@ -78,7 +69,7 @@ app.get("/", async (req, res) => {
 
 });
 
-async function getOperations(){
+async function getOperationsFromAPI(){
     try {
         let apiResp = await axios.get("http://localhost:8081/operations");
         return apiResp.data;
@@ -92,15 +83,14 @@ function selectOps(operationsMap, localMemory) {
     let selectedOperationMap = [];
 
     for (let operation of operationsMap) {
-        let equipmentKey = operation.Equipment;
-        for (let memoryKey in localMemory){
-            let code = localMemory[memoryKey]
-            memoryKey = memoryKey.slice(0,-3);
 
-            if (equipmentKey === memoryKey && code !=="" ){
-                selectedOperationMap.push(operation);
-                break;
-            }
+        for (let eqSet of localMemory.equipment){
+                let code = eqSet.eq_code
+                let eq = eqSet.eq_name.slice(0,-3);
+                if (operation.Equipment === eq && code !=="" ){
+                    selectedOperationMap.push(operation);
+                    break;
+                }
         }
     }
 
@@ -108,37 +98,26 @@ function selectOps(operationsMap, localMemory) {
 }
 
 function convertToObject(inputObject) {
-    let outputObject = {
-        project: '',
-        TP: '',
-        equipment: [],
-        reagents: []
-    };
+    let equipment = [];
+    let reagents = [];
 
-    // Iterate through inputObject keys
     for (let key in inputObject) {
         if (inputObject.hasOwnProperty(key) && inputObject[key] !== '') {
-            // Check if the key represents equipment or reagent
             if (key.startsWith('balances') || key.startsWith('reactor') || key.startsWith('d_filter') || key.startsWith('n_filter') || key.startsWith('m_pump') || key.startsWith('p_pump') || key.startsWith('o_pump') || key.startsWith('vac_oven') || key.startsWith('conv_oven')) {
-                // Add to equipment array
-                outputObject.equipment.push({
+                equipment.push({
                     eq_name: key,
                     eq_code: inputObject[key]
                 });
             } else if (key.startsWith('reagent')) {
-                // Add to reagents array
-                outputObject.reagents.push({
+                reagents.push({
                     reag_name: key,
                     reag_amount: inputObject[key]
                 });
-            } else {
-                // Add other properties directly to outputObject
-                outputObject[key] = inputObject[key];
             }
         }
     }
 
-    return outputObject;
+    return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
 }
 
 
@@ -148,10 +127,13 @@ app.post("/operation_table", async (req, res) => {
 
     localMemory = convertToObject(localMemory);
 
-    let operationsMap = await getOperations();
+    let operationsMap = await getOperationsFromAPI();
+
     // operationsMap = selectOps(operationsMap, localMemory);
     // console.log(operationsMap);
     console.log(localMemory);
+
+    operationsMap = selectOps(operationsMap, localMemory)
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data

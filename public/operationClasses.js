@@ -88,3 +88,4 @@ class Waste {
     this.additionalInfo = additionalInfo !== undefined ? additionalInfo : "";
   }
 }
+
