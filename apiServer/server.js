@@ -4,7 +4,7 @@ import axios from 'axios';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import pg from "pg";
-import { GetListEquipmentTypesMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK } from './apiMocks copy.js';
+import { GetListEquipmentTypesMOCK, GetBrOperationMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK } from './apiMocks copy.js';
 import { cache } from 'ejs';
 
 const port = 8081;
@@ -84,9 +84,14 @@ app.post("/filter", async (req, res) => {
 })
 
 
+app.get("/br_operations", async (req,res)=>{
+  let apiResp = await GetBrOperationMOCK();
+  console.log(apiResp);
+  res.status(200).json(apiResp);
+})
 
 
-app.get("/operations", async (req, res) => {
+app.get("/activity_type", async (req, res) => {
   let apiResp = await GetListActivityMOCK();
   console.log(apiResp);
   res.status(200).json(apiResp);

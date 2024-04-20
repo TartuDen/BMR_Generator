@@ -99,7 +99,7 @@ function convertToMemoryObj(inputObject) {
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
-    let operationsMap = await getOperationsFromAPI();
+    let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory)
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs",{operationsMap});
@@ -145,9 +145,9 @@ app.get("/", async (req, res) => {
 
 });
 
-async function getOperationsFromAPI(){
+async function getActivityTypeFromAPI(){
     try {
-        let apiResp = await axios.get("http://localhost:8081/operations");
+        let apiResp = await axios.get("http://localhost:8081/activity_type");
         return apiResp.data;
     } catch (err) {
         console.error(err);
