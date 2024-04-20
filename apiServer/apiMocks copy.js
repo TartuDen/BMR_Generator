@@ -852,6 +852,7 @@ async function GetBrOperationMOCK() {
   // Simulated list of equipment types
   var br_operations = [ //just an example of br operation
     {
+        id: 1,
         project: "projectName", 
         TP: "tp name",
         number: 1,

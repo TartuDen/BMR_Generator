@@ -95,14 +95,24 @@ function convertToMemoryObj(inputObject) {
     return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
 }
 
+async function getBrOperation(){
+    try{
+        let apiResp = await axios.get("http://localhost:8081/br_operations");
+        return apiResp.data;
+    }catch(err){
+        console.error("Faild to retrieve BR operations from API server with error: "+err);
+        return null;
+    }
+}
 
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
-    operationsMap = selectOps(operationsMap, localMemory)
+    operationsMap = selectOps(operationsMap, localMemory);
+    let br_ops = await getBrOperation();
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs",{operationsMap});
+    res.status(200).render("index.ejs",{operationsMap, br_ops});
 });
 
 
@@ -126,6 +136,8 @@ app.post("/operation_table", async (req, res) => {
 //         }
 //     }
 // });
+
+
 
 async function getMainTableEq(){
     try {
