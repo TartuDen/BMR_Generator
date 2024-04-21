@@ -4,31 +4,32 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "operation")
+@Table(name = "equipment")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Operation {
+public class AdditionalEquipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
     
-    @Column(name = "operationType")
+    @Column(name = "name")
     @NonNull
-    private String operationType;
+    private String name;
     
-    @Column(name = "content")
+    @Column(name = "code")
     @NonNull
-    private String content;
+    private String code;
     
-    @Column(name = "other")
-    private String other;
+    @Column(name = "description")
+    @NonNull
+    private String description;
     
     @ManyToOne
-    @JoinColumn(name = "equipment_id")
+    @JoinColumn(name = "typicalactivity_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Getter(AccessLevel.NONE)
-    private Equipment equipment;
+    private TypicalActivity typicalActivity;
 }
