@@ -113,37 +113,45 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    
+                    
                     <!-- Equipment and Activity Type Selection, and Button to parse data -->
                     <div class="row mt-3">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="equipmentType">Equipment Type</label>
-                                <select class="form-control" id="equipmentType">
-                                    <option value="">--select--</option>
-                                    <% 
-                                        // Extract unique equipment types
-                                        let uniqueEquipmentTypes = new Set();
-                                        operationsMap.forEach(function(operation) {
-                                            uniqueEquipmentTypes.add(operation.equipment);
-                                        });
-                            
-                                        // Populate select element with unique equipment types
-                                        uniqueEquipmentTypes.forEach(function(equipmentType) {
-                                    %>
-                                            <option value="<%= equipmentType %>"><%= equipmentType %></option>
-                                    <% }); %>
-                                </select>
+                        <form action="/get_description" method="POST" id="formForDescription">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="equipmentType">Equipment Type</label>
+                                    <select class="form-control" id="equipmentType" name="equipmentType">
+                                        <option value="">--select--</option>
+                                        <% 
+                                            // Extract unique equipment types
+                                            let uniqueEquipmentTypes = new Set();
+                                            operationsMap.forEach(function(operation) {
+                                                uniqueEquipmentTypes.add(operation.equipment);
+                                            });
+                                
+                                            // Populate select element with unique equipment types
+                                            uniqueEquipmentTypes.forEach(function(equipmentType) {
+                                        %>
+                                                <option value="<%= equipmentType %>"><%= equipmentType %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
                             </div>
-                            
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="activityType">Type of Activity</label>
-                                <select class="form-control" id="activityType">
-                                    <option value="">--select--</option>
-                                </select>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="activityType">Type of Activity</label>
+                                    <select class="form-control" id="activityType" name="activityType">
+                                        <option value="">--select--</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+
+                        </form>
+                        
+
+                        
                         <div class="col-md-1 text-center mt-4 ">
                             <button class="btn btn-primary" >Parse Data</button>
                         </div>
@@ -198,6 +206,16 @@
                 // Populate "Type of Activity" select element on page load
                 populateActivityTypes();
             </script>
+
+            <!-- JavaScript code to submit the form when activityType is changed -->
+            <script>
+                // Add an event listener to the change event of the activityType select element
+                document.getElementById('activityType').addEventListener('change', function() {
+                    // Submit the form when the activityType is changed
+                    document.getElementById('formForDescription').submit();
+                });
+            </script>
+
 
 
 </body>
