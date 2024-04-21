@@ -1,6 +1,6 @@
 CREATE
-DATABASE  IF NOT EXISTS `student_tracker`;
-USE `student_tracker`;
+DATABASE  IF NOT EXISTS `bmr_generator_db`;
+USE `bmr_generator_db`;
 
 --
 -- Table structure for table `student`
