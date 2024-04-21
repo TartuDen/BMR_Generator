@@ -102,12 +102,20 @@
                                                 <% } %>
                                                     <td>
                                                         <div id="description">
-
+                                                            <% if(locals.content){ %>
+                                                                <textarea name="description" id="description" cols="150" rows="10"><%= content %></textarea>
+                                                            <% } %>
                                                         </div>
                                                     </td>
 
                                                     <td style="width: 10%;">
-                                                        <div id="other"></div>
+                                                        <div id="other">
+                                                            <% if(locals.other){ %>
+                                                                <textarea name="other" id="other" cols="30" rows="10"><%= other %></textarea>
+                                                            <% }else{ %>
+                                                                <textarea name="other" id="other" cols="30" rows="10"></textarea>
+                                                            <% } %>
+                                                        </div>
                                                     </td>
                                         </tr>
                             </tbody>

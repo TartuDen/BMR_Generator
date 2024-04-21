@@ -39,4 +39,24 @@ export function convertToMemoryObj(inputObject) {
     }
 
     return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
+}// Function to get content and other for equipment type and activity type
+export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType) {
+    // Find the equipment object
+    const equipmentObj = operationsMap.find(op => op.equipment === equipmentType);
+    if (equipmentObj) {
+        // Find the description object for the given activity type
+        const descriptionObj = equipmentObj.description.find(desc => desc.operation_type === activityType);
+        if (descriptionObj) {
+            // Return an object containing both content and other properties
+            return {
+                content: descriptionObj.content,
+                other: descriptionObj.other
+            };
+        } else {
+            return { error: "Content not found for activity type" };
+        }
+    } else {
+        return { error: "Equipment not found" };
+    }
 }
+

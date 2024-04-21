@@ -6,6 +6,7 @@ import { getActivityTypeFromAPI } from "./apiCallFuncs.js";
 import { getBrOperation } from "./apiCallFuncs.js";
 import { convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import session from "express-session";
+import { getContentAndOtherForEquipmentAndActivityType } from "./helperFuncs.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -28,16 +29,16 @@ app.use(session({
 app.post("/get_description",(req,res)=>{
     const {equipmentType, activityType} = req.body
 
-    console.log("body");
-    console.log(req.body);
 
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
 
-    console.log(operationsMap);
+
+
+   const {content, other} = getContentAndOtherForEquipmentAndActivityType(operationsMap,equipmentType, activityType);
     console.log(br_ops);
 
-    res.status(200).render("index.ejs",{operationsMap, br_ops})
+    res.status(200).render("index.ejs",{operationsMap, br_ops, content, other})
 })
 
 app.post("/operation_table", async (req, res) => {
