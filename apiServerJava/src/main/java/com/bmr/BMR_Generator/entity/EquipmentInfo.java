@@ -4,19 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "additional_equipment")
+@Table(name = "equipment_info")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AdditionalEquipment {
+public class EquipmentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    
-    @Column(name = "name")
-    @NonNull
-    private String name;
     
     @Column(name = "code")
     @NonNull
@@ -25,4 +21,11 @@ public class AdditionalEquipment {
     @Column(name = "description")
     @NonNull
     private String description;
+    
+    @ManyToOne
+    @JoinColumn(name = "equipment_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private Equipment equipment;
 }

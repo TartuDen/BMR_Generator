@@ -74,15 +74,4 @@ public class TypicalActivity {
     
     @Column(name = "vpumptorrmax")
     private Double vpumpTorrMax;
-    
-    @OneToMany(mappedBy = "typicalActivity", cascade = CascadeType.ALL)
-    private List<AdditionalEquipment> additionalEquipment;
-    
-    public void addAdditionalEquipment (AdditionalEquipment additionalEquipment) {
-        if (this.additionalEquipment == null) {
-            this.additionalEquipment = new ArrayList<>();
-        }
-        this.additionalEquipment.add(additionalEquipment);
-        additionalEquipment.setTypicalActivity(this);
-    }
 }

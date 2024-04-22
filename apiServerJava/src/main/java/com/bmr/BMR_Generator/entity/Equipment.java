@@ -24,25 +24,32 @@ public class Equipment {
     @NonNull
     private String name;
     
-    @Column(name = "code")
-    @NonNull
-    private String code;
+    @OneToMany(
+            mappedBy = "equipment",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private List<EquipmentInfo> equipmentInfo;
     
-    @Column(name = "description")
-    @NonNull
-    private String description;
-    
+ 
     @OneToMany(
             mappedBy = "equipment",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Operation> operations;
-    
+
     public void addOperation (Operation operation) {
         if (operations == null) {
             operations = new ArrayList<>();
         }
         this.operations.add(operation);
         operation.setEquipment(this);
+    }
+    
+    public void addEquipmentInfo (EquipmentInfo equipmentInfo) {
+        if (this.equipmentInfo == null) {
+            this.equipmentInfo = new ArrayList<>();
+        }
+        this.equipmentInfo.add(equipmentInfo);
+        equipmentInfo.setEquipment(this);
     }
 }

@@ -34,6 +34,18 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     }
     
     @Override
+    @Transactional
+    public boolean update(Equipment equipment) {
+        try {
+            entityManager.merge(equipment);
+            return true;
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while updating equipment", e);
+            return false;
+        }
+    }
+    
+    @Override
     public List<Equipment> findAllEquipment() {
         TypedQuery<Equipment> findAllQuery = entityManager.createQuery("FROM Equipment", Equipment.class);
         return findAllQuery.getResultList();
