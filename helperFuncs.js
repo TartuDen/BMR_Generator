@@ -59,4 +59,37 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
         return { error: "Equipment not found" };
     }
 }
+export function populateContent(content, localMemory) {
+    const { equipment } = localMemory;
+    const equipmentMap = new Map();
+
+    // Populate equipmentMap with equipment names as keys and array of codes as values
+    equipment.forEach(item => {
+        const { eq_name, eq_code } = item;
+        const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
+        if (!equipmentMap.has(nameWithoutIndex)) {
+            equipmentMap.set(nameWithoutIndex, []);
+        }
+        equipmentMap.get(nameWithoutIndex).push(eq_code);
+    });
+
+    // console.log("eqMap:", equipmentMap);
+    // Regular expression to match placeholders inside curly braces {}
+    const placeholderRegex = /{([^{}]*)}/g;
+
+    // Replace placeholders in the content
+    const populatedContent = content.replace(placeholderRegex, (match, p1) => {
+        // Check if the placeholder matches an equipment name in localMemory
+        if (equipmentMap.has(p1)) {
+            // If there's a matching equipment name, create a select element with options
+            const options = equipmentMap.get(p1).map(code => `<option value="${code}">${code}</option>`).join('');
+            return `<select name="${p1}">${options}</select>`;
+        } else {
+            // If there's no matching equipment name, keep the placeholder unchanged
+            return match;
+        }
+    });
+
+    return populatedContent;
+}
 

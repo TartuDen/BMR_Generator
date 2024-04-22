@@ -46,4 +46,12 @@ export async function getBrOperation() {
         return null;
     }
 }
+export async function getUtensils() {
+    try {
+        let apiResp = await axios.get("http://localhost:8081/utensils");
+        return apiResp.data;
+    } catch (err) {
+        console.error("Failed to retireve data from getUtensils() with error: " + err);
+    }
+}
 

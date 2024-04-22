@@ -65,7 +65,17 @@ async function GetParametersForOperationsMOCK() {
   return parameters;
 }
 
-    
+async function GetUtensilsForOperationsMOCK() {
+  await delay(500); // Simulating a delay of 500ms
+  // Simulated list of parameters for operations
+  return [
+    { id: 1, name: "hose" },
+    { id: 2, name: "jug" },
+    { id: 3, name: "funnel" },
+    { id: 4, name: "shovel" }
+  ];
+}
+   
 
 /**
  * Simulates retrieving a list of equipment types with a delay.
@@ -897,5 +907,6 @@ export {
   GetListEquipmentTypesMOCK,
   GetListActivityMOCK,
   GetEquipmentListByTypeMOCK,
-  GetListNonGMPActivityMOCK
+  GetListNonGMPActivityMOCK,
+  GetUtensilsForOperationsMOCK
 };
