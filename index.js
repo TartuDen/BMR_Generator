@@ -1,5 +1,5 @@
 import { settings } from "./public/settings.js";
-import express from "express"; // Importing Express framework for building the server
+import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import { getMainTableEq } from "./apiCallFuncs.js";
 import { getActivityTypeFromAPI } from "./apiCallFuncs.js";
@@ -7,6 +7,8 @@ import { getBrOperation } from "./apiCallFuncs.js";
 import { convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import session from "express-session";
 import { getContentAndOtherForEquipmentAndActivityType } from "./helperFuncs.js";
+import { populateContent } from "./helperFuncs.js";
+import { getUtensils } from "./apiCallFuncs.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -25,45 +27,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
-function populateContent(content, localMemory) {
-    const { equipment } = localMemory;
-    const equipmentMap = new Map();
-    
-    // Populate equipmentMap with equipment names as keys and array of codes as values
-    equipment.forEach(item => {
-        const { eq_name, eq_code } = item;
-        const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
-        if (!equipmentMap.has(nameWithoutIndex)) {
-            equipmentMap.set(nameWithoutIndex, []);
-        }
-        equipmentMap.get(nameWithoutIndex).push(eq_code);
-    });
-    
-    // console.log("eqMap:", equipmentMap);
-    
-    // Regular expression to match placeholders inside curly braces {}
-    const placeholderRegex = /{([^{}]*)}/g;
-    
-    // Replace placeholders in the content
-    const populatedContent = content.replace(placeholderRegex, (match, p1) => {
-        // Check if the placeholder matches an equipment name in localMemory
-        if (equipmentMap.has(p1)) {
-            // If there's a matching equipment name, create a select element with options
-            const options = equipmentMap.get(p1).map(code => `<option value="${code}">${code}</option>`).join('');
-            return `<select name="${p1}">${options}</select>`;
-        } else {
-            // If there's no matching equipment name, keep the placeholder unchanged
-            return match;
-        }
-    });
-
-    return populatedContent;
-}
-
-
-
-app.post("/get_description",(req,res)=>{
-    const {equipmentType, activityType} = req.body
+app.post("/get_description",async (req,res)=>{
+    const uts = await getUtensils();
+    const {equipmentType, activityType} = req.body;
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
@@ -79,12 +45,13 @@ app.post("/get_description",(req,res)=>{
     console.log("content:", content);
     console.log("other:", other);
     console.log("localMemory:", localMemory);
+    console.log("uts: ",uts);
     console.log("----------------------");
-    console.log(populateContent(content, localMemory));
+   let formatedContent = (populateContent(content, localMemory));
     console.log("////////////////////////////////////////")
 
 
-    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, content, other})
+    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, formatedContent, other})
 })
 
 app.post("/operation_table", async (req, res) => {
