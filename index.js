@@ -39,7 +39,12 @@ app.post("/get_description",async (req,res)=>{
    const {content, other} = getContentAndOtherForEquipmentAndActivityType(operationsMap,equipmentType, activityType);
    let contentEq = populateContent(content, localMemory);
    let contentEqUts = populateUts(contentEq, uts, localMemory);
-    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, contentEqUts, other})
+
+
+   
+
+   let finalFormatContent = contentEqUts;
+    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other})
 })
 
 app.post("/operation_table", async (req, res) => {
