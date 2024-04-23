@@ -51,19 +51,26 @@ async function GetParametersForOperationsMOCK() {
   await delay(500); // Simulating a delay of 500ms
   // Simulated list of parameters for operations
   const parameters = [
-    { id: 1, parameter: "durationRange" },
-    { id: 2, parameter: "targetTempRange" },
-    { id: 3, parameter: "initialTempSet" },
-    { id: 4, parameter: "finalTempSet" },
-    { id: 5, parameter: "processTemp" },
-    { id: 6, parameter: "rpmRange" },
-    { id: 7, parameter: "flowRange" },
-    { id: 8, parameter: "ppumpSetRange" },
-    { id: 9, parameter: "vpumpTorrProcess" },
-    { id: 10, parameter: "vpumpTorrRange" },
+    { id: 1, parameter: "durationMin" },
+    { id: 2, parameter: "durationMax" },
+    { id: 3, parameter: "targetTempMin" },
+    { id: 4, parameter: "targetTempMax" },
+    { id: 5, parameter: "initialTempSet" },
+    { id: 6, parameter: "finalTempSet" },
+    { id: 7, parameter: "processTemp" },
+    { id: 8, parameter: "rpmMin" },
+    { id: 9, parameter: "rpmMax" },
+    { id: 10, parameter: "flowMin" },
+    { id: 11, parameter: "flowMax" },
+    { id: 12, parameter: "ppumpSetMin" },
+    { id: 13, parameter: "ppumpSetMax" },
+    { id: 14, parameter: "vpumpTorrProcess" },
+    { id: 15, parameter: "vpumpTorrMin" },
+    { id: 16, parameter: "vpumpTorrMax" }
   ];
   return parameters;
 }
+
 
 async function GetUtensilsForOperationsMOCK() {
   await delay(500); // Simulating a delay of 500ms
@@ -147,7 +154,7 @@ async function GetListActivityMOCK(equipmentType) {
           content: `Loading into reactor:
   Required amount of {material} is weighed on the balances {balances} using jug "{jug}". 
   Using peristaltic pump  {p_pump} and norprene hose "{hose}", weighted material is pumped into the reactor via a liquid loading valve. 
-  The peristaltic pump is set to {ppumpSetRange}%. 
+  The peristaltic pump is set to {ppumpSetMin} {ppumpSetMax}%. 
   After loading is done, the pump is stopped, and the hose is removed. 
   The 60 mm flange port is closed. 
   The hose is cleaned and dried.
@@ -165,7 +172,7 @@ async function GetListActivityMOCK(equipmentType) {
           content: `Loading into dropping funnel:
   The required amount of {material} is weighed on the balances {balances} using jug "{jug}". 
   Using peristaltic pump  {p_pump} and norprene hose "{hose}", weighted material is pumped into the dosing system. 
-  The peristaltic pump is set to {ppumpSetRange}%. 
+  The peristaltic pump is set to {ppumpSetMin} {ppumpSetMax}%. 
   After loading is done, the pump is stopped, hose is removed. 
   The dosing system is closed. The hose is cleaned and dried.
   
@@ -182,10 +189,10 @@ async function GetListActivityMOCK(equipmentType) {
           content: `Dropwise addition:
   Material is added dropwise from dropping funnel.
   Addition is temperature controlled.
-  Keep the temperature of reaction mixture in range {targetTempRange}°C.
+  Keep the temperature of reaction mixture in range {targetTempMin}{targetTempMax}°C.
   Set the thermostat to the temperature {initialTempSet}°C.
   Once temperaute in require range, change the setting of thermostat to {finalTempSet}°C.
-  Stirring is set to range {rpmRange} rpm.`,
+  Stirring is set to range {rpmMin}{rpmMax} rpm.`,
           other: `Actual thermostat
   setting: ..... °C
   Actual stirring
@@ -195,7 +202,7 @@ async function GetListActivityMOCK(equipmentType) {
           operation_type: "argon_start_flow",
           content: `Argon flow:
   Argon line is connected to the argon port of reactor {reactor}. 
-  The Argon flow is set to {flowRange}l/min. 
+  The Argon flow is set to {flowMin}{flowMax}l/min. 
   The valve is opened.`,
           other: `Actual flow
   setting: .... l/min`  
@@ -209,9 +216,9 @@ async function GetListActivityMOCK(equipmentType) {
         {
           operation_type: "reaction_hold_time",
           content: `Hold time:
-  Reaction mixture is stirred during {durationRange} . 
-  Temperature set is {targetTempRange}°C. 
-  Stirring is set to {rpmRange} rpm.`,
+  Reaction mixture is stirred during {durationMin}{durationMax} . 
+  Temperature set is {targetTempMin}{targetTempMax}°C. 
+  Stirring is set to {rpmMin}{rpmMax} rpm.`,
           other: `Actual temp
   setting: ..... °C
   Actual stirring
@@ -220,7 +227,7 @@ async function GetListActivityMOCK(equipmentType) {
         {
           operation_type: "reaction_stir_ON",
           content: `Stirring in reactor {reactor} is turned ON. 
-  Set to {rpmRange} rpm.`,
+  Set to {rpmMin}{rpmMax} rpm.`,
           other: `Actual stirring
   setting: .... rpm`
         },
@@ -232,7 +239,7 @@ async function GetListActivityMOCK(equipmentType) {
         {
           operation_type: "reaction_heat/cool_ON",
           content: `<Heating/cooling> of reactor {reactor} is turned ON.
-  The target temperature range is {targetTempRange}°C.  
+  The target temperature range is {targetTempMin}{targetTempMax}°C.  
   Temperature is set to {initialTempSet}°C. 
   Once the temperature is in a given range, the setting is changed to {finalTempSet}°C.`,
           other: `Actual temp
@@ -243,10 +250,10 @@ async function GetListActivityMOCK(equipmentType) {
           content: `Vacuum distillation:
   Solvent is distilled out from reactor.
   Tap water for condenser is turned ON.
-  Heating is set {targetTempRange}°C.
-  Stirring is set {rpmRange} rpm.
+  Heating is set {targetTempMin}{targetTempMax}°C.
+  Stirring is set {rpmMin}{rpmMax} rpm.
   Membrane pump is connected via cold trap and turned ON.
-  Vacuum is gradually decreased in range {vpumpTorrRange} torr.
+  Vacuum is gradually decreased in range {vpumpTorrMin}{vpumpTorrMax} torr.
   Distillation is continued until <conditions>.`,
           other: `Actual temp
   setting: ..... °C
@@ -297,7 +304,7 @@ async function GetListActivityMOCK(equipmentType) {
   Check that the product line and argon line are closed. 
   Release the top valve on the receiver to make sure there is no extra pressure. 
   Connect peristaltic pump {p_pump} to the bottom valve of the filter {d_filter} using norprene hose "{hose}". 
-  The second end of the hose is securely fixed into the receiving container canister, set the speed of the peristaltic pump {ppumpSetRange} %. 
+  The second end of the hose is securely fixed into the receiving container canister, set the speed of the peristaltic pump {ppumpSetMin} {ppumpSetMax} %. 
   Start the pump. Continue the process until all ML is unloaded into the receiver.`,
           other: ``
         },
@@ -319,9 +326,9 @@ async function GetListActivityMOCK(equipmentType) {
           operation_type: "dry_on_filter",
           content: `Drying on filter:
   The filter cake is additionally dried on the filter {d_filter} using argon flow. 
-  Argon is set to {flowRange} l/min, check that the outlet valve is opened and the stream is led to the ventilation. 
+  Argon is set to {flowMin}{flowMax} l/min, check that the outlet valve is opened and the stream is led to the ventilation. 
   Argon line is opened. 
-  Drying on the filter is continued for {durationRange} min. 
+  Drying on the filter is continued for {durationMin}{durationMax} min. 
   After the required time is passed, the argon line is closed.`,
           other: `Actual flow
   setting: .... l/min` 
@@ -385,8 +392,8 @@ async function GetListActivityMOCK(equipmentType) {
           operation_type: "dry_on_filter",
           content: `Drying on filter:
   The filter cake is additionally dried on the filter by keeping the membrane pump sucking air through it. 
-  Membrane pump {m_pump} is set to range {vpumpTorrRange} Torr. 
-  Drying on the filter is continued for {durationRange}  min. 
+  Membrane pump {m_pump} is set to range {vpumpTorrMin}{vpumpTorrMax} Torr. 
+  Drying on the filter is continued for {durationMin}{durationMax}  min. 
   After the required time is passed, the pump is stopped.`,
           other: `Actual plump
   setting: ..... Torr`
@@ -410,7 +417,7 @@ async function GetListActivityMOCK(equipmentType) {
       description: [
         {
           operation_type: "pump_ON",
-          content: `Peristaltic pump {p_pump} is set to {ppumpSetRange} %.
+          content: `Peristaltic pump {p_pump} is set to {ppumpSetMin} {ppumpSetMax} %.
   Pump is turned ON`,
           other: ``
         }
@@ -426,8 +433,8 @@ async function GetListActivityMOCK(equipmentType) {
   Each tray is weighed on balances {balances}, data is recorded into Table <number>.
   Tray is placed into drying oven.
   After all product is loaded on trays and placed into oven, the oven is clodes.
-  Heating is set {targetTempRange}°C.
-  Timer is set to {durationRange} .
+  Heating is set {targetTempMin}{targetTempMax}°C.
+  Timer is set to {durationMin}{durationMax} .
   The dryining starts.`,
           other: ``
         },
@@ -638,8 +645,8 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
             `Dropwise addition:
             Material is added dropwise from dropping funnel.
             Addition is temperature controlled.
-            Keep the temperature of reaction mixture in range {targetTempRange}°C.
-            Stirring is set to range {rpmRange} rpm.`,
+            Keep the temperature of reaction mixture in range {targetTempMin}{targetTempMax}°C.
+            Stirring is set to range {rpmMin}{rpmMax} rpm.`,
           Other: `Actual thermostat setting: ..... °C
             Actual stirring setting: .... rpm`
         },
@@ -647,7 +654,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           operation_type: "argon_start_flow",
           content:
             `Argon flow:
-            Argon line is connected and set to {flowRange} l/min.`,
+            Argon line is connected and set to {flowMin}{flowMax} l/min.`,
           Other: `Actual flow setting: .... l/min`
         },
         {
@@ -660,9 +667,9 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           operation_type: "reaction_hold_time",
           content:
             `Hold time:
-            Reaction mixture is stirred during {durationRange}.
-            Temperature set is {targetTempRange}°C.
-            Stirring is set to {rpmRange} rpm.`,
+            Reaction mixture is stirred during {durationMin}{durationMax}.
+            Temperature set is {targetTempMin}{targetTempMax}°C.
+            Stirring is set to {rpmMin}{rpmMax} rpm.`,
           Other: `Actual temp setting: ..... °C
             Actual stirring setting: .... rpm`
         },
@@ -670,7 +677,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           operation_type: "reaction_heat/cool_ON",
           content:
             `<Heating/cooling> of reactor {reactor} is turned ON.
-            The target temperature range is {targetTempRange}°C.`,
+            The target temperature range is {targetTempMin}{targetTempMax}°C.`,
           Other: `Actual temp setting: ..... °C`
         },
         {
@@ -679,9 +686,9 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
             `Vacuum distillation:
             Solvent is distilled out from reactor.
             Tap water for condenser is turned ON.
-            Heating is set {targetTempRange}°C.
-            Stirring is set {rpmRange} rpm.
-            Vacuum is gradually decreased in range {vpumpTorrRange} torr.
+            Heating is set {targetTempMin}{targetTempMax}°C.
+            Stirring is set {rpmMin}{rpmMax} rpm.
+            Vacuum is gradually decreased in range {vpumpTorrMin}{vpumpTorrMax} torr.
             Distillation is continued until <conditions>.`,
           Other: `Actual temp setting: ..... °C
             Actual stirring setting: ..... rpm
@@ -720,7 +727,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           operation_type: "filtration_with_argon",
           content:
             `Filtration:
-            Product is filtrated using argon flow {flowRange} l/min`,
+            Product is filtrated using argon flow {flowMin}{flowMax} l/min`,
           Other: ``
         },
         {
@@ -735,7 +742,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           content:
             `Washing filter cake:
             Filter cake is washied with required amount of solvent {material}.
-            After loading, the solvent is pushed through the filter cake with argon pressure {flowRange} l/min.
+            After loading, the solvent is pushed through the filter cake with argon pressure {flowMin}{flowMax} l/min.
   
             Specified amount: ….. kg (….. - ….. kg)`,
           Other: `Warehouse code: ...........
@@ -746,8 +753,8 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           content:
             `Drying on filter:
             The filter cake is additionally dried on the filter {d_filter} using argon flow.
-            Argon is set to {flowRange} l/min.
-            Drying on the filter is continued for {durationRange} min.`,
+            Argon is set to {flowMin}{flowMax} l/min.
+            Drying on the filter is continued for {durationMin}{durationMax} min.`,
           Other: `Actual flow setting: .... l/min`
         },
         {
@@ -802,8 +809,8 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
           content:
             `Drying on filter:
             The filter cake is additionally dried on the filter by keeping the membrane pump sucking air through it.
-            Membrane pump {m_pump} is set to range {vpumpTorrRange} Torr.
-            Drying on the filter is continued for {durationRange} min.
+            Membrane pump {m_pump} is set to range {vpumpTorrMin}{vpumpTorrMax} Torr.
+            Drying on the filter is continued for {durationMin}{durationMax} min.
             After the required time is passed, the pump is stopped.`,
           Other: `Actual plump setting: ..... Torr`
         },
@@ -821,7 +828,7 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
       description: [
         {
           operation_type: "pump_ON",
-          content: `Peristaltic pump {p_pump} is set to {ppumpSetRange} %.
+          content: `Peristaltic pump {p_pump} is set to {ppumpSetMin} {ppumpSetMax} %.
             Pump is turned ON`,
           Other: ``
         }
@@ -837,8 +844,8 @@ async function GetListNonGMPActivityMOCK(equipmentType) {
             Each tray is weighed on balances {balances}, data is recorded into Table <number>.
             Tray is placed into drying oven.
             After all product is loaded on trays and placed into oven, the oven is clodes.
-            Heating is set {targetTempRange}°C.
-            Timer is set to {durationRange}.
+            Heating is set {targetTempMin}{targetTempMax}°C.
+            Timer is set to {durationMin}{durationMax}.
             The dryining starts.`,
           Other: ``
         }
@@ -879,16 +886,22 @@ async function GetBrOperationMOCK() {
             ...........
             Actual loading:
             ....... kg`, 
-            durationRange:[], 
-            targetTempRange:[], 
-            initialTempSet:null, 
-            finalTempSet:null, 
-            processTemp:null, 
-            rpmRange:[], 
-            flowRange:[], 
-            ppumpSetRange:[], 
-            vpumpTorrProcess:null, 
-            vpumpTorrRange:[], 
+            durationMin:-1, 
+            durationMax:-1, 
+            targetTempMin:-1, 
+            targetTempMax:-1, 
+            initialTempSet:-1, 
+            finalTempSet:-1, 
+            processTemp:-1, 
+            rpmMin:-1, 
+            rpmMax:-1, 
+            flowMin:-1, 
+            flowMax:-1, 
+            ppumpSetMin: -1, 
+            ppumpSetMax: -1, 
+            vpumpTorrProcess:-1, 
+            vpumpTorrMin:-1, 
+            vpumpTorrMax:-1, 
             additionalEquipment: []
         },
         materialIn:[],
