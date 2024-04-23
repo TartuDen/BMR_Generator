@@ -1,5 +1,6 @@
 package com.bmr.BMR_Generator.dao;
 
+import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
 
@@ -11,4 +12,6 @@ public interface EquipmentDAO {
     List<Equipment> findAllEquipment();
     
     List<EquipmentWithoutOperationsDTO> findAllEquipmentExcludeOperations();
+    
+    List<EquipmentWithoutInfoDTO> findAllEquipmentExcludeInfo();
 }

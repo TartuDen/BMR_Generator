@@ -1,5 +1,6 @@
 package com.bmr.BMR_Generator.rest;
 
+import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
@@ -31,6 +32,11 @@ public class EquipmentRestController {
     @GetMapping("/main_table_equipment")
     public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations(){
         return equipmentService.getAllEquipmentExcludeOperations();
+    }
+    
+    @GetMapping("/activity_type")
+    public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo(){
+        return equipmentService.getAllEquipmentExcludeInfo();
     }
     
     @PutMapping("/equipment/{id}")

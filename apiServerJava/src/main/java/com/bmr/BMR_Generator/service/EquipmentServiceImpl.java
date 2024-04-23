@@ -2,6 +2,7 @@ package com.bmr.BMR_Generator.service;
 
 import com.bmr.BMR_Generator.dao.EquipmentDAO;
 import com.bmr.BMR_Generator.dao.EquipmentDAOImpl;
+import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
@@ -75,5 +76,10 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations() {
         return equipmentDAO.findAllEquipmentExcludeOperations();
+    }
+    
+    @Override
+    public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo() {
+        return equipmentDAO.findAllEquipmentExcludeInfo();
     }
 }
