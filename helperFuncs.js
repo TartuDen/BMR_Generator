@@ -125,7 +125,22 @@ export function populateUts(content, utensils, localMemory) {
 
 export function populateMaterials(content, localMemory) {
     const { reagents } = localMemory;
-    const reagentsMap = new Map();
+    const reagentsMap = new Map(reagents.map(reagent => [reagent.reag_id, { name: reagent.reag_name, amount: reagent.reag_amount }]));
 
-    
+    // Regular expression to match placeholders inside curly braces containing the word "material"
+    const placeholderRegex = /{(\bmaterial\b)}/g;
+
+    // Replace placeholders in the content
+    const populatedContent = content.replace(placeholderRegex, () => {
+        // Create the select element options using the reagentsMap
+        const options = Array.from(reagentsMap.values()).map(reagent => `<option value="${reagent.amount}">${reagent.name} - ${reagent.amount}</option>`).join('');
+
+        // Construct the select element with the provided id and name, including a default "select" option
+        return `<select name="material"><option value="">--select--</option>${options}</select>`;
+    });
+
+    return populatedContent;
 }
+
+
+

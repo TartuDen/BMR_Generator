@@ -4,12 +4,9 @@ import bodyParser from "body-parser"; // Importing body-parser middleware for pa
 import { getMainTableEq } from "./apiCallFuncs.js";
 import { getActivityTypeFromAPI } from "./apiCallFuncs.js";
 import { getBrOperation } from "./apiCallFuncs.js";
-import { convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import session from "express-session";
-import { getContentAndOtherForEquipmentAndActivityType } from "./helperFuncs.js";
-import { populateContent } from "./helperFuncs.js";
 import { getUtensils } from "./apiCallFuncs.js";
-import { populateUts } from "./helperFuncs.js";
+import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -29,22 +26,26 @@ app.use(session({
 }));
 
 
-app.post("/get_description",async (req,res)=>{
+app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
-    const {equipmentType, activityType} = req.body;
+    const { equipmentType, activityType } = req.body;
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
 
-   const {content, other} = getContentAndOtherForEquipmentAndActivityType(operationsMap,equipmentType, activityType);
-   let contentEq = populateContent(content, localMemory);
-   let contentEqUts = populateUts(contentEq, uts, localMemory);
+    const { content, other } = getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType);
+    let contentEq = populateContent(content, localMemory);
+    let contentEqUts = populateUts(contentEq, uts, localMemory);
+    let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
+
+    console.log("*********contentEqUtsMat************");
+    console.log(contentEqUtsMat);
 
 
-   
 
-   let finalFormatContent = contentEqUts;
-    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other})
+
+    let finalFormatContent = contentEqUtsMat;
+    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other })
 })
 
 app.post("/operation_table", async (req, res) => {
@@ -64,7 +65,7 @@ app.post("/operation_table", async (req, res) => {
     console.log(br_ops);
     console.log(localMemory);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs",{operationsMap, br_ops});
+    res.status(200).render("index.ejs", { operationsMap, br_ops });
 });
 
 
@@ -73,7 +74,7 @@ app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
     // console.log(equipmentMap);
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs",{equipmentMap, localMemory});
+    res.status(200).render("main_table.ejs", { equipmentMap, localMemory });
 
 });
 
@@ -82,7 +83,7 @@ app.listen(port, (err) => {
     if (err) {
         console.log(err);
         throw err;
-    }else{
-        console.log("Local server is running on port: "+port)
+    } else {
+        console.log("Local server is running on port: " + port)
     }
 });
