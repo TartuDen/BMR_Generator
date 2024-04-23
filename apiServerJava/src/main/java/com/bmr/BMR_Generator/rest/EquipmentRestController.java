@@ -1,5 +1,6 @@
 package com.bmr.BMR_Generator.rest;
 
+import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,13 @@ public class EquipmentRestController {
         return equipmentService.saveEquipment(equipment);
     }
     
-    @GetMapping("/main_table_equipment")
+    @GetMapping("/main_table_equipment_full")
     public List<Equipment> getAllEquipment(){
         return equipmentService.getAllEquipment();
+    }
+    @GetMapping("/main_table_equipment")
+    public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations(){
+        return equipmentService.getAllEquipmentExcludeOperations();
     }
     
     @PutMapping("/equipment/{id}")

@@ -43,10 +43,10 @@ public class TypicalActivity {
     private Double targetTempMax;
     
     @Column(name = "initialtempset")
-    private Integer initialTempSet;
+    private Double initialTempSet;
     
     @Column(name = "processtemp")
-    private Integer processTemp;
+    private Double processTemp;
     
     @Column(name = "rpmmin")
     private Double rpmMin;
@@ -67,7 +67,7 @@ public class TypicalActivity {
     private Double ppumpSetMax;
     
     @Column(name = "vpumptorrprocess")
-    private Integer vpumpTorrProcess;
+    private Double vpumpTorrProcess;
     
     @Column(name = "vpumptorrmin")
     private Double vpumpTorrMin;

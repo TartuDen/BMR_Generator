@@ -1,6 +1,9 @@
 package com.bmr.BMR_Generator.dao;
 
+import com.bmr.BMR_Generator.dto.EquipmentInfoDTO;
+import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class EquipmentDAOImpl implements EquipmentDAO{
@@ -49,6 +53,37 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     public List<Equipment> findAllEquipment() {
         TypedQuery<Equipment> findAllQuery = entityManager.createQuery("FROM Equipment", Equipment.class);
         return findAllQuery.getResultList();
+    }
+    
+    @Override
+    public List<EquipmentWithoutOperationsDTO> findAllEquipmentExcludeOperations() {
+        TypedQuery<Equipment> findAllQuery = entityManager.createQuery("FROM Equipment", Equipment.class);
+        var equipmentFull = findAllQuery.getResultList();
+        return equipmentFull.stream()
+                .map(this::mapToEquipmentWithoutOperationsDTO)
+                .collect(Collectors.toList());
+    }
+    
+    private EquipmentWithoutOperationsDTO mapToEquipmentWithoutOperationsDTO(Equipment equipment) {
+        EquipmentWithoutOperationsDTO dto = new EquipmentWithoutOperationsDTO();
+        dto.setId(equipment.getId());
+        dto.setName(equipment.getName());
+        dto.setEquipmentInfo(mapToEquipmentInfoDTOList(equipment.getEquipmentInfo()));
+        return dto;
+    }
+    
+    private List<EquipmentInfoDTO> mapToEquipmentInfoDTOList(List<EquipmentInfo> equipmentInfoList) {
+        return equipmentInfoList.stream()
+                .map(this::mapToEquipmentInfoDTO)
+                .collect(Collectors.toList());
+    }
+    
+    private EquipmentInfoDTO mapToEquipmentInfoDTO(EquipmentInfo equipmentInfo) {
+        EquipmentInfoDTO dto = new EquipmentInfoDTO();
+        dto.setId(equipmentInfo.getId());
+        dto.setCode(equipmentInfo.getCode());
+        dto.setDescription(equipmentInfo.getDescription());
+        return dto;
     }
     
 }
