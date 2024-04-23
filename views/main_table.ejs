@@ -96,18 +96,21 @@
                                 <table class="table">
                                     <h2>Insert Materials</h2>
                                     <tbody>
-                                       
-                                            <!-- Render default input fields with empty values and placeholders -->
-                                            <% for (let i = 0; i < 10; i++) { %>
-                                                <tr>
-                                                    <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
-                                                    <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
-                                                </tr>
-                                            <% } %>
-                                             
-                                        
+                                        <% localMemory.reagents.forEach((reagent, index) => { %>
+                                            <tr>
+                                                <td><input type="text" name="reagent<%= index %>" class="form-control" value="<%= reagent.reag_name %>" placeholder="Reagent here"></td>
+                                                <td><input type="number" name="amount<%= index %>" class="form-control" value="<%= reagent.reag_amount %>" placeholder="Amounts in kg" step="any"></td>
+                                            </tr>
+                                        <% }); %>
+                                        <% for (let i = localMemory.reagents.length; i < 10; i++) { %>
+                                            <tr>
+                                                <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
+                                                <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
+                                
                             </div>
                         </div>
                         <!-- Submit button -->

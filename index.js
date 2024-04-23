@@ -9,6 +9,7 @@ import session from "express-session";
 import { getContentAndOtherForEquipmentAndActivityType } from "./helperFuncs.js";
 import { populateContent } from "./helperFuncs.js";
 import { getUtensils } from "./apiCallFuncs.js";
+import { populateUts } from "./helperFuncs.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -28,31 +29,6 @@ app.use(session({
 }));
 
 
-function populateUts(content, utensils, localMemory) {
-    const { project, TP } = localMemory;
-
-    // Create a map of utensil names and their corresponding values
-    const utensilMap = new Map(utensils.map(item => [item.name, { project, TP }]));
-
-    // Regular expression to match placeholders inside curly braces {}
-    const placeholderRegex = /{([^{}]*)}/g;
-
-    // Replace placeholders in the content
-    const populatedContent = content.replace(placeholderRegex, (match, p1) => {
-        // Check if the placeholder matches a utensil name
-        if (utensilMap.has(p1)) {
-            // If there's a matching utensil name, replace the placeholder with project or TP
-            const { project, TP } = utensilMap.get(p1);
-            return project !== '' ? project + " "+ TP : TP;
-        } else {
-            // If there's no matching utensil name, keep the placeholder unchanged
-            return match;
-        }
-    });
-    return populatedContent;
-}
-
-
 app.post("/get_description",async (req,res)=>{
     const uts = await getUtensils();
     const {equipmentType, activityType} = req.body;
@@ -61,28 +37,14 @@ app.post("/get_description",async (req,res)=>{
     const localMemory = req.session.localMemory;
 
    const {content, other} = getContentAndOtherForEquipmentAndActivityType(operationsMap,equipmentType, activityType);
-   let formatedContent = populateContent(content, localMemory);
-   formatedContent = populateUts(formatedContent, uts, localMemory);
-   console.log("************************");
-    // Output all variables to console
-    console.log("operationsMap:", operationsMap);
-    console.log("br_ops:", br_ops);
-    console.log("equipmentType:", equipmentType);
-    console.log("activityType:", activityType);
-    console.log("content:", content);
-    console.log("other:", other);
-    console.log("localMemory:", localMemory);
-    console.log("uts: ",uts);
-    console.log("----------------------");
-    console.log(formatedContent);
-    console.log("////////////////////////////////////////")
-
-
-    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, formatedContent, other})
+   let contentEq = populateContent(content, localMemory);
+   let contentEqUts = populateUts(contentEq, uts, localMemory);
+    res.status(200).render("index.ejs",{operationsMap, br_ops, equipmentType, activityType, contentEqUts, other})
 })
 
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
+    console.log("localMem:", localMemory);
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
@@ -95,6 +57,7 @@ app.post("/operation_table", async (req, res) => {
 
     console.log(operationsMap);
     console.log(br_ops);
+    console.log(localMemory);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs",{operationsMap, br_ops});
 });

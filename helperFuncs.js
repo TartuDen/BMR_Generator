@@ -18,28 +18,43 @@ export function selectOps(operationsMap, localMemory) {
     }
     return selectedOperationMap;
 }
+// Define a Reagent class to represent each reagent
+class Reagent {
+    constructor(reag_id, reag_name, reag_amount) {
+        this.reag_id = reag_id;
+        this.reag_name = reag_name;
+        this.reag_amount = reag_amount;
+    }
+}
+
 export function convertToMemoryObj(inputObject) {
     let equipment = [];
     let reagents = [];
 
+    // Iterate over the inputObject properties
     for (let key in inputObject) {
         if (inputObject.hasOwnProperty(key) && inputObject[key] !== '') {
+            // Check if the property represents equipment
             if (key.startsWith('balances') || key.startsWith('reactor') || key.startsWith('d_filter') || key.startsWith('n_filter') || key.startsWith('m_pump') || key.startsWith('p_pump') || key.startsWith('o_pump') || key.startsWith('vac_oven') || key.startsWith('conv_oven')) {
                 equipment.push({
                     eq_name: key,
                     eq_code: inputObject[key]
                 });
-            } else if (key.startsWith('reagent')) {
-                reagents.push({
-                    reag_name: key,
-                    reag_amount: inputObject[key]
-                });
+            } 
+            // Check if the property represents a reagent
+            else if (key.startsWith('reagent')) {
+                // Extract the reagent index from the key
+                const reagIndex = key.slice(7);
+                // Construct the reagent object and push it to the reagents array
+                reagents.push(new Reagent(key, inputObject[key], inputObject['amount' + reagIndex]));
             }
         }
     }
 
     return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
-}// Function to get content and other for equipment type and activity type
+}
+
+// Function to get content and other for equipment type and activity type
 export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType) {
     // Find the equipment object
     const equipmentObj = operationsMap.find(op => op.equipment === equipmentType);
@@ -92,4 +107,33 @@ export function populateContent(content, localMemory) {
 
     return populatedContent;
 }
+export function populateUts(content, utensils, localMemory) {
+    const { project, TP } = localMemory;
 
+    // Create a map of utensil names and their corresponding values
+    const utensilMap = new Map(utensils.map(item => [item.name, { project, TP }]));
+
+    // Regular expression to match placeholders inside curly braces {}
+    const placeholderRegex = /{([^{}]*)}/g;
+
+    // Replace placeholders in the content
+    const populatedContent = content.replace(placeholderRegex, (match, p1) => {
+        // Check if the placeholder matches a utensil name
+        if (utensilMap.has(p1)) {
+            // If there's a matching utensil name, replace the placeholder with project or TP
+            const { project, TP } = utensilMap.get(p1);
+            return project !== '' ? project + " " + TP : TP;
+        } else {
+            // If there's no matching utensil name, keep the placeholder unchanged
+            return match;
+        }
+    });
+    return populatedContent;
+}
+
+export function populateMaterials(content, localMemory) {
+    const { reagents } = localMemory;
+    const reagentsMap = new Map();
+
+    
+}
