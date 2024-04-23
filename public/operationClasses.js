@@ -23,39 +23,33 @@ class Operation {
 }
 
 class TypicalActivity {
-  constructor(
-    operationType, // type of operation related to specific equipment, e.g. equipment - reactor; operation type - "material_add_dropwise".
-    content, // A String that describes opeartion, containing placeholders withing {} for inserting select elements or inputs.
-    other, // A String - second field of the table, containing placeholder for operators to record acutal data, e.g. "Actual loadin: ... kg".
-    durationRange, // An array representing the min and max allowed duration, e.g. [10, 20] min.
-    targetTempRange, // An array representing the min and max allowed temperature, e.g. [10, 20] °C.
-    initialTempSet, // The initial temperature setting of the thermostat as a single integer value in °C.
-    finalTempSet, // The final temperature setting of the thermostat as a single integer value in °C.
-    processTemp, // The process temperature as a single integer value in °C.
-    rpmRange, // An array representing the min and max allowed stirring speed of spinnable equipment e.g. [150, 200] rpm.
-    flowRange, // An array representing the min and max allowed gas flow speed, e.g. argon, e.g. [15, 20] l/min.
-    ppumpSetRange, // An array representing the min and max allowed rotation speed of peristaltic pump e.g. [60, 80] %.
-    vpumpTorrProcess, // The acutal vacuum in process as a single integer value in Torr.
-    vpumpTorrRange, // An array representing the min and max allowed vacuum pump setting, e.g. [300, 150] Torr.
-    additionalEquipment // An array of objects of Equpment Class that is mentioned in content section.
-  ) {
-    this.operationType = operationType !== undefined ? operationType : "";
-    this.content = content !== undefined ? content : "";
-    this.other = other !== undefined ? other : "";
-    this.durationRange = durationRange !== undefined ? durationRange : []; // or -1
-    this.targetTempRange = targetTempRange !== undefined ? targetTempRange : [];
-    this.initialTempSet = initialTempSet !== undefined ? initialTempSet : null;
-    this.finalTempSet = finalTempSet !== undefined ? finalTempSet : null;
-    this.processTemp = processTemp !== undefined ? processTemp : null;
-    this.rpmRange = rpmRange !== undefined ? rpmRange : [];
-    this.flowRange = flowRange !== undefined ? flowRange : [];
-    this.ppumpSetRange = ppumpSetRange !== undefined ? ppumpSetRange : [];
-    this.vpumpTorrProcess = vpumpTorrProcess !== undefined ? vpumpTorrProcess : null;
-    this.vpumpTorrRange = vpumpTorrRange !== undefined ? vpumpTorrRange : [];
-    this.additionalEquipment =
-      additionalEquipment !== undefined ? additionalEquipment : [];
+  constructor(operationType, content, other, durationMin, durationMax, targetTempMin, targetTempMax,
+              initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax,
+              vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment) {
+      this.operationType = operationType !== undefined ? operationType : "";
+      this.content = content !== undefined ? content : "";
+      this.other = other !== undefined ? other : "";
+      this.durationMin = durationMin !== undefined ? durationMin : -1;
+      this.durationMax = durationMax !== undefined ? durationMax : -1;
+      this.targetTempMin = targetTempMin !== undefined ? targetTempMin : -1;
+      this.targetTempMax = targetTempMax !== undefined ? targetTempMax : -1;
+      this.initialTempSet = initialTempSet !== undefined ? initialTempSet : -1;
+      this.finalTempSet = finalTempSet !== undefined ? finalTempSet : -1;
+      this.processTemp = processTemp !== undefined ? processTemp : -1;
+      this.rpmMin = rpmMin !== undefined ? rpmMin : -1;
+      this.rpmMax = rpmMax !== undefined ? rpmMax : -1;
+      this.flowMin = flowMin !== undefined ? flowMin : -1;
+      this.flowMax = flowMax !== undefined ? flowMax : -1;
+      this.ppumpSetMin = ppumpSetMin !== undefined ? ppumpSetMin : -1;
+      this.ppumpSetMax = ppumpSetMax !== undefined ? ppumpSetMax : -1;
+      this.vpumpTorrProcess = vpumpTorrProcess !== undefined ? vpumpTorrProcess : -1;
+      this.vpumpTorrMin = vpumpTorrMin !== undefined ? vpumpTorrMin : -1;
+      this.vpumpTorrMax = vpumpTorrMax !== undefined ? vpumpTorrMax : -1;
+      this.additionalEquipment = additionalEquipment !== undefined ? additionalEquipment : [];
   }
 }
+
+
 
 class Equipment {
   constructor(name, code, label, size, material, utensils) {
