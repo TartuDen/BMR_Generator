@@ -56,14 +56,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <table class="table">
+                                <table class="table table-info">
                                     <h2>Select equipment</h2>
                                     <tbody>
                                         <% equipmentMap.forEach(function(item) { %>
                                             <tr>
                                                 <th><%= item.equipment %></th>
                                                 <td>
-                                                    <select id="<%= item.equipment %>1_<%= item.id %>" name="<%= item.equipment %>1_<%= item.id %>" class="form-select" style="width: 70%;">
+                                                    <select id="<%= item.equipment %>1_<%= item.id %>" name="<%= item.equipment %>1_<%= item.id %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.eq_info.forEach(function(info) { %>
                                                             <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.equipment + '1_' + item.id) && localMemory.equipment.find(eq => eq.eq_name === item.equipment + '1_' + item.id).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
@@ -71,7 +71,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select id="<%= item.equipment %>2_<%= item.id %>" name="<%= item.equipment %>2_<%= item.id %>" class="form-select" style="width: 70%;">
+                                                    <select id="<%= item.equipment %>2_<%= item.id %>" name="<%= item.equipment %>2_<%= item.id %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.eq_info.forEach(function(info) { %>
                                                             <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.equipment + '2_' + item.id) && localMemory.equipment.find(eq => eq.eq_name === item.equipment + '2_' + item.id).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
@@ -93,7 +93,7 @@
 
                             <!-- New table for loading materials -->
                             <div class="col-md-6">
-                                <table class="table">
+                                <table class="table table-warning">
                                     <h2>Insert Materials</h2>
                                     <tbody>
                                         <% localMemory.reagents.forEach((reagent, index) => { %>
