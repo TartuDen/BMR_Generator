@@ -14,7 +14,7 @@ public class Operation {
     @Column(name = "id")
     private long id;
     
-    @Column(name = "operationType")
+    @Column(name = "operation_type")
     @NonNull
     private String operationType;
     
