@@ -70,6 +70,8 @@ public class EquipmentServiceImpl implements EquipmentService {
     
     @Override
     public EquipmentResponse updateEquipment(long id, Equipment equipment) {
+        
+        equipmentDAO.update(equipment);
         return new EquipmentResponse();
     }
     
