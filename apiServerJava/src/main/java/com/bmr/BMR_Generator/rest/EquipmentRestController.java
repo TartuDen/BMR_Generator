@@ -41,7 +41,7 @@ public class EquipmentRestController {
         return equipmentService.getAllEquipmentExcludeInfo();
     }
     
-    @PutMapping("/equipment/{id}")
+    @PatchMapping ("/equipment/{id}")
     public EquipmentResponse updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
         if (id == 0) {
             throw new EquipmentNotFoundException("ID cannot be empty");
