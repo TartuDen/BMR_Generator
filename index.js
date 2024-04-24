@@ -68,7 +68,9 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops });
 });
 
-
+app.get("/new_eq",(req,res)=>{
+    res.status(200).render("new_eq_page.ejs");
+})
 
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
