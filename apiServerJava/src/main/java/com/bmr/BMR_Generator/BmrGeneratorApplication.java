@@ -13,6 +13,10 @@ import org.springframework.context.annotation.Bean;
 public class BmrGeneratorApplication {
 	
 	// TODO: ADD validation Layer
+	// TODO: ADD DELETE
+	// TODO: ADD ERROR, Stream on Null in DAO
+	// TODO: POST NOT worked with ID
+	// TODO: PATCH based on ID
 
 	public static void main(String[] args) {
 		SpringApplication.run(BmrGeneratorApplication.class, args);
@@ -21,33 +25,6 @@ public class BmrGeneratorApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(EquipmentDAO equipmentDAO){
 		return  args -> {
-//			// Test equipment saving to the DB
-//			if (createEquipment(equipmentDAO)){
-//				System.out.println("Saved OK!");
-//			} else {
-//				System.out.println("Error during equipment saving");
-//			};
-//
-//			// Test: Get All equipment form the DB
-//			equipmentDAO.findAllEquipment().forEach(System.out::println);
 		};
-	}
-	
-	private boolean createEquipment(EquipmentDAO equipmentDAO) {
-		var equipmentTest1 = new Equipment(
-				"reactor"
-		);
-		var operationTest1 = new Operation(
-				"prepare_of_reactor",
-				"Reactor preparation: The reactor {reactor} and thermostat are checked to be ready for work."
-		);
-		var equipmentInfo = new EquipmentInfo(
-				"002-10",
-				"30L glass"
-		);
-		equipmentTest1.addOperation(operationTest1);
-		equipmentTest1.addEquipmentInfo(equipmentInfo);
-
-		return equipmentDAO.save(equipmentTest1);
 	}
 }

@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EquipmentDTO {
-    
     @NonNull
     private String name;
     

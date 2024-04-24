@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EquipmentInfoDTO {
-    private long id;
-    
     @NonNull
     private String code;
     
@@ -19,7 +17,6 @@ public class EquipmentInfoDTO {
     private String description;
     
     public EquipmentInfoDTO(EquipmentInfo equipmentInfo){
-        this.id = equipmentInfo.getId();
         this.code = equipmentInfo.getCode();
         this.description = equipmentInfo.getDescription();
     }

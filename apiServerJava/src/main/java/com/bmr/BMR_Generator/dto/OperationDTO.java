@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class OperationDTO {
-    private long id;
-    
     @NonNull
     private String operationType;
     
@@ -20,7 +18,6 @@ public class OperationDTO {
     private String other;
     
     public OperationDTO (Operation operation){
-        this.id = operation.getId();
         this.operationType = operation.getOperationType();
         this.content = operation.getContent();
         this.other = operation.getOther();

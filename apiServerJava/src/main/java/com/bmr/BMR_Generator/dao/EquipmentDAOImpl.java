@@ -93,17 +93,7 @@ public class EquipmentDAOImpl implements EquipmentDAO{
                 .map(this::mapToOperationDTO)
                 .collect(Collectors.toList());
     }
-    
-    private OperationDTO mapToOperationDTO(Operation operation) {
-        var dto = new OperationDTO();
-        dto.setId(operation.getId());
-        dto.setOperationType(operation.getOperationType());
-        dto.setContent(operation.getContent());
-        dto.setOther(operation.getOther());
-        
-        return dto;
-    }
-    
+
     private EquipmentWithoutOperationsDTO mapToEquipmentWithoutOperationsDTO(Equipment equipment) {
         EquipmentWithoutOperationsDTO dto = new EquipmentWithoutOperationsDTO();
         dto.setName(equipment.getName());
@@ -117,12 +107,12 @@ public class EquipmentDAOImpl implements EquipmentDAO{
                 .collect(Collectors.toList());
     }
     
+    private OperationDTO mapToOperationDTO(Operation operation) {
+        return new OperationDTO(operation);
+    }
+    
     private EquipmentInfoDTO mapToEquipmentInfoDTO(EquipmentInfo equipmentInfo) {
-        var dto = new EquipmentInfoDTO();
-        dto.setId(equipmentInfo.getId());
-        dto.setCode(equipmentInfo.getCode());
-        dto.setDescription(equipmentInfo.getDescription());
-        return dto;
+        return new EquipmentInfoDTO(equipmentInfo);
     }
    
 }
