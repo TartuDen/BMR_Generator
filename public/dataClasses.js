@@ -16,3 +16,4 @@ export class Reagent {
         this.reag_amount = reag_amount;
     }
 }
+
