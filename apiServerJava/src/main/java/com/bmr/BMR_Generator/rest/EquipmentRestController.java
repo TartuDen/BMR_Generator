@@ -1,8 +1,10 @@
 package com.bmr.BMR_Generator.rest;
 
+import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.rest.response.EquipmentNotFoundException;
 import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,20 @@ public class EquipmentRestController {
     
     @PutMapping("/equipment/{id}")
     public EquipmentResponse updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
+        if (id == 0) {
+            throw new EquipmentNotFoundException("ID cannot be empty");
+        } else {
+            EquipmentDTO existingEquipment = equipmentService.getEquipmentByID(id);
+            if (existingEquipment == null) {
+                throw new EquipmentNotFoundException("LabGlassware not found");
+            }
+        }
+        
         return equipmentService.updateEquipment(id, equipment);
+    }
+    
+    @GetMapping("/equipment/{id}")
+    public EquipmentDTO getEquipmentByID(@PathVariable("id") long id){
+        return equipmentService.getEquipmentByID(id);
     }
 }

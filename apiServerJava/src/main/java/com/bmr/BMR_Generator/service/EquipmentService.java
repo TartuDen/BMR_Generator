@@ -1,5 +1,6 @@
 package com.bmr.BMR_Generator.service;
 
+import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
@@ -14,4 +15,7 @@ public interface EquipmentService {
     
     List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations();
     List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo();
+    
+    EquipmentDTO getEquipmentByID(long id);
 }
+

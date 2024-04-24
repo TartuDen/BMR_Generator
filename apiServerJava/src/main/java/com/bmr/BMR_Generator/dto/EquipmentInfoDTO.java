@@ -1,5 +1,6 @@
 package com.bmr.BMR_Generator.dto;
 
+import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,4 +17,10 @@ public class EquipmentInfoDTO {
     
     @NonNull
     private String description;
+    
+    public EquipmentInfoDTO(EquipmentInfo equipmentInfo){
+        this.id = equipmentInfo.getId();
+        this.code = equipmentInfo.getCode();
+        this.description = equipmentInfo.getDescription();
+    }
 }

@@ -1,9 +1,6 @@
 package com.bmr.BMR_Generator.dao;
 
-import com.bmr.BMR_Generator.dto.EquipmentInfoDTO;
-import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
-import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
-import com.bmr.BMR_Generator.dto.OperationsDTO;
+import com.bmr.BMR_Generator.dto.*;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.entity.Operation;
@@ -40,9 +37,11 @@ public class EquipmentDAOImpl implements EquipmentDAO{
         }
     }
     
+    // TODO check entityManager.merge
     @Override
     @Transactional
-    public boolean update(Equipment equipment) {
+    public boolean update(Equipment equipment, long id) {
+        equipment.setId(id);
         try {
             entityManager.merge(equipment);
             return true;
@@ -76,6 +75,12 @@ public class EquipmentDAOImpl implements EquipmentDAO{
                 .collect(Collectors.toList());
     }
     
+    @Override
+    public EquipmentDTO findEquipmentByID(long id) {
+        Equipment equipment =  entityManager.find(Equipment.class, id);
+        return new EquipmentDTO(equipment);
+    }
+    
     private EquipmentWithoutInfoDTO mapToEquipmentWithoutInfoDTO(Equipment equipment) {
         EquipmentWithoutInfoDTO dto = new EquipmentWithoutInfoDTO();
         dto.setId(equipment.getId());
@@ -84,14 +89,14 @@ public class EquipmentDAOImpl implements EquipmentDAO{
         return dto;
     }
     
-    private List<OperationsDTO> mapToEquipmentOperationDTOList(List<Operation> operations) {
+    private List<OperationDTO> mapToEquipmentOperationDTOList(List<Operation> operations) {
         return operations.stream()
                 .map(this::mapToOperationDTO)
                 .collect(Collectors.toList());
     }
     
-    private OperationsDTO mapToOperationDTO(Operation operation) {
-        var dto = new OperationsDTO();
+    private OperationDTO mapToOperationDTO(Operation operation) {
+        var dto = new OperationDTO();
         dto.setId(operation.getId());
         dto.setOperationType(operation.getOperationType());
         dto.setContent(operation.getContent());
@@ -121,5 +126,5 @@ public class EquipmentDAOImpl implements EquipmentDAO{
         dto.setDescription(equipmentInfo.getDescription());
         return dto;
     }
-    
+   
 }

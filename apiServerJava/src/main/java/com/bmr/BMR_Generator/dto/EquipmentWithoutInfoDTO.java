@@ -17,5 +17,5 @@ public class EquipmentWithoutInfoDTO {
     @NonNull
     private String name;
     
-    private List<OperationsDTO> operations;
+    private List<OperationDTO> operations;
 }

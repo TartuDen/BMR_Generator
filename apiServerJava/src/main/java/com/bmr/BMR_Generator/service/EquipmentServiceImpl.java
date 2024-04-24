@@ -2,6 +2,7 @@ package com.bmr.BMR_Generator.service;
 
 import com.bmr.BMR_Generator.dao.EquipmentDAO;
 import com.bmr.BMR_Generator.dao.EquipmentDAOImpl;
+import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
@@ -68,11 +69,17 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentDAO.findAllEquipment();
     }
     
+    // TODO: NOT WORKED PROPERLY
     @Override
-    public EquipmentResponse updateEquipment(long id, Equipment equipment) {
-        
-        equipmentDAO.update(equipment);
-        return new EquipmentResponse();
+    public EquipmentResponse updateEquipment(long id, Equipment equipmentReq) {
+        try {
+            Equipment equipment = createEquipmentFromRequest(equipmentReq);
+            equipmentDAO.update(equipment, id);
+            return generateResponse(200, "Equipment update successfully");
+        } catch (Exception e) {
+            LOGGER.error("Failed to save equipment", e);
+            return generateResponse(500, "Failed to update equipment: " + e.getMessage());
+        }
     }
     
     @Override
@@ -83,5 +90,10 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo() {
         return equipmentDAO.findAllEquipmentExcludeInfo();
+    }
+    
+    @Override
+    public EquipmentDTO getEquipmentByID(long id) {
+        return equipmentDAO.findEquipmentByID(id);
     }
 }
