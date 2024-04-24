@@ -83,7 +83,6 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     
     private EquipmentWithoutInfoDTO mapToEquipmentWithoutInfoDTO(Equipment equipment) {
         EquipmentWithoutInfoDTO dto = new EquipmentWithoutInfoDTO();
-        dto.setId(equipment.getId());
         dto.setName(equipment.getName());
         dto.setOperations(mapToEquipmentOperationDTOList(equipment.getOperations()));
         return dto;
@@ -107,7 +106,6 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     
     private EquipmentWithoutOperationsDTO mapToEquipmentWithoutOperationsDTO(Equipment equipment) {
         EquipmentWithoutOperationsDTO dto = new EquipmentWithoutOperationsDTO();
-        dto.setId(equipment.getId());
         dto.setName(equipment.getName());
         dto.setEquipmentInfo(mapToEquipmentInfoDTOList(equipment.getEquipmentInfo()));
         return dto;

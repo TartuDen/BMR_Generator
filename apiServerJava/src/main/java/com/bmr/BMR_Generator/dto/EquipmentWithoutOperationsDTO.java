@@ -11,8 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EquipmentWithoutOperationsDTO {
-    private long id;
-    
     @NonNull
     private String name;
     
