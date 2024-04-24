@@ -1,5 +1,22 @@
 import axios from "axios";
 
+class EquipmentNoOperation {
+    constructor(id, name, equipmentInfo) {
+        this.id = id !== undefined ? id : -1;
+        this.name = name !== undefined ? name : "";
+        this.equipmentInfo = equipmentInfo !== undefined && equipmentInfo.length > 0 ?
+            equipmentInfo.map(info => new EquipmentInfo(info.id, info.code, info.description)) :
+            [new EquipmentInfo()];
+    }
+}
+
+class EquipmentInfo {
+    constructor(id, code, description) {
+        this.id = id !== undefined ? id : -1;
+        this.code = code !== undefined ? code : "";
+        this.description = description !== undefined ? description : "";
+    }
+}
 
 // app.post("/update_operations", async (req, res) => {
 //     try {
@@ -22,13 +39,23 @@ import axios from "axios";
 // });
 export async function getMainTableEq() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/main_table_equipment");
-        return apiResp.data;
+        let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
+        
+        if (apiResp.data && Array.isArray(apiResp.data)) {
+            let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.id, item.name, item.equipmentInfo));
+            console.log(newObj);
+            return newObj;
+        } else {
+            console.error("Invalid API response format");
+            return null;
+        }
     } catch (err) {
         console.error(err);
         return null;
     }
-}export async function getActivityTypeFromAPI() {
+}
+
+export async function getActivityTypeFromAPI() {
     try {
         let apiResp = await axios.get("http://localhost:8081/activity_type");
         return apiResp.data;
