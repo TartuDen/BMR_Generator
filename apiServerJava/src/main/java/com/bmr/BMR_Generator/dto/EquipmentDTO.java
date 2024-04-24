@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EquipmentDTO {
-    private long id;
     
     @NonNull
     private String name;
@@ -24,7 +23,6 @@ public class EquipmentDTO {
     private List<OperationDTO> operations;
     
     public EquipmentDTO (Equipment equipment){
-        this.id = equipment.getId();
         this.name = equipment.getName();
         this.equipmentInfo = equipment.getEquipmentInfo().stream()
                 .map(EquipmentInfoDTO::new)
