@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EquipmentWithoutInfoDTO {
-    
     @NonNull
     private String name;
     

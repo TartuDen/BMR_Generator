@@ -28,14 +28,14 @@ public class Equipment {
             mappedBy = "equipment",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<EquipmentInfo> equipmentInfo;
+    private List<EquipmentInfo> equipmentInfo = new ArrayList<>();
     
  
     @OneToMany(
             mappedBy = "equipment",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<Operation> operations;
+    private List<Operation> operations = new ArrayList<>();
 
     public void addOperation (Operation operation) {
         if (operations == null) {
