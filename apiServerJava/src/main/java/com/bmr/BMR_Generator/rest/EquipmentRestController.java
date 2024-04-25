@@ -22,26 +22,48 @@ public class EquipmentRestController {
     }
     
     
-    @PostMapping ("/equipment")
-    public Response saveEquipment(@RequestBody Equipment equipment){
+    @PostMapping("/equipment")
+    public Response saveEquipment(@RequestBody Equipment equipment) {
         return equipmentService.saveEquipment(equipment);
     }
     
+    @DeleteMapping("/equipment/{name}")
+    public Response deleteParameter(@PathVariable String name) {
+        if (name.isEmpty()) {
+            throw new NotFoundException("Name can not be empty");
+        }
+        return equipmentService.deleteEquipmentByName(name);
+    }
+    
+    @GetMapping("/equipment/{name}")
+    public EquipmentDTO getEquipmentByName(@PathVariable String name) {
+        if (name.isEmpty()) {
+            throw new NotFoundException("Name cannot be empty");
+        } else {
+            EquipmentDTO existingEquipment = equipmentService.getEquipmentByName(name);
+            if (existingEquipment == null) {
+                throw new NotFoundException("Equipment with name - " + name + " not found");
+            }
+            return existingEquipment;
+        }
+    }
+    
     @GetMapping("/main_table_equipment_full")
-    public List<Equipment> getAllEquipment(){
+    public List<Equipment> getAllEquipment() {
         return equipmentService.getAllEquipment();
     }
+    
     @GetMapping("/main_table_equipment")
-    public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations(){
+    public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations() {
         return equipmentService.getAllEquipmentExcludeOperations();
     }
     
     @GetMapping("/activity_type")
-    public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo(){
+    public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo() {
         return equipmentService.getAllEquipmentExcludeInfo();
     }
     
-    @PatchMapping ("/equipment/{id}")
+    @PatchMapping("/equipment/{id}")
     public Response updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
         if (id == 0) {
             throw new NotFoundException("ID cannot be empty");
@@ -55,8 +77,16 @@ public class EquipmentRestController {
         return equipmentService.updateEquipment(id, equipment);
     }
     
-    @GetMapping("/equipment/{id}")
-    public EquipmentDTO getEquipmentByID(@PathVariable("id") long id){
-        return equipmentService.getEquipmentByID(id);
+    @GetMapping("/equipmentid/{id}")
+    public EquipmentDTO getEquipmentByID(@PathVariable("id") long id) {
+        if (id == 0) {
+            throw new NotFoundException("ID cannot be empty");
+        } else {
+            EquipmentDTO existingEquipment = equipmentService.getEquipmentByID(id);
+            if (existingEquipment == null) {
+                throw new NotFoundException("LabGlassware not found");
+            }
+            return existingEquipment;
+        }
     }
 }

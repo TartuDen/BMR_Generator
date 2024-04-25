@@ -20,7 +20,7 @@ public class Equipment {
     @Column(name = "id")
     private long id;
     
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NonNull
     private String name;
     

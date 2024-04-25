@@ -4,6 +4,7 @@ import com.bmr.BMR_Generator.dto.*;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.entity.Operation;
+import com.bmr.BMR_Generator.rest.response.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -16,14 +17,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class EquipmentDAOImpl implements EquipmentDAO{
+public class EquipmentDAOImpl implements EquipmentDAO {
     
-    private final EntityManager entityManager;
     private static final Logger LOGGER = LogManager.getLogger(EquipmentDAOImpl.class);
+    private final EntityManager entityManager;
+    
     @Autowired
     public EquipmentDAOImpl(EntityManager entityManager) {
-            this.entityManager = entityManager;
-        }
+        this.entityManager = entityManager;
+    }
     
     @Override
     @Transactional
@@ -77,8 +79,33 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     
     @Override
     public EquipmentDTO findEquipmentByID(long id) {
-        Equipment equipment =  entityManager.find(Equipment.class, id);
+        Equipment equipment = entityManager.find(Equipment.class, id);
         return new EquipmentDTO(equipment);
+    }
+    
+    @Override
+    public EquipmentDTO findEquipmentByName(String name) {
+        Equipment equipment = getEquipmentByName(name);
+        
+        return mapToEquipmentDTO(equipment);
+    }
+    
+    private Equipment getEquipmentByName(String name) {
+        String jpql = "SELECT e FROM Equipment e WHERE e.name = :name";
+        TypedQuery<Equipment> query = entityManager.createQuery(jpql, Equipment.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
+    }
+    
+    @Override
+    @Transactional
+    public boolean deleteByName(String name) {
+        try {
+            entityManager.remove(getEquipmentByName(name));
+            return true;
+        } catch (Exception ex) {
+            throw new NotFoundException("An unexpected error occurred (deleteByName) on removing - " + name);
+        }
     }
     
     private EquipmentWithoutInfoDTO mapToEquipmentWithoutInfoDTO(Equipment equipment) {
@@ -88,12 +115,20 @@ public class EquipmentDAOImpl implements EquipmentDAO{
         return dto;
     }
     
+    private EquipmentDTO mapToEquipmentDTO(Equipment equipment) {
+        EquipmentDTO dto = new EquipmentDTO();
+        dto.setName(equipment.getName());
+        dto.setOperations(mapToEquipmentOperationDTOList(equipment.getOperations()));
+        dto.setEquipmentInfo(mapToEquipmentInfoDTOList(equipment.getEquipmentInfo()));
+        return dto;
+    }
+    
     private List<OperationDTO> mapToEquipmentOperationDTOList(List<Operation> operations) {
         return operations.stream()
                 .map(this::mapToOperationDTO)
                 .collect(Collectors.toList());
     }
-
+    
     private EquipmentWithoutOperationsDTO mapToEquipmentWithoutOperationsDTO(Equipment equipment) {
         EquipmentWithoutOperationsDTO dto = new EquipmentWithoutOperationsDTO();
         dto.setName(equipment.getName());
@@ -114,5 +149,5 @@ public class EquipmentDAOImpl implements EquipmentDAO{
     private EquipmentInfoDTO mapToEquipmentInfoDTO(EquipmentInfo equipmentInfo) {
         return new EquipmentInfoDTO(equipmentInfo);
     }
-   
+    
 }

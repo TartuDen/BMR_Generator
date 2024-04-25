@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 public class BmrGeneratorApplication {
 	
 	// TODO: ADD validation Layer
-	// TODO: ADD DELETE
-	// TODO: ADD ERROR, Stream on Null in DAO
 	// TODO: POST NOT worked with ID
 	// TODO: PATCH based on ID
 

@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface EquipmentService {
     Response saveEquipment(Equipment equipment);
+    
+    Response deleteEquipmentByName(String name);
     List<Equipment> getAllEquipment();
     Response updateEquipment(long id, Equipment equipment);
     
@@ -17,5 +19,6 @@ public interface EquipmentService {
     List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo();
     
     EquipmentDTO getEquipmentByID(long id);
+    EquipmentDTO getEquipmentByName(String name);
 }
 
