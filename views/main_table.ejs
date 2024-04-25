@@ -59,27 +59,29 @@
                                 <table class="table table-info">
                                     <h2>Select equipment</h2>
                                     <tbody>
-                                        <% equipmentMap.forEach(function(item) { %>
+                                        <% equipmentMap.forEach(function(item, index) { %>
                                             <tr>
                                                 <th><%= item.name %></th>
                                                 <td>
-                                                    <select id="<%= item.name %>1_<%= item.id %>" name="<%= item.name %>1_<%= item.id %>" class="form-select" style="width: 100%;">
+                                                    <select id="<%= item.name %>1_<%= index %>" name="<%= item.name %>1_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + item.id) && localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + item.id).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <% console.log(info) %>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + index) && localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select id="<%= item.name %>2_<%= item.id %>" name="<%= item.name %>2_<%= item.id %>" class="form-select" style="width: 100%;">
+                                                    <select id="<%= item.name %>2_<%= index %>" name="<%= item.name %>2_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + '2_' + item.id) && localMemory.equipment.find(eq => eq.eq_name === item.name + '2_' + item.id).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + '2_' + index) && localMemory.equipment.find(eq => eq.eq_name === item.name + '2_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
                                             </tr>
                                         <% }); %>
+                                        
                                         
                                         
                                     </tbody>

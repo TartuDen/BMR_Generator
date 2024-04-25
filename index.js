@@ -61,9 +61,6 @@ app.post("/operation_table", async (req, res) => {
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
 
-    console.log(operationsMap);
-    console.log(br_ops);
-    console.log(localMemory);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops });
 });
@@ -81,7 +78,7 @@ app.get("/new_eq",(req,res)=>{
 
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
-    console.log(equipmentMap);
+
     // Rendering the "main_table.ejs" template with no data
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory });
 
