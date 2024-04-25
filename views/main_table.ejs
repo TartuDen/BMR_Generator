@@ -66,7 +66,6 @@
                                                     <select id="<%= item.name %>1_<%= index %>" name="<%= item.name %>1_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <% console.log(info) %>
                                                             <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + index) && localMemory.equipment.find(eq => eq.eq_name === item.name + '1_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>

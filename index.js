@@ -1,11 +1,8 @@
 import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
-import { getMainTableEq } from "./apiCallFuncs.js";
-import { getActivityTypeFromAPI } from "./apiCallFuncs.js";
-import { getBrOperation } from "./apiCallFuncs.js";
 import session from "express-session";
-import { getUtensils } from "./apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 
 // Constants
@@ -25,9 +22,40 @@ app.use(session({
     saveUninitialized: true
 }));
 
+function populateParams(content, params){
+    // Regular expression to match placeholders inside curly braces
+    const regex = /\{([^{}]+)\}/g;
+    
+    // Array to store unique parameter names found in the content
+    const uniqueParams = new Set();
+    
+    // Match placeholders inside curly braces and extract parameter names
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+        const paramName = match[1];
+        uniqueParams.add(paramName);
+    }
+    
+    // Replace placeholders with HTML input elements
+    let replacedContent = content;
+    uniqueParams.forEach(paramName => {
+        // Check if the parameter is present in the params array
+        const paramInfo = params.find(param => param.name === paramName);
+        if(paramInfo) {
+            // Generate an HTML input element for the parameter
+            const inputElement = `<input type="text" id="${paramName}" placeholder="${paramName}">`;
+            // Replace the placeholder with the HTML input element
+            replacedContent = replacedContent.replace(new RegExp(`{${paramName}}`, 'g'), inputElement);
+        }
+    });
+    
+    // Return the content with placeholders replaced by HTML input elements
+    return replacedContent;
+}
 
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
+    const params = await getParams();
     const { equipmentType, activityType } = req.body;
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
@@ -37,20 +65,17 @@ app.post("/get_description", async (req, res) => {
     let contentEq = populateContent(content, localMemory);
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
+    let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
 
-    console.log("*********contentEqUtsMat************");
-    console.log(contentEqUtsMat);
+    // console.log("*********contentEqUtsMat************");
+    // console.log(contentEqUtsMat);
 
-
-
-
-    let finalFormatContent = contentEqUtsMat;
+    let finalFormatContent = contentEqUtsMatParams;
     res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other })
 })
 
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
-    console.log("localMem:", localMemory);
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);

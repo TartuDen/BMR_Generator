@@ -80,3 +80,11 @@ export async function getUtensils() {
     }
 }
 
+export async function getParams() {
+    try {
+        let apiResp = await axios.get("http://localhost:8085/parameters");
+        return apiResp.data;
+    } catch (err) {
+        console.error("Failed to retireve data from getUtensils() with error: " + err);
+    }
+}
