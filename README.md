@@ -2,7 +2,7 @@
 
 ## Overview
 
-[OpenAPI Specification](https://app.swaggerhub.com/apis/YuriiPanasuk/br_Generator/0.0.2)
+[OpenAPI Specification](https://app.swaggerhub.com/apis/YuriiPanasuk/br_Generator/0.0.5)
 
 This application is designed to facilitate the creation of batch records for production in GMP pharmaceutical manufacturing. 
 It consists of **login page**, and **creation page**.
