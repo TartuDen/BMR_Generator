@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class EquipmentResponse {
+public class Response {
         @NonNull
         private Integer status;
         @NonNull

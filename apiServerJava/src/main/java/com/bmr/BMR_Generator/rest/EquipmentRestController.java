@@ -4,8 +4,8 @@ import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
-import com.bmr.BMR_Generator.rest.response.EquipmentNotFoundException;
-import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
+import com.bmr.BMR_Generator.rest.response.NotFoundException;
+import com.bmr.BMR_Generator.rest.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.bmr.BMR_Generator.service.EquipmentService;
@@ -23,7 +23,7 @@ public class EquipmentRestController {
     
     
     @PostMapping ("/equipment")
-    public EquipmentResponse saveEquipment(@RequestBody Equipment equipment){
+    public Response saveEquipment(@RequestBody Equipment equipment){
         return equipmentService.saveEquipment(equipment);
     }
     
@@ -42,13 +42,13 @@ public class EquipmentRestController {
     }
     
     @PatchMapping ("/equipment/{id}")
-    public EquipmentResponse updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
+    public Response updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
         if (id == 0) {
-            throw new EquipmentNotFoundException("ID cannot be empty");
+            throw new NotFoundException("ID cannot be empty");
         } else {
             EquipmentDTO existingEquipment = equipmentService.getEquipmentByID(id);
             if (existingEquipment == null) {
-                throw new EquipmentNotFoundException("LabGlassware not found");
+                throw new NotFoundException("LabGlassware not found");
             }
         }
         

@@ -6,7 +6,7 @@ import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
-import com.bmr.BMR_Generator.rest.response.EquipmentResponse;
+import com.bmr.BMR_Generator.rest.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class EquipmentServiceImpl implements EquipmentService {
+public class EquipmentServiceImpl extends BaseService implements EquipmentService {
 
     private final EquipmentDAO equipmentDAO;
     private static final Logger LOGGER = LogManager.getLogger(EquipmentDAOImpl.class);
@@ -30,7 +30,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     
     
     @Override
-    public EquipmentResponse saveEquipment(Equipment equipmentReq) {
+    public Response saveEquipment(Equipment equipmentReq) {
         try {
             Equipment equipment = createEquipmentFromRequest(equipmentReq);
             equipmentDAO.save(equipment);
@@ -39,14 +39,6 @@ public class EquipmentServiceImpl implements EquipmentService {
             LOGGER.error("Failed to save equipment", e);
             return generateResponse(500, "Failed to save equipment: " + e.getMessage());
         }
-    }
-    
-    private EquipmentResponse generateResponse(int status, String e) {
-        EquipmentResponse errorResponse = new EquipmentResponse();
-        errorResponse.setStatus(status); // Set the status code to indicate server error
-        errorResponse.setMessage(e);
-        errorResponse.setTimeStamp(Date.valueOf(LocalDate.now()));
-        return errorResponse;
     }
     
     private Equipment createEquipmentFromRequest(Equipment equipmentReq) {
@@ -71,7 +63,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     
     // TODO: NOT WORKED PROPERLY
     @Override
-    public EquipmentResponse updateEquipment(long id, Equipment equipmentReq) {
+    public Response updateEquipment(long id, Equipment equipmentReq) {
         try {
             Equipment equipment = createEquipmentFromRequest(equipmentReq);
             equipmentDAO.update(equipment, id);
