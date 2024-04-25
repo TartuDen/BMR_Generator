@@ -68,13 +68,20 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops });
 });
 
+app.post("/new_eq",async (req,res)=>{
+    let urlToGet = req.body.dataTypeSelect
+    let equipmentMap = await getMainTableEq();
+
+    res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
+})
+
 app.get("/new_eq",(req,res)=>{
     res.status(200).render("new_eq_page.ejs");
 })
 
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
-    // console.log(equipmentMap);
+    console.log(equipmentMap);
     // Rendering the "main_table.ejs" template with no data
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory });
 

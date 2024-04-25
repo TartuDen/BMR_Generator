@@ -1,8 +1,7 @@
 import axios from "axios";
 
 class EquipmentNoOperation {
-    constructor(id, name, equipmentInfo) {
-        this.id = id !== undefined ? id : -1;
+    constructor( name, equipmentInfo) {
         this.name = name !== undefined ? name : "";
         this.equipmentInfo = equipmentInfo !== undefined && equipmentInfo.length > 0 ?
             equipmentInfo.map(info => new EquipmentInfo(info.id, info.code, info.description)) :
@@ -11,8 +10,7 @@ class EquipmentNoOperation {
 }
 
 class EquipmentInfo {
-    constructor(id, code, description) {
-        this.id = id !== undefined ? id : -1;
+    constructor( code, description) {
         this.code = code !== undefined ? code : "";
         this.description = description !== undefined ? description : "";
     }
@@ -42,7 +40,7 @@ export async function getMainTableEq() {
         let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
         
         if (apiResp.data && Array.isArray(apiResp.data)) {
-            let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.id, item.name, item.equipmentInfo));
+            let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.name, item.equipmentInfo));
             console.log(newObj);
             return newObj;
         } else {

@@ -24,6 +24,25 @@
             <!-- Sidebar -->
             <%- include("partials/sidebar.ejs") %>
 
+            <form action="/new_eq" method="POST">
+                <div class="container mt-3">
+                    <h2>Equipment Data</h2>
+                    <select id="dataTypeSelect" name="dataTypeSelect" class="form-select">
+                        <option value="" selected>/select</option>
+                        <option value="/activity_type">/activity_type</option>
+                        <option value="/main_table_equipment">/main_table_equipment</option>
+                        <option value="/main_table_equipment_full">/main_table_equipment_full</option>
+                    </select>
+                    <button id="fetchDataBtn" class="btn btn-primary mt-3">get data</button>
+                    <% if(locals.data) { %>
+                        <textarea id="equipmentData" class="form-control" rows="20" cols="200" readonly><%- JSON.stringify(data, null, 2) %></textarea>
+                    <% } else { %>
+                        <textarea id="equipmentData" class="form-control" rows="20" cols="200" readonly></textarea>
+                    <% } %>
+                </div>
+            </form>
+            
+
                
 
         </div>
