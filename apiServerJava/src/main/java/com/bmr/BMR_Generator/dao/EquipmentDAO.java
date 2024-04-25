@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface EquipmentDAO {
     boolean save (Equipment equipment);
+    
+    boolean deleteByName (String name);
     boolean update(Equipment equipment, long id);
     List<Equipment> findAllEquipment();
     
@@ -17,4 +19,5 @@ public interface EquipmentDAO {
     List<EquipmentWithoutInfoDTO> findAllEquipmentExcludeInfo();
     
     EquipmentDTO findEquipmentByID(long id);
+    EquipmentDTO findEquipmentByName(String name);
 }

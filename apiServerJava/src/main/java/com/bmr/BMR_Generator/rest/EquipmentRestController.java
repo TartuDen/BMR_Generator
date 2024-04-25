@@ -26,6 +26,21 @@ public class EquipmentRestController {
     public Response saveEquipment(@RequestBody Equipment equipment){
         return equipmentService.saveEquipment(equipment);
     }
+    @DeleteMapping ("/equipment/{name}")
+    public Response deleteParameter(@PathVariable String name){
+        if (name.isEmpty()){
+            throw new NotFoundException("Name can not be empty");
+        }
+        return equipmentService.deleteEquipmentByName(name);
+    }
+    
+    @GetMapping ("/equipment/{name}")
+    public EquipmentDTO getEquipmentByName(@PathVariable String name){
+        if (name.isEmpty()){
+            throw new NotFoundException("Name can not be empty");
+        }
+        return equipmentService.getEquipmentByName(name);
+    }
     
     @GetMapping("/main_table_equipment_full")
     public List<Equipment> getAllEquipment(){
@@ -55,7 +70,7 @@ public class EquipmentRestController {
         return equipmentService.updateEquipment(id, equipment);
     }
     
-    @GetMapping("/equipment/{id}")
+    @GetMapping("/equipmentid/{id}")
     public EquipmentDTO getEquipmentByID(@PathVariable("id") long id){
         return equipmentService.getEquipmentByID(id);
     }

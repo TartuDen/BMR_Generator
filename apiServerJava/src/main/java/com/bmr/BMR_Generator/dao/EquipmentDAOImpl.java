@@ -36,7 +36,7 @@ public class EquipmentDAOImpl implements EquipmentDAO{
             return false;
         }
     }
-    
+
     // TODO check entityManager.merge
     @Override
     @Transactional
@@ -81,10 +81,38 @@ public class EquipmentDAOImpl implements EquipmentDAO{
         return new EquipmentDTO(equipment);
     }
     
+    @Override
+    public EquipmentDTO findEquipmentByName(String name) {
+        Equipment equipment = getEquipmentByName(name);
+        
+        return mapToEquipmentDTO(equipment);
+    }
+    
+    private Equipment getEquipmentByName(String name) {
+        String jpql = "SELECT e FROM Equipment e WHERE e.name = :name";
+        TypedQuery<Equipment> query = entityManager.createQuery(jpql, Equipment.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
+    }
+    @Override
+    @Transactional
+    public boolean deleteByName(String name) {
+        Equipment equipment = getEquipmentByName(name);
+        entityManager.remove(equipment);
+        return true;
+    }
     private EquipmentWithoutInfoDTO mapToEquipmentWithoutInfoDTO(Equipment equipment) {
         EquipmentWithoutInfoDTO dto = new EquipmentWithoutInfoDTO();
         dto.setName(equipment.getName());
         dto.setOperations(mapToEquipmentOperationDTOList(equipment.getOperations()));
+        return dto;
+    }
+    
+    private EquipmentDTO mapToEquipmentDTO(Equipment equipment) {
+        EquipmentDTO dto = new EquipmentDTO();
+        dto.setName(equipment.getName());
+        dto.setOperations(mapToEquipmentOperationDTOList(equipment.getOperations()));
+        dto.setEquipmentInfo(mapToEquipmentInfoDTOList(equipment.getEquipmentInfo()));
         return dto;
     }
     
