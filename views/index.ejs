@@ -88,35 +88,45 @@
                                     <% }) %>
                                     <% } %>
                                         <tr>
-                                            
-                                            <% if(locals.lastOpNum) { %>
+                                            <form action="/new_operation_data" method="post">
+                                                <% if(locals.lastOpNum) { %>
                                                 <td style="width: 8%; padding: 0; margin: 0;">
-                                                    <input type="number" class="form-control" id="op" name="op"
-                                                        value="<%= lastOpNum %>" min="1">
+                                                    <input type="number" class="form-control" id="op" name="op" value="<%= lastOpNum %>" min="1">
                                                 </td>
                                                 <% }else{ %>
-                                                    <td style="width: 8%; padding: 0; margin: 0;">
-                                                        <input type="number" class="form-control" id="op" name="op"
-                                                            value="" min="1">
-                                                    </td>
+                                                <td style="width: 8%; padding: 0; margin: 0;">
+                                                    <input type="number" class="form-control" id="op" name="op" value="" min="1">
+                                                </td>
                                                 <% } %>
-                                                    <td>
-                                                        <div id="description">
-                                                            <% if(locals.finalFormatContent){ %>
-                                                               <%- finalFormatContent %>
-                                                            <% } %>
-                                                        </div>
-                                                    </td>
+                                            
+                                                <td>
+                                                    <div id="description">
+                                                        <% if(locals.finalFormatContent){ %>
+                                                        <%- finalFormatContent %>
+                                                        <% } %>
+                                                    </div>
+                                                </td>
+                                            
+                                                <td style="width: 10%;">
+                                                    <div id="other">
+                                                        <% if(locals.other){ %>
+                                                        <textarea name="other" id="other" cols="30" rows="10"><%= other %></textarea>
+                                                        <% }else{ %>
+                                                        <textarea name="other" id="other" cols="30" rows="10"></textarea>
+                                                        <% } %>
+                                                    </div>
+                                                </td>
+                                            
+                                                <!-- Hidden input fields and button moved inside the form -->
+                                                <div class="col-md-1 text-center mt-4">
+                                                    <input type="hidden" name="finalFormatContent" value="<%= locals.finalFormatContent %>">
+                                                    <input type="hidden" name="other" value="<%= locals.other %>">
 
-                                                    <td style="width: 10%;">
-                                                        <div id="other">
-                                                            <% if(locals.other){ %>
-                                                                <textarea name="other" id="other" cols="30" rows="10"><%= other %></textarea>
-                                                            <% }else{ %>
-                                                                <textarea name="other" id="other" cols="30" rows="10"></textarea>
-                                                            <% } %>
-                                                        </div>
-                                                    </td>
+                                                    <button class="btn btn-primary">Parse Data</button>
+                                                </div>
+                                            </form>
+                                            
+                                            
                                         </tr>
                             </tbody>
                         </table>
@@ -159,10 +169,7 @@
                         </form>
                         
 
-                        
-                        <div class="col-md-1 text-center mt-4 ">
-                            <button class="btn btn-primary" >Parse Data</button>
-                        </div>
+                    
                     </div>
 
                 </main>

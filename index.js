@@ -4,6 +4,7 @@ import bodyParser from "body-parser"; // Importing body-parser middleware for pa
 import session from "express-session";
 import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
+import { populateParams } from "./helperFuncs.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -22,36 +23,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
-function populateParams(content, params){
-    // Regular expression to match placeholders inside curly braces
-    const regex = /\{([^{}]+)\}/g;
-    
-    // Array to store unique parameter names found in the content
-    const uniqueParams = new Set();
-    
-    // Match placeholders inside curly braces and extract parameter names
-    let match;
-    while ((match = regex.exec(content)) !== null) {
-        const paramName = match[1];
-        uniqueParams.add(paramName);
-    }
-    
-    // Replace placeholders with HTML input elements
-    let replacedContent = content;
-    uniqueParams.forEach(paramName => {
-        // Check if the parameter is present in the params array
-        const paramInfo = params.find(param => param.name === paramName);
-        if(paramInfo) {
-            // Generate an HTML input element for the parameter
-            const inputElement = `<input type="text" id="${paramName}" placeholder="${paramName}">`;
-            // Replace the placeholder with the HTML input element
-            replacedContent = replacedContent.replace(new RegExp(`{${paramName}}`, 'g'), inputElement);
-        }
-    });
-    
-    // Return the content with placeholders replaced by HTML input elements
-    return replacedContent;
-}
+
+app.post("/new_operation_data",(req,res)=>{
+    console.log("***********req.body************");
+    console.log(req.body);
+    res.status(200).render("index.ejs");
+})
 
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
