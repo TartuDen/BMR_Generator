@@ -4,7 +4,7 @@ import com.bmr.BMR_Generator.dto.*;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.entity.Operation;
-import com.bmr.BMR_Generator.rest.response.NotFoundException;
+import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -29,27 +29,23 @@ public class EquipmentDAOImpl implements EquipmentDAO {
     
     @Override
     @Transactional
-    public boolean save(Equipment equipment) {
+    public void save(Equipment equipment) {
         try {
             entityManager.persist(equipment);
-            return true;
         } catch (Exception e) {
             LOGGER.error("Error occurred while saving equipment", e);
-            return false;
         }
     }
     
     // TODO check entityManager.merge
     @Override
     @Transactional
-    public boolean update(Equipment equipment, long id) {
+    public void update(Equipment equipment, long id) {
         equipment.setId(id);
         try {
             entityManager.merge(equipment);
-            return true;
         } catch (Exception e) {
             LOGGER.error("Error occurred while updating equipment", e);
-            return false;
         }
     }
     
@@ -85,16 +81,14 @@ public class EquipmentDAOImpl implements EquipmentDAO {
     
     @Override
     public EquipmentDTO findEquipmentByName(String name) {
-        Equipment equipment = getEquipmentByName(name);
-        
-        return mapToEquipmentDTO(equipment);
+        return new EquipmentDTO(getEquipmentByName(name));
     }
     
     private Equipment getEquipmentByName(String name) {
         String jpql = "SELECT e FROM Equipment e WHERE e.name = :name";
         TypedQuery<Equipment> query = entityManager.createQuery(jpql, Equipment.class);
         query.setParameter("name", name);
-        return query.getSingleResult();
+        return query.getSingleResult(); // Equipment Name is UNIQUE, set by Equipment ENTITY
     }
     
     @Override
@@ -103,8 +97,9 @@ public class EquipmentDAOImpl implements EquipmentDAO {
         try {
             entityManager.remove(getEquipmentByName(name));
             return true;
-        } catch (Exception ex) {
-            throw new NotFoundException("An unexpected error occurred (deleteByName) on removing - " + name);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while deleting Equipment - " + name, e);
+            throw new BrApiServerException("An unexpected error occurred (deleteByName) on removing - " + name);
         }
     }
     
@@ -116,11 +111,7 @@ public class EquipmentDAOImpl implements EquipmentDAO {
     }
     
     private EquipmentDTO mapToEquipmentDTO(Equipment equipment) {
-        EquipmentDTO dto = new EquipmentDTO();
-        dto.setName(equipment.getName());
-        dto.setOperations(mapToEquipmentOperationDTOList(equipment.getOperations()));
-        dto.setEquipmentInfo(mapToEquipmentInfoDTOList(equipment.getEquipmentInfo()));
-        return dto;
+        return new EquipmentDTO(equipment);
     }
     
     private List<OperationDTO> mapToEquipmentOperationDTOList(List<Operation> operations) {

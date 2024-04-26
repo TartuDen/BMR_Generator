@@ -1,9 +1,5 @@
 package com.bmr.BMR_Generator;
 
-import com.bmr.BMR_Generator.dao.EquipmentDAO;
-import com.bmr.BMR_Generator.entity.Equipment;
-import com.bmr.BMR_Generator.entity.EquipmentInfo;
-import com.bmr.BMR_Generator.entity.Operation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +17,7 @@ public class BmrGeneratorApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(EquipmentDAO equipmentDAO){
+	public CommandLineRunner commandLineRunner(){
 		return  args -> {
 		};
 	}

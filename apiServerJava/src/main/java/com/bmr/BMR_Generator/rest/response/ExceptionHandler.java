@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler
-    public ResponseEntity<Response> notFoundHandler (NotFoundException exc){
+    public ResponseEntity<Response> notFoundHandler (BrApiServerException exc){
         var error = new Response();
         error.setStatus(HttpStatus.NOT_FOUND.value());
         error.setMessage(exc.getMessage());
@@ -26,4 +26,15 @@ public class ExceptionHandler {
         
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler
+    public ResponseEntity<Response> badRequestParameters (NotAllowedRequestParameters exc){
+        var error = new Response();
+        error.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        error.setMessage(exc.getMessage());
+        error.setTimeStamp(new java.util.Date());
+        
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+    
 }

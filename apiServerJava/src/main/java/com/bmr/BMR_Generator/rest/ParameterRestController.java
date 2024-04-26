@@ -2,7 +2,7 @@ package com.bmr.BMR_Generator.rest;
 
 import com.bmr.BMR_Generator.dto.ParameterDTO;
 import com.bmr.BMR_Generator.entity.Parameter;
-import com.bmr.BMR_Generator.rest.response.NotFoundException;
+import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import com.bmr.BMR_Generator.rest.response.Response;
 import com.bmr.BMR_Generator.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class ParameterRestController {
     @DeleteMapping ("/parameter/{name}")
     public Response deleteParameter(@PathVariable String name){
         if (name.isEmpty()){
-            throw new NotFoundException("Name can not be empty");
+            throw new NotAllowedRequestParameters("Name can not be empty");
         }
         return parameterService.deleteParameterByName(name);
     }

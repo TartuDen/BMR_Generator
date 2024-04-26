@@ -47,24 +47,32 @@ public class EquipmentServiceImpl extends BaseService implements EquipmentServic
                     generateResponse(200, "Equipment deleted successfully")
                     : generateResponse(400, "Equipment was not deleted");
         } catch (Exception e) {
-            LOGGER.error("Failed to save equipment", e);
+            LOGGER.error("Failed to delete equipment", e);
             return generateResponse(500, "Failed to delete Equipment: " + e.getMessage());
         }
     }
     
     private Equipment createEquipmentFromRequest(Equipment equipmentReq) {
         Equipment equipment = new Equipment(equipmentReq.getName());
-        equipment.setEquipmentInfo(
-                equipmentReq.getEquipmentInfo().stream()
-                        .peek(equipmentInfo -> equipmentInfo.setEquipment(equipment))
-                        .collect(Collectors.toList())
-        );
+        addEquipmentInfo(equipmentReq, equipment);
+        addEquipmentOperations(equipmentReq, equipment);
+        return equipment;
+    }
+    
+    private void addEquipmentOperations(Equipment equipmentReq, Equipment equipment) {
         equipment.setOperations(
                 equipmentReq.getOperations().stream()
                         .peek(operation -> operation.setEquipment(equipment))
                         .collect(Collectors.toList())
         );
-        return equipment;
+    }
+    
+    private void addEquipmentInfo(Equipment equipmentReq, Equipment equipment) {
+        equipment.setEquipmentInfo(
+                equipmentReq.getEquipmentInfo().stream()
+                        .peek(equipmentInfo -> equipmentInfo.setEquipment(equipment))
+                        .collect(Collectors.toList())
+        );
     }
     
     @Override

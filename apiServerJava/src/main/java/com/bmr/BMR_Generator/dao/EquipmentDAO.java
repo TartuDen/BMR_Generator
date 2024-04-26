@@ -8,10 +8,10 @@ import com.bmr.BMR_Generator.entity.Equipment;
 import java.util.List;
 
 public interface EquipmentDAO {
-    boolean save (Equipment equipment);
+    void save (Equipment equipment);
     
     boolean deleteByName (String name);
-    boolean update(Equipment equipment, long id);
+    void update(Equipment equipment, long id);
     List<Equipment> findAllEquipment();
     
     List<EquipmentWithoutOperationsDTO> findAllEquipmentExcludeOperations();
