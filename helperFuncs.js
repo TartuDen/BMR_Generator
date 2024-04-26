@@ -3,6 +3,9 @@ import { LocalMemory } from "./public/dataClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
+    // console.log("<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
+    // console.log(operationsMap);
+    // console.log(localMemory);
     let selectedOperationMap = [];
 
     for (let operation of operationsMap) {

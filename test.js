@@ -1,3 +1,16 @@
+import axios from "axios";
+async function postDataToEndpoint(dataArray) {
+    try {
+        for (const data of dataArray) {
+            const response = await axios.post('http://localhost:8085/equipment', data);
+            console.log('Data posted successfully:', response.data);
+        }
+    } catch (error) {
+        console.error('Error posting data:', error);
+        throw error;
+    }
+}
+
 var activities = [
     {
       "name": "balances",
@@ -38,108 +51,61 @@ var activities = [
       ],
       "operations": [
         {
-          "operationType": "prepare_of_reactor",
-          "content":
-            `Reactor preparation:
-            The reactor {reactor} and thermostat are checked to be ready for work.`,
-          "other": ``
+            "operationType": "prepare_of_reactor",
+            "content": "Reactor preparation:\nThe reactor {reactor} and thermostat are checked to be ready for work.",
+            "other": ""
         },
         {
-          "operationType": "material_load_of_solid",
-          "content":
-            `Loading into reactor:
-            Required amount of {material} is weighed on the balances. 
-            Weighted material is loaded into reactor {reactor} in portions.
-  
-            Specified amount: ….. kg (….. - ….. kg)`,
-          "other": `Warehouse "code": ...........
-            Actual loading: ....... kg`
+            "operationType": "material_load_of_solid",
+            "content": "Loading into reactor:\nRequired amount of {material} is weighed on the balances. \nWeighted material is loaded into reactor {reactor} in portions.\n\nSpecified amount: ….. kg (….. - ….. kg)",
+            "other": "Warehouse \"code\": ...........\nActual loading: ....... kg"
         },
         {
-          "operationType": "material_load_of_liquid",
-          "content":
-            `Loading into reactor:
-            Required amount of {material} is weighed on the balances. 
-            Using peristaltic pump {p_pump}, weighted material is pumped into the reactor.
-  
-            Specified amount: ….. kg (….. - ….. kg)`,
-          "other": `Warehouse "code": ...........
-            Actual loading: ....... kg
-            Actual pump setting: ..... %`
+            "operationType": "material_load_of_liquid",
+            "content": "Loading into reactor:\nRequired amount of {material} is weighed on the balances. \nUsing peristaltic pump {p_pump}, weighted material is pumped into the reactor.\n\nSpecified amount: ….. kg (….. - ….. kg)",
+            "other": "Warehouse \"code\": ...........\nActual loading: ....... kg\nActual pump setting: ..... %"
         },
         {
-          "operationType": "material_load_drop_funnel",
-          "content":
-            `Loading into dropping funnel:
-            The required amount of {material} is weighed on the balances. 
-            Using peristaltic pump {p_pump}, weighted material is pumped into the dosing system.
-  
-            Specified amount: ….. kg (….. - ….. kg)`,
-          "other": `Warehouse "code": ...........
-            Actual loading: ....... kg
-            Actual pump setting: ..... %`
+            "operationType": "material_load_drop_funnel",
+            "content": "Loading into dropping funnel:\nThe required amount of {material} is weighed on the balances. \nUsing peristaltic pump {p_pump}, weighted material is pumped into the dosing system.\n\nSpecified amount: ….. kg (….. - ….. kg)",
+            "other": "Warehouse \"code\": ...........\nActual loading: ....... kg\nActual pump setting: ..... %"
         },
         {
-          "operationType": "material_add_dropwise",
-          "content":
-            `Dropwise addition:
-            Material is added dropwise from dropping funnel.
-            Addition is temperature controlled.
-            Keep the temperature of reaction mixture in range {targetTempMin}{targetTempMax}°C.
-            Stirring is set to range {rpmMin}{rpmMax} rpm.`,
-          "other": `Actual thermostat setting: ..... °C
-            Actual stirring setting: .... rpm`
+            "operationType": "material_add_dropwise",
+            "content": "Dropwise addition:\nMaterial is added dropwise from dropping funnel.\nAddition is temperature controlled.\nKeep the temperature of reaction mixture in range {targetTempMin}{targetTempMax}°C.\nStirring is set to range {rpmMin}{rpmMax} rpm.",
+            "other": "Actual thermostat setting: ..... °C\nActual stirring setting: .... rpm"
         },
         {
-          "operationType": "argon_start_flow",
-          "content":
-            `Argon flow:
-            Argon line is connected and set to {flowMin}{flowMax} l/min.`,
-          "other": `Actual flow setting: .... l/min`
+            "operationType": "argon_start_flow",
+            "content": "Argon flow:\nArgon line is connected and set to {flowMin}{flowMax} l/min.",
+            "other": "Actual flow setting: .... l/min"
         },
         {
-          "operationType": "argon_stop_flow",
-          "content":
-            `The argon flow is closed.`,
-          "other": `Actual flow setting: .... l/min`
+            "operationType": "argon_stop_flow",
+            "content": "The argon flow is closed.",
+            "other": "Actual flow setting: .... l/min"
         },
         {
-          "operationType": "reaction_hold_time",
-          "content":
-            `Hold time:
-            Reaction mixture is stirred during {durationMin}{durationMax}.
-            Temperature set is {targetTempMin}{targetTempMax}°C.
-            Stirring is set to {rpmMin}{rpmMax} rpm.`,
-          "other": `Actual temp setting: ..... °C
-            Actual stirring setting: .... rpm`
+            "operationType": "reaction_hold_time",
+            "content": "Hold time:\nReaction mixture is stirred during {durationMin}{durationMax}.\nTemperature set is {targetTempMin}{targetTempMax}°C.\nStirring is set to {rpmMin}{rpmMax} rpm.",
+            "other": "Actual temp setting: ..... °C\nActual stirring setting: .... rpm"
         },
         {
-          "operationType": "reaction_heat/cool_ON",
-          "content":
-            `<Heating/cooling> of reactor {reactor} is turned ON.
-            The target temperature range is {targetTempMin}{targetTempMax}°C.`,
-          "other": `Actual temp setting: ..... °C`
+            "operationType": "reaction_heat/cool_ON",
+            "content": "<Heating/cooling> of reactor {reactor} is turned ON.\nThe target temperature range is {targetTempMin}{targetTempMax}°C.",
+            "other": "Actual temp setting: ..... °C"
         },
         {
-          "operationType": "vac_dist.",
-          "content":
-            `Vacuum distillation:
-            Solvent is distilled out from reactor.
-            Tap water for condenser is turned ON.
-            Heating is set {targetTempMin}{targetTempMax}°C.
-            Stirring is set {rpmMin}{rpmMax} rpm.
-            Vacuum is gradually decreased in range {vpumpTorrMin}{vpumpTorrMax} torr.
-            Distillation is continued until <conditions>.`,
-          "other": `Actual temp setting: ..... °C
-            Actual stirring setting: ..... rpm
-            Actual vacuum setting: ..... Torr`
+            "operationType": "vac_dist.",
+            "content": "Vacuum distillation:\nSolvent is distilled out from reactor.\nTap water for condenser is turned ON.\nHeating is set {targetTempMin}{targetTempMax}°C.\nStirring is set {rpmMin}{rpmMax} rpm.\nVacuum is gradually decreased in range {vpumpTorrMin}{vpumpTorrMax} torr.\nDistillation is continued until <conditions>.",
+            "other": "Actual temp setting: ..... °C\nActual stirring setting: ..... rpm\nActual vacuum setting: ..... Torr"
         },
         {
-          "operationType": "material_unload",
-          "content":
-            `<Solution/suspension> from reactor is pumped using peristaltic pump into <to where?>.`,
-          "other": ``
+            "operationType": "material_unload",
+            "content": "<Solution/suspension> from reactor is pumped using peristaltic pump into <to where?>.",
+            "other": ""
         }
+        
       ]
     },
     {
@@ -150,63 +116,43 @@ var activities = [
         {"code": "046-7", "description":"ss agit 100/140L" }
       ],
       "operations": [
-        {
-          "operationType": "prepare_filter",
-          "content":
-            `Filter preparation:
-            The filter {d_filter} is assembled and prepared to work.
-            The filtration cloth is prepared and properly installed.
-            Argon and product lines are connected to the lid, pressure test is done.`,
-          "other": ``
-        },
-        {
-          "operationType": "load_on_filter",
-          "content":
-            `Product is loaded from reactor {reactor} on the filter {d_filter}.
-            The Argon line is closed during loading.
-            Once 2/3 of the filter is loaded, stop pumping and close the product line.`,
-          "other": ``
-        },
-        {
-          "operationType": "filtration_with_argon",
-          "content":
-            `Filtration:
-            Product is filtrated using argon flow {flowMin}{flowMax} l/min`,
-          "other": ``
-        },
-        {
-          "operationType": "discharg_ML",
-          "content":
-            `Emptying the receiver:
-            Filtrate is discharged from the filter into <to where>`,
-          "other": ``
-        },
-        {
-          "operationType": "wash_FK",
-          "content":
-            `Washing filter cake:
-            Filter cake is washied with required amount of solvent {material}.
-            After loading, the solvent is pushed through the filter cake with argon pressure {flowMin}{flowMax} l/min.
-  
-            Specified amount: ….. kg (….. - ….. kg)`,
-          "other": `Warehouse "code": ...........
-            Actual loading: ....... kg`
-        },
-        {
-          "operationType": "dry_on_filter",
-          "content":
-            `Drying on filter:
-            The filter cake is additionally dried on the filter {d_filter} using argon flow.
-            Argon is set to {flowMin}{flowMax} l/min.
-            Drying on the filter is continued for {durationMin}{durationMax} min.`,
-          "other": `Actual flow setting: .... l/min`
-        },
-        {
-          "operationType": "unload_from_filter",
-          "content":
-            `Material from the filter {d_filter} is unloaded <to where>.`,
-          "other": `Actual weigh: ....... kg`
-        }
+   
+            {
+                "operationType": "prepare_filter",
+                "content": "Filter preparation:\nThe filter {d_filter} is assembled and prepared to work.\nThe filtration cloth is prepared and properly installed.\nArgon and product lines are connected to the lid, pressure test is done.",
+                "other": ""
+            },
+            {
+                "operationType": "load_on_filter",
+                "content": "Product is loaded from reactor {reactor} on the filter {d_filter}.\nThe Argon line is closed during loading.\nOnce 2/3 of the filter is loaded, stop pumping and close the product line.",
+                "other": ""
+            },
+            {
+                "operationType": "filtration_with_argon",
+                "content": "Filtration:\nProduct is filtrated using argon flow {flowMin}{flowMax} l/min",
+                "other": ""
+            },
+            {
+                "operationType": "discharg_ML",
+                "content": "Emptying the receiver:\nFiltrate is discharged from the filter into <to where>",
+                "other": ""
+            },
+            {
+                "operationType": "wash_FK",
+                "content": "Washing filter cake:\nFilter cake is washied with required amount of solvent {material}.\nAfter loading, the solvent is pushed through the filter cake with argon pressure {flowMin}{flowMax} l/min.\n\nSpecified amount: ….. kg (….. - ….. kg)",
+                "other": "Warehouse \"code\": ...........\nActual loading: ....... kg"
+            },
+            {
+                "operationType": "dry_on_filter",
+                "content": "Drying on filter:\nThe filter cake is additionally dried on the filter {d_filter} using argon flow.\nArgon is set to {flowMin}{flowMax} l/min.\nDrying on the filter is continued for {durationMin}{durationMax} min.",
+                "other": "Actual flow setting: .... l/min"
+            },
+            {
+                "operationType": "unload_from_filter",
+                "content": "Material from the filter {d_filter} is unloaded <to where>.",
+                "other": "Actual weigh: ....... kg"
+            }
+      
       ]
     },
     {
@@ -220,55 +166,34 @@ var activities = [
       ],
       "operations": [
         {
-          "operationType": "prepare_filter",
-          "content":
-            `Filter preparation:
-            The filter {n_filter} is assembled and prepared to work.
-            The filtration cloth is prepared and properly installed.
-            Membrane pump {m_pump} is connected.`,
-          "other": ``
+            "operationType": "prepare_filter",
+            "content": "Filter preparation:\nThe filter {n_filter} is assembled and prepared to work.\nThe filtration cloth is prepared and properly installed.\nMembrane pump {m_pump} is connected.",
+            "other": ""
         },
         {
-          "operationType": "load_on_filter",
-          "content":
-            `Membrane pump {m_pump} is started.
-            The product is loaded on the filter {n_filter}.`,
-          "other": ``
+            "operationType": "load_on_filter",
+            "content": "Membrane pump {m_pump} is started.\nThe product is loaded on the filter {n_filter}.",
+            "other": ""
         },
         {
-          "operationType": "discharg_ML",
-          "content":
-            `Emptying the receiver:
-            Filtrate is discharged from the filter into <to where>`,
-          "other": ``
+            "operationType": "discharg_ML",
+            "content": "Emptying the receiver:\nFiltrate is discharged from the filter into <to where>",
+            "other": ""
         },
         {
-          "operationType": "wash_FK",
-          "content":
-            `Washing filter cake:
-            Make sure the pump is stopped.
-            The required amount of {material} is weighed on the balances {balances} and loaded on top of filter cake.
-            The filter cake is thoroughly mixed.
-  
-            Specified amount: ….. kg (….. - ….. kg)`,
-          "other": `Warehouse "code": ...........
-            Actual loading: ....... kg`
+            "operationType": "wash_FK",
+            "content": "Washing filter cake:\nMake sure the pump is stopped.\nThe required amount of {material} is weighed on the balances {balances} and loaded on top of filter cake.\nThe filter cake is thoroughly mixed.\n\nSpecified amount: ….. kg (….. - ….. kg)",
+            "other": "Warehouse \"code\": ...........\nActual loading: ....... kg"
         },
         {
-          "operationType": "dry_on_filter",
-          "content":
-            `Drying on filter:
-            The filter cake is additionally dried on the filter by keeping the membrane pump sucking air through it.
-            Membrane pump {m_pump} is set to range {vpumpTorrMin}{vpumpTorrMax} Torr.
-            Drying on the filter is continued for {durationMin}{durationMax} min.
-            After the required time is passed, the pump is stopped.`,
-          "other": `Actual plump setting: ..... Torr`
+            "operationType": "dry_on_filter",
+            "content": "Drying on filter:\nThe filter cake is additionally dried on the filter by keeping the membrane pump sucking air through it.\nMembrane pump {m_pump} is set to range {vpumpTorrMin}{vpumpTorrMax} Torr.\nDrying on the filter is continued for {durationMin}{durationMax} min.\nAfter the required time is passed, the pump is stopped.",
+            "other": "Actual plump setting: ..... Torr"
         },
         {
-          "operationType": "unload_from_filter",
-          "content":
-            `The material from the filter is unloaded <to where>.`,
-          "other": `Actual weight: ....... kg`
+            "operationType": "unload_from_filter",
+            "content": "The material from the filter is unloaded <to where>.",
+            "other": "Actual weight: ....... kg"
         }
       ]
     },
@@ -282,9 +207,8 @@ var activities = [
       "operations": [
         {
           "operationType": "pump_ON",
-          "content": `Peristaltic pump {p_pump} is set to {ppumpSetMin} {ppumpSetMax} %.
-            Pump is turned ON`,
-          "other": ``
+          "content": "Peristaltic pump {p_pump} is set to {ppumpSetMin} {ppumpSetMax} %.\nPump is turned ON",
+          "other": ""
         }
       ]
     },
@@ -299,15 +223,9 @@ var activities = [
       ],
       "operations": [
         {
-          "operationType": "material_load_on_trays",
-          "content": `Product is loaded on trays.
-            Each tray is weighed on balances {balances}, data is recorded into Table <number>.
-            Tray is placed into drying oven.
-            After all product is loaded on trays and placed into oven, the oven is clodes.
-            Heating is set {targetTempMin}{targetTempMax}°C.
-            Timer is set to {durationMin}{durationMax}.
-            The dryining starts.`,
-          "other": ``
+            "operationType": "material_load_on_trays",
+            "content": "Product is loaded on trays.\nEach tray is weighed on balances {balances}, data is recorded into Table <number>.\nTray is placed into drying oven.\nAfter all product is loaded on trays and placed into oven, the oven is clodes.\nHeating is set {targetTempMin}{targetTempMax}°C.\nTimer is set to {durationMin}{durationMax}.\nThe dryining starts.",
+            "other": ""
         }
       ]
     },
@@ -337,14 +255,7 @@ var activities = [
                 { "code": "001-24", "description":"" }
               ],
             "operations": []
-          },
-          {
-              "name": "",
-              "equipmentInfo":[
-                  {"code": "001-13", "description":"" },
-                  {"code": "001-21", "description":"" },
-                  {"code": "001-29", "description":"" }
-                ],
-              "operations": []
-            }
+          }
   ];
+
+  await postDataToEndpoint(activities);

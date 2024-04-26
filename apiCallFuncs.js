@@ -4,7 +4,7 @@ class EquipmentNoOperation {
     constructor( name, equipmentInfo) {
         this.name = name !== undefined ? name : "";
         this.equipmentInfo = equipmentInfo !== undefined && equipmentInfo.length > 0 ?
-            equipmentInfo.map(info => new EquipmentInfo(info.id, info.code, info.description)) :
+            equipmentInfo.map(info => new EquipmentInfo(info.code, info.description)) :
             [new EquipmentInfo()];
     }
 }
@@ -41,7 +41,7 @@ export async function getMainTableEq() {
         
         if (apiResp.data && Array.isArray(apiResp.data)) {
             let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.name, item.equipmentInfo));
-            console.log(newObj);
+            // console.log(newObj);
             return newObj;
         } else {
             console.error("Invalid API response format");
@@ -80,3 +80,11 @@ export async function getUtensils() {
     }
 }
 
+export async function getParams() {
+    try {
+        let apiResp = await axios.get("http://localhost:8085/parameters");
+        return apiResp.data;
+    } catch (err) {
+        console.error("Failed to retireve data from getUtensils() with error: " + err);
+    }
+}
