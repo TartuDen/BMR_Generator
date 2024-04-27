@@ -17,3 +17,16 @@ export class Reagent {
     }
 }
 
+export class EquipmentNoOperation {
+    constructor(name = "", equipmentInfo = [{}]) {
+        this.name = name;
+        this.equipmentInfo = equipmentInfo.map(info => new EquipmentInfo(info.code, info.description));
+    }
+}
+class EquipmentInfo {
+    constructor(code = "", description = "") {
+        this.code = code;
+        this.description = description;
+    }
+}
+

@@ -1,20 +1,5 @@
 import axios from "axios";
-
-class EquipmentNoOperation {
-    constructor( name, equipmentInfo) {
-        this.name = name !== undefined ? name : "";
-        this.equipmentInfo = equipmentInfo !== undefined && equipmentInfo.length > 0 ?
-            equipmentInfo.map(info => new EquipmentInfo(info.code, info.description)) :
-            [new EquipmentInfo()];
-    }
-}
-
-class EquipmentInfo {
-    constructor( code, description) {
-        this.code = code !== undefined ? code : "";
-        this.description = description !== undefined ? description : "";
-    }
-}
+import { EquipmentNoOperation } from "./public/dataClasses.js";
 
 // app.post("/update_operations", async (req, res) => {
 //     try {
