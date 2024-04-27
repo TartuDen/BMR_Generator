@@ -1,32 +1,31 @@
-class Operation {
+export class Operation {
   constructor(
-    project, 
-    TP,
-    number,
-    mainEquipmentType,
-    typicalActivity,
-    materialIn,
-    materialOut,
-    wastes
+      project,
+      tp,
+      opNumber,
+      mainEquipmentType,
+      typicalActivity,
+      materialIn,
+      materialOut,
+      wastes
   ) {
-    this.project = project !== undefined ? project : "";
-    this.TP = TP !== undefined ? TP : "";
-    this.number = number !== undefined ? number : 0;
-    this.mainEquipmentType =
-      mainEquipmentType !== undefined ? mainEquipmentType : "";
-    this.typicalActivity =
-      typicalActivity !== undefined ? typicalActivity : null;
-    this.materialIn = materialIn !== undefined ? materialIn : [];
-    this.materialOut = materialOut !== undefined ? materialOut : [];
-    this.wastes = wastes !== undefined ? wastes : [];
+      this.project = project !== undefined ? project : "";
+      this.tp = tp !== undefined ? tp : "";
+      this.opNumber = opNumber !== undefined ? opNumber : 0;
+      this.mainEquipmentType =
+          mainEquipmentType !== undefined ? mainEquipmentType : "";
+      this.typicalActivity =
+          typicalActivity !== undefined ? typicalActivity : null;
+      this.materialIn = materialIn !== undefined ? materialIn : [];
+      this.materialOut = materialOut !== undefined ? materialOut : [];
+      this.wastes = wastes !== undefined ? wastes : [];
   }
 }
-
-class TypicalActivity {
-  constructor(operationType, content, other, durationMin, durationMax, targetTempMin, targetTempMax,
-              initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax,
-              vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment) {
-      this.operationType = operationType !== undefined ? operationType : "";
+export class TypicalActivity {
+  constructor(activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax,
+      initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax,
+      vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment) {
+      this.activityType = activityType !== undefined ? activityType : "";
       this.content = content !== undefined ? content : "";
       this.other = other !== undefined ? other : "";
       this.durationMin = durationMin !== undefined ? durationMin : -1;
@@ -51,7 +50,7 @@ class TypicalActivity {
 
 
 
-class Equipment {
+export class Equipment {
   constructor(name, code, label, size, material, utensils) {
     this.name = name !== undefined ? name : "";
     this.code = code !== undefined ? code : "";
@@ -62,7 +61,7 @@ class Equipment {
   }
 }
 
-class Material {
+export class Material {
   constructor(name, WHcode, mass, volume, range, additionalInfo) {
     this.name = name !== undefined ? name : "";
     this.WHcode = WHcode !== undefined ? WHcode : "";
@@ -73,7 +72,7 @@ class Material {
   }
 }
 
-class Waste {
+export class Waste {
   constructor(type, code, mass, volume, additionalInfo) {
     this.type = type !== undefined ? type : "";
     this.code = code !== undefined ? code : "";
@@ -82,4 +81,6 @@ class Waste {
     this.additionalInfo = additionalInfo !== undefined ? additionalInfo : "";
   }
 }
+
+
 

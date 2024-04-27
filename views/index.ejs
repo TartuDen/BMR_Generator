@@ -10,7 +10,7 @@
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <title>Bootstrap Layout</title>
+    <title>BMR main </title>
 
 </head>
 
@@ -37,16 +37,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if(br_ops && br_ops.length>0) {%>
+                                <!-- ______________Adding existing operations________________________ -->
+                                <% if(br_ops.length>0) {%>
                                 <% br_ops.forEach((operation, index)=> { %>
                                     <tr>
                                         
                                         <td style="width: 8%; padding: 0; margin: 0;">
-                                            <input type="number" class="form-control" id="op<%= index %>"
-                                                name="op<%= index %>" value="<%= operation.number %>" min="1">
+                                            <input type="number" class="form-control" id="opNumber<%= index %>"
+                                                name="opNumber<%= index %>" value="<%= operation.opNumber %>" min="1">
                                         </td>
 
-                                        <!-- Third column -->
                                         <td>
                                             <!-- Description -->
                                             <div id="description<%= index %>">
@@ -55,6 +55,8 @@
                                             </div>
 
                                         </td>
+
+                                        <!-- ______________________________script to remove_____________________________________________ -->
                                         <script>
                                             // Function to adjust textarea height based on content
                                             function adjustTextareaHeight(textarea) {
@@ -73,9 +75,9 @@
                                             // Call the adjustTextareaHeight function initially
                                             adjustTextareaHeight(textarea);
                                         </script>
+                                        <!-- ___________________________________________________________________________ -->
 
 
-                                        <!-- Fourth column -->
                                         <td style="width: 15%;">
                                             <!-- Other fields -->
                                             <div id="other<%= index %>">
@@ -87,22 +89,20 @@
                                     </tr>
                                     <% }) %>
                                     <% } %>
+
+                                    <!-- _______________________Filling new operation__________________________ -->
                                         <tr>
                                             <form action="/new_operation_data" method="post">
-                                                <% if(locals.lastOpNum) { %>
+                                                
                                                 <td style="width: 8%; padding: 0; margin: 0;">
-                                                    <input type="number" class="form-control" id="op" name="op" value="<%= lastOpNum %>" min="1">
+                                                    <input type="number" class="form-control" id="opNumber" name="opNumber" value="1" min="1">
                                                 </td>
-                                                <% }else{ %>
-                                                <td style="width: 8%; padding: 0; margin: 0;">
-                                                    <input type="number" class="form-control" id="op" name="op" value="" min="1">
-                                                </td>
-                                                <% } %>
+
                                             
                                                 <td>
                                                     <div id="description">
                                                         <% if(locals.finalFormatContent){ %>
-                                                        <%- finalFormatContent %>
+                                                            <%- finalFormatContent %>
                                                         <% } %>
                                                     </div>
                                                 </td>
@@ -119,9 +119,9 @@
                                             
                                                 <!-- Hidden input fields and button moved inside the form -->
                                                 <div class="col-md-1 text-center mt-4">
-                                                    <input type="hidden" name="finalFormatContent" value="<%= locals.finalFormatContent %>">
-                                                    <input type="hidden" name="other" value="<%= locals.other %>">
-
+                                                    <input type="hidden" name="content" value="<%= locals.finalFormatContent %>">
+                                                    <input type="hidden" name="mainEquipmentType" value="<%= locals.equipmentType %>">
+                                                    <input type="hidden" name="activityType" value="<%= locals.activityType %>">
                                                     <button class="btn btn-primary">Parse Data</button>
                                                 </div>
                                             </form>
