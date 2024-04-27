@@ -47,7 +47,7 @@ export function convertToMemoryObj(inputObject) {
         }
     }
 
-    return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
+    return new LocalMemory(inputObject.project, inputObject.tp, equipment, reagents);
 }
 
 // Function to get content and other for equipment type and activity type
