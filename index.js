@@ -5,13 +5,14 @@ import session from "express-session";
 import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import { populateParams } from "./helperFuncs.js";
-import { TypicalActivity, Operation } from "./public/operationClasses.js";
+import { createOperation } from "./helperFuncs.js";
+import { LocalMemory } from "./public/dataClasses.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
-let localMemory = { project: '', TP: '', equipment: [], reagents: [] };
+let localMemory =  new LocalMemory;
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -24,47 +25,15 @@ app.use(session({
 }));
 
 
-app.post("/new_operation_data",(req,res)=>{
-    console.log("***********req.body************");
+// Route handler
+app.post("/new_operation_data", (req, res) => {
+    const newOp = createOperation(req.body);
 
-    // Create TypicalActivity object
-    let typAct = new TypicalActivity({
-        activityType: req.body.activityType,
-        content: req.body.content,
-        other: req.body.other,
-        durationMin: req.body.durationMin,
-        durationMax: req.body.durationMax,
-        targetTempMin: req.body.targetTempMin,
-        targetTempMax: req.body.targetTempMax,
-        initialTempSet: req.body.initialTempSet,
-        finalTempSet: req.body.finalTempSet,
-        processTemp: req.body.processTemp,
-        rpmMin: req.body.rpmMin,
-        rpmMax: req.body.rpmMax,
-        flowMin: req.body.flowMin,
-        flowMax: req.body.flowMax,
-        ppumpSetMin: req.body.ppumpSetMin,
-        ppumpSetMax: req.body.ppumpSetMax,
-        vpumpTorrProcess: req.body.vpumpTorrProcess,
-        vpumpTorrMin: req.body.vpumpTorrMin,
-        vpumpTorrMax: req.body.vpumpTorrMax,
-        additionalEquipment: [req.body.balances, req.body.reactor ]
-    });
-
-    let newOp = new Operation({
-
-            opNumber: req.body.opNumber,
-            mainEquipmentType: req.body.mainEquipmentType,
-            typicalActivity: typAct,
-            materialIn:[req.body.material],
-
-    })
-
-    console.log("typAct: ",typAct);
     console.log("newOp: ", newOp);
     
     res.status(200).render("index.ejs");
-})
+});
+
 
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
@@ -80,11 +49,11 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
 
-    // console.log("*********contentEqUtsMat************");
-    // console.log(contentEqUtsMat);
+    // console.log("*********localMemory************");
+    // console.log(localMemory);
 
     let finalFormatContent = contentEqUtsMatParams;
-    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other })
+    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other, localMemory })
 })
 
 app.post("/operation_table", async (req, res) => {
@@ -99,8 +68,9 @@ app.post("/operation_table", async (req, res) => {
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
 
+
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { operationsMap, br_ops });
+    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 app.post("/new_eq",async (req,res)=>{

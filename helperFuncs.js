@@ -1,5 +1,6 @@
 import { Reagent } from "./public/dataClasses.js";
 import { LocalMemory } from "./public/dataClasses.js";
+import { TypicalActivity, Operation } from "./public/operationClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
@@ -173,6 +174,54 @@ export function populateParams(content, params) {
 
     // Return the content with placeholders replaced by HTML input elements
     return replacedContent;
+}
+// Factory method to create TypicalActivity object
+function createTypicalActivity(data) {
+    const {
+        activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment
+    } = data;
+
+    return new TypicalActivity(
+        activityType,
+        content,
+        other,
+        durationMin,
+        durationMax,
+        targetTempMin,
+        targetTempMax,
+        initialTempSet,
+        finalTempSet,
+        processTemp,
+        rpmMin,
+        rpmMax,
+        flowMin,
+        flowMax,
+        ppumpSetMin,
+        ppumpSetMax,
+        vpumpTorrProcess,
+        vpumpTorrMin,
+        vpumpTorrMax,
+        additionalEquipment
+    );
+}
+// Factory method to create Operation object
+export function createOperation(data) {
+    const {
+        project, tp, opNumber, mainEquipmentType, materialIn, materialOut, wastes
+    } = data;
+
+    const typAct = createTypicalActivity(data);
+
+    return new Operation(
+        project,
+        tp,
+        opNumber,
+        mainEquipmentType,
+        typAct,
+        materialIn,
+        materialOut,
+        wastes
+    );
 }
 
 
