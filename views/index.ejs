@@ -41,17 +41,17 @@
                                 <% if(br_ops.length>0) {%>
                                 <% br_ops.forEach((operation, index)=> { %>
                                     <tr>
-                                        
+                                        <!-- First column, op number -->
                                         <td style="width: 8%; padding: 0; margin: 0;">
                                             <input type="number" class="form-control" id="opNumber<%= index %>"
                                                 name="opNumber<%= index %>" value="<%= operation.opNumber %>" min="1">
                                         </td>
 
                                         <td>
-                                            <!-- Description -->
+                                            <!-- Second column - Description -->
                                             <div id="description<%= index %>">
                                                 <textarea id="descriptionTextarea<%= index %>" class="form-control"
-                                                    rows="1"><%= populatePrevOps(operation) %></textarea>
+                                                    rows="1"><%= operation.typicalActivity.content %></textarea>
                                             </div>
 
                                         </td>
@@ -77,7 +77,7 @@
                                         </script>
                                         <!-- ___________________________________________________________________________ -->
 
-
+                                        <!-- 3rd column - OTHER -->
                                         <td style="width: 15%;">
                                             <!-- Other fields -->
                                             <div id="other<%= index %>">

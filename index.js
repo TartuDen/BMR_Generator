@@ -13,6 +13,7 @@ const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
 let localMemory =  new LocalMemory;
+let br_ops = []
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -28,10 +29,15 @@ app.use(session({
 // Route handler
 app.post("/new_operation_data", (req, res) => {
     const newOp = createOperation(req.body);
+    const operationsMap = req.session.operationsMap;
+    const br_ops = req.session.br_ops;
+    const localMemory = req.session.localMemory;
 
     console.log("newOp: ", newOp);
-    
-    res.status(200).render("index.ejs");
+    br_ops.push(newOp);
+    console.log("*****************br_ops*******************");
+    console.log(br_ops);
+    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 
@@ -49,9 +55,6 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
 
-    // console.log("*********localMemory************");
-    // console.log(localMemory);
-
     let finalFormatContent = contentEqUtsMatParams;
     res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other, localMemory })
 })
@@ -61,7 +64,7 @@ app.post("/operation_table", async (req, res) => {
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
-    let br_ops = await getBrOperation();
+    // let br_ops = await getBrOperation(); BR OPs are here!
 
     // Storing operationsMap in session
     req.session.operationsMap = operationsMap;
