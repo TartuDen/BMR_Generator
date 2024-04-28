@@ -4,13 +4,16 @@ import bodyParser from "body-parser"; // Importing body-parser middleware for pa
 import session from "express-session";
 import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
+import { populateParams } from "./helperFuncs.js";
+import { createOperation } from "./helperFuncs.js";
+import { LocalMemory } from "./public/dataClasses.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
-let localMemory = { project: '', TP: '', equipment: [], reagents: [] };
-
+let localMemory =  new LocalMemory;
+let br_ops = []
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -22,36 +25,21 @@ app.use(session({
     saveUninitialized: true
 }));
 
-function populateParams(content, params){
-    // Regular expression to match placeholders inside curly braces
-    const regex = /\{([^{}]+)\}/g;
-    
-    // Array to store unique parameter names found in the content
-    const uniqueParams = new Set();
-    
-    // Match placeholders inside curly braces and extract parameter names
-    let match;
-    while ((match = regex.exec(content)) !== null) {
-        const paramName = match[1];
-        uniqueParams.add(paramName);
-    }
-    
-    // Replace placeholders with HTML input elements
-    let replacedContent = content;
-    uniqueParams.forEach(paramName => {
-        // Check if the parameter is present in the params array
-        const paramInfo = params.find(param => param.name === paramName);
-        if(paramInfo) {
-            // Generate an HTML input element for the parameter
-            const inputElement = `<input type="text" id="${paramName}" placeholder="${paramName}">`;
-            // Replace the placeholder with the HTML input element
-            replacedContent = replacedContent.replace(new RegExp(`{${paramName}}`, 'g'), inputElement);
-        }
-    });
-    
-    // Return the content with placeholders replaced by HTML input elements
-    return replacedContent;
-}
+
+// Route handler
+app.post("/new_operation_data", (req, res) => {
+    const newOp = createOperation(req.body);
+    const operationsMap = req.session.operationsMap;
+    const br_ops = req.session.br_ops;
+    const localMemory = req.session.localMemory;
+
+    console.log("newOp: ", newOp);
+    br_ops.push(newOp);
+    console.log("*****************br_ops*******************");
+    console.log(br_ops);
+    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
+});
+
 
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
@@ -67,11 +55,8 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
 
-    // console.log("*********contentEqUtsMat************");
-    // console.log(contentEqUtsMat);
-
     let finalFormatContent = contentEqUtsMatParams;
-    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other })
+    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other, localMemory })
 })
 
 app.post("/operation_table", async (req, res) => {
@@ -79,15 +64,16 @@ app.post("/operation_table", async (req, res) => {
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
-    let br_ops = await getBrOperation();
+    // let br_ops = await getBrOperation(); BR OPs are here!
 
     // Storing operationsMap in session
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
 
+
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
-    res.status(200).render("index.ejs", { operationsMap, br_ops });
+    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 app.post("/new_eq",async (req,res)=>{

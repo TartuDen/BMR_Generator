@@ -1,5 +1,6 @@
 import { Reagent } from "./public/dataClasses.js";
 import { LocalMemory } from "./public/dataClasses.js";
+import { TypicalActivity, Operation } from "./public/operationClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
@@ -46,7 +47,7 @@ export function convertToMemoryObj(inputObject) {
         }
     }
 
-    return new LocalMemory(inputObject.project, inputObject.TP, equipment, reagents);
+    return new LocalMemory(inputObject.project, inputObject.tp, equipment, reagents);
 }
 
 // Function to get content and other for equipment type and activity type
@@ -136,13 +137,91 @@ export function populateMaterials(content, localMemory) {
     // Replace placeholders in the content
     const populatedContent = content.replace(placeholderRegex, () => {
         // Create the select element options using the reagentsMap
-        const options = Array.from(reagentsMap.values()).map(reagent => `<option value="${reagent.amount}">${reagent.name} - ${reagent.amount}</option>`).join('');
+        const options = Array.from(reagentsMap.values()).map(reagent => `<option value="${reagent.name}">${reagent.name} - ${reagent.amount}</option>`).join('');
 
         // Construct the select element with the provided id and name, including a default "select" option
         return `<select name="material"><option value="">--select--</option>${options}</select>`;
     });
 
     return populatedContent;
+}
+export function populateParams(content, params) {
+    // Regular expression to match placeholders inside curly braces
+    const regex = /\{([^{}]+)\}/g;
+
+    // Array to store unique parameter names found in the content
+    const uniqueParams = new Set();
+
+    // Match placeholders inside curly braces and extract parameter names
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+        const paramName = match[1];
+        uniqueParams.add(paramName);
+    }
+
+    // Replace placeholders with HTML input elements
+    let replacedContent = content;
+    uniqueParams.forEach(paramName => {
+        // Check if the parameter is present in the params array
+        const paramInfo = params.find(param => param.name === paramName);
+        if (paramInfo) {
+            // Generate an HTML input element for the parameter
+            const inputElement = `<input type="text" name="${paramName}" id="${paramName}" placeholder="${paramName}">`;
+            // Replace the placeholder with the HTML input element
+            replacedContent = replacedContent.replace(new RegExp(`{${paramName}}`, 'g'), inputElement);
+        }
+    });
+
+    // Return the content with placeholders replaced by HTML input elements
+    return replacedContent;
+}
+// Factory method to create TypicalActivity object
+function createTypicalActivity(data) {
+    const {
+        activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment
+    } = data;
+
+    return new TypicalActivity(
+        activityType,
+        content,
+        other,
+        durationMin,
+        durationMax,
+        targetTempMin,
+        targetTempMax,
+        initialTempSet,
+        finalTempSet,
+        processTemp,
+        rpmMin,
+        rpmMax,
+        flowMin,
+        flowMax,
+        ppumpSetMin,
+        ppumpSetMax,
+        vpumpTorrProcess,
+        vpumpTorrMin,
+        vpumpTorrMax,
+        additionalEquipment
+    );
+}
+// Factory method to create Operation object
+export function createOperation(data) {
+    const {
+        project, tp, opNumber, mainEquipmentType, materialIn, materialOut, wastes
+    } = data;
+
+    const typAct = createTypicalActivity(data);
+
+    return new Operation(
+        project,
+        tp,
+        opNumber,
+        mainEquipmentType,
+        typAct,
+        materialIn,
+        materialOut,
+        wastes
+    );
 }
 
 
