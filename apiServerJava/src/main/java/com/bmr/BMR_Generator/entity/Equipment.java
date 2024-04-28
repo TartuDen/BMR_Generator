@@ -1,10 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +33,13 @@ public class Equipment {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Operation> operations = new ArrayList<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "typicalactivity_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private TypicalActivity typicalactivity;
 
     public void addOperation (Operation operation) {
         if (operations == null) {

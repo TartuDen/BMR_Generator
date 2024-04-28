@@ -1,10 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +17,9 @@ public class TypicalActivity {
     @Column(name = "id")
     private long id;
     
-    @Column(name = "operationtype")
+    @Column(name = "activitytype")
     @NonNull
-    private String operationType;
+    private String activityType;
     
     @Column(name = "content")
     private String content;
@@ -44,6 +41,9 @@ public class TypicalActivity {
     
     @Column(name = "initialtempset")
     private Double initialTempSet;
+    
+    @Column(name = "finaltempset")
+    private Double finaltempset;
     
     @Column(name = "processtemp")
     private Double processTemp;
@@ -74,4 +74,18 @@ public class TypicalActivity {
     
     @Column(name = "vpumptorrmax")
     private Double vpumpTorrMax;
+    
+    @Column(name="equipment")
+    @OneToMany(
+            mappedBy = "typicalactivity",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private List<Equipment> equipment = new ArrayList<>();
+    
+    @OneToOne
+    @JoinColumn(name = "processoperation_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperation;
 }

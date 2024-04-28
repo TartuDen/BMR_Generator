@@ -14,7 +14,7 @@ public class EquipmentInfo {
     @Column(name = "id")
     private long id;
     
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     @NonNull
     private String code;
     
