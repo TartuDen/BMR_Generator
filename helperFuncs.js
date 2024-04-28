@@ -1,12 +1,9 @@
 import { Reagent } from "./public/dataClasses.js";
 import { LocalMemory } from "./public/dataClasses.js";
-import { TypicalActivity, Operation } from "./public/operationClasses.js";
+import { TypicalActivity, ProcessOperation, Material, Equipment} from "./public/operationClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
-    // console.log("<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
-    // console.log(operationsMap);
-    // console.log(localMemory);
     let selectedOperationMap = [];
 
     for (let operation of operationsMap) {
@@ -175,11 +172,45 @@ export function populateParams(content, params) {
     // Return the content with placeholders replaced by HTML input elements
     return replacedContent;
 }
+
+function createEquipment(data) {
+    const equipment = [];
+
+    if (data.reactor) {
+        equipment.push(new Equipment(data.reactor, /* add other parameters if available */));
+    }
+    if (data.conv_oven) {
+        equipment.push(new Equipment(data.conv_oven, /* add other parameters if available */));
+    }
+    if (data.balances) {
+        equipment.push(new Equipment(data.balances, /* add other parameters if available */));
+    }
+    if (data.d_filter) {
+        equipment.push(new Equipment(data.d_filter, /* add other parameters if available */));
+    }
+    if (data.n_filter) {
+        equipment.push(new Equipment(data.n_filter, /* add other parameters if available */));
+    }
+    if (data.m_pump) {
+        equipment.push(new Equipment(data.m_pump, /* add other parameters if available */));
+    }
+    if (data.o_pump) {
+        equipment.push(new Equipment(data.o_pump, /* add other parameters if available */));
+    }
+    if (data.p_pump) {
+        equipment.push(new Equipment(data.p_pump, /* add other parameters if available */));
+    }
+
+    return equipment;
+}
+
 // Factory method to create TypicalActivity object
 function createTypicalActivity(data) {
     const {
         activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment
     } = data;
+
+    const equipment = createEquipment(data);
 
     return new TypicalActivity(
         activityType,
@@ -201,19 +232,30 @@ function createTypicalActivity(data) {
         vpumpTorrProcess,
         vpumpTorrMin,
         vpumpTorrMax,
-        additionalEquipment
+        equipment
     );
 }
+
+function createMaterialIn(data) {
+    const { material } = data;
+
+    return new Material(
+        material,
+        //add more properties from class Material, once you have them.
+        // You can pass default values or empty strings for the rest of the parameters
+    );
+}
+
 // Factory method to create Operation object
-export function createOperation(data) {
+export function createProcessOperation(data) {
     const {
-        project, tp, opNumber, mainEquipmentType, materialIn, materialOut, wastes
+        projectName, tp, opNumber, mainEquipmentType, materialOut, wastes
     } = data;
 
     const typAct = createTypicalActivity(data);
-
-    return new Operation(
-        project,
+    const materialIn = createMaterialIn(data);
+    return new ProcessOperation(
+        projectName,
         tp,
         opNumber,
         mainEquipmentType,
