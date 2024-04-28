@@ -1,10 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "material")
@@ -17,21 +14,21 @@ public class Material {
     @Column(name = "id")
     private long id;
     
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     @NonNull
     private String name;
     
-    @Column(name = "whcode")
+    @Column(name = "whcode", nullable = false)
     @NonNull
     private String WHcode;
     
     @Column(name = "mass")
     private Double mass;
     
-    @Column(name = "min_mass")
+    @Column(name = "minmass")
     private Double minMass;
     
-    @Column(name = "max_mass")
+    @Column(name = "maxmass")
     private Double maxMass;
     
     @Column(name = "volume")
@@ -39,4 +36,11 @@ public class Material {
     
     @Column(name = "additionalinfo")
     private String additionalInfo;
+    
+    @OneToOne
+    @JoinColumn(name = "processoperation_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperation;
 }
