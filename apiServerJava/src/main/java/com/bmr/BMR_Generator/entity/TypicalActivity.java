@@ -75,12 +75,6 @@ public class TypicalActivity {
     @Column(name = "vpumptorrmax")
     private Double vpumpTorrMax;
     
-    @Column(name="equipment")
-    @OneToMany(
-            mappedBy = "typicalactivity",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private List<Equipment> equipment = new ArrayList<>();
     
     @OneToOne
     @JoinColumn(name = "processoperation_id", nullable = false)

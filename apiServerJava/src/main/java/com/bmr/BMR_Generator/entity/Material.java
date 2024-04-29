@@ -38,9 +38,16 @@ public class Material {
     private String additionalInfo;
     
     @OneToOne
-    @JoinColumn(name = "processoperation_id", nullable = false)
+    @JoinColumn(name = "processoperation_in_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Getter(AccessLevel.NONE)
-    private ProcessOperation processOperation;
+    private ProcessOperation processOperationIN;
+    
+    @OneToOne
+    @JoinColumn(name = "processoperation_out_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperationOUT;
 }

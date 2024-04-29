@@ -1,8 +1,14 @@
 package com.bmr.BMR_Generator.service;
 
+import com.bmr.BMR_Generator.dao.EquipmentDAO;
+import com.bmr.BMR_Generator.dao.EquipmentRepository;
 import com.bmr.BMR_Generator.dao.ProcessOperationDAO;
 import com.bmr.BMR_Generator.dao.ProcessOperationRepository;
+import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.ProcessOperation;
+import com.bmr.BMR_Generator.entity.TypicalActivity;
+import com.bmr.BMR_Generator.entity.TypicalActivityEquipment;
+import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,17 +41,18 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     private ProcessOperation createProcessOperationFromRequest(ProcessOperation processOperationReq) {
         // Set the ProcessOperation reference in TypicalActivity if provided
         if (processOperationReq.getTypicalActivity() != null) {
-            processOperationReq.getTypicalActivity().setProcessOperation(processOperationReq);
+            TypicalActivity typicalActivity = processOperationReq.getTypicalActivity();
+            typicalActivity.setProcessOperation(processOperationReq);
         }
         
         // Set the ProcessOperation reference in MaterialIN if provided
         if (processOperationReq.getMaterialIN() != null) {
-            processOperationReq.getMaterialIN().setProcessOperation(processOperationReq);
+            processOperationReq.getMaterialIN().setProcessOperationIN(processOperationReq);
         }
         
         // Set the ProcessOperation reference in MaterialOUT if provided
         if (processOperationReq.getMaterialOUT() != null) {
-            processOperationReq.getMaterialOUT().setProcessOperation(processOperationReq);
+            processOperationReq.getMaterialOUT().setProcessOperationOUT(processOperationReq);
         }
         
         return processOperationReq;
