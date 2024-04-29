@@ -27,5 +27,5 @@ public class ProcessEquipment {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Getter(AccessLevel.NONE)
-    private TypicalActivity typicalActivity;
+    private TypicalActivity typicalactivity;
 }
