@@ -11,6 +11,7 @@ public class BmrGeneratorApplication {
 	// TODO: ADD validation Layer
 	// TODO: POST NOT worked with ID
 	// TODO: PATCH based on ID
+	// TODO: ADD Equipment to the ProcessOperation
 
 	public static void main(String[] args) {
 		SpringApplication.run(BmrGeneratorApplication.class, args);
