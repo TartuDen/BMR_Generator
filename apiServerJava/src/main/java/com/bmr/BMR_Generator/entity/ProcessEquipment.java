@@ -1,28 +1,31 @@
 package com.bmr.BMR_Generator.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "typicalactivity_equipment")
+@Table(name = "processequipment")
 @Data
 @NoArgsConstructor
-public class TypicalActivityEquipment {
+@RequiredArgsConstructor
+public class ProcessEquipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
     
+    @Column(name = "name")
+    @NonNull
+    private String name;
+    
+    @Column(name = "code")
+    @NonNull
+    private String code;
+    
     @ManyToOne
     @JoinColumn(name = "typicalactivity_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
     private TypicalActivity typicalActivity;
-    
-    @ManyToOne
-    @JoinColumn(name = "equipment_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Equipment equipment;
 }
