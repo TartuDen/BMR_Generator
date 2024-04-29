@@ -20,4 +20,5 @@ public interface EquipmentDAO {
     
     EquipmentDTO findEquipmentByID(long id);
     EquipmentDTO findEquipmentByName(String name);
+    long getEquipmentIDbyName(String name);
 }

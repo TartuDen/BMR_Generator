@@ -84,6 +84,11 @@ public class EquipmentDAOImpl implements EquipmentDAO {
         return new EquipmentDTO(getEquipmentByName(name));
     }
     
+    @Override
+    public long getEquipmentIDbyName(String name) {
+        return getEquipmentByName(name).getId();
+    }
+    
     private Equipment getEquipmentByName(String name) {
         String jpql = "SELECT e FROM Equipment e WHERE e.name = :name";
         TypedQuery<Equipment> query = entityManager.createQuery(jpql, Equipment.class);

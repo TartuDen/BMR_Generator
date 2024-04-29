@@ -3,6 +3,7 @@ package com.bmr.BMR_Generator.service;
 import com.bmr.BMR_Generator.dao.ProcessOperationDAO;
 import com.bmr.BMR_Generator.dao.ProcessOperationRepository;
 import com.bmr.BMR_Generator.entity.ProcessOperation;
+import com.bmr.BMR_Generator.entity.TypicalActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,18 +36,21 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     private ProcessOperation createProcessOperationFromRequest(ProcessOperation processOperationReq) {
         // Set the ProcessOperation reference in TypicalActivity if provided
         if (processOperationReq.getTypicalActivity() != null) {
-            processOperationReq.getTypicalActivity().setProcessOperation(processOperationReq);
+            TypicalActivity typicalActivity = processOperationReq.getTypicalActivity();
+            typicalActivity.setProcessOperation(processOperationReq);
         }
         
         // Set the ProcessOperation reference in MaterialIN if provided
         if (processOperationReq.getMaterialIN() != null) {
-            processOperationReq.getMaterialIN().setProcessOperation(processOperationReq);
+            processOperationReq.getMaterialIN().setProcessOperationIN(processOperationReq);
         }
         
         // Set the ProcessOperation reference in MaterialOUT if provided
         if (processOperationReq.getMaterialOUT() != null) {
-            processOperationReq.getMaterialOUT().setProcessOperation(processOperationReq);
+            processOperationReq.getMaterialOUT().setProcessOperationOUT(processOperationReq);
         }
+        
+        // TODO Set TypicalActivity in ProcessEquipment if provided
         
         return processOperationReq;
     }

@@ -28,16 +28,22 @@ public class ProcessOperation {
     @NonNull
     private String tp;
     
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "main_equipment_id", referencedColumnName = "id")
+    private ProcessEquipment processEquipment;
+    
     @Column(name = "opnumber", unique = true, nullable = false)
     private int opNumber;
     
     @OneToOne(mappedBy = "processOperation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private TypicalActivity typicalActivity;
     
-    @OneToOne(mappedBy = "processOperation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "input_material_id", referencedColumnName = "id")
     private Material materialIN;
     
-    @OneToOne(mappedBy = "processOperation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "output_material_id", referencedColumnName = "id")
     private Material materialOUT;
     
 }

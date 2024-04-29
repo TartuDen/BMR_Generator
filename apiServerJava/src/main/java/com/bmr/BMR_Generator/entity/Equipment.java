@@ -34,13 +34,6 @@ public class Equipment {
             fetch = FetchType.EAGER)
     private List<Operation> operations = new ArrayList<>();
     
-    @ManyToOne
-    @JoinColumn(name = "typicalactivity_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @Getter(AccessLevel.NONE)
-    private TypicalActivity typicalactivity;
-
     public void addOperation (Operation operation) {
         if (operations == null) {
             operations = new ArrayList<>();
