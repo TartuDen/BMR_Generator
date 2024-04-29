@@ -2,7 +2,7 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import { populateParams } from "./helperFuncs.js";
 import { createProcessOperation } from "./helperFuncs.js";
@@ -76,15 +76,20 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
-app.post("/new_eq",async (req,res)=>{
+// app.post("/new_eq",async (req,res)=>{
+//     let urlToGet = req.body.dataTypeSelect
+//     let equipmentMap = await getMainTableEq();
+
+//     res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
+// })
+
+app.get("/new_eq", async (req,res)=>{
+
     let urlToGet = req.body.dataTypeSelect
-    let equipmentMap = await getMainTableEq();
+    let equipmentMap = await getEqByName("reactor");
+    console.log(equipmentMap);
 
     res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
-})
-
-app.get("/new_eq",(req,res)=>{
-    res.status(200).render("new_eq_page.ejs");
 })
 
 app.get("/", async (req, res) => {
