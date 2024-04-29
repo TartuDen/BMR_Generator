@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EquipmentNoOperation } from "./public/dataClasses.js";
+import { EquipmentNoOperation, EquipmentInfo, Operation } from "./public/dataClasses.js";
 
 // app.post("/update_operations", async (req, res) => {
 //     try {
@@ -28,6 +28,34 @@ export async function getMainTableEq() {
             let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.name, item.equipmentInfo));
             // console.log(newObj);
             return newObj;
+        } else {
+            console.error("Invalid API response format");
+            return null;
+        }
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+export async function getEqByName(name) {
+    try {
+        let apiResp = await axios.get("http://localhost:8085/equipment/"+name);
+
+        
+        if (apiResp.data ) {
+            // Convert equipmentInfo array to instances of EquipmentInfo
+            const equipmentInfo = apiResp.data.equipmentInfo.map(info => new EquipmentInfo(info.code, info.description));
+
+            // Convert operations array to instances of Operation
+            const operations = apiResp.data.operations.map(op => new Operation(op.operationType, op.content, op.other));
+
+            // Create an instance of EquipmentNoOperation
+            const equipment = new EquipmentNoOperation(apiResp.data.name, equipmentInfo, operations);
+
+            // Now, you can use 'equipment' object as needed
+            console.log("equipment: ", equipment);
+            return equipment;
         } else {
             console.error("Invalid API response format");
             return null;

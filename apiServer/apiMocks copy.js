@@ -95,7 +95,7 @@ async function GetListEquipmentTypesMOCK() {
   // Simulated list of equipment types
   const equipmentTypes = [
     { name: "reactor" },
-    { name: "oven" },
+    { name: "conv_oven" },
     { name: "balances" },
     { name: "d_filter" },
     { name: "n_filter" },

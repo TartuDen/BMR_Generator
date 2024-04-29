@@ -1,7 +1,7 @@
 
 export class LocalMemory {
-    constructor(project="", tp="", equipment=[], reagents=[]) {
-        this.project = project;
+    constructor(projectName="", tp="", equipment=[], reagents=[]) {
+        this.projectName = projectName;
         this.tp = tp;
         this.equipment = equipment;
         this.reagents = reagents;
@@ -17,16 +17,27 @@ export class Reagent {
     }
 }
 
+
+
 export class EquipmentNoOperation {
-    constructor(name = "", equipmentInfo = [{}]) {
+    constructor(name = "", equipmentInfo = [{}], operations = []) {
         this.name = name;
         this.equipmentInfo = equipmentInfo.map(info => new EquipmentInfo(info.code, info.description));
+        this.operations = operations.map(op => new Operation(op.operationType, op.content, op.other));
     }
 }
-class EquipmentInfo {
+
+export class EquipmentInfo {
     constructor(code = "", description = "") {
         this.code = code;
         this.description = description;
     }
 }
 
+export class Operation {
+    constructor(operationType = "", content = "", other = "") {
+        this.operationType = operationType;
+        this.content = content;
+        this.other = other;
+    }
+}

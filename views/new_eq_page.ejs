@@ -11,6 +11,36 @@
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <title>Main Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
 
 </head>
 
@@ -23,26 +53,25 @@
         <div class="wrapper">
             <!-- Sidebar -->
             <%- include("partials/sidebar.ejs") %>
-
-            <form action="/new_eq" method="POST">
-                <div class="container mt-3">
-                    <h2>Equipment Data</h2>
-                    <select id="dataTypeSelect" name="dataTypeSelect" class="form-select">
-                        <option value="" selected>/select</option>
-                        <option value="/activity_type">/activity_type</option>
-                        <option value="/main_table_equipment">/main_table_equipment</option>
-                        <option value="/main_table_equipment_full">/main_table_equipment_full</option>
-                    </select>
-                    <button id="fetchDataBtn" class="btn btn-primary mt-3">get data</button>
-                    <% if(locals.data) { %>
-                        <textarea id="equipmentData" class="form-control" rows="20" cols="200" readonly><%- JSON.stringify(data, null, 2) %></textarea>
-                    <% } else { %>
-                        <textarea id="equipmentData" class="form-control" rows="20" cols="200" readonly></textarea>
-                    <% } %>
-                </div>
+           
+            <form action="/equipment" method="GET">
+                <button class="button">Get Equipment</button>
             </form>
-            
-
+            <br><br>
+            <table id="equipmentTable">
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                </tr>
+                <% data.equipmentInfo.forEach(info => { %>
+                    <tr>
+                        <td><%= data.name %></td>
+                        <td><%= info.code %></td>
+                        <td><%= info.description %></td>
+                    </tr>
+                <% }); %>
+            </table>
                
 
         </div>

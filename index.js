@@ -2,10 +2,10 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation } from "./apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import { populateParams } from "./helperFuncs.js";
-import { createOperation } from "./helperFuncs.js";
+import { createProcessOperation } from "./helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
 
 // Constants
@@ -28,15 +28,17 @@ app.use(session({
 
 // Route handler
 app.post("/new_operation_data", (req, res) => {
-    const newOp = createOperation(req.body);
+    console.log("***************req.body********************");
+    console.log(req.body);
+    console.log("-------------------------------")
+    const newOp = createProcessOperation(req.body);
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
-
-    console.log("newOp: ", newOp);
     br_ops.push(newOp);
     console.log("*****************br_ops*******************");
     console.log(br_ops);
+    console.log("-------------------------------")
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
@@ -70,21 +72,24 @@ app.post("/operation_table", async (req, res) => {
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
-
-
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
-app.post("/new_eq",async (req,res)=>{
+// app.post("/new_eq",async (req,res)=>{
+//     let urlToGet = req.body.dataTypeSelect
+//     let equipmentMap = await getMainTableEq();
+
+//     res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
+// })
+
+app.get("/new_eq", async (req,res)=>{
+
     let urlToGet = req.body.dataTypeSelect
-    let equipmentMap = await getMainTableEq();
+    let equipmentMap = await getEqByName("reactor");
+    console.log(equipmentMap);
 
     res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
-})
-
-app.get("/new_eq",(req,res)=>{
-    res.status(200).render("new_eq_page.ejs");
 })
 
 app.get("/", async (req, res) => {
