@@ -7,6 +7,7 @@ import { getContentAndOtherForEquipmentAndActivityType, populateContent, populat
 import { populateParams } from "./helperFuncs.js";
 import { createProcessOperation } from "./helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
+import { Equipment } from "./public/operationClasses.js";
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -28,17 +29,19 @@ app.use(session({
 
 // Route handler
 app.post("/new_operation_data", (req, res) => {
-    console.log("***************req.body********************");
-    console.log(req.body);
-    console.log("-------------------------------")
+    // console.log("***************req.body********************");
+    // console.log(req.body);
+    // console.log("-------------------------------")
     const newOp = createProcessOperation(req.body);
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
+
     br_ops.push(newOp);
-    console.log("*****************br_ops*******************");
-    console.log(br_ops);
-    console.log("-------------------------------")
+    console.log(newOp);
+    // console.log("*****************br_ops*******************");
+    // console.log(br_ops);
+    // console.log("-------------------------------")
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
@@ -56,6 +59,8 @@ app.post("/get_description", async (req, res) => {
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
+
+
 
     let finalFormatContent = contentEqUtsMatParams;
     res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other, localMemory })
@@ -76,20 +81,32 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
-// app.post("/new_eq",async (req,res)=>{
-//     let urlToGet = req.body.dataTypeSelect
-//     let equipmentMap = await getMainTableEq();
+app.post("/manage_eq", async (req,res)=>{
+    const {equipment, equipmentInfo, operations} = req.body;
+    let equipmentMap = await getEqByName(equipment);
 
-//     res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
-// })
+    let equipmentMapFull = await getMainTableEq();
+    const names = equipmentMapFull.map(item => item.name);
+    let selected = {};
+    if (equipmentInfo){
+        selected.equipmentInfo = equipmentMap.equipmentInfo;
+    };
+    if (operations){
+        selected.operations = equipmentMap.operations;
+    };
+    if (!equipmentInfo && !operations){
+        selected.equipmentInfo = equipmentMap.equipmentInfo;
+    }
+    let selectedName = equipmentMap.name
 
-app.get("/new_eq", async (req,res)=>{
+    res.status(200).render("manage_eq_page.ejs",{names, selectedName, selected});
+})
 
-    let urlToGet = req.body.dataTypeSelect
-    let equipmentMap = await getEqByName("reactor");
-    console.log(equipmentMap);
+app.get("/manage_eq", async (req,res)=>{
 
-    res.status(200).render("new_eq_page.ejs",{data: equipmentMap});
+    let equipmentMapFull = await getMainTableEq();
+    const names = equipmentMapFull.map(item => item.name);
+    res.status(200).render("manage_eq_page.ejs",{names});
 })
 
 app.get("/", async (req, res) => {
