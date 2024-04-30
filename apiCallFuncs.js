@@ -101,3 +101,13 @@ export async function getParams() {
         console.error("Failed to retireve data from getUtensils() with error: " + err);
     }
 }
+
+export async function postEq(newEq){
+    try {
+        const apiResp = await axios.post("http://localhost:8085/equipment", newEq);
+        return apiResp.data; // Return the response data if needed
+    } catch (error) {
+        console.error("Error while posting equipment:", error);
+        throw error; // Rethrow the error to handle it in the caller function
+    }
+}

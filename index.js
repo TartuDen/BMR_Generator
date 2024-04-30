@@ -2,12 +2,14 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName } from "./apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName, postEq } from "./apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
 import { populateParams } from "./helperFuncs.js";
 import { createProcessOperation } from "./helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
 import { Equipment } from "./public/operationClasses.js";
+import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js'; // Import the class constructors
+
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -81,7 +83,49 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
-app.post("/manage_eq", async (req,res)=>{
+app.get("/post_eq", async (req,res)=>{
+    res.status(200).render("post_eq_page.ejs");
+})
+
+app.post("/post_eq", async (req,res)=>{
+    // Extract data from req.body
+    let { name, code, description, operationType, content, other } = req.body;
+    // Convert single string variables to arrays if needed
+    code = Array.isArray(code) ? code : [code];
+    description = Array.isArray(description) ? description : [description];
+    operationType = Array.isArray(operationType) ? operationType : [operationType];
+    content = Array.isArray(content) ? content : [content];
+    other = Array.isArray(other) ? other : [other];
+
+    // Create an array of EquipmentInfo objects
+    const equipmentInfoArray = [];
+    for (let i = 0; i < code.length; i++) {
+        if (code[i] !== "") {
+            const equipmentInfo = new EquipmentInfo(code[i], description[i]);
+            equipmentInfoArray.push(equipmentInfo);
+        }
+    }
+
+    // Create an array of Operation objects
+    const operationsArray = [];
+    for (let i = 0; i < operationType.length; i++) {
+        if (operationType[i] !== "" && content[i] !== "") {
+            const operation = new Operation(operationType[i], content[i], other[i]);
+            operationsArray.push(operation);
+        }
+    }
+
+    // Create an EquipmentNoOperation object
+    const equipment = new EquipmentNoOperation(name, equipmentInfoArray, operationsArray);
+    console.log("equipment:  ",equipment);
+
+    let apiResp = await postEq(equipment);
+    console.log("apiResp: ",apiResp);
+
+    res.status(200).render("post_eq_page.ejs",{message: apiResp});
+})
+
+app.post("/get_eq", async (req,res)=>{
     const {equipment, equipmentInfo, operations} = req.body;
     let equipmentMap = await getEqByName(equipment);
 
@@ -96,17 +140,18 @@ app.post("/manage_eq", async (req,res)=>{
     };
     if (!equipmentInfo && !operations){
         selected.equipmentInfo = equipmentMap.equipmentInfo;
+        selected.operations = equipmentMap.operations;
     }
     let selectedName = equipmentMap.name
 
-    res.status(200).render("manage_eq_page.ejs",{names, selectedName, selected});
+    res.status(200).render("get_eq_page.ejs",{names, selectedName, selected});
 })
 
-app.get("/manage_eq", async (req,res)=>{
+app.get("/get_eq", async (req,res)=>{
 
     let equipmentMapFull = await getMainTableEq();
     const names = equipmentMapFull.map(item => item.name);
-    res.status(200).render("manage_eq_page.ejs",{names});
+    res.status(200).render("get_eq_page.ejs",{names});
 })
 
 app.get("/", async (req, res) => {
