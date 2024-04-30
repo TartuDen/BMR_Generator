@@ -22,6 +22,13 @@ public class ProcessEquipment {
     @NonNull
     private String code;
     
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "processoperation_id", referencedColumnName = "id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperation;
+    
     @ManyToOne
     @JoinColumn(name = "typicalactivity_id")
     @ToString.Exclude
