@@ -28,6 +28,6 @@ public class EquipmentDTO {
                 .collect(Collectors.toList());
         this.operations = equipment.getOperations().stream()
                 .map(OperationDTO::new)
-                .collect(Collectors.toList());;
+                .collect(Collectors.toList());
     }
 }

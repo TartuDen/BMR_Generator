@@ -28,13 +28,14 @@ public class ProcessOperation {
     @NonNull
     private String tp;
     
+    @Column(name = "opnumber", unique = true, nullable = false)
+    @NonNull
+    private Integer opNumber;
+    
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "main_equipment_id", referencedColumnName = "id")
-    private ProcessEquipment processEquipment;
-    
-    @Column(name = "opnumber", unique = true, nullable = false)
-    private int opNumber;
-    
+    private ProcessEquipment mainEquipment;
+
     @OneToOne(mappedBy = "processOperation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private TypicalActivity typicalActivity;
     
