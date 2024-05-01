@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EquipmentNoOperation, EquipmentInfo, Operation } from "./public/dataClasses.js";
+import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js";
 
 // app.post("/update_operations", async (req, res) => {
 //     try {
@@ -68,7 +68,7 @@ export async function getEqByName(name) {
 
 export async function getActivityTypeFromAPI() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/activity_type");
+        let apiResp = await axios.get("http://localhost:8085/activity_type");
         return apiResp.data;
     } catch (err) {
         console.error(err);
@@ -77,7 +77,7 @@ export async function getActivityTypeFromAPI() {
 }
 export async function getBrOperation() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/br_operations");
+        let apiResp = await axios.get("http://localhost:8085/br_operations");
         return apiResp.data;
     } catch (err) {
         console.error("Faild to retrieve BR operations from API server with error: " + err);
@@ -99,5 +99,15 @@ export async function getParams() {
         return apiResp.data;
     } catch (err) {
         console.error("Failed to retireve data from getUtensils() with error: " + err);
+    }
+}
+
+export async function postEq(newEq){
+    try {
+        const apiResp = await axios.post("http://localhost:8085/equipment", newEq);
+        return apiResp.data; // Return the response data if needed
+    } catch (error) {
+        console.error("Error while posting equipment:", error);
+        throw error; // Rethrow the error to handle it in the caller function
     }
 }

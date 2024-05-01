@@ -1,6 +1,6 @@
-import { Reagent } from "./public/dataClasses.js";
-import { LocalMemory } from "./public/dataClasses.js";
-import { TypicalActivity, ProcessOperation, Material, Equipment} from "./public/operationClasses.js";
+import { Reagent } from "./dataClasses.js";
+import { LocalMemory } from "./dataClasses.js";
+import { TypicalActivity, ProcessOperation, Material, Equipment} from "./operationClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
@@ -10,9 +10,12 @@ export function selectOps(operationsMap, localMemory) {
 
         for (let eqSet of localMemory.equipment) {
             let code = eqSet.eq_code;
-            let eq = eqSet.eq_name.slice(0, -3);
-
-            if (operation.equipment === eq && code !== "") {
+            let eq = eqSet.eq_name;
+            let idIndex = eq.indexOf("id");
+            if (idIndex !== -1) { // Check if "id" exists in the string
+                eq = eq.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
+            }
+            if (operation.name === eq && code !== "") {
                 selectedOperationMap.push(operation);
                 break;
             }
@@ -50,10 +53,10 @@ export function convertToMemoryObj(inputObject) {
 // Function to get content and other for equipment type and activity type
 export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType) {
     // Find the equipment object
-    const equipmentObj = operationsMap.find(op => op.equipment === equipmentType);
+    const equipmentObj = operationsMap.find(op => op.name === equipmentType);
     if (equipmentObj) {
         // Find the description object for the given activity type
-        const descriptionObj = equipmentObj.description.find(desc => desc.operation_type === activityType);
+        const descriptionObj = equipmentObj.operations.find(desc => desc.operationType === activityType);
         if (descriptionObj) {
             // Return an object containing both content and other properties
             return {
@@ -68,6 +71,7 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
     }
 }
 export function populateContent(content, localMemory) {
+    // console.log("***************************: ", content, localMemory);
     const { equipment } = localMemory;
     const equipmentMap = new Map();
 

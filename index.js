@@ -2,12 +2,16 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName } from "./apiCallFuncs.js";
-import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./helperFuncs.js";
-import { populateParams } from "./helperFuncs.js";
-import { createProcessOperation } from "./helperFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName, postEq } from "./public/apiCallFuncs.js";
+import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
+import { populateParams } from "./public/helperFuncs.js";
+import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
 import { Equipment } from "./public/operationClasses.js";
+import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js'; // Import the class constructors
+import eqHandlers from "./eqHandlers.js";
+
+
 
 // Constants
 const port = 8080; // Port on which the server will listen
@@ -25,6 +29,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+app.use(eqHandlers);
 
 
 // Route handler
@@ -77,38 +83,11 @@ app.post("/operation_table", async (req, res) => {
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
+
+
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
-
-app.post("/manage_eq", async (req,res)=>{
-    const {equipment, equipmentInfo, operations} = req.body;
-    let equipmentMap = await getEqByName(equipment);
-
-    let equipmentMapFull = await getMainTableEq();
-    const names = equipmentMapFull.map(item => item.name);
-    let selected = {};
-    if (equipmentInfo){
-        selected.equipmentInfo = equipmentMap.equipmentInfo;
-    };
-    if (operations){
-        selected.operations = equipmentMap.operations;
-    };
-    if (!equipmentInfo && !operations){
-        selected.equipmentInfo = equipmentMap.equipmentInfo;
-    }
-    let selectedName = equipmentMap.name
-
-    res.status(200).render("manage_eq_page.ejs",{names, selectedName, selected});
-})
-
-app.get("/manage_eq", async (req,res)=>{
-
-    let equipmentMapFull = await getMainTableEq();
-    const names = equipmentMapFull.map(item => item.name);
-    res.status(200).render("manage_eq_page.ejs",{names});
-})
-
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
 
