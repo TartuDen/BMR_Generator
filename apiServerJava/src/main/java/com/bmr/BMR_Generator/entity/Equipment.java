@@ -35,17 +35,11 @@ public class Equipment {
     private List<Operation> operations = new ArrayList<>();
     
     public void addOperation (Operation operation) {
-        if (operations == null) {
-            operations = new ArrayList<>();
-        }
         this.operations.add(operation);
         operation.setEquipment(this);
     }
     
     public void addEquipmentInfo (EquipmentInfo equipmentInfo) {
-        if (this.equipmentInfo == null) {
-            this.equipmentInfo = new ArrayList<>();
-        }
         this.equipmentInfo.add(equipmentInfo);
         equipmentInfo.setEquipment(this);
     }

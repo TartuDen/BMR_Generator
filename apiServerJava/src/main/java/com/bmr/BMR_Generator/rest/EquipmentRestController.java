@@ -4,6 +4,7 @@ import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import com.bmr.BMR_Generator.rest.response.Response;
@@ -25,14 +26,14 @@ public class EquipmentRestController {
     
     @PostMapping("/equipment")
     public Response saveEquipment(@RequestBody Equipment equipment) {
-        if (equipment.getId() != 0){
+        if (equipment.getId() != 0) {
             throw new NotAllowedRequestParameters("ID not allowed in save request");
         }
         return equipmentService.saveEquipment(equipment);
     }
     
     @DeleteMapping("/equipment/{name}")
-    public Response deleteParameter(@PathVariable String name) {
+    public Response deleteEquipment(@PathVariable String name) {
         if (name.isEmpty()) {
             throw new NotAllowedRequestParameters("Name can not be empty");
         }
@@ -65,6 +66,26 @@ public class EquipmentRestController {
     @GetMapping("/activity_type")
     public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo() {
         return equipmentService.getAllEquipmentExcludeInfo();
+    }
+    
+    @DeleteMapping("/equipmentInfo/{name}/{code}")
+    public Response updateEquipmentByNameAndCode(
+            @PathVariable("name") String name,
+            @PathVariable("code") String code) {
+        if (name.isEmpty() || code.isEmpty()) {
+            throw new NotAllowedRequestParameters("Name and Code cannot be empty");
+        }
+        return equipmentService.deleteEquipmentInfoFromEquipmentByName(name, code);
+    }
+    
+    @PatchMapping("/equipmentInfo/{name}")
+    public Response addEquipmentInfo(
+            @PathVariable("name") String name,
+            @RequestBody EquipmentInfo equipmentInfo) {
+        if (name.isEmpty()) {
+            throw new NotAllowedRequestParameters("Name cannot be empty");
+        }
+        return equipmentService.addEquipmentInfoToEquipmentByName(name, equipmentInfo);
     }
     
     @PatchMapping("/equipment/{id}")

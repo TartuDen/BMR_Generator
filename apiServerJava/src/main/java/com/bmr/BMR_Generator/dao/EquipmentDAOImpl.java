@@ -5,6 +5,7 @@ import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.entity.Operation;
 import com.bmr.BMR_Generator.rest.response.BrApiServerException;
+import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -98,6 +99,45 @@ public class EquipmentDAOImpl implements EquipmentDAO {
     
     @Override
     @Transactional
+    public void addEquipmentInfoToEquipmentByName(String equipmentName, EquipmentInfo equipmentInfo) {
+        Equipment equipment = getEquipmentByName(equipmentName);
+        if (equipment != null) {
+            equipment.addEquipmentInfo(equipmentInfo);
+            entityManager.merge(equipment);
+            LOGGER.info("EquipmentInfo added to equipment with Name: {}", equipmentName);
+        } else {
+            LOGGER.error("Equipment with Name {} not found.", equipmentName);
+            throw new NotAllowedRequestParameters("Equipment with Name "+equipmentName+" not found.");
+        }
+    }
+    
+    @Override
+    @Transactional
+    public void deleteEquipmentInfoFromEquipmentByName(String equipmentName, String equipmentInfoCode) {
+        Equipment equipment = getEquipmentByName(equipmentName);
+        if (equipment != null) {
+            EquipmentInfo equipmentInfoToRemove = equipment.getEquipmentInfo().stream()
+                    .filter(info -> info.getCode().equals(equipmentInfoCode))
+                    .findFirst()
+                    .orElse(null);
+            if (equipmentInfoToRemove != null) {
+                equipment.getEquipmentInfo().remove(equipmentInfoToRemove);
+                entityManager.remove(equipmentInfoToRemove);
+//                entityManager.merge(equipment);
+                LOGGER.info("EquipmentInfo with code {} deleted from equipment with Name: {}", equipmentInfoCode, equipmentName);
+            } else {
+                LOGGER.error("EquipmentInfo with code {} not found in equipment with Name: {}", equipmentInfoCode, equipmentName);
+                throw new NotAllowedRequestParameters("EquipmentInfo with code " + equipmentInfoCode + " not found in equipment with Name " + equipmentName);
+            }
+        } else {
+            LOGGER.error("Equipment with Name {} not found.", equipmentName);
+            throw new NotAllowedRequestParameters("Equipment with Name " + equipmentName + " not found.");
+        }
+    }
+    
+    
+    @Override
+    @Transactional
     public boolean deleteByName(String name) {
         try {
             entityManager.remove(getEquipmentByName(name));
@@ -145,5 +185,4 @@ public class EquipmentDAOImpl implements EquipmentDAO {
     private EquipmentInfoDTO mapToEquipmentInfoDTO(EquipmentInfo equipmentInfo) {
         return new EquipmentInfoDTO(equipmentInfo);
     }
-    
 }
