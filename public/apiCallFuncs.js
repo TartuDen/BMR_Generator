@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EquipmentNoOperation, EquipmentInfo, Operation } from "./public/dataClasses.js";
+import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js";
 
 // app.post("/update_operations", async (req, res) => {
 //     try {
@@ -69,6 +69,7 @@ export async function getEqByName(name) {
 export async function getActivityTypeFromAPI() {
     try {
         let apiResp = await axios.get("http://localhost:8081/activity_type");
+        console.log("activity type: ..............", apiResp.data);
         return apiResp.data;
     } catch (err) {
         console.error(err);

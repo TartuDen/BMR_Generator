@@ -1,6 +1,6 @@
-import { Reagent } from "./public/dataClasses.js";
-import { LocalMemory } from "./public/dataClasses.js";
-import { TypicalActivity, ProcessOperation, Material, Equipment} from "./public/operationClasses.js";
+import { Reagent } from "./dataClasses.js";
+import { LocalMemory } from "./dataClasses.js";
+import { TypicalActivity, ProcessOperation, Material, Equipment} from "./operationClasses.js";
 
 
 export function selectOps(operationsMap, localMemory) {
