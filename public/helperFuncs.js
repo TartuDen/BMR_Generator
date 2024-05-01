@@ -53,10 +53,10 @@ export function convertToMemoryObj(inputObject) {
 // Function to get content and other for equipment type and activity type
 export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType) {
     // Find the equipment object
-    const equipmentObj = operationsMap.find(op => op.equipment === equipmentType);
+    const equipmentObj = operationsMap.find(op => op.name === equipmentType);
     if (equipmentObj) {
         // Find the description object for the given activity type
-        const descriptionObj = equipmentObj.description.find(desc => desc.operation_type === activityType);
+        const descriptionObj = equipmentObj.operations.find(desc => desc.operationType === activityType);
         if (descriptionObj) {
             // Return an object containing both content and other properties
             return {
@@ -71,6 +71,7 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
     }
 }
 export function populateContent(content, localMemory) {
+    // console.log("***************************: ", content, localMemory);
     const { equipment } = localMemory;
     const equipmentMap = new Map();
 

@@ -76,7 +76,6 @@ app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
-    console.log("operationsMap: *****************", operationsMap, localMemory);
     operationsMap = selectOps(operationsMap, localMemory);
     // let br_ops = await getBrOperation(); BR OPs are here!
 
