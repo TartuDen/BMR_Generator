@@ -4,6 +4,7 @@ import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.rest.response.Response;
 
 import java.util.List;
@@ -20,5 +21,8 @@ public interface EquipmentService {
     
     EquipmentDTO getEquipmentByID(long id);
     EquipmentDTO getEquipmentByName(String name);
+    
+    Response addEquipmentInfoToEquipmentByName(String equipmentName, EquipmentInfo equipmentInfo);
+    Response deleteEquipmentInfoFromEquipmentByName(String equipmentName, String equipmentInfoCode);
 }
 

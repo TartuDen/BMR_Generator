@@ -6,6 +6,7 @@ import com.bmr.BMR_Generator.dto.EquipmentDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.entity.EquipmentInfo;
 import com.bmr.BMR_Generator.rest.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,5 +111,27 @@ public class EquipmentServiceImpl extends BaseService implements EquipmentServic
     @Override
     public EquipmentDTO getEquipmentByName(String name) {
         return equipmentDAO.findEquipmentByName(name);
+    }
+    
+    @Override
+    public Response addEquipmentInfoToEquipmentByName(String equipmentName, EquipmentInfo equipmentInfo) {
+        try {
+            equipmentDAO.addEquipmentInfoToEquipmentByName(equipmentName, equipmentInfo);
+            return generateResponse(200, "Equipment update successfully");
+        } catch (Exception e) {
+            LOGGER.error("Failed to save equipment", e);
+            return generateResponse(500, "Failed to update equipment: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public Response deleteEquipmentInfoFromEquipmentByName(String equipmentName, String equipmentInfoCode) {
+        try {
+            equipmentDAO.deleteEquipmentInfoFromEquipmentByName(equipmentName, equipmentInfoCode);
+            return generateResponse(200, "Equipment update successfully");
+        } catch (Exception e) {
+            LOGGER.error("Failed to save equipment", e);
+            return generateResponse(500, "Failed to update equipment: " + e.getMessage());
+        }
     }
 }
