@@ -33,16 +33,19 @@
         
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-2 col-md-3">
+                    <div class="col-lg-3 col-md-3 mt-3">
                         <% if (locals.names) { %>
                         <form action="/get_eq" method="POST">
-                            <div class="form-group">
-                                <label for="equipmentSelect">Select Equipment:</label>
-                                <select class="form-control" id="equipmentSelect" name="equipment">
-                                    <% names.forEach(name => { %>
-                                        <option value="<%= name %>" <% if (locals.selectedName === name) { %>selected<% } %>><%= name %></option>
-                                    <% }); %>
-                                </select>
+                            <div class="d-flex justify-content-between mb-3">
+                                <div class="form-group">
+                                    <label for="equipmentSelect">Select Equipment:</label>
+                                    <select class="form-control" id="equipmentSelect" name="equipment">
+                                        <% names.forEach(name => { %>
+                                            <option value="<%= name %>" <% if (locals.selectedName === name) { %>selected<% } %>><%= name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Get Equipment</button>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="equipmentInfoCheckbox" name="equipmentInfo">
@@ -52,7 +55,6 @@
                                 <input type="checkbox" class="form-check-input" id="operationsCheckbox" name="operations">
                                 <label class="form-check-label" for="operationsCheckbox">Include Operations</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Get Equipment</button>
                         </form>
                         <% } %>
                     </div>
@@ -64,7 +66,7 @@
                 <div class="col-lg-10 col-md-9">
                     <% if(locals.selected){ %>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                            <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                                 DELETE equipment
                             </button>
 
@@ -77,7 +79,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure you want to delete <em><%= selectedName %></em> equipment?
+                                            Are you sure you want to delete <em> <strong><%= selectedName %></strong> </em> equipment?
                                         </div>
                                         <div class="modal-footer">
                                             <!-- Form to confirm deletion -->
