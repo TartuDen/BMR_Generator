@@ -76,8 +76,7 @@ app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
-    console.log("operationsMap: *****************", operationsMap)
-
+    console.log("operationsMap: *****************", operationsMap, localMemory);
     operationsMap = selectOps(operationsMap, localMemory);
     // let br_ops = await getBrOperation(); BR OPs are here!
 
@@ -86,7 +85,7 @@ app.post("/operation_table", async (req, res) => {
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
 
-    console.log("operationsMap: *****************", operationsMap, br_ops, localMemory)
+
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });

@@ -10,9 +10,12 @@ export function selectOps(operationsMap, localMemory) {
 
         for (let eqSet of localMemory.equipment) {
             let code = eqSet.eq_code;
-            let eq = eqSet.eq_name.slice(0, -3);
-
-            if (operation.equipment === eq && code !== "") {
+            let eq = eqSet.eq_name;
+            let idIndex = eq.indexOf("id");
+            if (idIndex !== -1) { // Check if "id" exists in the string
+                eq = eq.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
+            }
+            if (operation.name === eq && code !== "") {
                 selectedOperationMap.push(operation);
                 break;
             }

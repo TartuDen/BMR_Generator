@@ -151,7 +151,7 @@
                                             // Extract unique equipment types
                                             let uniqueEquipmentTypes = new Set();
                                             operationsMap.forEach(function(operation) {
-                                                uniqueEquipmentTypes.add(operation.equipment);
+                                                uniqueEquipmentTypes.add(operation.name);
                                             });
                                 
                                             // Populate select element with unique equipment types
@@ -209,11 +209,11 @@
 
                     // Populate "Type of Activity" select element with operation types corresponding to the selected equipment
                     operationsMapData.forEach(function(operation) {
-                        if (operation.equipment === selectedEquipment) {
-                            operation.description.forEach(function(desc) {
+                        if (operation.name === selectedEquipment) {
+                            operation.operations.forEach(function(desc) {
                                 const option = document.createElement('option');
-                                option.value = desc.operation_type;
-                                option.textContent = desc.operation_type;
+                                option.value = desc.operationType;
+                                option.textContent = desc.operationType;
                                 activityTypeSelect.appendChild(option);
                             });
                         }

@@ -68,8 +68,7 @@ export async function getEqByName(name) {
 
 export async function getActivityTypeFromAPI() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/activity_type");
-        console.log("activity type: ..............", apiResp.data);
+        let apiResp = await axios.get("http://localhost:8085/activity_type");
         return apiResp.data;
     } catch (err) {
         console.error(err);
@@ -78,7 +77,7 @@ export async function getActivityTypeFromAPI() {
 }
 export async function getBrOperation() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/br_operations");
+        let apiResp = await axios.get("http://localhost:8085/br_operations");
         return apiResp.data;
     } catch (err) {
         console.error("Faild to retrieve BR operations from API server with error: " + err);
@@ -87,7 +86,7 @@ export async function getBrOperation() {
 }
 export async function getUtensils() {
     try {
-        let apiResp = await axios.get("http://localhost:8081/utensils");
+        let apiResp = await axios.get("http://localhost:8085/utensils");
         return apiResp.data;
     } catch (err) {
         console.error("Failed to retireve data from getUtensils() with error: " + err);
