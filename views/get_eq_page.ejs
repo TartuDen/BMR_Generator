@@ -40,7 +40,7 @@
                                 <label for="equipmentSelect">Select Equipment:</label>
                                 <select class="form-control" id="equipmentSelect" name="equipment">
                                     <% names.forEach(name => { %>
-                                        <option value="<%= name %>"><%= name %></option>
+                                        <option value="<%= name %>" <% if (locals.selectedName === name) { %>selected<% } %>><%= name %></option>
                                     <% }); %>
                                 </select>
                             </div>
@@ -57,16 +57,41 @@
                         <% } %>
                     </div>
                 </div>
+                
 
 
             <div class="row">
                 <div class="col-lg-10 col-md-9">
                     <% if(locals.selected){ %>
-                        <form action="/delete_eq" method="post">
-                            <h1><em><%= selectedName %></em> equipment info</h1>
-                            <input type="hidden" name="name" value="<%= selectedName %>">
-                            <button class="btn btn-danger" type="submit">DELETE equipment</button>
-                        </form>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                DELETE equipment
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete <em><%= selectedName %></em> equipment?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Form to confirm deletion -->
+                                            <form action="/delete_eq" method="post">
+                                                <input type="hidden" name="name" value="<%= selectedName %>">
+                                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                            </form>
+                                            <!-- Button to close modal -->
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         
                         <% if(selected.equipmentInfo){ %>
                         <table class="table table-bordered">
@@ -109,6 +134,7 @@
                                 </tbody>
                             </table>
                         <% } %>
+
                     <% } %>
                 </div>
             </div>
