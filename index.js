@@ -7,8 +7,6 @@ import { getContentAndOtherForEquipmentAndActivityType, populateContent, populat
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
-import { Equipment } from "./public/operationClasses.js";
-import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js'; // Import the class constructors
 import eqHandlers from "./eqHandlers.js";
 
 

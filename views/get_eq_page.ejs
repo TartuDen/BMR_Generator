@@ -62,7 +62,12 @@
             <div class="row">
                 <div class="col-lg-10 col-md-9">
                     <% if(locals.selected){ %>
-                        <h1><em><%= selectedName %></em> equipment info</h1>
+                        <form action="/delete_eq" method="post">
+                            <h1><em><%= selectedName %></em> equipment info</h1>
+                            <input type="hidden" name="name" value="<%= selectedName %>">
+                            <button class="btn btn-danger" type="submit">DELETE equipment</button>
+                        </form>
+                        
                         <% if(selected.equipmentInfo){ %>
                         <table class="table table-bordered">
                             <thead class="table-primary"> <!-- Apply table-primary class to make the header blue -->
