@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProcessOperationRestController {
     
@@ -23,9 +25,18 @@ public class ProcessOperationRestController {
         return ResponseEntity.ok(processOperationService.saveUsingDAO(processOperation));
     }
     
-    @GetMapping("/processoperation/{projectName}/{opNumber}")
+    @GetMapping("/processoperationNum/{projectName}/{opNumber}")
     public ResponseEntity<ProcessOperationDTO> findByProjectNameAndOpNumber(@PathVariable String projectName,@PathVariable String opNumber) {
         return ResponseEntity.ok(processOperationService.findByProjectNameAndOpNumber(projectName, opNumber));
+    }
+    @GetMapping("/processoperation/{projectName}")
+    public ResponseEntity<List<ProcessOperationDTO>> findByProjectName(@PathVariable String projectName) {
+        return ResponseEntity.ok(processOperationService.findByProjectName(projectName));
+    }
+    
+    @GetMapping("/processoperation/{projectName}/{tp}")
+    public ResponseEntity<List<ProcessOperationDTO>> findByProjectNameAndTpNumber(@PathVariable String projectName,@PathVariable String tp) {
+        return ResponseEntity.ok(processOperationService.findByProjectNameAndTp(projectName, tp));
     }
     
     @DeleteMapping("/processoperation/{projectName}/{opNumber}")
