@@ -2,7 +2,7 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI,getBrOperation, getEqByName, postEq } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -18,6 +18,20 @@ const app = express(); // Creating an instance of the Express application
 let localMemory =  new LocalMemory;
 let br_ops = []
 
+async function getAllOps(){
+    
+    for (let i = 0; i<10;i++){
+        let apiResp = await getProcOps("tile",i);
+        if (!apiResp){
+            break
+        }else{
+            br_ops.push(apiResp);
+        }
+    }
+}
+
+// await getAllOps();
+
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded request bodies
@@ -32,7 +46,7 @@ app.use(eqHandlers);
 
 
 // Route handler
-app.post("/new_operation_data", (req, res) => {
+app.post("/create_process_op", (req, res) => {
     // console.log("***************req.body********************");
     // console.log(req.body);
     // console.log("-------------------------------")
@@ -40,9 +54,9 @@ app.post("/new_operation_data", (req, res) => {
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
+    // console.log("localMemory: ....... ",localMemory);
 
     br_ops.push(newOp);
-    console.log(newOp);
     // console.log("*****************br_ops*******************");
     // console.log(br_ops);
     // console.log("-------------------------------")
@@ -60,6 +74,7 @@ app.post("/get_description", async (req, res) => {
 
     const { content, other } = getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType);
     let contentEq = populateContent(content, localMemory);
+    console.log("contentEq: ...... ",contentEq);
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);

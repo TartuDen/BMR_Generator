@@ -70,6 +70,8 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
         return { error: "Equipment not found" };
     }
 }
+
+
 export function populateContent(content, localMemory) {
     // console.log("***************************: ", content, localMemory);
     const { equipment } = localMemory;
@@ -78,7 +80,13 @@ export function populateContent(content, localMemory) {
     // Populate equipmentMap with equipment names as keys and array of codes as values
     equipment.forEach(item => {
         const { eq_name, eq_code } = item;
-        const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
+        // const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
+        let nameWithoutIndex;
+        let idIndex = eq_name.indexOf("id");
+        if (idIndex !== -1) { // Check if "id" exists in the string
+            nameWithoutIndex = eq_name.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
+        }
+
         if (!equipmentMap.has(nameWithoutIndex)) {
             equipmentMap.set(nameWithoutIndex, []);
         }

@@ -20,6 +20,16 @@ import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js
 //         }
 //     }
 // });
+
+export async function getProcOps(project, opNumber){
+    try{
+        let apiResp = await axios.get("http://localhost:8085//processoperation/"+project+"/"+opNumber);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting data from getProcOps: ", error)
+    }
+
+}
 export async function getMainTableEq() {
     try {
         let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
@@ -75,15 +85,7 @@ export async function getActivityTypeFromAPI() {
         return null;
     }
 }
-export async function getBrOperation() {
-    try {
-        let apiResp = await axios.get("http://localhost:8085/br_operations");
-        return apiResp.data;
-    } catch (err) {
-        console.error("Faild to retrieve BR operations from API server with error: " + err);
-        return null;
-    }
-}
+
 export async function getUtensils() {
     try {
         let apiResp = await axios.get("http://localhost:8081/utensils");
