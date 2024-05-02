@@ -49,19 +49,28 @@ app.use(eqHandlers);
 app.post("/create_process_op", (req, res) => {
     // console.log("***************req.body********************");
     // console.log(req.body);
-    // console.log("-------------------------------")
+    // console.log("-------------------------------");
+
     const newOp = createProcessOperation(req.body);
+    // console.log("newOp:", newOp);
+
     const operationsMap = req.session.operationsMap;
+    // console.log("operationsMap:", operationsMap);
+
     const br_ops = req.session.br_ops;
+    // console.log("br_ops:", br_ops);
+
     const localMemory = req.session.localMemory;
-    // console.log("localMemory: ....... ",localMemory);
+    // console.log("localMemory:", localMemory);
 
     br_ops.push(newOp);
     // console.log("*****************br_ops*******************");
     // console.log(br_ops);
-    // console.log("-------------------------------")
+    // console.log("-------------------------------");
+
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
+
 
 
 app.post("/get_description", async (req, res) => {
@@ -95,7 +104,7 @@ app.post("/operation_table", async (req, res) => {
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
-    console.log("localMemory: .......... ",localMemory);
+    // console.log("localMemory: .......... ",localMemory);
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data

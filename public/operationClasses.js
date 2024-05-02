@@ -2,6 +2,7 @@ export class ProcessOperation {
   constructor(
     projectName = "",
     tp = "",
+    version = "",
     opNumber = -1,
     mainEquipmentType = "",
     typicalActivity = null,
@@ -11,6 +12,7 @@ export class ProcessOperation {
   ) {
     this.projectName = projectName;
     this.tp = tp;
+    this.version = version;
     this.opNumber = opNumber;
     this.mainEquipmentType = mainEquipmentType;
     this.typicalActivity = typicalActivity;
