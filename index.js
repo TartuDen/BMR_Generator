@@ -47,9 +47,9 @@ app.use(eqHandlers);
 
 // Route handler
 app.post("/create_process_op", (req, res) => {
-    // console.log("***************req.body********************");
-    // console.log(req.body);
-    // console.log("-------------------------------")
+    console.log("***************req.body********************");
+    console.log(req.body);
+    console.log("-------------------------------")
     const newOp = createProcessOperation(req.body);
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
@@ -57,9 +57,9 @@ app.post("/create_process_op", (req, res) => {
     // console.log("localMemory: ....... ",localMemory);
 
     br_ops.push(newOp);
-    // console.log("*****************br_ops*******************");
-    // console.log(br_ops);
-    // console.log("-------------------------------")
+    console.log("*****************br_ops*******************");
+    console.log(br_ops);
+    console.log("-------------------------------")
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
@@ -74,7 +74,6 @@ app.post("/get_description", async (req, res) => {
 
     const { content, other } = getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType);
     let contentEq = populateContent(content, localMemory);
-    console.log("contentEq: ...... ",contentEq);
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
@@ -96,6 +95,7 @@ app.post("/operation_table", async (req, res) => {
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
+    console.log("localMemory: .......... ",localMemory);
 
 
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
