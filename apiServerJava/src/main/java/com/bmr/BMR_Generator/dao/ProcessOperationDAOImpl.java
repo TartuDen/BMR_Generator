@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     private static final Logger LOGGER = LogManager.getLogger(EquipmentDAOImpl.class);
@@ -35,6 +38,27 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
         query.setParameter("projectName", projectName);
         query.setParameter("opNumber", opNumber);
         return new ProcessOperationDTO(query.getSingleResult());
+    }
+    
+    @Override
+    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp";
+        TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
+        query.setParameter("projectName", projectName);
+        query.setParameter("tp", tp);
+        return query.getResultStream().map(ProcessOperationDTO::new)
+                .collect(Collectors.toList());
+        
+    }
+    
+    @Override
+    public List<ProcessOperationDTO> findByProjectName(String projectName) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName";
+        TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
+        query.setParameter("projectName", projectName);
+        query.setParameter("projectName", projectName);
+        return query.getResultStream().map(ProcessOperationDTO::new)
+                .collect(Collectors.toList());
     }
     
     @Override

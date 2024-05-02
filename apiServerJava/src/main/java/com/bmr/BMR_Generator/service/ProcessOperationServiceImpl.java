@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,16 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
             return generateResponse(500, "Failed to delete ProcessOperation: " + e.getMessage());
             
         }
+    }
+    
+    @Override
+    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp) {
+        return processOperationDAO.findByProjectNameAndTp(projectName, tp);
+    }
+    
+    @Override
+    public List<ProcessOperationDTO> findByProjectName(String projectName) {
+        return processOperationDAO.findByProjectName(projectName);
     }
     
     private ProcessOperation createProcessOperationFromRequest (ProcessOperation processOperationReq){
