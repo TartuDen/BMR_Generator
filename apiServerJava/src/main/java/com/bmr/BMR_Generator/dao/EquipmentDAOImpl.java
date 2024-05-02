@@ -123,7 +123,6 @@ public class EquipmentDAOImpl implements EquipmentDAO {
             if (equipmentInfoToRemove != null) {
                 equipment.getEquipmentInfo().remove(equipmentInfoToRemove);
                 entityManager.remove(equipmentInfoToRemove);
-//                entityManager.merge(equipment);
                 LOGGER.info("EquipmentInfo with code {} deleted from equipment with Name: {}", equipmentInfoCode, equipmentName);
             } else {
                 LOGGER.error("EquipmentInfo with code {} not found in equipment with Name: {}", equipmentInfoCode, equipmentName);

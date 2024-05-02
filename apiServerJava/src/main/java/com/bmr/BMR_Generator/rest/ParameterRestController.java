@@ -6,6 +6,7 @@ import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import com.bmr.BMR_Generator.rest.response.Response;
 import com.bmr.BMR_Generator.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,20 +21,20 @@ public class ParameterRestController {
     }
     
     @GetMapping("/parameters")
-    public List<ParameterDTO> getAllParameters(){
-        return parameterService.getAllParameters();
+    public ResponseEntity<List<ParameterDTO>> getAllParameters(){
+        return ResponseEntity.ok(parameterService.getAllParameters());
     }
     
     @PostMapping ("/parameter")
-    public Response saveParameter(@RequestBody Parameter parameter){
-        return parameterService.saveParameter(parameter);
+    public ResponseEntity<?> saveParameter(@RequestBody Parameter parameter){
+        return ResponseEntity.ok(parameterService.saveParameter(parameter));
     }
     
     @DeleteMapping ("/parameter/{name}")
-    public Response deleteParameter(@PathVariable String name){
+    public ResponseEntity<?> deleteParameter(@PathVariable String name){
         if (name.isEmpty()){
             throw new NotAllowedRequestParameters("Name can not be empty");
         }
-        return parameterService.deleteParameterByName(name);
+        return ResponseEntity.ok(parameterService.deleteParameterByName(name));
     }
 }

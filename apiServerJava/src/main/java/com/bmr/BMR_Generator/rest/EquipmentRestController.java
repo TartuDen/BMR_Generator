@@ -9,6 +9,8 @@ import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import com.bmr.BMR_Generator.rest.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.bmr.BMR_Generator.service.EquipmentService;
 
@@ -25,23 +27,23 @@ public class EquipmentRestController {
     
     
     @PostMapping("/equipment")
-    public Response saveEquipment(@RequestBody Equipment equipment) {
+    public ResponseEntity<?> saveEquipment(@RequestBody Equipment equipment) {
         if (equipment.getId() != 0) {
             throw new NotAllowedRequestParameters("ID not allowed in save request");
         }
-        return equipmentService.saveEquipment(equipment);
+        return ResponseEntity.ok(equipmentService.saveEquipment(equipment));
     }
     
     @DeleteMapping("/equipment/{name}")
-    public Response deleteEquipment(@PathVariable String name) {
+    public ResponseEntity<?> deleteEquipment(@PathVariable String name) {
         if (name.isEmpty()) {
             throw new NotAllowedRequestParameters("Name can not be empty");
         }
-        return equipmentService.deleteEquipmentByName(name);
+        return ResponseEntity.ok(equipmentService.deleteEquipmentByName(name));
     }
     
     @GetMapping("/equipment/{name}")
-    public EquipmentDTO getEquipmentByName(@PathVariable String name) {
+    public ResponseEntity<?> getEquipmentByName(@PathVariable String name) {
         if (name.isEmpty()) {
             throw new NotAllowedRequestParameters("Name cannot be empty");
         } else {
@@ -49,47 +51,48 @@ public class EquipmentRestController {
             if (existingEquipment == null) {
                 throw new BrApiServerException("Equipment with name - " + name + " not found");
             }
-            return existingEquipment;
+            return ResponseEntity.status(HttpStatus.OK).body(existingEquipment);
         }
     }
     
     @GetMapping("/main_table_equipment_full")
-    public List<Equipment> getAllEquipment() {
-        return equipmentService.getAllEquipment();
+    public ResponseEntity<List<Equipment>> getAllEquipment() {
+        return ResponseEntity.ok(equipmentService.getAllEquipment());
     }
     
     @GetMapping("/main_table_equipment")
-    public List<EquipmentWithoutOperationsDTO> getAllEquipmentExcludeOperations() {
-        return equipmentService.getAllEquipmentExcludeOperations();
+    public ResponseEntity<List<EquipmentWithoutOperationsDTO>> getAllEquipmentExcludeOperations() {
+        return ResponseEntity.ok(equipmentService.getAllEquipmentExcludeOperations());
     }
     
     @GetMapping("/activity_type")
-    public List<EquipmentWithoutInfoDTO> getAllEquipmentExcludeInfo() {
-        return equipmentService.getAllEquipmentExcludeInfo();
+    public ResponseEntity<List<EquipmentWithoutInfoDTO>> getAllEquipmentExcludeInfo() {
+        return ResponseEntity.ok(equipmentService.getAllEquipmentExcludeInfo());
     }
     
     @DeleteMapping("/equipmentInfo/{name}/{code}")
-    public Response updateEquipmentByNameAndCode(
+    public ResponseEntity<?> updateEquipmentByNameAndCode(
             @PathVariable("name") String name,
             @PathVariable("code") String code) {
         if (name.isEmpty() || code.isEmpty()) {
             throw new NotAllowedRequestParameters("Name and Code cannot be empty");
         }
-        return equipmentService.deleteEquipmentInfoFromEquipmentByName(name, code);
+        var response = equipmentService.deleteEquipmentInfoFromEquipmentByName(name, code);
+        return ResponseEntity.ok(response);
     }
     
     @PatchMapping("/equipmentInfo/{name}")
-    public Response addEquipmentInfo(
+    public ResponseEntity<?> addEquipmentInfo(
             @PathVariable("name") String name,
             @RequestBody EquipmentInfo equipmentInfo) {
         if (name.isEmpty()) {
             throw new NotAllowedRequestParameters("Name cannot be empty");
         }
-        return equipmentService.addEquipmentInfoToEquipmentByName(name, equipmentInfo);
+        return ResponseEntity.ok(equipmentService.addEquipmentInfoToEquipmentByName(name, equipmentInfo));
     }
     
     @PatchMapping("/equipment/{id}")
-    public Response updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
+    public ResponseEntity<?> updateEquipment(@PathVariable("id") long id, @RequestBody Equipment equipment) {
         if (id == 0) {
             throw new NotAllowedRequestParameters("ID cannot be empty");
         } else {
@@ -99,11 +102,11 @@ public class EquipmentRestController {
             }
         }
         
-        return equipmentService.updateEquipment(id, equipment);
+        return ResponseEntity.ok(equipmentService.updateEquipment(id, equipment));
     }
     
     @GetMapping("/equipmentid/{id}")
-    public EquipmentDTO getEquipmentByID(@PathVariable("id") long id) {
+    public ResponseEntity<EquipmentDTO> getEquipmentByID(@PathVariable("id") long id) {
         if (id == 0) {
             throw new NotAllowedRequestParameters("ID cannot be empty");
         } else {
@@ -111,7 +114,7 @@ public class EquipmentRestController {
             if (existingEquipment == null) {
                 throw new BrApiServerException("LabGlassware not found");
             }
-            return existingEquipment;
+            return ResponseEntity.ok(existingEquipment);
         }
     }
 }

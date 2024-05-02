@@ -7,6 +7,7 @@ import com.bmr.BMR_Generator.dto.EquipmentWithoutInfoDTO;
 import com.bmr.BMR_Generator.dto.EquipmentWithoutOperationsDTO;
 import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.EquipmentInfo;
+import com.bmr.BMR_Generator.rest.response.NotAllowedRequestParameters;
 import com.bmr.BMR_Generator.rest.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -128,10 +129,10 @@ public class EquipmentServiceImpl extends BaseService implements EquipmentServic
     public Response deleteEquipmentInfoFromEquipmentByName(String equipmentName, String equipmentInfoCode) {
         try {
             equipmentDAO.deleteEquipmentInfoFromEquipmentByName(equipmentName, equipmentInfoCode);
-            return generateResponse(200, "Equipment update successfully");
+            return generateResponse(200, "Equipment deleted successfully");
         } catch (Exception e) {
             LOGGER.error("Failed to save equipment", e);
-            return generateResponse(500, "Failed to update equipment: " + e.getMessage());
+            throw new NotAllowedRequestParameters("Failed to delete equipment: " + e.getMessage());
         }
     }
 }
