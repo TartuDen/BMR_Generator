@@ -90,6 +90,7 @@ export async function getUtensils() {
         return apiResp.data;
     } catch (err) {
         console.error("Failed to retireve data from getUtensils() with error: " + err);
+        throw err;
     }
 }
 
@@ -99,6 +100,7 @@ export async function getParams() {
         return apiResp.data;
     } catch (err) {
         console.error("Failed to retireve data from getUtensils() with error: " + err);
+        throw err;
     }
 }
 
@@ -109,5 +111,15 @@ export async function postEq(newEq){
     } catch (error) {
         console.error("Error while posting equipment:", error);
         throw error; // Rethrow the error to handle it in the caller function
+    }
+}
+
+export async function deleteEq(name){
+    try{
+        const apiResp = await axios.delete("http://localhost:8085/equipment/"+name);
+        return apiResp.data
+    }catch(error){
+        console.error("Error while deleting equipment: ",error);
+        throw error;
     }
 }

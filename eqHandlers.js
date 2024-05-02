@@ -1,7 +1,7 @@
 // Import necessary dependencies
 import express from "express";
 import bodyParser from "body-parser";
-import { getEqByName, getMainTableEq, postEq } from "./public/apiCallFuncs.js";
+import { getEqByName, getMainTableEq, postEq, deleteEq } from "./public/apiCallFuncs.js";
 import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js';
 
 // Create an Express router instance
@@ -16,6 +16,13 @@ router.use(bodyParser.json());
 
 
 // **************GET / POST / DELETE handlers for Equipment/Operations*****************
+
+router.post("/delete_eq", async (req,res)=>{
+    const {name} = req.body;
+    const apiResp = await deleteEq(name);
+    res.status(200).redirect("/get_eq");
+
+})
 
 router.get("/post_eq", async (req,res)=>{
     res.status(200).render("post_eq_page.ejs");
