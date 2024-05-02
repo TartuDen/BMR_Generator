@@ -20,6 +20,9 @@ public class ProcessOperationDTO {
     @NonNull
     private Integer opNumber;
     
+    @NonNull
+    private String version;
+    
     private ProcessEquipmentDTO mainEquipment;
     
     private TypicalActivityDTO typicalActivity;
@@ -32,6 +35,8 @@ public class ProcessOperationDTO {
         this.projectName = processOperation.getProjectName();
         this.tp = processOperation.getTp();
         this.opNumber = processOperation.getOpNumber();
+        
+        this.version = processOperation.getVersion().isBlank() ? "initial" : processOperation.getVersion();
         
         if (processOperation.getMainEquipment() != null) {
             this.mainEquipment = new ProcessEquipmentDTO(processOperation.getMainEquipment());

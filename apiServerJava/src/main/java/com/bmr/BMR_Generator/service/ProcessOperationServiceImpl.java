@@ -42,14 +42,14 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     }
     
     @Override
-    public ProcessOperationDTO findByProjectNameAndOpNumber(String projectName, String opNumber) {
-        return processOperationDAO.findByProjectNameAndOpNumber(projectName, opNumber);
+    public ProcessOperationDTO findByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
+        return processOperationDAO.findByProjectNameAndOpNumber(projectName, opNumber, version);
     }
     
     @Override
-    public Response deleteByProjectNameAndOpNumber(String projectName, String opNumber) {
+    public Response deleteByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
         try {
-            boolean result = processOperationDAO.deleteByProjectNameAndOpNumber(projectName, opNumber);
+            boolean result = processOperationDAO.deleteByProjectNameAndOpNumber(projectName, opNumber, version);
             return result ?
                     generateResponse(200, "ProcessOperation deleted successfully")
                     : generateResponse(400, "ProcessOperation was not deleted");
@@ -61,8 +61,8 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     }
     
     @Override
-    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp) {
-        return processOperationDAO.findByProjectNameAndTp(projectName, tp);
+    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version) {
+        return processOperationDAO.findByProjectNameAndTp(projectName, tp, version);
     }
     
     @Override
@@ -70,10 +70,16 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
         return processOperationDAO.findByProjectName(projectName);
     }
     
+    @Override
+    public List<ProcessOperationDTO> findByProjectNameAndVersion(String projectName, String version) {
+        return processOperationDAO.findByProjectNameAndVersion(projectName, version);
+    }
+    
     private ProcessOperation createProcessOperationFromRequest (ProcessOperation processOperationReq){
         var processOperation = new ProcessOperation(
                 processOperationReq.getProjectName(),
                 processOperationReq.getTp(),
+                processOperationReq.getVersion(),
                 processOperationReq.getOpNumber()
         );
         addTypicalActivity(processOperationReq,processOperation);

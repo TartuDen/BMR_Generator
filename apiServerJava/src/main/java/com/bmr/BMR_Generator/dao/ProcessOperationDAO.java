@@ -9,10 +9,11 @@ public interface ProcessOperationDAO {
     
     ProcessOperationDTO save (ProcessOperation processOperation);
     
-    ProcessOperationDTO findByProjectNameAndOpNumber (String projectName, String opNumber);
-    List<ProcessOperationDTO> findByProjectNameAndTp (String projectName, String tp);
+    ProcessOperationDTO findByProjectNameAndOpNumber (String projectName, String opNumber, String version);
+    List<ProcessOperationDTO> findByProjectNameAndTp (String projectName, String tp, String version);
     List<ProcessOperationDTO> findByProjectName (String projectName);
-    ProcessOperation getByProjectNameAndOpNumber (String projectName, String opNumber);
-    boolean deleteByProjectNameAndOpNumber (String projectName, String opNumber);
+    List<ProcessOperationDTO> findByProjectNameAndVersion (String projectName, String version);
+    ProcessOperation getByProjectNameAndOpNumber (String projectName, String opNumber, String version);
+    boolean deleteByProjectNameAndOpNumber (String projectName, String opNumber, String version);
     
 }

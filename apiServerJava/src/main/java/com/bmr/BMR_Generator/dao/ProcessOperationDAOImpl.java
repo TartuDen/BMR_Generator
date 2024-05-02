@@ -32,20 +32,22 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     }
     
     @Override
-    public ProcessOperationDTO findByProjectNameAndOpNumber(String projectName, String opNumber) {
-        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.opNumber = :opNumber";
+    public ProcessOperationDTO findByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.opNumber = :opNumber AND e.version = :version";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);
         query.setParameter("opNumber", opNumber);
+        query.setParameter("version", version);
         return new ProcessOperationDTO(query.getSingleResult());
     }
     
     @Override
-    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp) {
-        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp";
+    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);
         query.setParameter("tp", tp);
+        query.setParameter("version", version);
         return query.getResultStream().map(ProcessOperationDTO::new)
                 .collect(Collectors.toList());
         
@@ -56,25 +58,35 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
         String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);
-        query.setParameter("projectName", projectName);
         return query.getResultStream().map(ProcessOperationDTO::new)
                 .collect(Collectors.toList());
     }
     
     @Override
-    public ProcessOperation getByProjectNameAndOpNumber(String projectName, String opNumber) {
-        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.opNumber = :opNumber";
+    public List<ProcessOperationDTO> findByProjectNameAndVersion(String projectName, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.version = :version";
+        TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
+        query.setParameter("projectName", projectName);
+        query.setParameter("version", version);
+        return query.getResultStream().map(ProcessOperationDTO::new)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public ProcessOperation getByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.opNumber = :opNumber AND e.version = :version";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);
         query.setParameter("opNumber", opNumber);
+        query.setParameter("version", version);
         return query.getSingleResult();
     }
     
     @Override
     @Transactional
-    public boolean deleteByProjectNameAndOpNumber(String projectName, String opNumber) {
+    public boolean deleteByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
         try {
-            entityManager.remove(getByProjectNameAndOpNumber(projectName, opNumber));
+            entityManager.remove(getByProjectNameAndOpNumber(projectName, opNumber, version));
             return true;
         } catch (Exception e) {
             var errMsg = "Error occurred while deleting ProcessOperation - " + projectName + " / ";

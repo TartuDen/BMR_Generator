@@ -28,6 +28,10 @@ public class ProcessOperation {
     @NonNull
     private String tp;
     
+    @Column(name = "version", nullable = false)
+    @NonNull
+    private String version;
+    
     @Column(name = "opnumber", unique = true, nullable = false)
     @NonNull
     private Integer opNumber;
