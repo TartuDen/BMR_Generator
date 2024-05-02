@@ -47,9 +47,9 @@ app.use(eqHandlers);
 
 // Route handler
 app.post("/create_process_op", (req, res) => {
-    console.log("***************req.body********************");
-    console.log(req.body);
-    console.log("-------------------------------")
+    // console.log("***************req.body********************");
+    // console.log(req.body);
+    // console.log("-------------------------------")
     const newOp = createProcessOperation(req.body);
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
@@ -57,9 +57,9 @@ app.post("/create_process_op", (req, res) => {
     // console.log("localMemory: ....... ",localMemory);
 
     br_ops.push(newOp);
-    console.log("*****************br_ops*******************");
-    console.log(br_ops);
-    console.log("-------------------------------")
+    // console.log("*****************br_ops*******************");
+    // console.log(br_ops);
+    // console.log("-------------------------------")
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
