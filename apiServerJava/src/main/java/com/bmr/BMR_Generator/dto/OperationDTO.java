@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.dto;
 
 import com.bmr.BMR_Generator.entity.Operation;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -13,6 +14,7 @@ public class OperationDTO {
     private String operationType;
     
     @NonNull
+    @Column(length = 500)
     private String content;
     
     private String other;

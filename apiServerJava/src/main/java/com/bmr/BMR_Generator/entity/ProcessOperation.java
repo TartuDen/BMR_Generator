@@ -9,8 +9,14 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ALTER TABLE processoperation
+ADD CONSTRAINT unique_version_opNumber UNIQUE (version, opNumber);
+ */
 @Entity
-@Table(name = "processoperation")
+@Table(name = "processoperation", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"version", "opNumber"})
+})
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -32,7 +38,7 @@ public class ProcessOperation {
     @NonNull
     private String version;
     
-    @Column(name = "opnumber", unique = true, nullable = false)
+    @Column(name = "opnumber", nullable = false)
     @NonNull
     private Integer opNumber;
     
