@@ -21,15 +21,26 @@ import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js
 //     }
 // });
 
-export async function getProcOps(project, opNumber){
+export async function getProcOps(projectName, tp, version){
     try{
-        let apiResp = await axios.get("http://localhost:8085//processoperation/"+project+"/"+opNumber);
+        let apiResp = await axios.get(`http://localhost:8085//processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
     }catch(error){
         console.error("Error getting data from getProcOps: ", error)
+        return []
     }
-
 }
+
+export async function postNewOp(newOp){
+    try{
+        let apiResp = await axios.post(`http://localhost:8085//processoperation`, newOp);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting data from getProcOps: ", error)
+        return []
+    }
+}
+
 export async function getMainTableEq() {
     try {
         let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
