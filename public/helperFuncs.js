@@ -47,7 +47,7 @@ export function convertToMemoryObj(inputObject) {
         }
     }
 
-    return new LocalMemory(inputObject.projectName, inputObject.tp, equipment, reagents);
+    return new LocalMemory(inputObject.projectName, inputObject.tp, inputObject.version, equipment, reagents);
 }
 
 // Function to get content and other for equipment type and activity type
@@ -261,7 +261,7 @@ function createMaterialIn(data) {
 // Factory method to create Operation object
 export function createProcessOperation(data) {
     const {
-        projectName, tp, opNumber, mainEquipmentType, materialOut, wastes
+        projectName, tp, version, opNumber,  mainEquipmentType, materialOut, wastes
     } = data;
 
     const typAct = createTypicalActivity(data);
@@ -269,6 +269,7 @@ export function createProcessOperation(data) {
     return new ProcessOperation(
         projectName,
         tp,
+        version,
         opNumber,
         mainEquipmentType,
         typAct,

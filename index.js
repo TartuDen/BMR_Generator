@@ -2,7 +2,7 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -18,19 +18,6 @@ const app = express(); // Creating an instance of the Express application
 let localMemory =  new LocalMemory;
 let br_ops = []
 
-async function getAllOps(){
-    
-    for (let i = 0; i<10;i++){
-        let apiResp = await getProcOps("tile",i);
-        if (!apiResp){
-            break
-        }else{
-            br_ops.push(apiResp);
-        }
-    }
-}
-
-// await getAllOps();
 
 // Middleware setup
 app.use(express.static("public")); // Serving static files from the "public" directory
@@ -46,22 +33,36 @@ app.use(eqHandlers);
 
 
 // Route handler
-app.post("/create_process_op", (req, res) => {
-    console.log("***************req.body********************");
-    console.log(req.body);
-    console.log("-------------------------------")
-    const newOp = createProcessOperation(req.body);
-    const operationsMap = req.session.operationsMap;
-    const br_ops = req.session.br_ops;
-    const localMemory = req.session.localMemory;
-    // console.log("localMemory: ....... ",localMemory);
+app.post("/create_process_op", async (req, res) => {
+    // console.log("***************req.body********************");
+    // console.log(req.body);
+    // console.log("-------------------------------");
 
-    br_ops.push(newOp);
+    const newOp = createProcessOperation(req.body);
+    console.log("newOp:", newOp);
+
+    const operationsMap = req.session.operationsMap;
+    // console.log("operationsMap:", operationsMap);
+
+    // const br_ops = req.session.br_ops;
+    // console.log("br_ops:", br_ops);
+
+    const localMemory = req.session.localMemory;
+    // console.log("localMemory:", localMemory);
+
+    let apiResp = await postNewOp(newOp);
+    console.log("POST new operation was: ", apiResp);
+
+    // br_ops.push(newOp);
+    br_ops = await getProcOps(); //BR OPs are here!
+    req.session.br_ops = br_ops;
     console.log("*****************br_ops*******************");
     console.log(br_ops);
-    console.log("-------------------------------")
+    console.log("-------------------------------");
+
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
+
 
 
 app.post("/get_description", async (req, res) => {
@@ -89,18 +90,19 @@ app.post("/operation_table", async (req, res) => {
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
-    // let br_ops = await getBrOperation(); BR OPs are here!
+    br_ops = await getProcOps(); //BR OPs are here!
+    
 
     // Storing operationsMap in session
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
-    console.log("localMemory: .......... ",localMemory);
-
-
+    // console.log("localMemory: .......... ",localMemory);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
+
+
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
 

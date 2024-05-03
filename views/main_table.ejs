@@ -34,9 +34,11 @@
                                         <% if (localMemory.project!==""){ %>
                                             <tr>
                                                 <td><input type="text" name="projectName" class="form-control"
-                                                        placeholder="Project" value="<%= localMemory.project %>"></td>
+                                                        placeholder="Project" value="<%= localMemory.projectName %>"></td>
                                                 <td><input type="text" name="tp" class="form-control" placeholder="TP"
                                                         value="<%= localMemory.tp %>"></td>
+                                                <td><input type="text" name="version" class="form-control" placeholder="version"
+                                                    value="<%= localMemory.version %>"></td>
                                             </tr>
                                         <% }else{ %>
 
@@ -45,6 +47,8 @@
                                                     placeholder="Project" value=""></td>
                                             <td><input type="text" name="tp" class="form-control" placeholder="TP"
                                                     value=""></td>
+                                            <td><input type="text" name="version" class="form-control" placeholder="version"
+                                                value=""></td>
                                         </tr>
 
                                         <% } %>
