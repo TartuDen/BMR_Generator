@@ -54,7 +54,7 @@ app.post("/create_process_op", async (req, res) => {
     console.log("POST new operation was: ", apiResp);
 
     // br_ops.push(newOp);
-    br_ops = await getProcOps(); //BR OPs are here!
+    br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version); //BR OPs are here!
     req.session.br_ops = br_ops;
     console.log("*****************br_ops*******************");
     console.log(br_ops);
@@ -90,7 +90,7 @@ app.post("/operation_table", async (req, res) => {
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
-    br_ops = await getProcOps(); //BR OPs are here!
+    br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version); //BR OPs are here!
     
 
     // Storing operationsMap in session
