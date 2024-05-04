@@ -23,7 +23,7 @@ import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js
 
 export async function getProcOps(projectName, tp, version){
     try{
-        let apiResp = await axios.get(`http://localhost:8085//processoperation/${projectName}/${tp}/${version}`);
+        let apiResp = await axios.get(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
     }catch(error){
         console.error("Error getting data from getProcOps: ", error)
@@ -33,7 +33,7 @@ export async function getProcOps(projectName, tp, version){
 
 export async function postNewOp(newOp){
     try{
-        let apiResp = await axios.post(`http://localhost:8085//processoperation`, newOp);
+        let apiResp = await axios.post(`http://localhost:8085/processoperation`, newOp);
         return apiResp.data;
     }catch(error){
         console.error("Error getting data from getProcOps: ", error)
@@ -56,6 +56,26 @@ export async function getMainTableEq() {
     } catch (err) {
         console.error(err);
         return null;
+    }
+}
+
+export async function getProjectName(projectName){
+    try{
+        let apiResp = await axios.post(`http://localhost:8085/processoperation`, projectName);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting data from getProjectName: ", error)
+        return []
+    }
+}
+
+export async function getAllBRs(){
+    try{
+        let apiResp = await axios.get(`http://localhost:8081/processoperation`);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting data from getProjectName: ", error)
+        return []
     }
 }
 
