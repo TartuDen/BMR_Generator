@@ -108,8 +108,19 @@
                                                     <div id="description">
                                                         <% if(locals.finalFormatContent){ %>
                                                             <%- finalFormatContent %>
+                                                            <!-- Hidden input fields and button moved inside the form -->
+                                                            <div class="text-center mt-4">
+                                                                <input type="hidden" name="content" value="<%= locals.finalFormatContent %>">
+                                                                <input type="hidden" name="mainEquipmentType" value="<%= locals.equipmentType %>">
+                                                                <input type="hidden" name="activityType" value="<%= locals.activityType %>">
+                                                                <input type="hidden" name="projectName" value="<%= locals.localMemory.projectName %>">
+                                                                <input type="hidden" name="version" value="<%= locals.localMemory.version %>">
+                                                                <input type="hidden" name="tp" value="<%= locals.localMemory.tp %>">
+                                                                <button class="btn btn-primary">Create Operation</button>
+                                                            </div>
                                                         <% } %>
                                                     </div>
+                                                
                                                 </td>
                                             
                                                 <td style="width: 10%;">
@@ -122,16 +133,7 @@
                                                     </div>
                                                 </td>
                                             
-                                                <!-- Hidden input fields and button moved inside the form -->
-                                                <div class="col-md-1 text-center mt-4">
-                                                    <input type="hidden" name="content" value="<%= locals.finalFormatContent %>">
-                                                    <input type="hidden" name="mainEquipmentType" value="<%= locals.equipmentType %>">
-                                                    <input type="hidden" name="activityType" value="<%= locals.activityType %>">
-                                                    <input type="hidden" name="projectName" value="<%= locals.localMemory.projectName %>">
-                                                    <input type="hidden" name="version" value="<%= locals.localMemory.version %>">
-                                                    <input type="hidden" name="tp" value="<%= locals.localMemory.tp %>">
-                                                    <button class="btn btn-primary">Parse Data</button>
-                                                </div>
+
                                             </form>
                                         </tr>
                             </tbody>
@@ -141,7 +143,7 @@
                     
                     
                     <!-- Equipment and Activity Type Selection, and Button to parse data -->
-                    <div class="row mt-3">
+                    <div id="equipmentSelection" class="row mt-3">
                         <form action="/get_description" method="POST" id="formForDescription">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -235,6 +237,20 @@
                     // Submit the form when the activityType is changed
                     document.getElementById('formForDescription').submit();
                 });
+            </script>
+
+            <script>
+                // Function to focus on the equipment selection section
+                function focusOnEquipmentSelection() {
+                    // Get the DOM element of the equipment selection section
+                    const equipmentSelectionSection = document.getElementById('equipmentSelection');
+
+                    // Scroll to the equipment selection section
+                    equipmentSelectionSection.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                // Call the focusOnEquipmentSelection function when the page is loaded
+                window.onload = focusOnEquipmentSelection;
             </script>
 
 
