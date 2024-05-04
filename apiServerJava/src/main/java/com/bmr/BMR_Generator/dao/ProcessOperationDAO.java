@@ -13,7 +13,7 @@ public interface ProcessOperationDAO {
     List<ProcessOperationDTO> findByProjectNameAndTp (String projectName, String tp, String version);
     List<ProcessOperationDTO> findByProjectName (String projectName);
     List<ProcessOperationDTO> findByProjectNameAndVersion (String projectName, String version);
-    ProcessOperation getByProjectNameAndOpNumber (String projectName, String opNumber, String version);
-    boolean deleteByProjectNameAndOpNumber (String projectName, String opNumber, String version);
+    ProcessOperation getByProjectNameTpAndOpNumber(String projectName, String tp, String opNumber, String version);
+    boolean deleteByProjectNameAndOpNumber (String projectName, String tp, String opNumber, String version);
     
 }

@@ -1,7 +1,6 @@
 package com.bmr.BMR_Generator.dao;
 
 import com.bmr.BMR_Generator.dto.ProcessOperationDTO;
-import com.bmr.BMR_Generator.entity.Equipment;
 import com.bmr.BMR_Generator.entity.ProcessOperation;
 import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import jakarta.persistence.EntityManager;
@@ -73,10 +72,11 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     }
     
     @Override
-    public ProcessOperation getByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
-        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.opNumber = :opNumber AND e.version = :version";
+    public ProcessOperation getByProjectNameTpAndOpNumber(String projectName, String tp, String opNumber, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp AND e.opNumber = :opNumber AND e.version = :version";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);
+        query.setParameter("tp", tp);
         query.setParameter("opNumber", opNumber);
         query.setParameter("version", version);
         return query.getSingleResult();
@@ -84,9 +84,9 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     
     @Override
     @Transactional
-    public boolean deleteByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
+    public boolean deleteByProjectNameAndOpNumber(String projectName, String tp, String opNumber, String version) {
         try {
-            entityManager.remove(getByProjectNameAndOpNumber(projectName, opNumber, version));
+            entityManager.remove(getByProjectNameTpAndOpNumber(projectName, tp, opNumber, version));
             return true;
         } catch (Exception e) {
             var errMsg = "Error occurred while deleting ProcessOperation - " + projectName + " / ";

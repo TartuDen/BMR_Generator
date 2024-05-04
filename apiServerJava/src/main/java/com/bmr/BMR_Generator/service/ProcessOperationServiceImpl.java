@@ -47,9 +47,9 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     }
     
     @Override
-    public Response deleteByProjectNameAndOpNumber(String projectName, String opNumber, String version) {
+    public Response deleteByProjectNameAndOpNumber(String projectName, String tp, String opNumber, String version) {
         try {
-            boolean result = processOperationDAO.deleteByProjectNameAndOpNumber(projectName, opNumber, version);
+            boolean result = processOperationDAO.deleteByProjectNameAndOpNumber(projectName, tp, opNumber, version);
             return result ?
                     generateResponse(200, "ProcessOperation deleted successfully")
                     : generateResponse(400, "ProcessOperation was not deleted");
