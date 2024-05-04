@@ -11,7 +11,7 @@ public interface ProcessOperationService {
     ProcessOperationDTO saveUsingDAO (ProcessOperation processOperationReq);
     
     ProcessOperationDTO findByProjectNameAndOpNumber(String projectName, String opNumber, String version);
-    Response deleteByProjectNameAndOpNumber (String projectName, String opNumber, String version);
+    Response deleteByProjectNameAndOpNumber (String projectName, String tp, String opNumber, String version);
     
     List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version);
     List<ProcessOperationDTO> findByProjectName (String projectName);

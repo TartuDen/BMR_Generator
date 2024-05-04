@@ -50,11 +50,12 @@ public class ProcessOperationRestController {
         return ResponseEntity.ok(processOperationService.findByProjectNameAndTp(projectName, tp, version));
     }
     
-    @DeleteMapping("/processoperation/{projectName}/{opNumber}/{version}")
+    @DeleteMapping("/processoperation/{projectName}/{tp}/{opNumber}/{version}")
     public ResponseEntity<?> deleteByProjectNameAndOpNumber(
             @PathVariable String projectName,
+            @PathVariable String tp,
             @PathVariable String opNumber,
             @PathVariable String version) {
-        return ResponseEntity.ok(processOperationService.deleteByProjectNameAndOpNumber(projectName, opNumber, version));
+        return ResponseEntity.ok(processOperationService.deleteByProjectNameAndOpNumber(projectName, tp, opNumber, version));
     }
 }
