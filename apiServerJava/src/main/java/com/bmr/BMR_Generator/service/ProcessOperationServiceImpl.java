@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,9 +52,15 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     }
     
     @Override
-    public Set<String> findDistinctOperationNumberForProject(String projectName, String tp, String version) {
-        return processOperationRepository.countDistinctOperationNumberForProject(projectName, tp, version);
+    public Set<String> countDistinctOperationNumberForProject(String projectName, String tp, String version) {
+        long opCount = processOperationRepository.countDistinctOperationNumberForProject(projectName, tp, version);
+        Set<String> result = new HashSet<>();
+        for (long i = 1; i <= opCount; i++) {
+            result.add(String.valueOf(i));
+        }
+        return result;
     }
+
     
     @Override
     @Transactional

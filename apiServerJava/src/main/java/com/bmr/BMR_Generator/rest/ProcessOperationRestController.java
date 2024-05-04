@@ -46,10 +46,8 @@ public class ProcessOperationRestController {
             @PathVariable String projectName,
             @PathVariable String tp,
             @PathVariable String version) {
-        long distinctOperationNumbers = processOperationService.countDistinctOperationNumberForProject(projectName, tp, version);
-        System.out.println(distinctOperationNumbers);
+        Set<String> distinctOperationNumbers = processOperationService.countDistinctOperationNumberForProject(projectName, tp, version);
         return ResponseEntity.ok(distinctOperationNumbers);
-        
     }
     
     
@@ -65,6 +63,7 @@ public class ProcessOperationRestController {
             @PathVariable String version) {
         return ResponseEntity.ok(processOperationService.findByProjectNameAndOpNumber(projectName, opNumber, version));
     }
+    
     @GetMapping("/processoperation/{projectName}")
     public ResponseEntity<List<ProcessOperationDTO>> findByProjectName(@PathVariable String projectName) {
         return ResponseEntity.ok(processOperationService.findByProjectName(projectName));

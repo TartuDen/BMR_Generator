@@ -12,7 +12,7 @@ public interface ProcessOperationService {
     Set<String> findDistinctProjectNames();
     Set<String> findDistinctTPsForProjectName(String projectName);
     Set<String> findDistinctVersionsForProjectNameAndTp(String projectName, String tp);
-    long countDistinctOperationNumberForProject (String projectName, String tp, String version);
+    Set<String> countDistinctOperationNumberForProject (String projectName, String tp, String version);
     
     ProcessOperationDTO saveUsingDAO (ProcessOperation processOperationReq);
     
