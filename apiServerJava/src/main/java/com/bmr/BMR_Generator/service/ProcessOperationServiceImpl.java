@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,26 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     public ProcessOperation save (ProcessOperation processOperationReq){
       ProcessOperation processOperation = createProcessOperationFromRequest(processOperationReq);
         return processOperationRepository.save(processOperation);
+    }
+    
+    @Override
+    public Set<String> findDistinctProjectNames() {
+        return processOperationRepository.findDistinctProjectNames();
+    }
+    
+    @Override
+    public Set<String> findDistinctTPsForProjectName(String projectName) {
+        return processOperationRepository.findDistinctTPsForProjectName(projectName);
+    }
+    
+    @Override
+    public Set<String> findDistinctVersionsForProjectNameAndTp(String projectName, String tp) {
+        return processOperationRepository.findDistinctVersionsForProjectNameAndTp(projectName, tp);
+    }
+    
+    @Override
+    public Set<String> findDistinctOperationNumberForProject(String projectName, String tp, String version) {
+        return processOperationRepository.countDistinctOperationNumberForProject(projectName, tp, version);
     }
     
     @Override
