@@ -156,3 +156,13 @@ export async function deleteEq(name){
         throw error;
     }
 }
+
+export async function getParams(){
+    try{
+        const apiResp = await axios.delete("http://localhost:8085/parameters");
+        return apiResp.data
+    }catch(error){
+        console.error("Error while getting params: ",error);
+        throw error;
+    }
+}

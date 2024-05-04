@@ -95,5 +95,12 @@ router.get("/get_eq", async (req,res)=>{
     res.status(200).render("get_eq_page.ejs",{names});
 })
 
+
+
+router.get("/get_del_params", async(req,res)=>{
+    let apiResp = await getParams();
+})
+
+
 // Export the router
 export default router;
