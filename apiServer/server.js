@@ -4,7 +4,7 @@ import axios from 'axios';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import pg from "pg";
-import { GetListEquipmentTypesMOCK, GetUtensilsForOperationsMOCK, GetBrOperationMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK } from './apiMocks copy.js';
+import { GetListEquipmentTypesMOCK, GetUtensilsForOperationsMOCK, GetBrOperationMOCK, GetListActivityMOCK, GetEquipmentListByTypeMOCK, GetParametersForOperationsMOCK, GetListNonGMPActivityMOCK,GetAllBRsMOCK } from './apiMocks copy.js';
 import { cache } from 'ejs';
 
 const port = 8081;
@@ -48,6 +48,12 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch authorization token' });
   }
 });
+
+app.get("/processoperation", async (req,res)=>{
+  let allBRs = await GetAllBRsMOCK();
+  res.status(201).json(allBRs)
+
+})
 
 
 app.post("/addOp", async (req, res) => {

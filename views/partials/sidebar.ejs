@@ -48,5 +48,17 @@
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
             </ul>
         </div>
+        <hr>
+        <ul class="list-unstyled mb-auto mt-3">
+            <h4>Data from DB:</h4>
+            <% dataBRs.forEach(entry => { %>
+                <li class="mb-3">
+                    <strong>Project Name:</strong> <%= entry[0] %><br>
+                    <strong>TP:</strong> <%= entry[1] %><br>
+                    <strong>Version:</strong> <%= entry[2] %><br>
+                    <strong>Total Ops:</strong> <%= entry[3] %>
+                </li>
+            <% }); %>
+        </ul>
     </div>
 </div>

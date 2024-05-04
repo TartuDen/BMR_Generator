@@ -2,7 +2,7 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp, getAllBRs } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -102,12 +102,40 @@ app.post("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
+function parseOperationsData(operations) {
+    const uniqueCombinations = {}; // Object to store unique combinations and their counts
+    
+    // Iterate over each object in the operations array
+    operations.forEach(operation => {
+        // Create a key for the unique combination of projectName, tp, and version
+        const key = `${operation.projectName}-${operation.tp}-${operation.version}`;
+        
+        // If the key doesn't exist in the uniqueCombinations object, initialize its count to 0
+        if (!uniqueCombinations[key]) {
+            uniqueCombinations[key] = 0;
+        }
+        
+        // Increment the count for the current combination
+        uniqueCombinations[key]++;
+    });
+    
+    // Convert the uniqueCombinations object into the desired format
+    const result = Object.entries(uniqueCombinations).map(([key, count]) => {
+        const [projectName, tp, version] = key.split('-'); // Split the key back into projectName, tp, and version
+        return [projectName, tp, version, count];
+    });
+    
+    return result;
+}
 
 app.get("/", async (req, res) => {
     let equipmentMap = await getMainTableEq();
+    let allBRs = await getAllBRs();
+    // console.log("**************allBRs****************");
+    let dataBRs = parseOperationsData(allBRs);
 
     // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", { equipmentMap, localMemory });
+    res.status(200).render("main_table.ejs", { equipmentMap, localMemory, dataBRs });
 
 });
 

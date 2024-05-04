@@ -912,6 +912,119 @@ async function GetBrOperationMOCK() {
   return []; //returning empty array!!!!!
 
   }
+
+
+  async function GetAllBRsMOCK(){
+    await delay(500); // Simulating a delay of 500ms
+    return [{
+      "projectName": "tile",
+      "tp": "tp.1",
+      "opNumber": 1,
+      "version": "1.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    },
+    {
+      "projectName": "tile",
+      "tp": "tp.1",
+      "opNumber": 2,
+      "version": "1.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    },
+    {
+      "projectName": "tile",
+      "tp": "tp.1",
+      "opNumber": 3,
+      "version": "1.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    },
+    {
+      "projectName": "tile",
+      "tp": "tp.1",
+      "opNumber": 1,
+      "version": "2.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    },
+    {
+      "projectName": "tile",
+      "tp": "tp.1",
+      "opNumber": 2,
+      "version": "2.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    },
+    {
+      "projectName": "tile",
+      "tp": "tp.2",
+      "opNumber": 5,
+      "version": "1.0",
+      "mainEquipment": {
+
+      },
+      "typicalActivity": {
+        
+      },
+      "materialIN": {
+               
+      },
+      "materialOUT": {
+       
+      }
+    }]
+  }
 // Export all functions together
 export {
   GetAuthTokenMOCK,
@@ -921,5 +1034,7 @@ export {
   GetListActivityMOCK,
   GetEquipmentListByTypeMOCK,
   GetListNonGMPActivityMOCK,
-  GetUtensilsForOperationsMOCK
+  GetUtensilsForOperationsMOCK,
+  GetAllBRsMOCK
 };
+
