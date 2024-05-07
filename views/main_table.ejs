@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
-                                        <% if (localMemory.project!==""){ %>
+                                        <% if (localMemory.projectName!==""){ %>
                                             <tr>
                                                 <td><input type="text" name="projectName" class="form-control"
                                                         placeholder="Project" value="<%= localMemory.projectName %>"></td>
@@ -42,14 +42,15 @@
                                             </tr>
                                         <% }else{ %>
 
-                                        <tr>
+                                            <tr>
                                             <td><input type="text" name="projectName" class="form-control"
                                                     placeholder="Project" value=""></td>
                                             <td><input type="text" name="tp" class="form-control" placeholder="TP"
                                                     value=""></td>
                                             <td><input type="text" name="version" class="form-control" placeholder="version"
                                                 value=""></td>
-                                        </tr>
+                                            </tr>
+                                            
 
                                         <% } %>
                                     </tbody>

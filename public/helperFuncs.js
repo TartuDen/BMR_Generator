@@ -278,6 +278,32 @@ export function createProcessOperation(data) {
         wastes
     );
 }
+export function parseOperationsData(operations) {
+    const uniqueCombinations = {}; // Object to store unique combinations and their counts
+
+
+    // Iterate over each object in the operations array
+    operations.forEach(operation => {
+        // Create a key for the unique combination of projectName, tp, and version
+        const key = `${operation.projectName}-${operation.tp}-${operation.version}`;
+
+        // If the key doesn't exist in the uniqueCombinations object, initialize its count to 0
+        if (!uniqueCombinations[key]) {
+            uniqueCombinations[key] = 0;
+        }
+
+        // Increment the count for the current combination
+        uniqueCombinations[key]++;
+    });
+
+    // Convert the uniqueCombinations object into the desired format
+    const result = Object.entries(uniqueCombinations).map(([key, count]) => {
+        const [projectName, tp, version] = key.split('-'); // Split the key back into projectName, tp, and version
+        return [projectName, tp, version, count];
+    });
+
+    return result;
+}
 
 
 

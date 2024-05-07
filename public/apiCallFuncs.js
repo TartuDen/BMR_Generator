@@ -69,12 +69,12 @@ export async function getProjectName(projectName){
     }
 }
 
-export async function getAllBRs(){
+export async function getAllProjects(){
     try{
-        let apiResp = await axios.get(`http://localhost:8081/processoperation`);
+        let apiResp = await axios.get(`http://localhost:8085/processdata/projects`);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting data from getProjectName: ", error)
+        console.error("Error getting all projects from getAllProjects(): ", error)
         return []
     }
 }
@@ -153,16 +153,6 @@ export async function deleteEq(name){
         return apiResp.data
     }catch(error){
         console.error("Error while deleting equipment: ",error);
-        throw error;
-    }
-}
-
-export async function getParams(){
-    try{
-        const apiResp = await axios.delete("http://localhost:8085/parameters");
-        return apiResp.data
-    }catch(error){
-        console.error("Error while getting params: ",error);
         throw error;
     }
 }
