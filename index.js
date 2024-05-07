@@ -2,7 +2,7 @@ import { settings } from "./public/settings.js";
 import express, { response } from "express"; // Importing Express framework for building the server
 import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp, getAllProjects } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -89,31 +89,43 @@ app.post("/operation_table", async (req, res) => {
 });
 
 
-app.post("/", async(req,res)=>{
-    const {projectName, tp, version} = req.body;
+app.post("/", async (req, res) => {
+    const { projectName, tp, version } = req.body;
+
     let equipmentMap = await getMainTableEq();
     let allTpFromProj;
     let allVersions;
-    if ( projectName){
-            allTpFromProj = await getAllTp(projectName);
+    let allProj = await getAllProjects();
+
+    if (projectName) {
+        allTpFromProj = await getAllTp(projectName);
     }
-    if (projectName && tp){
-            allVersions = await getAllVersions(projectName, tp);
+    if (projectName && tp) {
+        allVersions = await getAllVersions(projectName, tp);
     }
 
+    console.log("**********")
+    console.log("allTpFromProj: ", allTpFromProj);
+    console.log("projectName: ", projectName);
+    console.log("tp: ", tp);
 
-    res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allTpFromProj, allVersions });
-})
+    res.redirect('/?projectName=' + projectName);
+});
 
 app.get("/", async (req, res) => {
+    let { projectName } = req.query;
+
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
-    // console.log("**************allBRs****************");
-    // let dataBRs = parseOperationsData(allBRs)
+    let allTpFromProj = [];
 
-    // Rendering the "main_table.ejs" template with no data
-    res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj});
+    if (projectName) {
+        allTpFromProj = await getAllTp(projectName);
+    }
+
+    res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
 });
+
 
 app.listen(port, (err) => {
     // Error handling
