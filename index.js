@@ -83,34 +83,12 @@ app.post("/operation_table", async (req, res) => {
     req.session.operationsMap = operationsMap;
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
-    // console.log("localMemory: .......... ",localMemory);
+    console.log("localMemory: .......... ",localMemory);
     // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 
-app.post("/", async (req, res) => {
-    const { projectName, tp, version } = req.body;
-
-    let equipmentMap = await getMainTableEq();
-    let allTpFromProj;
-    let allVersions;
-    let allProj = await getAllProjects();
-
-    if (projectName) {
-        allTpFromProj = await getAllTp(projectName);
-    }
-    if (projectName && tp) {
-        allVersions = await getAllVersions(projectName, tp);
-    }
-
-    console.log("**********")
-    console.log("allTpFromProj: ", allTpFromProj);
-    console.log("projectName: ", projectName);
-    console.log("tp: ", tp);
-
-    res.redirect('/?projectName=' + projectName);
-});
 
 app.get("/", async (req, res) => {
     let { projectName } = req.query;

@@ -31,28 +31,39 @@
                             <div class="col-md-6">
                                 <table class="table">
                                     <tbody>
-                                        <% if (localMemory.projectName!==""){ %>
-                                            <tr>
-                                                <td><input type="text" name="projectName" class="form-control"
-                                                        placeholder="Project" value="<%= localMemory.projectName %>"></td>
-                                                <td><input type="text" name="tp" class="form-control" placeholder="TP"
-                                                        value="<%= localMemory.tp %>"></td>
-                                                <td><input type="text" name="version" class="form-control" placeholder="version"
-                                                    value="<%= localMemory.version %>"></td>
-                                            </tr>
-                                        <% }else{ %>
+
 
                                             <tr>
-                                            <td><input type="text" name="projectName" class="form-control"
-                                                    placeholder="Project" value=""></td>
-                                            <td><input type="text" name="tp" class="form-control" placeholder="TP"
-                                                    value=""></td>
-                                            <td><input type="text" name="version" class="form-control" placeholder="version"
-                                                value=""></td>
+                                            <td>
+                                                <!--   Choose Projects    -->
+                                                <div class="form-group">
+                                                    <label for="inputFieldProject">Choose Project Name:</label>
+                                                    <input type="text" class="form-control" name="projectName" id="inputFieldProject" list="datalistProject">
+                                                    <datalist id="datalistProject"></datalist>
+                                                </div>
+
+                                                </td>
+                                            <td>
+                                                
+                                                    <!--   Choose TP    -->
+                                                    <div class="form-group">
+                                                        <label for="inputFieldTP">Choose TP:</label>
+                                                        <input type="text" class="form-control" name="tp" id="inputFieldTP" list="datalistTP">
+                                                        <datalist id="datalistTP"></datalist>
+                                                    </div>
+                                                </td>
+                                            <td>
+                                                <!--   Choose Version    -->
+                                                <div class="form-group">
+                                                    <label for="inputFieldVersion">Choose TP:</label>
+                                                    <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion">
+                                                    <datalist id="datalistVersion"></datalist>
+                                                </div>
+                                            </td>
                                             </tr>
                                             
 
-                                        <% } %>
+
                                     </tbody>
                                 </table>
 
@@ -137,6 +148,14 @@
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
             </script>
+
+            <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script src="scripts.js"></script>
+ 
  </body>
 
 </html>
