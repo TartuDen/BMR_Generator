@@ -20,7 +20,7 @@ public class ProcessOperationRestController {
     public ProcessOperationRestController(ProcessOperationService processOperationService) {
         this.processOperationService = processOperationService;
     }
-    
+    @CrossOrigin
     @GetMapping("/processdata/projects")
     public ResponseEntity<Set<String>> findDistinctProjectNames() {
         Set<String> distinctProjectNames = processOperationService.findDistinctProjectNames();
