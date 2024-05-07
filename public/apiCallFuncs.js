@@ -79,6 +79,26 @@ export async function getAllProjects(){
     }
 }
 
+export async function getAllTp(projectName){
+    try{
+        let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp`);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting all projects from getAllProjects(): ", error)
+        return []
+    }
+}
+
+export async function getAllVersions(projectName, tp){
+    try{
+        let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions`);
+        return apiResp.data;
+    }catch(error){
+        console.error("Error getting all projects from getAllProjects(): ", error)
+        return []
+    }
+}
+
 export async function getEqByName(name) {
     try {
         let apiResp = await axios.get("http://localhost:8085/equipment/"+name);
