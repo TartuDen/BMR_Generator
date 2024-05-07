@@ -15,8 +15,9 @@ public interface ProcessOperationRepository extends JpaRepository<ProcessOperati
     @Query("SELECT DISTINCT e.tp FROM ProcessOperation e WHERE e.projectName = :projectName")
     Set<String> findDistinctTPsForProjectName(String projectName);
     
-    @Query("SELECT DISTINCT e.opNumber FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp")
+    @Query("SELECT DISTINCT e.version FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp")
     Set<String> findDistinctVersionsForProjectNameAndTp(String projectName, String tp);
+    
     
     @Query("SELECT COUNT(DISTINCT e.opNumber) FROM ProcessOperation e WHERE e.projectName = :projectName AND  e.tp = :tp AND e.version = :version")
     Long countDistinctOperationNumberForProject(@Param("projectName") String projectName, @Param("tp") String tp, @Param("version") String version);
