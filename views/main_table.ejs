@@ -55,7 +55,7 @@
                                             <td>
                                                 <!--   Choose Version    -->
                                                 <div class="form-group">
-                                                    <label for="inputFieldVersion">Choose TP:</label>
+                                                    <label for="inputFieldVersion">Choose Version:</label>
                                                     <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion">
                                                     <datalist id="datalistVersion"></datalist>
                                                 </div>
@@ -110,7 +110,7 @@
 
                             <!-- New table for loading materials -->
                             <div class="col-md-6">
-                                <table class="table table-info">
+                                <table class="table table-info" id="reagentTable">
                                     <h2>Insert Materials</h2>
                                     <tbody>
                                         <% localMemory.reagents.forEach((reagent, index) => { %>
@@ -119,14 +119,20 @@
                                                 <td><input type="number" name="amount<%= index %>" class="form-control" value="<%= reagent.reag_amount %>" placeholder="Amounts in kg" step="any"></td>
                                             </tr>
                                         <% }); %>
-                                        <% for (let i = localMemory.reagents.length; i < 10; i++) { %>
+
+
+                                            <!-- Initial row for reagent and amount -->
                                             <tr>
-                                                <td><input type="text" name="reagent<%= i %>" class="form-control" placeholder="Reagent here"></td>
-                                                <td><input type="number" name="amount<%= i %>" class="form-control" placeholder="Amounts in kg" step="any"></td>
+                                                <td><input type="text" name="reagent1" class="form-control" placeholder="Reagent here"></td>
+                                                <td><input type="number" name="amount1" class="form-control" placeholder="Amounts in kg" step="any" min="0"></td>
                                             </tr>
-                                        <% } %>
+       
+
+
                                     </tbody>
                                 </table>
+                                <button type="button" class="btn btn-light " id="addRowBtn">+</button>
+
                                 
                             </div>
                         </div>
@@ -150,6 +156,31 @@
             </script>
 
             <script src="scripts.js"></script>
+
+            <script>
+                // JavaScript
+                document.addEventListener('DOMContentLoaded', function() {
+                    const addRowBtn = document.getElementById('addRowBtn');
+                    const reagentTable = document.getElementById('reagentTable');
+                    let rowCounter = 1; // Counter for row IDs
+
+                    addRowBtn.addEventListener('click', function() {
+                        // Increment row counter
+                        rowCounter++;
+
+                        // Create new row
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td><input type="text" name="reagent${rowCounter}" class="form-control" placeholder="Reagent here"></td>
+                            <td><input type="number" name="amount${rowCounter}" class="form-control" placeholder="Amounts in kg" step="any"  min="0"></td>
+                        `;
+
+                        // Append new row to table
+                        reagentTable.appendChild(newRow);
+                    });
+                });
+
+            </script>
  
  </body>
 
