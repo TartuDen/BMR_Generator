@@ -1,5 +1,5 @@
-import express, { response } from "express"; // Importing Express framework for building the server
-import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
+import express, { response } from "express"; 
+import bodyParser from "body-parser"; 
 import session from "express-session";
 import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
