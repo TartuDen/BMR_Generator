@@ -31,7 +31,18 @@ app.use(session({
 app.use(eqHandlers);
 
 
-
+/**
+ * Handles POST requests to create a new process operation.
+ * Retrieves the new operation details from the request body.
+ * Retrieves local memory from the session.
+ * Posts the new operation to the server API.
+ * Retrieves updated BR operations based on the project details from the session.
+ * Stores the updated BR operations in the session.
+ * Redirects to the corresponding GET handler.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/create_process_op", async (req, res) => {
     const newOp = createProcessOperation(req.body);
     const localMemory = req.session.localMemory;
@@ -42,6 +53,14 @@ app.post("/create_process_op", async (req, res) => {
     res.redirect(`/create_process_op`);
 });
 
+/**
+ * Handles GET requests to render the create process operation page.
+ * Retrieves operations map, local memory, and BR operations from the session.
+ * Renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.get("/create_process_op", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
@@ -51,7 +70,18 @@ app.get("/create_process_op", async (req, res) => {
 
 
 
-
+/**
+ * Handles POST requests to retrieve equipment description.
+ * Retrieves utensils and parameters from the database.
+ * Retrieves equipment type and activity type from the request body.
+ * Retrieves operations map and local memory from the session.
+ * Calculates content and other based on equipment and activity type.
+ * Stores retrieved data in the session.
+ * Redirects to the corresponding GET handler.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
     const params = await getParams();
@@ -73,6 +103,15 @@ app.post("/get_description", async (req, res) => {
     res.redirect(`/get_description`);
 });
 
+/**
+ * Handles GET requests to render equipment description.
+ * Retrieves equipment type, activity type, operations map, BR operations, 
+ * final format content, other details, and local memory from the session.
+ * Renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.get("/get_description", async (req, res) => {
 
     const equipmentType = req.session.equipmentType;
@@ -86,7 +125,16 @@ app.get("/get_description", async (req, res) => {
     res.status(200).render("index.ejs", { equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
 });
 
-
+/**
+ * Handles POST requests to update the operation table.
+ * Retrieves data from the request body, converts it to a memory object, 
+ * fetches the activity type from the API, selects operations based on the activity type,
+ * and retrieves process operations. 
+ * The retrieved data is stored in the session.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
@@ -100,6 +148,14 @@ app.post("/operation_table", async (req, res) => {
     res.redirect(`/operation_table`);
 });
 
+/**
+ * Handles GET requests to render the operation table.
+ * Retrieves the operations map, BR operations, and local memory from the session
+ * and renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.get("/operation_table", async (req, res) => {
     // Parse the query parameters back into their original data structures
     const operationsMap = req.session.operationsMap;
@@ -109,7 +165,13 @@ app.get("/operation_table", async (req, res) => {
 });
 
 
-
+/**
+ * Route handler for the home page.
+ * Renders the main table view with equipment map and project data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.get("/", async (req, res) => {
     let { projectName } = req.query;
     let equipmentMap = await getMainTableEq();
@@ -121,7 +183,11 @@ app.get("/", async (req, res) => {
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
 });
 
-
+/**
+ * Starts the server and listens on the specified port.
+ * 
+ * @param {number} port - The port on which the server will listen
+ */
 app.listen(port, (err) => {
     // Error handling
     if (err) {
