@@ -1,7 +1,7 @@
 import express, { response } from "express"; 
 import bodyParser from "body-parser"; 
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getProcessInitInfo } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -161,9 +161,21 @@ app.get("/operation_table", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
+    console.log("localMemory: .......",localMemory);
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
+app.post("/", async (req,res)=>{
+    const {projectName, tp, version} = req.body;
+    if (projectName, tp, version){
+        let apiResp = await getProcessInitInfo(projectName, tp, version);
+        if(apiResp){
+            req.session.localMemory = apiResp;
+        }
+    }
+
+    res.redirect("/")
+})
 
 /**
  * Route handler for the home page.
@@ -176,6 +188,7 @@ app.get("/", async (req, res) => {
     let { projectName } = req.query;
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
+    // let localMemory = await getProcessInitInfo()
     let allTpFromProj = [];
     if (projectName) {
         allTpFromProj = await getAllTp(projectName);
@@ -194,6 +207,6 @@ app.listen(port, (err) => {
         console.log(err);
         throw err;
     } else {
-        console.log("Local server is running on port: " + port)
+        console.log("Proxy server is running on port: " + port)
     }
 });

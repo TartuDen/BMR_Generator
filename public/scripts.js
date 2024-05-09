@@ -42,11 +42,11 @@ populateOptions(
     `${urlProcessdata}/${encodeURIComponent(selectedProjectName)}/tp/${encodeURIComponent(selectedTP)}/versions`);
 });
 
-function getParameters(){
-let projectName = document.getElementById('inputFieldProject').value;
-let tp = document.getElementById('inputFieldTP').value;
-let version = document.getElementById('inputFieldVersion').value;
+    function getParameters(){
+    let projectName = document.getElementById('inputFieldProject').value;
+    let tp = document.getElementById('inputFieldTP').value;
+    let version = document.getElementById('inputFieldVersion').value;
 
-console.log(projectName, tp, version);
-}
-document.addEventListener('dblclick', getParameters);
+    console.log(projectName, tp, version);
+    }
+    document.addEventListener('dblclick', getParameters);

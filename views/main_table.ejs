@@ -30,41 +30,40 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table">
-                                    <tbody>
-
-
-                                            <tr>
+                                    <table class="table">
+                                        <tbody>
+                                          <tr class="d-flex justify-content-end align-items-end">
                                             <td>
-                                                <!--   Choose Projects    -->
-                                                <div class="form-group">
-                                                    <label for="inputFieldProject">Choose Project Name:</label>
-                                                    <input type="text" class="form-control" name="projectName" id="inputFieldProject" list="datalistProject">
-                                                    <datalist id="datalistProject"></datalist>
-                                                </div>
-
-                                                </td>
-                                            <td>
-                                                
-                                                    <!--   Choose TP    -->
-                                                    <div class="form-group">
-                                                        <label for="inputFieldTP">Choose TP:</label>
-                                                        <input type="text" class="form-control" name="tp" id="inputFieldTP" list="datalistTP">
-                                                        <datalist id="datalistTP"></datalist>
-                                                    </div>
-                                                </td>
-                                            <td>
-                                                <!--   Choose Version    -->
-                                                <div class="form-group">
-                                                    <label for="inputFieldVersion">Choose Version:</label>
-                                                    <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion">
-                                                    <datalist id="datalistVersion"></datalist>
-                                                </div>
+                                              <!-- Choose Projects -->
+                                              <div class="form-group">
+                                                <label for="inputFieldProject">Choose Project Name:</label>
+                                                <input type="text" class="form-control" name="projectName" id="inputFieldProject" list="datalistProject" value="<%= localMemory.projectName %>">
+                                                <datalist id="datalistProject"></datalist>
+                                              </div>
                                             </td>
-                                            </tr>
-                                            
-
-
-                                    </tbody>
+                                            <td>
+                                              <!-- Choose TP -->
+                                              <div class="form-group">
+                                                <label for="inputFieldTP">Choose TP:</label>
+                                                <input type="text" class="form-control" name="tp" id="inputFieldTP" list="datalistTP" value="<%= localMemory.tp %>">
+                                                <datalist id="datalistTP"></datalist>
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <!-- Choose Version -->
+                                              <div class="form-group">
+                                                <label for="inputFieldVersion">Choose Version:</label>
+                                                <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion" value="<%= localMemory.version %>"> 
+                                                <datalist id="datalistVersion"></datalist>
+                                              </div>
+                                            </td>
+                                            <td class="d-flex justify-self-end">
+                                                <button type="button" class="btn btn-secondary" style="width: 100px;" onclick="submitForm()">get data</button>
+                                            </td>
+                                              
+                                          </tr>
+                                        </tbody>
+                                      </table>
                                 </table>
 
 
@@ -154,7 +153,7 @@
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous">
             </script>
-
+            <!-- script to populate project/tp/version on the page -->
             <script src="scripts.js"></script>
 
             <script>
@@ -180,6 +179,32 @@
                     });
                 });
 
+            </script>
+
+            
+            <script> //script to send axios.post to proxy server with projectName, tp and version data, to get localMemory
+                async function submitForm() {
+                // Get input values
+                const projectName = document.getElementById('inputFieldProject').value;
+                const tp = document.getElementById('inputFieldTP').value;
+                const version = document.getElementById('inputFieldVersion').value;
+            
+                // Prepare data to send
+                const data = {
+                    projectName: projectName,
+                    tp: tp,
+                    version: version
+                };
+            
+                try {
+                    // Send POST request using Axios
+                    const response = await axios.post('/', data);
+                    console.log('POST request successful');
+                    console.log('Response:', response.data);
+                } catch (error) {
+                    console.error('Error sending POST request:', error);
+                }
+                }
             </script>
  
  </body>
