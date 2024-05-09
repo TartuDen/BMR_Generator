@@ -1,14 +1,12 @@
-import { settings } from "./public/settings.js";
-import express, { response } from "express"; // Importing Express framework for building the server
-import bodyParser from "body-parser"; // Importing body-parser middleware for parsing request bodies
+import express, { response } from "express"; 
+import bodyParser from "body-parser"; 
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getEqByName, postEq, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
 import eqHandlers from "./eqHandlers.js";
-import { parseOperationsData } from "./public/helperFuncs.js";
 
 
 
@@ -33,78 +31,163 @@ app.use(session({
 app.use(eqHandlers);
 
 
-// Route handler
+/**
+ * Handles POST requests to create a new process operation.
+ * Retrieves the new operation details from the request body.
+ * Retrieves local memory from the session.
+ * Posts the new operation to the server API.
+ * Retrieves updated BR operations based on the project details from the session.
+ * Stores the updated BR operations in the session.
+ * Redirects to the corresponding GET handler.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/create_process_op", async (req, res) => {
     const newOp = createProcessOperation(req.body);
-    console.log("newOp:", newOp);
-    const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
-
-    // br_ops.push(newOp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
     req.session.br_ops = br_ops;
+    res.redirect(`/create_process_op`);
+});
 
+/**
+ * Handles GET requests to render the create process operation page.
+ * Retrieves operations map, local memory, and BR operations from the session.
+ * Renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
+app.get("/create_process_op", async (req, res) => {
+    const operationsMap = req.session.operationsMap;
+    const localMemory = req.session.localMemory;
+    const br_ops = req.session.br_ops;
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 
 
+/**
+ * Handles POST requests to retrieve equipment description.
+ * Retrieves utensils and parameters from the database.
+ * Retrieves equipment type and activity type from the request body.
+ * Retrieves operations map and local memory from the session.
+ * Calculates content and other based on equipment and activity type.
+ * Stores retrieved data in the session.
+ * Redirects to the corresponding GET handler.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/get_description", async (req, res) => {
     const uts = await getUtensils();
     const params = await getParams();
     const { equipmentType, activityType } = req.body;
     const operationsMap = req.session.operationsMap;
-    const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
-
     const { content, other } = getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType);
+
     let contentEq = populateContent(content, localMemory);
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
-
-
-
     let finalFormatContent = contentEqUtsMatParams;
-    res.status(200).render("index.ejs", { operationsMap, br_ops, equipmentType, activityType, finalFormatContent, other, localMemory })
-})
 
+    req.session.equipmentType = equipmentType;
+    req.session.activityType = activityType;
+    req.session.finalFormatContent = finalFormatContent;
+    req.session.other = other;
+    res.redirect(`/get_description`);
+});
+
+/**
+ * Handles GET requests to render equipment description.
+ * Retrieves equipment type, activity type, operations map, BR operations, 
+ * final format content, other details, and local memory from the session.
+ * Renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
+app.get("/get_description", async (req, res) => {
+
+    const equipmentType = req.session.equipmentType;
+    const activityType = req.session.activityType ;
+    const operationsMap = req.session.operationsMap ;
+    const br_ops= req.session.br_ops  ;
+    const finalFormatContent =req.session.finalFormatContent  ;
+    const other= req.session.other  ;
+    const localMemory= req.session.localMemory ;
+
+    res.status(200).render("index.ejs", { equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
+});
+
+/**
+ * Handles POST requests to update the operation table.
+ * Retrieves data from the request body, converts it to a memory object, 
+ * fetches the activity type from the API, selects operations based on the activity type,
+ * and retrieves process operations. 
+ * The retrieved data is stored in the session.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
-    br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version); //BR OPs are here!
-    
-
-    // Storing operationsMap in session
+    br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
     req.session.operationsMap = operationsMap;
+
     req.session.localMemory = localMemory;
     req.session.br_ops = br_ops;
-    console.log("localMemory: .......... ",localMemory);
-    // Rendering the "index.ejs" template with equipmentTypes and equipmentListMemory data
+    res.redirect(`/operation_table`);
+});
+
+/**
+ * Handles GET requests to render the operation table.
+ * Retrieves the operations map, BR operations, and local memory from the session
+ * and renders the index.ejs template with the retrieved data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
+app.get("/operation_table", async (req, res) => {
+    // Parse the query parameters back into their original data structures
+    const operationsMap = req.session.operationsMap;
+    const br_ops = req.session.br_ops;
+    const localMemory = req.session.localMemory;
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
 
-
+/**
+ * Route handler for the home page.
+ * Renders the main table view with equipment map and project data.
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
 app.get("/", async (req, res) => {
     let { projectName } = req.query;
-
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
     let allTpFromProj = [];
-
     if (projectName) {
         allTpFromProj = await getAllTp(projectName);
     }
-
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
 });
 
-
+/**
+ * Starts the server and listens on the specified port.
+ * 
+ * @param {number} port - The port on which the server will listen
+ */
 app.listen(port, (err) => {
     // Error handling
     if (err) {

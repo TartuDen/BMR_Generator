@@ -3,6 +3,7 @@ import { LocalMemory } from "./dataClasses.js";
 import { TypicalActivity, ProcessOperation, Material, Equipment} from "./operationClasses.js";
 
 
+
 export function selectOps(operationsMap, localMemory) {
     let selectedOperationMap = [];
 
@@ -73,7 +74,7 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
 
 
 export function populateContent(content, localMemory) {
-    // console.log("***************************: ", content, localMemory);
+
     const { equipment } = localMemory;
     const equipmentMap = new Map();
 

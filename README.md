@@ -1,5 +1,30 @@
 # BR_Generator
 
+## NB! README from API Server!
+apiServerJava\README.md
+
+## Running the Application
+To run the application locally, follow these steps:
+
+1. **Install Node.js and npm**: If you haven't already, install Node.js and npm (Node Package Manager) from the official Node.js website: [https://nodejs.org](https://nodejs.org).
+
+2. **Clone the Repository**: Clone the repository containing the proxy server code to your local machine using Git:
+   ```bash
+   git clone https://github.com/TartuDen/BMR_Generator```
+   
+
+3. **Navigate to the Project Directory**: Change your current directory to the project directory:
+    ```bash
+    cd <project_directory>```
+
+4. **Install Dependencies**: Use npm to install the required dependencies specified in the package.json file:
+    ```bash
+    npm install```
+5. **Start the Server**: Start the Express server using the following command:
+    ```bash
+    node index.js```
+
+
 ## Overview
 
 [OpenAPI Specification](https://app.swaggerhub.com/apis/YuriiPanasuk/br_Generator/0.0.5)
