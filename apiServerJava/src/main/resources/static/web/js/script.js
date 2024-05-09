@@ -14,7 +14,7 @@ function createCircularMenuForRow(row) {
         { class: 'fa-arrow-circle-o-down', event: 'click', listener: downFunction },
         { class: 'fa-cut', event: 'click', listener: cutFunction },
         { class: 'fa-paste', event: 'click', listener: pasteFunction },
-        { class: 'fa-delete', event: 'click', listener: deleteFunction },
+        { class: 'fa-trash-o', event: 'click', listener: deleteFunction },
         { class: 'fa-arrow-circle-up', event: 'click', listener: arrowUpFunction },
         { class: 'fa-arrow-circle-down', event: 'click', listener: arrowDownFunction }
     ];
@@ -95,14 +95,10 @@ function arrowDownFunction() {
     console.log('Arrow down function called!');
 }
 
-// Function to handle adding a new row
 function addRow() {
-    // Get the table body
     let tableBody = document.getElementById('tableBody');
 
-    // Create a new row element
     let newRow = document.createElement('tr');
-    // Populate the row with appropriate data
     newRow.innerHTML = `
         <th scope="row">New Row</th>
         <td>New Data</td>
@@ -110,12 +106,9 @@ function addRow() {
         <td>New Data</td>
     `;
 
-    // Append the new row to the table body
     tableBody.appendChild(newRow);
 
-    // Create circular menu for the new row
     createCircularMenuForRow(newRow);
 }
 
-// Add event listener to the button responsible for adding rows
 document.getElementById('addRowBtn').addEventListener('click', addRow);
