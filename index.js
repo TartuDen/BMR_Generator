@@ -1,7 +1,7 @@
 import express, { response } from "express"; 
 import bodyParser from "body-parser"; 
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getAllVersions } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getProcessInitInfo } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -45,6 +45,7 @@ app.use(eqHandlers);
  */
 app.post("/create_process_op", async (req, res) => {
     const newOp = createProcessOperation(req.body);
+    console.log("new operation: ..........",newOp);
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
@@ -176,6 +177,7 @@ app.get("/", async (req, res) => {
     let { projectName } = req.query;
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
+    // let localMemory = await getProcessInitInfo()
     let allTpFromProj = [];
     if (projectName) {
         allTpFromProj = await getAllTp(projectName);

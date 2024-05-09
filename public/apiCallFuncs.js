@@ -176,3 +176,17 @@ export async function deleteEq(name){
         throw error;
     }
 }
+
+export async function getProcessInitInfo(projectName, tp, version){
+        if (projectName && tp && version){
+                try{
+            const apiResp = await axios.get(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            return apiResp.data
+            }catch(error){
+                console.error("Error while deleting equipment: ",error);
+                throw error;
+            }
+        }else{
+            console.log("Wrong type of data",projectName,tp,version)
+        }
+    }

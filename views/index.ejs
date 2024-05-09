@@ -27,7 +27,7 @@
                 <!-- Table content -->
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                     <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                    
@@ -43,14 +43,13 @@
                                     <tr>
                                         <!-- First column, op number -->
                                         <td style="width: 8%; padding: 0; margin: 0;">
-                                            <input type="number" class="form-control" id="opNumber<%= index %>"
-                                                name="opNumber<%= index %>" value="<%= operation.opNumber %>" min="1">
+                                            <span id="opNumber<%= operation.opNumber %>" name="opNumber<%= operation.opNumber %>"><%= operation.opNumber %></span>
                                         </td>
 
                                         <td>
                                             <!-- Second column - Description -->
-                                            <div id="description<%= index %>">
-                                                <textarea id="descriptionTextarea<%= index %>" class="form-control"
+                                            <div id="description<%= operation.opNumber %>">
+                                                <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
                                                     rows="1"><%= operation.typicalActivity.content %></textarea>
                                             </div>
 
@@ -65,7 +64,7 @@
                                             }
 
                                             // Get the textarea element
-                                            var textarea = document.getElementById("descriptionTextarea<%= index %>");
+                                            var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
 
                                             // Call the adjustTextareaHeight function when the content changes
                                             textarea.addEventListener('input', function () {
@@ -80,8 +79,8 @@
                                         <!-- 3rd column - OTHER -->
                                         <td style="width: 15%;">
                                             <!-- Other fields -->
-                                            <div id="other<%= index %>">
-                                                <textarea id="otherTextarea<%= index %>" class="form-control"
+                                            <div id="other<%= operation.opNumber %>">
+                                                <textarea id="otherTextarea<%= operation.opNumber %>" class="form-control"
                                                     rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
                                             </div>
                                         </td>
@@ -253,6 +252,23 @@
                 window.onload = focusOnEquipmentSelection;
             </script>
 
+            <script>
+                // Get all table rows
+                const tableRows = document.querySelectorAll('tr');
+
+                // Add event listener to each row
+                tableRows.forEach(row => {
+                    row.addEventListener('contextmenu', function(event) {
+                        event.preventDefault(); // Prevent the default context menu from appearing
+                        
+                        // Get the innerText of the first <td> within the right-clicked row
+                            const firstCellInputValue = this.children[0].querySelector('span').textContent;
+                        
+                        // Display the text in the console (you can do anything you want with it)
+                        console.log("InnerText of the first <td>:", firstCellInputValue);
+                    });
+                });
+            </script>
 
 
 </body>
