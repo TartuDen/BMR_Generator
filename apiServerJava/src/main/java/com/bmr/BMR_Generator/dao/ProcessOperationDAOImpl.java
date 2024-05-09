@@ -4,6 +4,7 @@ import com.bmr.BMR_Generator.dto.ProcessOperationDTO;
 import com.bmr.BMR_Generator.entity.ProcessOperation;
 import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,8 +27,50 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     
     @Override
     @Transactional
+    public boolean sortAndTidyingOpNumber(String projectName, String tp, String version) {
+        try {
+            String jpqlGetID = "SELECT id FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version ORDER BY opNumber ASC";
+            Query selectQuery = entityManager.createQuery(jpqlGetID);
+            selectQuery.setParameter("projectName", projectName);
+            selectQuery.setParameter("tp", tp);
+            selectQuery.setParameter("version", version);
+            List<?> ids = selectQuery.getResultList();
+            int counter = 0;
+            int newOpNumber = 1;
+            for (Object id : ids) {
+                Long entityId = (Long) id;
+                String jpqlUpdate = "UPDATE ProcessOperation SET opNumber = :newOpNumber WHERE id = :id";
+                Query updateQuery = entityManager.createQuery(jpqlUpdate);
+                updateQuery.setParameter("newOpNumber", newOpNumber++);
+                updateQuery.setParameter("id", entityId);
+                counter += updateQuery.executeUpdate();
+            }
+            return counter > 0;
+        } catch (Exception e) {
+            throw new BrApiServerException(e);
+        }
+    }
+    
+    @Override
+    @Transactional
     public ProcessOperationDTO save(ProcessOperation processOperation) {
+        if (processOperation.getOpNumber() == 0) {
+            Integer maxOpNumber = getMaxOpNumber(processOperation);
+            processOperation.setOpNumber(maxOpNumber + 1);
+        }
+        
         return new ProcessOperationDTO(entityManager.merge(processOperation));
+    }
+    
+    private Integer getMaxOpNumber(ProcessOperation processOperation) {
+        String jpqlGetMaxOpNumber = "SELECT MAX(e.opNumber) FROM ProcessOperation e " +
+                "WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
+        
+        Query query = entityManager.createQuery(jpqlGetMaxOpNumber);
+        query.setParameter("projectName", processOperation.getProjectName());
+        query.setParameter("tp", processOperation.getTp());
+        query.setParameter("version", processOperation.getVersion());
+        return (Integer) query.getSingleResult();
     }
     
     @Override
@@ -41,7 +84,7 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     }
     
     @Override
-    public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version) {
+    public List<ProcessOperationDTO> findByProjectNameAndTpAndVersion(String projectName, String tp, String version) {
         String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
         TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
         query.setParameter("projectName", projectName);

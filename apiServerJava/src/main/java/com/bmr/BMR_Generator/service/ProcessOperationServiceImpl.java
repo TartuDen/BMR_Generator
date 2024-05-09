@@ -60,7 +60,21 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
         }
         return result;
     }
-
+    
+    @Override
+    @Transactional
+    public Response sortAndTidyingOpNumber(String projectName, String tp, String version) {
+        try {
+            boolean result = processOperationDAO.sortAndTidyingOpNumber(projectName, tp, version);
+            return result ?
+                    generateResponse(200, "ProcessOperation tidied successfully")
+                    : generateResponse(400, "ProcessOperation error with sorting");
+        } catch (Exception e) {
+            LOGGER.error("Failed to sort ProcessOperation", e);
+            return generateResponse(500, "Failed to sort ProcessOperation: " + e.getMessage());
+        }
+    }
+    
     
     @Override
     @Transactional
@@ -90,7 +104,7 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     
     @Override
     public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version) {
-        return processOperationDAO.findByProjectNameAndTp(projectName, tp, version);
+        return processOperationDAO.findByProjectNameAndTpAndVersion(projectName, tp, version);
     }
     
     @Override

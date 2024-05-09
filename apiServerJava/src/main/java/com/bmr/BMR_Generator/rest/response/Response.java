@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
+
+/**
+ * Represents the structure of the response returned by the controller in case of exceptions.
+ */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
