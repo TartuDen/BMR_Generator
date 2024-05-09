@@ -37,7 +37,7 @@
                                               <!-- Choose Projects -->
                                               <div class="form-group">
                                                 <label for="inputFieldProject">Choose Project Name:</label>
-                                                <input type="text" class="form-control" name="projectName" id="inputFieldProject" list="datalistProject">
+                                                <input type="text" class="form-control" name="projectName" id="inputFieldProject" list="datalistProject" value="<%= localMemory.projectName %>">
                                                 <datalist id="datalistProject"></datalist>
                                               </div>
                                             </td>
@@ -45,7 +45,7 @@
                                               <!-- Choose TP -->
                                               <div class="form-group">
                                                 <label for="inputFieldTP">Choose TP:</label>
-                                                <input type="text" class="form-control" name="tp" id="inputFieldTP" list="datalistTP">
+                                                <input type="text" class="form-control" name="tp" id="inputFieldTP" list="datalistTP" value="<%= localMemory.tp %>">
                                                 <datalist id="datalistTP"></datalist>
                                               </div>
                                             </td>
@@ -53,12 +53,12 @@
                                               <!-- Choose Version -->
                                               <div class="form-group">
                                                 <label for="inputFieldVersion">Choose Version:</label>
-                                                <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion">
+                                                <input type="text" class="form-control" name="version" id="inputFieldVersion" list="datalistVersion" value="<%= localMemory.version %>"> 
                                                 <datalist id="datalistVersion"></datalist>
                                               </div>
                                             </td>
                                             <td class="d-flex justify-self-end">
-                                                <button type="button" class="btn" style="width: 80px;" onclick="submitForm()">📚➡️</button>
+                                                <button type="button" class="btn btn-secondary" style="width: 100px;" onclick="submitForm()">get data</button>
                                             </td>
                                               
                                           </tr>

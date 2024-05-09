@@ -161,6 +161,7 @@ app.get("/operation_table", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
+    console.log("localMemory: .......",localMemory);
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
