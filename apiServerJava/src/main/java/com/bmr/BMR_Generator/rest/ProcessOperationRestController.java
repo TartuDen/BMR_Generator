@@ -84,7 +84,7 @@ public class ProcessOperationRestController {
                             description = "Successful operation",
                             content = @Content(schema = @Schema(implementation = ProcessOperationDTO.class))),
                     @ApiResponse(responseCode = "404",
-                            description = "ProcessOperation not found or other resource not found.",
+                            description = "Saved ProcessOperation not found or other resource not found.",
                             content = @Content(schema = @Schema(implementation = Response.class))),
                     @ApiResponse(responseCode = "406",
                             description = "Not Acceptable. ProcessOperation with given parameters already exists.",

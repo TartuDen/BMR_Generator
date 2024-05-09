@@ -21,7 +21,7 @@ public class TypicalActivity {
     @NonNull
     private String activityType;
     
-    @Column(name = "content")
+    @Column(name = "content", length = 1000)
     private String content;
     
     @Column(name = "other")

@@ -18,7 +18,7 @@ public class Operation {
     @NonNull
     private String operationType;
     
-    @Column(name = "content", length = 500)
+    @Column(name = "content", length = 1000)
     @NonNull
     private String content;
     
