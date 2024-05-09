@@ -194,6 +194,6 @@ app.listen(port, (err) => {
         console.log(err);
         throw err;
     } else {
-        console.log("Local server is running on port: " + port)
+        console.log("Proxy server is running on port: " + port)
     }
 });
