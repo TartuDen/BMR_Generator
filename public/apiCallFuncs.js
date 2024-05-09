@@ -1,46 +1,52 @@
 import axios from "axios";
 import { EquipmentNoOperation, EquipmentInfo, Operation } from "./dataClasses.js";
 
-// app.post("/update_operations", async (req, res) => {
-//     try {
-//         const apiResp = await axios.post("http://localhost:8081/addOp", req.body);
-//         console.log('Success: ', apiResp.data.message);
-//         res.status(201).json(apiResp.data)
-//     } catch (error) {
-//         console.error("Error updating operations:", error.message);
-//         if (error.response) {
-//             // The request was made and the server responded with a non-2xx status code
-//             res.status(error.response.status).send(error.response.data);
-//         } else if (error.request) {
-//             // The request was made but no response was received
-//             res.status(500).send("No response received from the server.");
-//         } else {
-//             // Something happened in setting up the request that triggered an Error
-//             res.status(500).send("Error occurred while sending the request.");
-//         }
-//     }
-// });
 
+// Function to handle errors uniformly
+function handleError(error, message) {
+    console.error(`Error: ${message}`, error.response ? error.response.data : error.message);
+    return null;
+}
+
+/**
+ * Fetches process operations data from the server based on the provided project name, TP, and version.
+ * 
+ * @param {string} projectName - The name of the project.
+ * @param {string} tp - The TP (Technical Plan) identifier.
+ * @param {string} version - The version of BR.
+ * @returns {Array} An array of process operations data if successful, or an empty array if an error occurs.
+ */
 export async function getProcOps(projectName, tp, version){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting data from getProcOps: ", error)
+        handleError(err, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Sends a POST request to add a new operation to the server.
+ * 
+ * @param {Object} newOp - The new operation data to be added.
+ * @returns {Object} The response data from the server if successful, or an empty array if an error occurs.
+ */
 export async function postNewOp(newOp){
     try{
         let apiResp = await axios.post(`http://localhost:8085/processoperation`, newOp);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting data from getProcOps: ", error)
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Fetches main table equipment data from the server.
+ * 
+ * @returns {Array|null} An array of EquipmentNoOperation objects if successful, or null if an error occurs.
+ */
 export async function getMainTableEq() {
     try {
         let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
@@ -53,52 +59,81 @@ export async function getMainTableEq() {
             console.error("Invalid API response format");
             return null;
         }
-    } catch (err) {
-        console.error(err);
-        return null;
+    } catch (error) {
+        return handleError(error, "Error getting data from getProcOps:");
     }
 }
 
+/**
+ * Fetches project data from the server based on the provided project name.
+ * 
+ * @param {string} projectName - The name of the project to fetch data for.
+ * @returns {Object|Array} The project data if successful, or an empty array if an error occurs.
+ */
 export async function getProjectName(projectName){
     try{
         let apiResp = await axios.post(`http://localhost:8085/processoperation`, projectName);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting data from getProjectName: ", error)
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Fetches all project data from the server.
+ * 
+ * @returns {Array} An array of project data if successful, or an empty array if an error occurs.
+ */
 export async function getAllProjects(){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects`);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting all projects from getAllProjects(): ", error)
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Fetches all TP (Technological Process) data for a specific project from the server.
+ * 
+ * @param {string} projectName - The name of the project to fetch TP data for.
+ * @returns {Array} An array of TP data if successful, or an empty array if an error occurs.
+ */
 export async function getAllTp(projectName){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp`);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting all projects from getAllProjects(): ", error)
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Fetches all versions of a specific TP (Technical Plan) for a project from the server.
+ * 
+ * @param {string} projectName - The name of the project.
+ * @param {string} tp - The TP (Technical Plan) identifier.
+ * @returns {Array} An array of version data if successful, or an empty array if an error occurs.
+ */
 export async function getAllVersions(projectName, tp){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions`);
         return apiResp.data;
     }catch(error){
-        console.error("Error getting all projects from getAllProjects(): ", error)
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
 
+/**
+ * Fetches equipment data by name from the server.
+ * 
+ * @param {string} name - The name of the equipment to fetch.
+ * @returns {EquipmentNoOperation|null} An EquipmentNoOperation object if successful, or null if an error occurs.
+ */
 export async function getEqByName(name) {
     try {
         let apiResp = await axios.get("http://localhost:8085/equipment/"+name);
@@ -121,70 +156,103 @@ export async function getEqByName(name) {
             console.error("Invalid API response format");
             return null;
         }
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        handleError(error, "Error getting data from getProcOps:");
         return null;
     }
 }
 
+/**
+ * Fetches activity type data from the server.
+ * 
+ * @returns {Object|null} The activity type data if successful, or null if an error occurs.
+ */
 export async function getActivityTypeFromAPI() {
     try {
         let apiResp = await axios.get("http://localhost:8085/activity_type");
         return apiResp.data;
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        handleError(error, "Error getting data from getProcOps:");
         return null;
     }
 }
 
+/**
+ * Fetches utensil data from the server.
+ * 
+ * @returns {Array|null} An array of utensil data if successful, or null if an error occurs.
+ */
 export async function getUtensils() {
     try {
         let apiResp = await axios.get("http://localhost:8081/utensils");
         return apiResp.data;
-    } catch (err) {
-        console.error("Failed to retireve data from getUtensils() with error: " + err);
-        throw err;
+    } catch (error) {
+        return handleError(error, "Error getting data from getProcOps:");
     }
 }
 
+/**
+ * Fetches parameter data from the server.
+ * 
+ * @returns {Array|null} An array of parameter data if successful, or null if an error occurs.
+ */
 export async function getParams() {
     try {
         let apiResp = await axios.get("http://localhost:8085/parameters");
         return apiResp.data;
-    } catch (err) {
-        console.error("Failed to retireve data from getUtensils() with error: " + err);
-        throw err;
+    } catch (error) {
+        return handleError(error, "Error getting data from getProcOps:");
+
     }
 }
 
+/**
+ * Sends a POST request to add new equipment data to the server.
+ * 
+ * @param {Object} newEq - The new equipment data to be added.
+ * @returns {Object|null} The response data from the server if successful, or null if an error occurs.
+ */
 export async function postEq(newEq){
     try {
         const apiResp = await axios.post("http://localhost:8085/equipment", newEq);
         return apiResp.data; // Return the response data if needed
     } catch (error) {
-        console.error("Error while posting equipment:", error);
-        throw error; // Rethrow the error to handle it in the caller function
+        return handleError(error, "Error getting data from getProcOps:");
     }
 }
 
+/**
+ * Sends a DELETE request to remove equipment data from the server.
+ * 
+ * @param {string} name - The name of the equipment to be deleted.
+ * @returns {Object|null} The response data from the server if successful, or null if an error occurs.
+ */
 export async function deleteEq(name){
     try{
         const apiResp = await axios.delete("http://localhost:8085/equipment/"+name);
         return apiResp.data
     }catch(error){
-        console.error("Error while deleting equipment: ",error);
-        throw error;
+        return handleError(error, "Error getting data from getProcOps:");
+        
     }
 }
 
+/**
+ * Fetches process initialization info from the server based on the provided project name, TP, and version.
+ * 
+ * @param {string} projectName - The name of the project.
+ * @param {string} tp - The TP (Technological Process) identifier.
+ * @param {string} version - The version of BR.
+ * @returns {Object|null} The process initialization info if successful, or null if an error occurs.
+ */
 export async function getProcessInitInfo(projectName, tp, version){
         if (projectName && tp && version){
                 try{
             const apiResp = await axios.get(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
             return apiResp.data
             }catch(error){
-                console.error("Error while deleting equipment: ",error);
-                throw error;
+                return handleError(error, "Error getting data from getProcOps:");
+                
             }
         }else{
             console.log("Wrong type of data",projectName,tp,version)

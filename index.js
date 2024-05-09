@@ -45,7 +45,6 @@ app.use(eqHandlers);
  */
 app.post("/create_process_op", async (req, res) => {
     const newOp = createProcessOperation(req.body);
-    console.log("new operation: ..........",newOp);
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
@@ -165,6 +164,17 @@ app.get("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
+app.post("/", async (req,res)=>{
+    const {projectName, tp, version} = req.body;
+    if (projectName, tp, version){
+        let apiResp = await getProcessInitInfo(projectName, tp, version);
+        if(apiResp){
+            req.session.localMemory = apiResp;
+        }
+    }
+
+    res.redirect("/")
+})
 
 /**
  * Route handler for the home page.
