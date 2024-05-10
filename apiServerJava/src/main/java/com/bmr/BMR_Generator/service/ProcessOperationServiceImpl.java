@@ -129,6 +129,8 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
         addMaterialIN(processOperationReq,processOperation);
         addMaterialOUT(processOperationReq,processOperation);
         addMainEquipment(processOperationReq,processOperation);
+        addStartingMaterial(processOperationReq,processOperation);
+        addStartingProduct(processOperationReq,processOperation);
         
         return processOperation;
     }
@@ -146,6 +148,22 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
             var materialIN = processOperationReq.getMaterialIN();
             materialIN.setProcessOperationIN(processOperation);
             processOperation.setMaterialIN(materialIN);
+        }
+    }
+    
+    private void addStartingMaterial(ProcessOperation processOperationReq, ProcessOperation processOperation) {
+        if (processOperationReq.getStartingMaterial() != null) {
+            var startingMaterial = processOperationReq.getStartingMaterial();
+            startingMaterial.setProcessOperationIN(processOperation);
+            processOperation.setStartingMaterial(startingMaterial);
+        }
+    }
+    
+    private void addStartingProduct(ProcessOperation processOperationReq, ProcessOperation processOperation) {
+        if (processOperationReq.getProduct() != null) {
+            var product = processOperationReq.getProduct();
+            product.setProcessOperationIN(processOperation);
+            processOperation.setProduct(product);
         }
     }
     
