@@ -70,8 +70,7 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
         query.setParameter("projectName", processOperation.getProjectName());
         query.setParameter("tp", processOperation.getTp());
         query.setParameter("version", processOperation.getVersion());
-        Integer maxOpNumber = (Integer) query.getSingleResult();
-        return maxOpNumber == -1 ? 1 : maxOpNumber;
+        return (int) query.getSingleResult();
     }
     
     @Override

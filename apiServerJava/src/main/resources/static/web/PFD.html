@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Process Flow Diagram</title>
+    <style>
+        /* Define styles for equipment and materials */
+        .equipment {
+            width: 160px;
+            height: 250px; /* Increased height to accommodate both materialIN and materialOUT */
+            background-color: #93cff8;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .equipment img {
+            margin-top: 40px;
+            width: 100%;
+            height: auto;
+        }
+
+        .material {
+            background-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            left: 0;
+            text-align: center;
+            line-height: 40px;
+            color: #111111;
+        }
+
+        .materialIN {
+            top: 0;
+        }
+
+        .materialOUT {
+            bottom: 0;
+        }
+
+        .equipment-info {
+            margin-top: 5px;
+        }
+
+        .operation-number {
+            font-weight: lighter;
+            font-style: italic;
+        }
+
+        /* Define styles for arrows */
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+
+        .arrow-down {
+            border-top: 10px solid #464e52; /* Same color as equipment background */
+            top: 40px; /* Adjust based on material height */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+<div id="equipmentContainer"></div>
+
+<script>
+    function insertEquipmentPictures(processOperations) {
+        let container = document.getElementById("equipmentContainer");
+
+        processOperations.forEach(function (operation, index) {
+            let equipmentDiv = document.createElement("div");
+            equipmentDiv.classList.add("equipment");
+
+            // Create an image element for the main equipment
+            let equipmentImg = document.createElement("img");
+            equipmentImg.src = operation.mainEquipment.pictureUrl;
+            equipmentImg.alt = operation.mainEquipment.name;
+            equipmentDiv.appendChild(equipmentImg);
+
+            // Display the main equipment name and Operation #
+            let equipmentInfo = document.createElement("div");
+            equipmentInfo.classList.add("equipment-info");
+            let equipmentName = document.createElement("div");
+            equipmentName.classList.add("equipment-name");
+            equipmentName.textContent = operation.mainEquipment.name;
+            equipmentInfo.appendChild(equipmentName);
+
+            let operationNumber = document.createElement("div");
+            operationNumber.classList.add("operation-number");
+            operationNumber.textContent = "Operation #" + operation.opNumber;
+            equipmentInfo.appendChild(operationNumber);
+
+            equipmentDiv.appendChild(equipmentInfo);
+
+            // Create a div for Arrow
+
+
+            // Create a div for materialIN flow
+            let materialINDiv = document.createElement("div");
+            materialINDiv.classList.add("material");
+            materialINDiv.classList.add("materialIN");
+            materialINDiv.textContent = operation.materialIN.name;
+            let arrowDownIN = document.createElement("div");
+            arrowDownIN.classList.add("arrow");
+            arrowDownIN.classList.add("arrow-down");
+            materialINDiv.appendChild(arrowDownIN);
+            equipmentDiv.appendChild(materialINDiv);
+
+            // Create a div for materialOUT flow
+            let materialOUTDiv = document.createElement("div");
+            materialOUTDiv.classList.add("material");
+            materialOUTDiv.classList.add("materialOUT");
+            materialOUTDiv.textContent = operation.materialOUT.name;
+            let arrowDownOUT = document.createElement("div");
+            arrowDownOUT.classList.add("arrow");
+            arrowDownOUT.classList.add("arrow-down");
+            materialOUTDiv.appendChild(arrowDownOUT);
+            equipmentDiv.appendChild(materialOUTDiv);
+
+
+
+
+            container.appendChild(equipmentDiv);
+        });
+    }
+
+    // Example list of ProcessOperationDTO objects
+    let processOperations = [
+        {
+            projectName: "tile",
+            tp: "tp1",
+            opNumber: 100,
+            version: "3",
+            mainEquipment: {
+                name: "Reactor for operation",
+                code: "MOCK123",
+                pictureUrl: "123.jpeg"
+            },
+            materialIN: {
+                name: "Ethanol",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "final product",
+                whcode: "PROD_X"
+            },
+            materialOUT: {
+                name: "Product OUT",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "final product",
+                whcode: "PROD_X"
+            }
+        },
+        {
+            projectName: "tile",
+            tp: "tp1",
+            opNumber: 101,
+            version: "3",
+            mainEquipment: {
+                name: "Oven",
+                code: "MOCK123",
+                pictureUrl: "123.jpeg"
+            },
+            materialIN: {
+                name: "Product from op 100",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "final product",
+                whcode: "PROD_X"
+            },
+            materialOUT: {
+                name: "Muddy Mass",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "final product",
+                whcode: "PROD_X"
+            }
+        },
+        {
+            projectName: "tile",
+            tp: "tp1",
+            opNumber: 102,
+            version: "3",
+            mainEquipment: {
+                name: "Grinder",
+                code: "MOCK123",
+                pictureUrl: "123.jpeg"
+            },
+            materialIN: {
+                name: "Product from op 101",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "Muddy Mass",
+                whcode: "PROD_X"
+            },
+            materialOUT: {
+                name: "Final",
+                mass: 10,
+                minMass: null,
+                maxMass: null,
+                volume: -1,
+                additionalInfo: "Final",
+                whcode: "PROD_X"
+            }
+        }
+    ];
+
+    // Call the function with the list of ProcessOperationDTO objects
+    insertEquipmentPictures(processOperations);
+</script>
+
+</body>
+</html>

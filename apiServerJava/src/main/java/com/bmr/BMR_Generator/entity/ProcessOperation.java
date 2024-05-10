@@ -57,4 +57,12 @@ public class ProcessOperation {
     @JoinColumn(name = "output_material_id", referencedColumnName = "id")
     private Material materialOUT;
     
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "starting_material_id", referencedColumnName = "id")
+    private Material startingMaterial;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_material_id", referencedColumnName = "id")
+    private Material product;
+    
 }
