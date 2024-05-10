@@ -258,3 +258,21 @@ export async function getProcessInitInfo(projectName, tp, version){
             console.log("Wrong type of data",projectName,tp,version)
         }
     }
+
+    export async function deleteProcessInitialInfo(projectName, tp, version){
+        try{
+            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            return apiResp.data
+        }catch(error){
+            return handleError(error, "Error getting data from getProcOps:");
+        }
+    }
+
+    export async function postProcessInitialInfo(localMemory){
+        try{
+            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo`);
+            return apiResp.data
+        }catch(error){
+            return handleError(error, "Error getting data from getProcOps:");
+        }
+    }

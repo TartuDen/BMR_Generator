@@ -92,14 +92,13 @@
                                     <!-- _______________________Filling new operation__________________________ -->
                                         <tr>
                                             <form action="/create_process_op" method="post">
-                                                <% if(br_ops.length>0) {%>
-                                                    
+                                                <% if (br_ops.length > 0) { %>
                                                 <td style="width: 3%; padding: 8px; margin: 0;">
-                                                    <span type="number" class="form-control" id="opNumber" name="opNumber"><%= br_ops[br_ops.length-1].opNumber+1%></span>
-                                                </td>    
-                                                <% }else{ %>
+                                                    <input type="number" class="form-control" id="opNumber" name="opNumber" value="<%= br_ops[br_ops.length-1].opNumber + 1 %>" readonly>
+                                                </td>
+                                                <% } else { %>
                                                 <td style="width: 3%; padding: 8px; margin: 0;">
-                                                    <span type="number" class="form-control" id="opNumber" name="opNumber">1</span>
+                                                    <input type="number" class="form-control" id="opNumber" name="opNumber" value="1" readonly>
                                                 </td>
                                                 <% } %>
 
