@@ -10,8 +10,8 @@ export function selectOps(operationsMap, localMemory) {
     for (let operation of operationsMap) {
 
         for (let eqSet of localMemory.equipmentSet) {
-            let code = eqSet.eq_code;
-            let eq = eqSet.eq_name;
+            let code = eqSet.code;
+            let eq = eqSet.name;
             let idIndex = eq.indexOf("id");
             if (idIndex !== -1) { // Check if "id" exists in the string
                 eq = eq.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
@@ -25,6 +25,7 @@ export function selectOps(operationsMap, localMemory) {
     return selectedOperationMap;
 }
 export function convertToMemoryObj(inputObject) {
+    console.log("inputObj: ............ ", inputObject);
     let equipmentSet = [];
     let reagentSet = [];
 
@@ -34,8 +35,8 @@ export function convertToMemoryObj(inputObject) {
             // Check if the property represents equipment
             if (key.startsWith('balances') || key.startsWith('reactor') || key.startsWith('d_filter') || key.startsWith('n_filter') || key.startsWith('m_pump') || key.startsWith('p_pump') || key.startsWith('o_pump') || key.startsWith('vac_oven') || key.startsWith('conv_oven')) {
                 equipmentSet.push({
-                    eq_name: key,
-                    eq_code: inputObject[key]
+                    name: key,
+                    code: inputObject[key]
                 });
             } 
             // Check if the property represents a reagent
@@ -43,12 +44,12 @@ export function convertToMemoryObj(inputObject) {
                 // Extract the reagent index from the key
                 const reagIndex = key.slice(7);
                 // Construct the reagent object and push it to the reagents array
-                reagentSet.push(new Reagent(key, inputObject[key], inputObject['amount' + reagIndex]));
+                reagentSet.push(new Reagent(key, inputObject[key], inputObject['mass' + reagIndex]));
             }
         }
     }
 
-    return new LocalMemory(inputObject.projectName, inputObject.tp, inputObject.version, equipmentSet, reagentSet);
+    return new LocalMemory({projectName: inputObject.projectName, tp: inputObject.tp, version: inputObject.version, equipmentSet, reagentSet});
 }
 
 // Function to get content and other for equipment type and activity type
@@ -80,18 +81,18 @@ export function populateContent(content, localMemory) {
 
     // Populate equipmentMap with equipment names as keys and array of codes as values
     equipmentSet.forEach(item => {
-        const { eq_name, eq_code } = item;
-        // const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
+        const { name, code } = item;
+        // const nameWithoutIndex = name.slice(0, -3); // Remove last 3 characters
         let nameWithoutIndex;
-        let idIndex = eq_name.indexOf("id");
+        let idIndex = name.indexOf("id");
         if (idIndex !== -1) { // Check if "id" exists in the string
-            nameWithoutIndex = eq_name.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
+            nameWithoutIndex = name.slice(0, idIndex); // Slice the string from the beginning to the index of "id"
         }
 
         if (!equipmentMap.has(nameWithoutIndex)) {
             equipmentMap.set(nameWithoutIndex, []);
         }
-        equipmentMap.get(nameWithoutIndex).push(eq_code);
+        equipmentMap.get(nameWithoutIndex).push(code);
     });
 
     // console.log("eqMap:", equipmentMap);
@@ -139,7 +140,7 @@ export function populateUts(content, utensils, localMemory) {
 
 export function populateMaterials(content, localMemory) {
     const { reagentSet } = localMemory;
-    const reagentsMap = new Map(reagentSet.map(reagent => [reagent.reag_id, { name: reagent.reag_name, amount: reagent.reag_amount }]));
+    const reagentsMap = new Map(reagentSet.map(reagent => [reagent.tableID, { name: reagent.name, mass: reagent.masss }]));
 
     // Regular expression to match placeholders inside curly braces containing the word "material"
     const placeholderRegex = /{(\bmaterial\b)}/g;
@@ -147,7 +148,7 @@ export function populateMaterials(content, localMemory) {
     // Replace placeholders in the content
     const populatedContent = content.replace(placeholderRegex, () => {
         // Create the select element options using the reagentsMap
-        const options = Array.from(reagentsMap.values()).map(reagent => `<option value="${reagent.name}">${reagent.name} - ${reagent.amount}</option>`).join('');
+        const options = Array.from(reagentsMap.values()).map(reagent => `<option value="${reagent.name}">${reagent.name} - ${reagent.mass}</option>`).join('');
 
         // Construct the select element with the provided id and name, including a default "select" option
         return `<select name="material"><option value="">--select--</option>${options}</select>`;

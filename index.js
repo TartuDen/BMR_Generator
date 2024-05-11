@@ -143,7 +143,7 @@ app.post("/operation_table", async (req, res) => {
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     console.log("*********************");
     console.log("localMemory: ............ ",localMemory);
-    console.log(apiResp1, apiResp2, apiResp3);
+    console.log("delete: ",apiResp1, "post: ",apiResp2, "get: ",apiResp3);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
@@ -173,17 +173,16 @@ app.get("/operation_table", async (req, res) => {
 
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
-    if (projectName, tp, version){
-        let apiResp = await getProcessInitInfo(projectName, tp, version);
-        console.log(apiResp);
-        if(apiResp){
-            req.session.localMemory = apiResp;
-        }else{
-            req.session.localMemory = new LocalMemory();
-        }
+    if (projectName && tp && version){
+
+        let apiRespData = await getProcessInitInfo(projectName, tp, version);
+
+        let localMemory = new LocalMemory(apiRespData);
+        console.log(localMemory);
+        req.session.localMemory = localMemory;
     }
 
-    res.redirect("/")
+    res.redirect("/");
 })
 
 /**
@@ -197,11 +196,20 @@ app.get("/", async (req, res) => {
     let { projectName } = req.query;
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
+    let localMemory;
+    if (req.session.localMemory){
+        localMemory = req.session.localMemory
+    }else{
+        localMemory = new LocalMemory;
+    }
     // let localMemory = await getProcessInitInfo()
     let allTpFromProj = [];
     if (projectName) {
         allTpFromProj = await getAllTp(projectName);
     }
+    // console.log("localMem: ................ ", localMemory);
+    console.log(equipmentMap);
+    console.log(localMemory);
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
 });
 

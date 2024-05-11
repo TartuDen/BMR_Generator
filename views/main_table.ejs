@@ -81,15 +81,16 @@
                                                     <select id="<%= item.name %>id1_<%= index %>" name="<%= item.name %>id1_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id1_' + index) && localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id1_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
-                                                        <% }); %>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.name == item.name + 'id1_' + index) && localMemory.equipmentSet.find(eq => eq.name == item.name + 'id1_' + index).code == info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <%  %>
+                                                            <% }); %>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select id="<%= item.name %>id2_<%= index %>" name="<%= item.name %>id2_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id2_' + index) && localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id2_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.name == item.name + 'id2_' + index) && localMemory.equipmentSet.find(eq => eq.name == item.name + 'id2_' + index).code == info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
@@ -114,16 +115,16 @@
                                     <tbody>
                                         <% localMemory.reagentSet.forEach((reagent, index) => { %>
                                             <tr>
-                                                <td><input type="text" name="reagent<%= index %>" class="form-control" value="<%= reagent.reag_name %>" placeholder="Reagent here"></td>
-                                                <td><input type="number" name="amount<%= index %>" class="form-control" value="<%= reagent.reag_amount %>" placeholder="Amounts in kg" step="any"></td>
+                                                <td><input type="text" name="reagent<%= index %>" class="form-control" value="<%= reagent.name %>" placeholder="Reagent here"></td>
+                                                <td><input type="number" name="mass<%= index %>" class="form-control" value="<%= reagent.mass %>" placeholder="mass in kg" step="any"></td>
                                             </tr>
                                         <% }); %>
 
 
-                                            <!-- Initial row for reagent and amount -->
+                                            <!-- Initial row for reagent and mass -->
                                             <tr>
                                                 <td><input type="text" name="reagent1" class="form-control" placeholder="Reagent here"></td>
-                                                <td><input type="number" name="amount1" class="form-control" placeholder="Amounts in kg" step="any" min="0"></td>
+                                                <td><input type="number" name="mass1" class="form-control" placeholder="mass in kg" step="any" min="0"></td>
                                             </tr>
        
 
@@ -171,7 +172,7 @@
                         const newRow = document.createElement('tr');
                         newRow.innerHTML = `
                             <td><input type="text" name="reagent${rowCounter}" class="form-control" placeholder="Reagent here"></td>
-                            <td><input type="number" name="amount${rowCounter}" class="form-control" placeholder="Amounts in kg" step="any"  min="0"></td>
+                            <td><input type="number" name="mass${rowCounter}" class="form-control" placeholder="mass in kg" step="any"  min="0"></td>
                         `;
 
                         // Append new row to table
