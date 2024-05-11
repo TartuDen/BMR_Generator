@@ -264,15 +264,15 @@ export async function getProcessInitInfo(projectName, tp, version){
             const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
             return apiResp.data
         }catch(error){
-            return handleError(error, "Error getting data from getProcOps:");
+            return handleError(error, "Error getting data from deleteProcessInitialInfo:");
         }
     }
 
     export async function postProcessInitialInfo(localMemory){
         try{
-            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo`);
+            const apiResp = await axios.post(`http://localhost:8085/processInitialInfo`, localMemory);
             return apiResp.data
         }catch(error){
-            return handleError(error, "Error getting data from getProcOps:");
+            return handleError(error, "Error getting data from postProcessInitialInfo:");
         }
     }

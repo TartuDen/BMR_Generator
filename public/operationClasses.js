@@ -8,7 +8,9 @@ export class ProcessOperation {
     typicalActivity = null,
     materialIn = null,
     materialOut = null,
-    wastes = null
+    wastes = null,
+    startingMaterial = null,
+    product = null
   ) {
     this.projectName = projectName;
     this.tp = tp;
@@ -19,6 +21,8 @@ export class ProcessOperation {
     this.materialIn = materialIn;
     this.materialOut = materialOut;
     this.wastes = wastes;
+    this.startingMaterial = startingMaterial;
+    this.product = product;
   }
 }
 

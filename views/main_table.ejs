@@ -81,7 +81,7 @@
                                                     <select id="<%= item.name %>id1_<%= index %>" name="<%= item.name %>id1_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + 'id1_' + index) && localMemory.equipment.find(eq => eq.eq_name === item.name + 'id1_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id1_' + index) && localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id1_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
@@ -89,7 +89,7 @@
                                                     <select id="<%= item.name %>id2_<%= index %>" name="<%= item.name %>id2_<%= index %>" class="form-select" style="width: 100%;">
                                                         <option value="">⛏️</option>
                                                         <% item.equipmentInfo.forEach(function(info) { %>
-                                                            <option value="<%= info.code %>" <% if(localMemory.equipment.find(eq => eq.eq_name === item.name + 'id2_' + index) && localMemory.equipment.find(eq => eq.eq_name === item.name + 'id2_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
+                                                            <option value="<%= info.code %>" <% if(localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id2_' + index) && localMemory.equipmentSet.find(eq => eq.eq_name === item.name + 'id2_' + index).eq_code === info.code) { %> selected <% } %>><%= info.code %> <%= info.description %></option>
                                                         <% }); %>
                                                     </select>
                                                 </td>
@@ -112,7 +112,7 @@
                                 <table class="table table-info" id="reagentTable">
                                     <h2>Insert Materials</h2>
                                     <tbody>
-                                        <% localMemory.reagents.forEach((reagent, index) => { %>
+                                        <% localMemory.reagentSet.forEach((reagent, index) => { %>
                                             <tr>
                                                 <td><input type="text" name="reagent<%= index %>" class="form-control" value="<%= reagent.reag_name %>" placeholder="Reagent here"></td>
                                                 <td><input type="number" name="amount<%= index %>" class="form-control" value="<%= reagent.reag_amount %>" placeholder="Amounts in kg" step="any"></td>
