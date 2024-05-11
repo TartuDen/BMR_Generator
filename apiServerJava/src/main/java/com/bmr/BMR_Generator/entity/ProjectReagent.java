@@ -22,6 +22,10 @@ public class ProjectReagent {
     @NonNull
     private String name;
     
+    @Column(name = "mass", nullable = false)
+    @NonNull
+    private Double mass;
+    
     @ManyToOne
     @JoinColumn(name = "processinitialinfo_id")
     @ToString.Exclude

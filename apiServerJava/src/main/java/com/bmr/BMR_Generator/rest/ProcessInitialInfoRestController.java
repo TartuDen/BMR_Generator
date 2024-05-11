@@ -38,8 +38,6 @@ public class ProcessInitialInfoRestController {
     
     @PostMapping("/processInitialInfo")
     public ResponseEntity<?> saveProcessInitialInfo(@RequestBody ProcessInitialInfo processInitialInfo){
-        System.out.println("saveProcessInitialInfo");
-        System.out.println(processInitialInfo);
         var response = processInitialInfoService.save(processInitialInfo);
         return ResponseEntity.ok(response);
     }
