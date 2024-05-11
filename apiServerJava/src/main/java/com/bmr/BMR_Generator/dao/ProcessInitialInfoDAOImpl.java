@@ -35,13 +35,14 @@ public class ProcessInitialInfoDAOImpl implements ProcessInitialInfoDAO{
     @Override
     @Transactional
     public boolean deleteByNameTpVersion(String projectName, String tp, String version) {
-        String jpql = "DELETE FROM ProcessInitialInfo e WHERE e.projectName = :projectName AND tp = :tp AND version = :version";
-        int deletedCount = entityManager.createQuery(jpql)
+        String jpql = "SELECT e FROM ProcessInitialInfo e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
+        ProcessInitialInfo processInitialInfo = entityManager.createQuery(jpql, ProcessInitialInfo.class)
                 .setParameter("projectName", projectName)
                 .setParameter("tp", tp)
                 .setParameter("version", version)
-                .executeUpdate();
-        return deletedCount > 0;
+                .getSingleResult();
+        entityManager.remove(processInitialInfo);
+        return true;
     }
     
     @Override
