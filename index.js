@@ -1,7 +1,7 @@
 import express, { response } from "express"; 
 import bodyParser from "body-parser"; 
 import session from "express-session";
-import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getProcessInitInfo } from "./public/apiCallFuncs.js";
+import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getProcessInitInfo, deleteProcessInitialInfo, postProcessInitialInfo } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
@@ -138,6 +138,12 @@ app.get("/get_description", async (req, res) => {
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
     localMemory = convertToMemoryObj(localMemory);
+    let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
+    let apiResp2 = await postProcessInitialInfo(localMemory);
+    let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
+    console.log("*********************");
+    console.log("localMemory: ............ ",localMemory);
+    console.log(apiResp1, apiResp2, apiResp3);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
@@ -164,12 +170,16 @@ app.get("/operation_table", async (req, res) => {
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
+
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
     if (projectName, tp, version){
         let apiResp = await getProcessInitInfo(projectName, tp, version);
+        console.log(apiResp);
         if(apiResp){
             req.session.localMemory = apiResp;
+        }else{
+            req.session.localMemory = new LocalMemory();
         }
     }
 

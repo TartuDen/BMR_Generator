@@ -9,7 +9,7 @@ export function selectOps(operationsMap, localMemory) {
 
     for (let operation of operationsMap) {
 
-        for (let eqSet of localMemory.equipment) {
+        for (let eqSet of localMemory.equipmentSet) {
             let code = eqSet.eq_code;
             let eq = eqSet.eq_name;
             let idIndex = eq.indexOf("id");
@@ -25,15 +25,15 @@ export function selectOps(operationsMap, localMemory) {
     return selectedOperationMap;
 }
 export function convertToMemoryObj(inputObject) {
-    let equipment = [];
-    let reagents = [];
+    let equipmentSet = [];
+    let reagentSet = [];
 
     // Iterate over the inputObject properties
     for (let key in inputObject) {
         if (inputObject.hasOwnProperty(key) && inputObject[key] !== '') {
             // Check if the property represents equipment
             if (key.startsWith('balances') || key.startsWith('reactor') || key.startsWith('d_filter') || key.startsWith('n_filter') || key.startsWith('m_pump') || key.startsWith('p_pump') || key.startsWith('o_pump') || key.startsWith('vac_oven') || key.startsWith('conv_oven')) {
-                equipment.push({
+                equipmentSet.push({
                     eq_name: key,
                     eq_code: inputObject[key]
                 });
@@ -43,12 +43,12 @@ export function convertToMemoryObj(inputObject) {
                 // Extract the reagent index from the key
                 const reagIndex = key.slice(7);
                 // Construct the reagent object and push it to the reagents array
-                reagents.push(new Reagent(key, inputObject[key], inputObject['amount' + reagIndex]));
+                reagentSet.push(new Reagent(key, inputObject[key], inputObject['amount' + reagIndex]));
             }
         }
     }
 
-    return new LocalMemory(inputObject.projectName, inputObject.tp, inputObject.version, equipment, reagents);
+    return new LocalMemory(inputObject.projectName, inputObject.tp, inputObject.version, equipmentSet, reagentSet);
 }
 
 // Function to get content and other for equipment type and activity type
@@ -75,11 +75,11 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
 
 export function populateContent(content, localMemory) {
 
-    const { equipment } = localMemory;
+    const { equipmentSet } = localMemory;
     const equipmentMap = new Map();
 
     // Populate equipmentMap with equipment names as keys and array of codes as values
-    equipment.forEach(item => {
+    equipmentSet.forEach(item => {
         const { eq_name, eq_code } = item;
         // const nameWithoutIndex = eq_name.slice(0, -3); // Remove last 3 characters
         let nameWithoutIndex;
@@ -138,8 +138,8 @@ export function populateUts(content, utensils, localMemory) {
 }
 
 export function populateMaterials(content, localMemory) {
-    const { reagents } = localMemory;
-    const reagentsMap = new Map(reagents.map(reagent => [reagent.reag_id, { name: reagent.reag_name, amount: reagent.reag_amount }]));
+    const { reagentSet } = localMemory;
+    const reagentsMap = new Map(reagentSet.map(reagent => [reagent.reag_id, { name: reagent.reag_name, amount: reagent.reag_amount }]));
 
     // Regular expression to match placeholders inside curly braces containing the word "material"
     const placeholderRegex = /{(\bmaterial\b)}/g;

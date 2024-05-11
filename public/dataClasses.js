@@ -1,11 +1,11 @@
 
 export class LocalMemory {
-    constructor(projectName="", tp="", version="", equipment=[], reagents=[]) {
+    constructor(projectName="", tp="", version="", equipmentSet=[], reagentSet=[]) {
         this.projectName = projectName;
         this.tp = tp;
         this.version = version;
-        this.equipment = equipment;
-        this.reagents = reagents;
+        this.equipmentSet = equipmentSet;
+        this.reagentSet = reagentSet;
     }
 }
 
