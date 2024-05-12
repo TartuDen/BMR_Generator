@@ -174,13 +174,15 @@ app.get("/operation_table", async (req, res) => {
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
     if (projectName && tp && version){
-
         let apiRespData = await getProcessInitInfo(projectName, tp, version);
 
-        let localMemory = new LocalMemory(apiRespData);
-        console.log(localMemory);
-        req.session.localMemory = localMemory;
+        localMemory = new LocalMemory(apiRespData);
+    }else{
+        localMemory = new LocalMemory();
+
     }
+    req.session.localMemory = localMemory;
+
 
     res.redirect("/");
 })
@@ -207,9 +209,6 @@ app.get("/", async (req, res) => {
     if (projectName) {
         allTpFromProj = await getAllTp(projectName);
     }
-    // console.log("localMem: ................ ", localMemory);
-    console.log(equipmentMap);
-    console.log(localMemory);
     res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
 });
 

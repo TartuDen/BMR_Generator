@@ -182,29 +182,34 @@
 
             </script>
 
-            
+            <script>
+                function refreshPage() {
+                    location.reload();
+                }
+            </script>
+
             <script> //script to send axios.post to proxy server with projectName, tp and version data, to get localMemory
                 async function submitForm() {
-                // Get input values
-                const projectName = document.getElementById('inputFieldProject').value;
-                const tp = document.getElementById('inputFieldTP').value;
-                const version = document.getElementById('inputFieldVersion').value;
-            
-                // Prepare data to send
-                const data = {
-                    projectName: projectName,
-                    tp: tp,
-                    version: version
-                };
-            
-                try {
-                    // Send POST request using Axios
-                    const response = await axios.post('/', data);
-                    console.log('POST request successful');
-                    console.log('Response:', response.data);
-                } catch (error) {
-                    console.error('Error sending POST request:', error);
-                }
+                    // Get input values
+                    const projectName = document.getElementById('inputFieldProject').value;
+                    const tp = document.getElementById('inputFieldTP').value;
+                    const version = document.getElementById('inputFieldVersion').value;
+                
+                    // Prepare data to send
+                    const data = {
+                        projectName: projectName,
+                        tp: tp,
+                        version: version
+                    };
+                
+                    try {
+                        // Send POST request using Axios
+                        const response = await axios.post('/', data);
+                        console.log('POST request successful');
+                    } catch (error) {
+                        console.error('Error sending POST request:', error);
+                    }  
+                    refreshPage();              
                 }
             </script>
  
