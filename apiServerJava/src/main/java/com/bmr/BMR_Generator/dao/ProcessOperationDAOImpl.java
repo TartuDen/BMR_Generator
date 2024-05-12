@@ -139,6 +139,32 @@ public class ProcessOperationDAOImpl implements ProcessOperationDAO {
     }
     
     @Override
+    @Transactional
+    public boolean deleteByProjectNameAndVersion(String projectName, String tp, String version) {
+        try {
+            
+            getByProjectNameAndTpAndVersion(projectName, tp, version).forEach(record -> entityManager.remove(record));
+            return true;
+        } catch (Exception e) {
+            var errMsg = "Error occurred while deleting ProcessOperation - " + projectName + " / ";
+            LOGGER.error(errMsg + projectName + tp + version, e);
+            throw new BrApiServerException(errMsg);
+        }
+    }
+    
+    @Transactional
+    public List<ProcessOperation> getByProjectNameAndTpAndVersion(String projectName, String tp, String version) {
+        String jpql = "SELECT e FROM ProcessOperation e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
+        TypedQuery<ProcessOperation> query = entityManager.createQuery(jpql, ProcessOperation.class);
+        query.setParameter("projectName", projectName);
+        query.setParameter("tp", tp);
+        query.setParameter("version", version);
+        return query.getResultStream()
+                .collect(Collectors.toList());
+        
+    }
+    
+    @Override
     public List<String> getListOfProjects(String projectName) {
         return null;
     }

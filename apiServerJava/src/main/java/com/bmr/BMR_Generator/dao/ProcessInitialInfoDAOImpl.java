@@ -35,25 +35,25 @@ public class ProcessInitialInfoDAOImpl implements ProcessInitialInfoDAO{
     @Override
     @Transactional
     public boolean deleteByNameTpVersion(String projectName, String tp, String version) {
+        ProcessInitialInfo processInitialInfo = getProcessInitialInfo(projectName, tp, version);
+        entityManager.remove(processInitialInfo);
+        return true;
+    }
+    
+    private ProcessInitialInfo getProcessInitialInfo(String projectName, String tp, String version) {
         String jpql = "SELECT e FROM ProcessInitialInfo e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
         ProcessInitialInfo processInitialInfo = entityManager.createQuery(jpql, ProcessInitialInfo.class)
                 .setParameter("projectName", projectName)
                 .setParameter("tp", tp)
                 .setParameter("version", version)
                 .getSingleResult();
-        entityManager.remove(processInitialInfo);
-        return true;
+        return processInitialInfo;
     }
     
     @Override
     @Transactional(readOnly = true)
     public ProcessInitialInfoDTO findByNameTpVersion(String projectName, String tp, String version) {
-        String jpql = "SELECT e FROM ProcessInitialInfo e WHERE e.projectName = :projectName AND e.tp = :tp AND e.version = :version";
-        ProcessInitialInfo processInitialInfo = entityManager.createQuery(jpql, ProcessInitialInfo.class)
-                .setParameter("projectName", projectName)
-                .setParameter("tp", tp)
-                .setParameter("version", version)
-                .getSingleResult();
+        ProcessInitialInfo processInitialInfo = getProcessInitialInfo(projectName, tp, version);
         
         return new ProcessInitialInfoDTO(processInitialInfo);
     }

@@ -133,4 +133,12 @@ public class ProcessOperationRestController {
             @PathVariable String version) {
         return ResponseEntity.ok(processOperationService.deleteByProjectNameAndOpNumber(projectName, tp, opNumber, version));
     }
+    
+    @DeleteMapping("/processoperation/{projectName}/{tp}/{version}")
+    public ResponseEntity<?> deleteByProjectNameAndOpNumberAndVersion(
+            @PathVariable String projectName,
+            @PathVariable String tp,
+            @PathVariable String version) {
+        return ResponseEntity.ok(processOperationService.deleteByProjectNameAndVersion(projectName, tp, version));
+    }
 }

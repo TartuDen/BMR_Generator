@@ -103,6 +103,20 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     }
     
     @Override
+    public Response deleteByProjectNameAndVersion(String projectName, String tp, String version) {
+        try {
+            boolean result = processOperationDAO.deleteByProjectNameAndVersion(projectName, tp, version);
+            return result ?
+                    generateResponse(200, "ProcessOperation deleted successfully")
+                    : generateResponse(400, "ProcessOperation was not deleted");
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete ProcessOperation", e);
+            return generateResponse(500, "Failed to delete ProcessOperation: " + e.getMessage());
+            
+        }
+    }
+    
+    @Override
     public List<ProcessOperationDTO> findByProjectNameAndTp(String projectName, String tp, String version) {
         return processOperationDAO.findByProjectNameAndTpAndVersion(projectName, tp, version);
     }

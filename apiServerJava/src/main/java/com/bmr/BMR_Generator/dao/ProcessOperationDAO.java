@@ -17,6 +17,7 @@ public interface ProcessOperationDAO {
     List<ProcessOperationDTO> findByProjectNameAndVersion (String projectName, String version);
     ProcessOperation getByProjectNameTpAndOpNumber(String projectName, String tp, String opNumber, String version);
     boolean deleteByProjectNameAndOpNumber (String projectName, String tp, String opNumber, String version);
+    boolean deleteByProjectNameAndVersion (String projectName, String tp, String version);
     
     List<String> getListOfProjects (String projectName);
 }
