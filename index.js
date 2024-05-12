@@ -141,9 +141,6 @@ app.post("/operation_table", async (req, res) => {
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
-    console.log("*********************");
-    console.log("localMemory: ............ ",localMemory);
-    console.log("delete: ",apiResp1, "post: ",apiResp2, "get: ",apiResp3);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);

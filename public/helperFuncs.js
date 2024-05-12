@@ -25,7 +25,6 @@ export function selectOps(operationsMap, localMemory) {
     return selectedOperationMap;
 }
 export function convertToMemoryObj(inputObject) {
-    console.log("inputObj: ............ ", inputObject);
     let equipmentSet = [];
     let reagentSet = [];
 
@@ -95,7 +94,6 @@ export function populateContent(content, localMemory) {
         equipmentMap.get(nameWithoutIndex).push(code);
     });
 
-    // console.log("eqMap:", equipmentMap);
     // Regular expression to match placeholders inside curly braces {}
     const placeholderRegex = /{([^{}]*)}/g;
 
@@ -140,7 +138,7 @@ export function populateUts(content, utensils, localMemory) {
 
 export function populateMaterials(content, localMemory) {
     const { reagentSet } = localMemory;
-    const reagentsMap = new Map(reagentSet.map(reagent => [reagent.tableID, { name: reagent.name, mass: reagent.masss }]));
+    const reagentsMap = new Map(reagentSet.map(reagent => [reagent.tableID, { name: reagent.name, mass: reagent.mass }]));
 
     // Regular expression to match placeholders inside curly braces containing the word "material"
     const placeholderRegex = /{(\bmaterial\b)}/g;
