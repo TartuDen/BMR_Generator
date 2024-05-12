@@ -15,260 +15,267 @@
 </head>
 
 <body>
-
-    <!-- Header -->
-    <%- include("partials/header.ejs") %>
-
-        <!-- Main content -->
-        <div class="wrapper">
+    <div>
+        <!-- Include your header content here -->
+        <%- include("partials/header.ejs") %>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
             <!-- Sidebar -->
-            <%- include("partials/sidebar.ejs") %>
+            <div class="col-lg-2">
+                <!-- Include your sidebar content here -->
+                <%- include("partials/sidebar.ejs") %>
+            </div>
+            
+            <!-- Main content -->
+            <div class="col-lg-9">
 
-                <!-- Table content -->
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                    <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
-                        <table class="table table-bordered table-hover">
-                            <thead>
+
+                <div>
+                    <h2><%= localMemory.projectName %> <%= localMemory.tp %> <%= localMemory.version %></h2>
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">
+                    <!-- Include your table content here -->
+                    <!-- Table content -->
+                    <table class="table table-bordered table-hover">
+                        <!-- Table header -->
+                        <thead>
+                            <!-- Table header rows -->
+                            <tr>
+                                <th>Op.#</th>
+                                <th>Description</th>
+                                <th>Other</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody>
+                            <!-- ______________Adding existing operations________________________ -->
+                            <% if(br_ops.length>0) {%>
+                            <% br_ops.forEach((operation, index)=> { %>
                                 <tr>
-                                   
-                                    <th>Op.#</th>
-                                    <th>Description</th>
-                                    <th>Other</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- ______________Adding existing operations________________________ -->
-                                <% if(br_ops.length>0) {%>
-                                <% br_ops.forEach((operation, index)=> { %>
-                                    <tr>
-                                        <!-- First column, op number -->
-                                        <td style="width: 3%; padding: 8px; margin: 0;">
-                                            <span id="opNumber<%= operation.opNumber %>" name="opNumber<%= operation.opNumber %>"><%= operation.opNumber %></span>
-                                        </td>
+                                    <!-- First column, op number -->
+                                    <td style="width: 3%; padding: 8px; margin: 0;">
+                                        <span id="opNumber<%= operation.opNumber %>" name="opNumber<%= operation.opNumber %>"><%= operation.opNumber %></span>
+                                    </td>
 
-                                        <td>
-                                            <!-- Second column - Description -->
-                                            <div id="description<%= operation.opNumber %>">
-                                                <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
-                                                    rows="1"><%= operation.typicalActivity.content %></textarea>
-                                            </div>
+                                    <td>
+                                        <!-- Second column - Description -->
+                                        <div id="description<%= operation.opNumber %>">
+                                            <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
+                                                rows="1"><%= operation.typicalActivity.content %></textarea>
+                                        </div>
 
-                                        </td>
+                                    </td>
 
-                                        <!-- ______________________________script to remove_____________________________________________ -->
-                                        <script>
-                                            // Function to adjust textarea height based on content
-                                            function adjustTextareaHeight(textarea) {
-                                                textarea.style.height = 'auto'; // Reset height to auto
-                                                textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
-                                            }
+                                    <!-- ______________________________script to remove_____________________________________________ -->
+                                    <script>
+                                        // Function to adjust textarea height based on content
+                                        function adjustTextareaHeight(textarea) {
+                                            textarea.style.height = 'auto'; // Reset height to auto
+                                            textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
+                                        }
 
-                                            // Get the textarea element
-                                            var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
+                                        // Get the textarea element
+                                        var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
 
-                                            // Call the adjustTextareaHeight function when the content changes
-                                            textarea.addEventListener('input', function () {
-                                                adjustTextareaHeight(textarea);
-                                            });
-
-                                            // Call the adjustTextareaHeight function initially
+                                        // Call the adjustTextareaHeight function when the content changes
+                                        textarea.addEventListener('input', function () {
                                             adjustTextareaHeight(textarea);
-                                        </script>
-                                        <!-- ___________________________________________________________________________ -->
+                                        });
 
-                                        <!-- 3rd column - OTHER -->
-                                        <td style="width: 15%;">
-                                            <!-- Other fields -->
-                                            <div id="other<%= operation.opNumber %>">
-                                                <textarea id="otherTextarea<%= operation.opNumber %>" class="form-control"
-                                                    rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
-                                            </div>
-                                        </td>
+                                        // Call the adjustTextareaHeight function initially
+                                        adjustTextareaHeight(textarea);
+                                    </script>
+                                    <!-- ___________________________________________________________________________ -->
+
+                                    <!-- 3rd column - OTHER -->
+                                    <td style="width: 15%;">
+                                        <!-- Other fields -->
+                                        <div id="other<%= operation.opNumber %>">
+                                            <textarea id="otherTextarea<%= operation.opNumber %>" class="form-control"
+                                                rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                                <% }) %>
+                                <% } %>
+
+                                <!-- _______________________Filling new operation__________________________ -->
+                                    <tr>
+                                        <form action="/create_process_op" method="post">
+                                            <% if (br_ops.length > 0) { %>
+                                            <td style="width: 3%; padding: 8px; margin: 0;">
+                                                <input type="number" class="form-control" id="opNumber" name="opNumber" value="<%= br_ops[br_ops.length-1].opNumber + 1 %>" readonly>
+                                            </td>
+                                            <% } else { %>
+                                            <td style="width: 3%; padding: 8px; margin: 0;">
+                                                <input type="number" class="form-control" id="opNumber" name="opNumber" value="1" readonly>
+                                            </td>
+                                            <% } %>
+
                                         
+                                            <td>
+                                                <div id="description">
+                                                    <% if(locals.finalFormatContent){ %>
+                                                        <%- finalFormatContent %>
+                                                        <!-- Hidden input fields and button moved inside the form -->
+                                                        <div class="text-center mt-4">
+                                                            <input type="hidden" name="content" value="<%= locals.finalFormatContent %>">
+                                                            <input type="hidden" name="mainEquipmentType" value="<%= locals.equipmentType %>">
+                                                            <input type="hidden" name="activityType" value="<%= locals.activityType %>">
+                                                            <input type="hidden" name="projectName" value="<%= locals.localMemory.projectName %>">
+                                                            <input type="hidden" name="version" value="<%= locals.localMemory.version %>">
+                                                            <input type="hidden" name="tp" value="<%= locals.localMemory.tp %>">
+                                                            <button class="btn btn-primary">Create Operation</button>
+                                                        </div>
+                                                    <% } %>
+                                                </div>
+                                            
+                                            </td>
+                                        
+                                            <td style="width: 10%;">
+                                                <div id="other">
+                                                    <% if(locals.other){ %>
+                                                    <textarea name="other" id="other" cols="30" rows="10"><%= other %></textarea>
+                                                    <% }else{ %>
+                                                    <textarea name="other" id="other" cols="30" rows="10"></textarea>
+                                                    <% } %>
+                                                </div>
+                                            </td>
+                                        
+
+                                        </form>
                                     </tr>
-                                    <% }) %>
-                                    <% } %>
+                        </tbody>
+                    </table>
+                </div>
 
-                                    <!-- _______________________Filling new operation__________________________ -->
-                                        <tr>
-                                            <form action="/create_process_op" method="post">
-                                                <% if (br_ops.length > 0) { %>
-                                                <td style="width: 3%; padding: 8px; margin: 0;">
-                                                    <input type="number" class="form-control" id="opNumber" name="opNumber" value="<%= br_ops[br_ops.length-1].opNumber + 1 %>" readonly>
-                                                </td>
-                                                <% } else { %>
-                                                <td style="width: 3%; padding: 8px; margin: 0;">
-                                                    <input type="number" class="form-control" id="opNumber" name="opNumber" value="1" readonly>
-                                                </td>
-                                                <% } %>
-
-                                            
-                                                <td>
-                                                    <div id="description">
-                                                        <% if(locals.finalFormatContent){ %>
-                                                            <%- finalFormatContent %>
-                                                            <!-- Hidden input fields and button moved inside the form -->
-                                                            <div class="text-center mt-4">
-                                                                <input type="hidden" name="content" value="<%= locals.finalFormatContent %>">
-                                                                <input type="hidden" name="mainEquipmentType" value="<%= locals.equipmentType %>">
-                                                                <input type="hidden" name="activityType" value="<%= locals.activityType %>">
-                                                                <input type="hidden" name="projectName" value="<%= locals.localMemory.projectName %>">
-                                                                <input type="hidden" name="version" value="<%= locals.localMemory.version %>">
-                                                                <input type="hidden" name="tp" value="<%= locals.localMemory.tp %>">
-                                                                <button class="btn btn-primary">Create Operation</button>
-                                                            </div>
-                                                        <% } %>
-                                                    </div>
-                                                
-                                                </td>
-                                            
-                                                <td style="width: 10%;">
-                                                    <div id="other">
-                                                        <% if(locals.other){ %>
-                                                        <textarea name="other" id="other" cols="30" rows="10"><%= other %></textarea>
-                                                        <% }else{ %>
-                                                        <textarea name="other" id="other" cols="30" rows="10"></textarea>
-                                                        <% } %>
-                                                    </div>
-                                                </td>
-                                            
-
-                                            </form>
-                                        </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    
-                    
-                    <!-- Equipment and Activity Type Selection, and Button to parse data -->
-                    <div id="equipmentSelection" class="row mt-3">
-                        <form action="/get_description" method="POST" id="formForDescription">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="equipmentType">Equipment Type</label>
-                                    <select class="form-control" id="equipmentType" name="equipmentType">
-                                        <option value="">--select--</option>
-                                        <% 
-                                            // Extract unique equipment types
-                                            let uniqueEquipmentTypes = new Set();
-                                            operationsMap.forEach(function(operation) {
-                                                uniqueEquipmentTypes.add(operation.name);
-                                            });
+                <!-- Equipment and Activity Type Selection, and Button to parse data -->
+                <div id="equipmentSelection" class="row mt-3 ">
+                    <form action="/get_description" method="POST" id="formForDescription">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="equipmentType">Equipment Type</label>
+                                <select class="form-control" id="equipmentType" name="equipmentType">
+                                    <option value="">--select--</option>
+                                    <% 
+                                        // Extract unique equipment types
+                                        let uniqueEquipmentTypes = new Set();
+                                        operationsMap.forEach(function(operation) {
+                                            uniqueEquipmentTypes.add(operation.name);
+                                        });
                                 
-                                            // Populate select element with unique equipment types
-                                            uniqueEquipmentTypes.forEach(function(equipmentType) {
-                                        %>
-                                                <option value="<%= equipmentType %>"><%= equipmentType %></option>
-                                        <% }); %>
-                                    </select>
-                                </div>
+                                        // Populate select element with unique equipment types
+                                        uniqueEquipmentTypes.forEach(function(equipmentType) {
+                                    %>
+                                            <option value="<%= equipmentType %>"><%= equipmentType %></option>
+                                    <% }); %>
+                                </select>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="activityType">Type of Activity</label>
-                                    <select class="form-control" id="activityType" name="activityType">
-                                        <option value="">--select--</option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-5">
+                                <label for="activityType">Type of Activity</label>
+                                <select class="form-control" id="activityType" name="activityType">
+                                    <option value="">--select--</option>
+                                </select>
                             </div>
-
-                        </form>
-                        
-
-                    
-                    </div>
-
-                </main>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Include your footer content here -->
+                <%- include("partials/footer.ejs") %>
         </div>
-
-        <!-- Footer -->
-        <%- include("partials/footer.ejs") %>
+    </div>
 
 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-                crossorigin="anonymous">
-            </script>
-           
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous">
+    </script>
+    
 
-            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-            <script>
-                // Define a new JavaScript variable and assign it the value of operationsMap from EJS
-                const operationsMapData = <%- JSON.stringify(operationsMap) %>;
-            </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script>
+        // Define a new JavaScript variable and assign it the value of operationsMap from EJS
+        const operationsMapData = <%- JSON.stringify(operationsMap) %>;
+    </script>
 
-            <script>
-                // Function to populate the "Type of Activity" select element based on the selected equipment type
-                function populateActivityTypes() {
-                    // Clear existing options
-                    const activityTypeSelect = document.getElementById('activityType');
-                    activityTypeSelect.innerHTML = '<option value="">--select--</option>';
+    <script>
+        // Function to populate the "Type of Activity" select element based on the selected equipment type
+        function populateActivityTypes() {
+            // Clear existing options
+            const activityTypeSelect = document.getElementById('activityType');
+            activityTypeSelect.innerHTML = '<option value="">--select--</option>';
 
-                    // Get selected equipment type
-                    const selectedEquipment = document.getElementById('equipmentType').value;
+            // Get selected equipment type
+            const selectedEquipment = document.getElementById('equipmentType').value;
 
-                    // Populate "Type of Activity" select element with operation types corresponding to the selected equipment
-                    operationsMapData.forEach(function(operation) {
-                        if (operation.name === selectedEquipment) {
-                            operation.operations.forEach(function(desc) {
-                                const option = document.createElement('option');
-                                option.value = desc.operationType;
-                                option.textContent = desc.operationType;
-                                activityTypeSelect.appendChild(option);
-                            });
-                        }
+            // Populate "Type of Activity" select element with operation types corresponding to the selected equipment
+            operationsMapData.forEach(function(operation) {
+                if (operation.name === selectedEquipment) {
+                    operation.operations.forEach(function(desc) {
+                        const option = document.createElement('option');
+                        option.value = desc.operationType;
+                        option.textContent = desc.operationType;
+                        activityTypeSelect.appendChild(option);
                     });
                 }
+            });
+        }
 
-                // Add event listener for the change event on "Equipment Type" select element
-                document.getElementById('equipmentType').addEventListener('change', populateActivityTypes);
+        // Add event listener for the change event on "Equipment Type" select element
+        document.getElementById('equipmentType').addEventListener('change', populateActivityTypes);
 
-                // Populate "Type of Activity" select element on page load
-                populateActivityTypes();
-            </script>
+        // Populate "Type of Activity" select element on page load
+        populateActivityTypes();
+    </script>
 
-            <!-- JavaScript code to submit the form when activityType is changed -->
-            <script>
-                // Add an event listener to the change event of the activityType select element
-                document.getElementById('activityType').addEventListener('change', function() {
-                    // Submit the form when the activityType is changed
-                    document.getElementById('formForDescription').submit();
-                });
-            </script>
+    <!-- JavaScript code to submit the form when activityType is changed -->
+    <script>
+        // Add an event listener to the change event of the activityType select element
+        document.getElementById('activityType').addEventListener('change', function() {
+            // Submit the form when the activityType is changed
+            document.getElementById('formForDescription').submit();
+        });
+    </script>
 
-            <script>
-                // Function to focus on the equipment selection section
-                function focusOnEquipmentSelection() {
-                    // Get the DOM element of the equipment selection section
-                    const equipmentSelectionSection = document.getElementById('equipmentSelection');
+    <script>
+        // Function to focus on the equipment selection section
+        function focusOnEquipmentSelection() {
+            // Get the DOM element of the equipment selection section
+            const equipmentSelectionSection = document.getElementById('equipmentSelection');
 
-                    // Scroll to the equipment selection section
-                    equipmentSelectionSection.scrollIntoView({ behavior: 'smooth' });
-                }
+            // Scroll to the equipment selection section
+            equipmentSelectionSection.scrollIntoView({ behavior: 'smooth' });
+        }
 
-                // Call the focusOnEquipmentSelection function when the page is loaded
-                window.onload = focusOnEquipmentSelection;
-            </script>
+        // Call the focusOnEquipmentSelection function when the page is loaded
+        window.onload = focusOnEquipmentSelection;
+    </script>
 
-            <script>
-                // Get all table rows
-                const tableRows = document.querySelectorAll('tr');
+    <script>
+        // Get all table rows
+        const tableRows = document.querySelectorAll('tr');
 
-                // Add event listener to each row
-                tableRows.forEach(row => {
-                    row.addEventListener('contextmenu', function(event) {
-                        event.preventDefault(); // Prevent the default context menu from appearing
-                        
-                        // Get the innerText of the first <td> within the right-clicked row
-                            const firstCellInputValue = this.children[0].querySelector('span').textContent;
-                        
-                        // Display the text in the console (you can do anything you want with it)
-                        console.log("InnerText of the first <td>:", firstCellInputValue);
-                    });
-                });
-            </script>
+        // Add event listener to each row
+        tableRows.forEach(row => {
+            row.addEventListener('contextmenu', function(event) {
+                event.preventDefault(); // Prevent the default context menu from appearing
+                
+                // Get the innerText of the first <td> within the right-clicked row
+                    const firstCellInputValue = this.children[0].querySelector('span').textContent;
+                
+                // Display the text in the console (you can do anything you want with it)
+                console.log("InnerText of the first <td>:", firstCellInputValue);
+            });
+        });
+    </script>
 
 
 </body>

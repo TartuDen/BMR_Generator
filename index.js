@@ -65,6 +65,7 @@ app.get("/create_process_op", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
     const br_ops = req.session.br_ops;
+    console.log("br_OPS: ................... ", br_ops);
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
@@ -168,6 +169,16 @@ app.get("/operation_table", async (req, res) => {
 });
 
 
+/**
+ * Handle POST requests to the root route.
+ * Retrieves data based on the provided project name, TP, and version,
+ * then stores the data in the session as a LocalMemory object.
+ * If project name, TP, or version is missing, initializes an empty LocalMemory object.
+ * Redirects the user back to the root route.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
     if (projectName && tp && version){
