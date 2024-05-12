@@ -20,7 +20,7 @@ export async function getProcOps(projectName, tp, version){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
-    }catch(error){
+    }catch(err){
         handleError(err, "Error getting data from getProcOps:");
         return []
     }

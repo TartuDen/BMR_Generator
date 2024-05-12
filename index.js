@@ -141,9 +141,6 @@ app.post("/operation_table", async (req, res) => {
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
-    console.log("*********************");
-    console.log("localMemory: ............ ",localMemory);
-    console.log(apiResp1, apiResp2, apiResp3);
     let operationsMap = await getActivityTypeFromAPI();
     operationsMap = selectOps(operationsMap, localMemory);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
@@ -173,17 +170,18 @@ app.get("/operation_table", async (req, res) => {
 
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
-    if (projectName, tp, version){
-        let apiResp = await getProcessInitInfo(projectName, tp, version);
-        console.log(apiResp);
-        if(apiResp){
-            req.session.localMemory = apiResp;
-        }else{
-            req.session.localMemory = new LocalMemory();
-        }
-    }
+    if (projectName && tp && version){
+        let apiRespData = await getProcessInitInfo(projectName, tp, version);
 
-    res.redirect("/")
+        localMemory = new LocalMemory(apiRespData);
+    }else{
+        localMemory = new LocalMemory();
+
+    }
+    req.session.localMemory = localMemory;
+
+
+    res.redirect("/");
 })
 
 /**
@@ -197,6 +195,12 @@ app.get("/", async (req, res) => {
     let { projectName } = req.query;
     let equipmentMap = await getMainTableEq();
     let allProj = await getAllProjects();
+    let localMemory;
+    if (req.session.localMemory){
+        localMemory = req.session.localMemory
+    }else{
+        localMemory = new LocalMemory;
+    }
     // let localMemory = await getProcessInitInfo()
     let allTpFromProj = [];
     if (projectName) {

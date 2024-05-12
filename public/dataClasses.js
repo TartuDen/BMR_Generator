@@ -1,20 +1,22 @@
 
 export class LocalMemory {
-    constructor(projectName="", tp="", version="", equipmentSet=[], reagentSet=[]) {
-        this.projectName = projectName;
-        this.tp = tp;
-        this.version = version;
-        this.equipmentSet = equipmentSet;
-        this.reagentSet = reagentSet;
+    constructor(apiRespData = {}) {
+        this.projectName = apiRespData?.projectName || "";
+        this.tp = apiRespData?.tp || "";
+        this.version = apiRespData?.version || "";
+        this.equipmentSet = apiRespData?.equipmentSet || [];
+        this.reagentSet = apiRespData?.reagentSet || [];
     }
 }
 
+
+
 // Define a Reagent class to represent each reagent
 export class Reagent {
-    constructor(reag_id, reag_name, reag_amount) {
-        this.reag_id = reag_id;
-        this.reag_name = reag_name;
-        this.reag_amount = reag_amount;
+    constructor(tableID, name, mass) {
+        this.tableID = tableID;
+        this.name = name;
+        this.mass = mass;
     }
 }
 
