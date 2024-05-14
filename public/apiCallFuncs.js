@@ -20,8 +20,8 @@ export async function getProcOps(projectName, tp, version){
     try{
         let apiResp = await axios.get(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
-    }catch(err){
-        handleError(err, "Error getting data from getProcOps:");
+    }catch(error){
+        handleError(error, "Error getting data from getProcOps:");
         return []
     }
 }
@@ -274,5 +274,24 @@ export async function getProcessInitInfo(projectName, tp, version){
             return apiResp.data
         }catch(error){
             return handleError(error, "Error getting data from postProcessInitialInfo:");
+        }
+    }
+
+
+    export async function deleteBr(projectName,tp,version){
+        try{
+            const apiResp = await axios.delete(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
+            return apiResp.data;
+        }catch(error){
+            return handleError(error, "Error deleting data from deleteBr");
+        }
+    }
+
+    export async function deleteBRfromLocalMemory(projectName,tp,version){
+        try{
+            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            return apiResp.data;
+        }catch(error){
+            return handleError(error, "Error deleting data from deleteBRfromLocalMemory");
         }
     }

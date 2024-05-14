@@ -29,10 +29,41 @@
             
             <!-- Main content -->
             <div class="col-lg-9">
+                
 
+
+                <!-- Modal -->
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete <em> <strong><%= localMemory.projectName %> <%= localMemory.tp %> <%= localMemory.version %></strong> </em> batch record?
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Form to confirm deletion -->
+                                <form action="/delete_br" method="post">
+                                    <input type="hidden" name="projectName" value="<%= localMemory.projectName %>">
+                                    <input type="hidden" name="tp" value="<%= localMemory.tp %>">
+                                    <input type="hidden" name="version" value="<%= localMemory.version %>">
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                </form>
+                                <!-- Button to close modal -->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div>
                     <h2><%= localMemory.projectName %> <%= localMemory.tp %> <%= localMemory.version %></h2>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                        DELETE current BR
+                    </button>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center" style="min-height: 10vh;">

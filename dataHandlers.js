@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getEqByName, getMainTableEq, postEq, deleteEq } from "./public/apiCallFuncs.js";
+import { getEqByName, getMainTableEq, postEq, deleteEq, deleteBr, deleteBRfromLocalMemory } from "./public/apiCallFuncs.js";
 import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js';
 import session from "express-session";
 
@@ -159,6 +159,19 @@ router.get("/get_del_params", async(req,res)=>{
     let apiResp = await getParams();
 })
 
+/**
+ * Handle POST request to delete a specific branch.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
+router.post("/delete_br",async(req,res)=>{
+    const {projectName, tp, version} = req.body;
+    let apiResp = await deleteBr(projectName,tp,version);
+    let apiRespLocalMem = await deleteBRfromLocalMemory(projectName, tp, version);
+    res.redirect("/");
+})
 
 // Export the router
 export default router;

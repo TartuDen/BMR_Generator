@@ -6,7 +6,7 @@ import { getContentAndOtherForEquipmentAndActivityType, populateContent, populat
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
-import eqHandlers from "./eqHandlers.js";
+import dataHandlers from "./dataHandlers.js";
 
 
 
@@ -28,7 +28,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(eqHandlers);
+app.use(dataHandlers);
 
 
 /**
@@ -44,6 +44,7 @@ app.use(eqHandlers);
  * @param {object} res - Express response object
  */
 app.post("/create_process_op", async (req, res) => {
+    console.log("req.body:.................", req.body);
     const newOp = createProcessOperation(req.body);
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
