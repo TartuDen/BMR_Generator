@@ -1,4 +1,3 @@
-// Function to create circular menu for a row
 function createCircularMenuForRow(row) {
     // Create nav element
     let navElement = document.createElement('nav');
@@ -10,21 +9,21 @@ function createCircularMenuForRow(row) {
 
     // Array of icon classes with their respective events and listeners
     let iconClasses = [
-        { class: 'fa fa-copy', event: 'click', listener: copyFunction },
-        { class: 'fa fa-arrow-circle-o-up', event: 'click', listener: upFunction },
-        { class: 'fa fa-arrow-circle-o-down', event: 'click', listener: downFunction },
-        { class: 'fa fa-cut', event: 'click', listener: cutFunction },
-        { class: 'fa fa-paste', event: 'click', listener: pasteFunction },
-        { class: 'fa fa-trash-o', event: 'click', listener: deleteFunction },
-        { class: 'fa fa-arrow-circle-up', event: 'click', listener: arrowUpFunction },
-        { class: 'fa fa-arrow-circle-down', event: 'click', listener: arrowDownFunction }
+        { class: 'fa-copy', event: 'click', listener: copyFunction },
+        { class: 'fa-arrow-circle-o-up', event: 'click', listener: upFunction },
+        { class: 'fa-arrow-circle-o-down', event: 'click', listener: downFunction },
+        { class: 'fa-cut', event: 'click', listener: cutFunction },
+        { class: 'fa-paste', event: 'click', listener: pasteFunction },
+        { class: 'fa-trash-o', event: 'click', listener: deleteFunction },
+        { class: 'fa-arrow-circle-up', event: 'click', listener: arrowUpFunction },
+        { class: 'fa-arrow-circle-down', event: 'click', listener: arrowDownFunction }
     ];
 
     // Loop through the iconClasses array and create elements with corresponding classes and event listeners
     iconClasses.forEach((iconObj, index) => {
         let iconLink = document.createElement('a');
         iconLink.setAttribute('href', '#');
-        iconLink.classList.add(iconObj.class); // Add specific icon class
+        iconLink.classList.add('fa', iconObj.class); // Add "fa" class and specific icon class
         iconLink.addEventListener(iconObj.event, function(event) {
             // Call the listener function and pass the row element
             iconObj.listener(event, row);
@@ -48,9 +47,12 @@ function createCircularMenuForRow(row) {
     navElement.appendChild(circleDiv);
     navElement.appendChild(menuButton);
 
-    // Append the nav element to the row
-    let cell = row.querySelector('td:first-child');
+    // Create table cell
+    let cell = document.createElement('td');
     cell.appendChild(navElement);
+
+    // Append the cell to the row
+    row.appendChild(cell);
 
     // Toggle functionality for opening/closing the menu
     menuButton.onclick = function(e) {
@@ -59,7 +61,7 @@ function createCircularMenuForRow(row) {
     };
 }
 
-// Define functions for circular menu actions
+
 function copyFunction(event, row) {
     console.log('Copy function called!');
     console.log(row);

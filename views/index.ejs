@@ -10,6 +10,9 @@
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/circularMenu.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
     <title>BMR main </title>
 
 </head>
@@ -88,58 +91,56 @@
                         <tbody>
                             <!-- ______________Adding existing operations________________________ -->
                             <% if(locals.br_ops){%>
-                            <% if(br_ops.length>0) {%>
-                            <% br_ops.forEach((operation, index)=> { %>
-                                <tr>
+                                <% if(br_ops.length>0) {%>
+                                    <% br_ops.forEach((operation, index)=> { %>
+                                        <tr createCircularMenuForRow(this) >
+                                            <!-- First column, op number with circular menu -->
+                                            <td style="width: 3%; padding: 8px; margin: 0;" id="opNumber<%= operation.opNumber %>">
+                                                <span><%= operation.opNumber %></span>
+                                            </td>
 
+                                            <td>
+                                                <!-- Second column - Description -->
+                                                <div id="description<%= operation.opNumber %>">
+                                                    <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
+                                                        rows="1"><%= operation.typicalActivity.content %></textarea>
+                                                </div>
 
-                                <!-- First column, op number with circular menu -->
-                                <td style="width: 3%; padding: 8px; margin: 0;" id="opNumber<%= operation.opNumber %>">
-                                    <span><%= operation.opNumber %></span>
-                                </td>
+                                            </td>
 
-                                    <td>
-                                        <!-- Second column - Description -->
-                                        <div id="description<%= operation.opNumber %>">
-                                            <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
-                                                rows="1"><%= operation.typicalActivity.content %></textarea>
-                                        </div>
+                                            <!-- ______________________________script to remove_____________________________________________ -->
+                                            <script>
+                                                // Function to adjust textarea height based on content
+                                                function adjustTextareaHeight(textarea) {
+                                                    textarea.style.height = 'auto'; // Reset height to auto
+                                                    textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
+                                                }
 
-                                    </td>
+                                                // Get the textarea element
+                                                var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
 
-                                    <!-- ______________________________script to remove_____________________________________________ -->
-                                    <script>
-                                        // Function to adjust textarea height based on content
-                                        function adjustTextareaHeight(textarea) {
-                                            textarea.style.height = 'auto'; // Reset height to auto
-                                            textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
-                                        }
+                                                // Call the adjustTextareaHeight function when the content changes
+                                                textarea.addEventListener('input', function () {
+                                                    adjustTextareaHeight(textarea);
+                                                });
 
-                                        // Get the textarea element
-                                        var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
+                                                // Call the adjustTextareaHeight function initially
+                                                adjustTextareaHeight(textarea);
+                                            </script>
+                                            <!-- ___________________________________________________________________________ -->
 
-                                        // Call the adjustTextareaHeight function when the content changes
-                                        textarea.addEventListener('input', function () {
-                                            adjustTextareaHeight(textarea);
-                                        });
-
-                                        // Call the adjustTextareaHeight function initially
-                                        adjustTextareaHeight(textarea);
-                                    </script>
-                                    <!-- ___________________________________________________________________________ -->
-
-                                    <!-- 3rd column - OTHER -->
-                                    <td style="width: 15%;">
-                                        <!-- Other fields -->
-                                        <div id="other<%= operation.opNumber %>">
-                                            <textarea id="otherTextarea<%= operation.opNumber %>" class="form-control"
-                                                rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
-                                        </div>
-                                    </td>
-                                    
-                                </tr>
-                                <% }) %>
-                                <% } %>
+                                            <!-- 3rd column - OTHER -->
+                                            <td style="width: 15%;">
+                                                <!-- Other fields -->
+                                                <div id="other<%= operation.opNumber %>">
+                                                    <textarea id="otherTextarea<%= operation.opNumber %>" class="form-control"
+                                                        rows="<%= operation.typicalActivity.other ? 4 : 1 %>"><%= operation.typicalActivity.other %></textarea>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        <% }) %>
+                                    <% } %>
                                 <% } %>
 
                                 <% if(locals.br_ops){ %>
