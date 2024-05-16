@@ -26,6 +26,7 @@
                 <div class="col-lg-2 col-md-2">
                     <%- include("partials/sidebar.ejs") %>
                 </div>
+                <% if(locals.equipmentMap && locals.localMemory && locals.allProj && locals.allTpFromProj){ %>
                 <!-- some problems with this column -->
                 <div class="col-lg-9 col-md-9 mt-3">
 
@@ -191,6 +192,9 @@
                                 <button class="btn btn-secondary mb-5" type="submit">Get Operations</button>
                     </form>
                 </div>
+                <% }else{ %>
+                    <h2>some data is not available from api server</h2>
+                <% } %>
             </div>
         </div>
 

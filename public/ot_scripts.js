@@ -48,11 +48,12 @@ function createCircularMenuForRow(row) {
     navElement.appendChild(menuButton);
 
     // Create table cell
-    let cell = document.createElement('td');
+    let cell = document.createElement('div');
+    let firstTD = row.children[0];
     cell.appendChild(navElement);
 
     // Append the cell to the row
-    row.appendChild(cell);
+    firstTD.appendChild(cell);
 
     // Toggle functionality for opening/closing the menu
     menuButton.onclick = function(e) {
@@ -67,8 +68,9 @@ function copyFunction(event, row) {
     console.log(row);
 }
 
-function upFunction() {
+function upFunction(event, row) {
     console.log('Up function called!');
+    console.log(row.children[0]);
 }
 
 function downFunction() {
