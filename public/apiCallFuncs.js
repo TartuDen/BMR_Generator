@@ -295,3 +295,21 @@ export async function getProcessInitInfo(projectName, tp, version){
             return handleError(error, "Error deleting data from deleteBRfromLocalMemory");
         }
     }
+
+    export async function deleteOpFromBR(projectName, tp, version, opNumber){
+        try{
+            const apiResp = await axios.delete(`http://localhost:8085/processoperation/${projectName}/${tp}/${opNumber}/${version}`);
+            return apiResp.data;
+        }catch(error){
+            return handleError(error, "Error deleting data from deleteOpFromBR");
+        }
+    }
+
+    export async function updateOpFromBR(projectName, tp, version){
+        try{
+            const apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions/${version}/opnumbers`);
+            return apiResp.data;
+        }catch(error){
+            return handleError(error, "Error getting data from updateOpFromBR");
+        }
+    }

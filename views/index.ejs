@@ -37,21 +37,6 @@
 
                 <!-- Modal -->
                 <% if(locals.localMemory){%>
-                    <script>
-                        // Check if sessionStorage is supported by the browser
-                        if (typeof(Storage) !== "undefined") {
-                            // Convert the localMemory variable to JSON string
-                            var localMemoryJSON = <%= JSON.stringify(localMemory) %>;
-                            console.log("localMemory:\n".localMemoryJSON);
-                
-                            // Store the JSON string in sessionStorage
-                            sessionStorage.setItem("localMemory", localMemoryJSON);
-                        } else {
-                            // Browser doesn't support sessionStorage
-                            console.error("Sorry, your browser does not support sessionStorage.");
-                        }
-                    </script>
-            
                 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -320,7 +305,6 @@
         // Call the focusOnEquipmentSelection function when the page is loaded
         window.onload = focusOnEquipmentSelection;
     </script>
-
 
     <script>
         let trMemory;

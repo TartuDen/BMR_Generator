@@ -14,20 +14,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    var localMemory = <%- JSON.stringify(localMemory) %>;
     // Function to send row information to the server using Axios with async/await
     async function sendRowInformation(row, action) {
         try {
             // Extract information about the row
             const rowData = {
                 // Example: Extracting text content from the first column of the row
-                column1: row.querySelector('td:first-child').textContent,
+                column1: row.querySelector('td:first-child').textContent.trim(),
 
                 // Add more properties as needed
             };
-            console.log("rowData:.....\n",rowData);
-            console.log(localMemory.projectName)
-            // Send data to the server using Axios with async/await
-            // const response = await axios.post('/your-server-endpoint', rowData);
+            if(action.includes("Delete")){
+                // Send data to the server using Axios with async/await
+                const response = await axios.post('/delete_op', {
+                    projectName: localMemory.projectName,
+                    tp: localMemory.tp,
+                    version: localMemory.version,
+                    opNumber: rowData.column1
+                });
+            }
+
 
             // Handle response if needed
             // console.log('Server response:', response.data);
@@ -41,7 +48,7 @@
     document.getElementById('copyAction').addEventListener('click', async function(event) {
         event.preventDefault();
         const row = trMemory;
-        const action = this;
+        const action = this.textContent;
         
         await sendRowInformation(row, action);
     });
@@ -49,7 +56,7 @@
     document.getElementById('cutAction').addEventListener('click', async function(event) {
         event.preventDefault();
         const row = trMemory;
-        const action = this;
+        const action = this.textContent;
         
         await sendRowInformation(row, action);
     });
@@ -57,7 +64,7 @@
     document.getElementById('deleteAction').addEventListener('click', async function(event) {
         event.preventDefault();
         const row = trMemory;
-        const action = this;
+        const action = this.textContent;
         
         await sendRowInformation(row, action);
     });
@@ -65,7 +72,7 @@
     document.getElementById('moveUpAction').addEventListener('click', async function(event) {
         event.preventDefault();
         const row = trMemory;
-        const action = this;
+        const action = this.textContent;
         
         await sendRowInformation(row, action);
     });
@@ -73,7 +80,7 @@
     document.getElementById('moveDownAction').addEventListener('click', async function(event) {
         event.preventDefault();
         const row = trMemory;
-        const action = this;
+        const action = this.textContent;
         
         await sendRowInformation(row, action);
     });

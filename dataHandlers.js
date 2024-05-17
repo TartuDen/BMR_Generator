@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { getEqByName, getMainTableEq, postEq, deleteEq, deleteBr, deleteBRfromLocalMemory } from "./public/apiCallFuncs.js";
+import { getEqByName, getMainTableEq, postEq, deleteEq, deleteBr, deleteBRfromLocalMemory, deleteOpFromBR, updateOpFromBR } from "./public/apiCallFuncs.js";
 import { EquipmentNoOperation, EquipmentInfo, Operation } from './public/dataClasses.js';
 import session from "express-session";
 
@@ -171,6 +171,14 @@ router.post("/delete_br",async(req,res)=>{
     let apiResp = await deleteBr(projectName,tp,version);
     let apiRespLocalMem = await deleteBRfromLocalMemory(projectName, tp, version);
     res.redirect("/");
+})
+
+router.post("/delete_op", async(req,res)=>{
+    const {projectName, tp, version, opNumber} = req.body;
+    let apiRespDelOp = await deleteOpFromBR (projectName, tp, version, opNumber);
+    let apiRespUpdOp = await updateOpFromBR(projectName, tp, version);
+    console.log("apiRespUpdOP:\n",apiRespUpdOp);
+    res.redirect("/operation_table");
 })
 
 // Export the router
