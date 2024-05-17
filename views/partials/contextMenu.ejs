@@ -13,6 +13,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
 <script>
     var localMemory = <%- JSON.stringify(localMemory) %>;
     // Function to send row information to the server using Axios with async/await
@@ -84,4 +86,5 @@
         
         await sendRowInformation(row, action);
     });
+
 </script>

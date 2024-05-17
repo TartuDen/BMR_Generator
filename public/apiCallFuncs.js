@@ -307,7 +307,8 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function updateOpFromBR(projectName, tp, version){
         try{
-            const apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions/${version}/opnumbers`);
+            const apiResp = await axios.patch(`http://localhost:8085/processdata/${projectName}/${tp}/${version}`);
+            
             return apiResp.data;
         }catch(error){
             return handleError(error, "Error getting data from updateOpFromBR");
