@@ -50,6 +50,7 @@ app.post("/create_process_op", async (req, res) => {
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
+    console.log("br_ops[0].mainEquipment:\n", br_ops[0].mainEquipment)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
