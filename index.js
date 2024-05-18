@@ -46,11 +46,12 @@ app.use(dataHandlers);
 app.post("/create_process_op", async (req, res) => {
     console.log("req.body:.................", req.body);
     const newOp = createProcessOperation(req.body);
+    console.log("newOp:..................\n",newOp);
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
-    console.log("br_ops[0].mainEquipment:\n", br_ops[0].mainEquipment)
+    console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
@@ -192,8 +193,6 @@ app.post("/", async (req,res)=>{
 
     }
     req.session.localMemory = localMemory;
-
-
     res.redirect("/");
 })
 
