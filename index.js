@@ -68,7 +68,6 @@ app.get("/create_process_op", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
     const br_ops = req.session.br_ops;
-    console.log("br_OPS: ................... ", br_ops);
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
