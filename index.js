@@ -6,7 +6,7 @@ import { getContentAndOtherForEquipmentAndActivityType, populateContent, populat
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
-import eqHandlers from "./eqHandlers.js";
+import dataHandlers from "./dataHandlers.js";
 
 
 
@@ -28,7 +28,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(eqHandlers);
+app.use(dataHandlers);
 
 
 /**
@@ -44,11 +44,14 @@ app.use(eqHandlers);
  * @param {object} res - Express response object
  */
 app.post("/create_process_op", async (req, res) => {
+    console.log("req.body:.................", req.body);
     const newOp = createProcessOperation(req.body);
+    console.log("newOp:..................\n",newOp);
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
+    console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
@@ -168,6 +171,16 @@ app.get("/operation_table", async (req, res) => {
 });
 
 
+/**
+ * Handle POST requests to the root route.
+ * Retrieves data based on the provided project name, TP, and version,
+ * then stores the data in the session as a LocalMemory object.
+ * If project name, TP, or version is missing, initializes an empty LocalMemory object.
+ * Redirects the user back to the root route.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 app.post("/", async (req,res)=>{
     const {projectName, tp, version} = req.body;
     if (projectName && tp && version){
@@ -179,8 +192,6 @@ app.post("/", async (req,res)=>{
 
     }
     req.session.localMemory = localMemory;
-
-
     res.redirect("/");
 })
 

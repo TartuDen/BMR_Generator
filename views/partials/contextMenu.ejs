@@ -1,0 +1,90 @@
+<!-- Context menu HTML with clickable actions -->
+<div id="contextMenu" class="card context-menu" style="display: none;">
+    <div class="card-body">
+        <h5 class="card-title">Actions</h5>
+        <ul class="list-group list-group-flush">
+            <a href="#" class="list-group-item" id="copyAction">Copy 📝</a>
+            <a href="#" class="list-group-item" id="cutAction">Cut ✂️</a>
+            <a href="#" class="list-group-item" id="deleteAction">Delete 🗑️</a>
+            <a href="#" class="list-group-item" id="moveUpAction">Move Up ⬆️</a>
+            <a href="#" class="list-group-item" id="moveDownAction">Move Down ⬇️</a>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+    var localMemory = <%- JSON.stringify(localMemory) %>;
+    // Function to send row information to the server using Axios with async/await
+    async function sendRowInformation(row, action) {
+        try {
+            // Extract information about the row
+            const rowData = {
+                // Example: Extracting text content from the first column of the row
+                column1: row.querySelector('td:first-child').textContent.trim(),
+
+                // Add more properties as needed
+            };
+            if(action.includes("Delete")){
+                // Send data to the server using Axios with async/await
+                const response = await axios.post('/delete_op', {
+                    projectName: localMemory.projectName,
+                    tp: localMemory.tp,
+                    version: localMemory.version,
+                    opNumber: rowData.column1
+                });
+            }
+
+
+            // Handle response if needed
+            // console.log('Server response:', response.data);
+        } catch (error) {
+            // Handle error
+            console.error('Error sending data to server:', error);
+        }
+    }
+
+    // Add click event listeners to each action link
+    document.getElementById('copyAction').addEventListener('click', async function(event) {
+        event.preventDefault();
+        const row = trMemory;
+        const action = this.textContent;
+        
+        await sendRowInformation(row, action);
+    });
+
+    document.getElementById('cutAction').addEventListener('click', async function(event) {
+        event.preventDefault();
+        const row = trMemory;
+        const action = this.textContent;
+        
+        await sendRowInformation(row, action);
+    });
+
+    document.getElementById('deleteAction').addEventListener('click', async function(event) {
+        event.preventDefault();
+        const row = trMemory;
+        const action = this.textContent;
+        
+        await sendRowInformation(row, action);
+    });
+
+    document.getElementById('moveUpAction').addEventListener('click', async function(event) {
+        event.preventDefault();
+        const row = trMemory;
+        const action = this.textContent;
+        
+        await sendRowInformation(row, action);
+    });
+
+    document.getElementById('moveDownAction').addEventListener('click', async function(event) {
+        event.preventDefault();
+        const row = trMemory;
+        const action = this.textContent;
+        
+        await sendRowInformation(row, action);
+    });
+
+</script>
