@@ -144,7 +144,7 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
         addMaterialOUT(processOperationReq,processOperation);
         addMainEquipment(processOperationReq,processOperation);
         addStartingMaterial(processOperationReq,processOperation);
-        addStartingProduct(processOperationReq,processOperation);
+        addProduct(processOperationReq,processOperation);
         
         return processOperation;
     }
@@ -168,24 +168,24 @@ public class ProcessOperationServiceImpl extends BaseService implements ProcessO
     private void addStartingMaterial(ProcessOperation processOperationReq, ProcessOperation processOperation) {
         if (processOperationReq.getStartingMaterial() != null) {
             var startingMaterial = processOperationReq.getStartingMaterial();
-            startingMaterial.setProcessOperationIN(processOperation);
+            startingMaterial.setProcessOperationStarting(processOperation);
             processOperation.setStartingMaterial(startingMaterial);
         }
     }
     
-    private void addStartingProduct(ProcessOperation processOperationReq, ProcessOperation processOperation) {
+    private void addProduct(ProcessOperation processOperationReq, ProcessOperation processOperation) {
         if (processOperationReq.getProduct() != null) {
             var product = processOperationReq.getProduct();
-            product.setProcessOperationIN(processOperation);
+            product.setProcessOperationProduct(processOperation);
             processOperation.setProduct(product);
         }
     }
     
     private void addMaterialOUT(ProcessOperation processOperationReq, ProcessOperation processOperation) {
-        if (processOperationReq.getMaterialIN() != null) {
+        if (processOperationReq.getMaterialOUT() != null) {
             var materialOUT = processOperationReq.getMaterialOUT();
             materialOUT.setProcessOperationOUT(processOperation);
-            processOperation.setMaterialIN(materialOUT);
+            processOperation.setMaterialOUT(materialOUT);
         }
     }
     

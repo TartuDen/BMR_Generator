@@ -50,4 +50,18 @@ public class Material {
     @EqualsAndHashCode.Exclude
     @Getter(AccessLevel.NONE)
     private ProcessOperation processOperationOUT;
+    
+    @OneToOne
+    @JoinColumn(name = "processoperation_product")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperationProduct;
+    
+    @OneToOne
+    @JoinColumn(name = "processoperation_starting")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Getter(AccessLevel.NONE)
+    private ProcessOperation processOperationStarting;
 }

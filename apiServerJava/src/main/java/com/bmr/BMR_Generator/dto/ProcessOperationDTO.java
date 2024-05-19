@@ -31,6 +31,9 @@ public class ProcessOperationDTO {
     
     private MaterialDTO materialOUT;
     
+    private MaterialDTO startingMaterial;
+    private MaterialDTO product;
+    
     public ProcessOperationDTO(ProcessOperation processOperation) {
         this.projectName = processOperation.getProjectName();
         this.tp = processOperation.getTp();
@@ -52,6 +55,14 @@ public class ProcessOperationDTO {
         
         if (processOperation.getMaterialOUT() != null) {
             this.materialOUT = new MaterialDTO(processOperation.getMaterialOUT());
+        }
+        
+        if (processOperation.getStartingMaterial() != null) {
+            this.startingMaterial = new MaterialDTO(processOperation.getStartingMaterial());
+        }
+        
+        if (processOperation.getProduct() != null) {
+            this.product = new MaterialDTO(processOperation.getProduct());
         }
     }
 }
