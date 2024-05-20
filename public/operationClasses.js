@@ -4,7 +4,7 @@ export class ProcessOperation {
     tp = "",
     version = "",
     opNumber = -1,
-    mainEquipmentType = "",
+    mainEquipment = null,
     typicalActivity = null,
     materialIn = null,
     materialOut = null,
@@ -16,7 +16,7 @@ export class ProcessOperation {
     this.tp = tp;
     this.version = version;
     this.opNumber = opNumber;
-    this.mainEquipmentType = mainEquipmentType;
+    this.mainEquipment = mainEquipment;
     this.typicalActivity = typicalActivity;
     this.materialIn = materialIn;
     this.materialOut = materialOut;
@@ -72,6 +72,12 @@ export class TypicalActivity {
   }
 }
 
+export class MainEquipment {
+  constructor ( name = "", code = ""){
+      this.name = name;
+      this.code = code;
+  }
+}
 
 export class Equipment {
   constructor(

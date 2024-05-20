@@ -258,12 +258,19 @@ function createMaterialIn(data) {
     );
 }
 
+function createMainEquipment(data){
+    return {
+        name: data.mainEquipment,
+        code: data[`${data.mainEquipment}`]
+    }
+}
+
 // Factory method to create Operation object
 export function createProcessOperation(data) {
     const {
-        projectName, tp, version, opNumber,  mainEquipmentType, materialOut, wastes
+        projectName, tp, version, opNumber,  materialOut, wastes
     } = data;
-
+    const mainEquipment = createMainEquipment(data)
     const typAct = createTypicalActivity(data);
     const materialIn = createMaterialIn(data);
     return new ProcessOperation(
@@ -271,7 +278,7 @@ export function createProcessOperation(data) {
         tp,
         version,
         opNumber,
-        mainEquipmentType,
+        mainEquipment,
         typAct,
         materialIn,
         materialOut,
