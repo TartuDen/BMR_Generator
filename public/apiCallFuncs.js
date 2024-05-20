@@ -37,7 +37,7 @@ export async function postNewOp(newOp){
         let apiResp = await axios.post(`http://localhost:8085/processoperation`, newOp);
         return apiResp.data;
     }catch(error){
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from postNewOp:");
         return []
     }
 }
@@ -60,7 +60,7 @@ export async function getMainTableEq() {
             return null;
         }
     } catch (error) {
-        return handleError(error, "Error getting data from getProcOps:");
+        return handleError(error, "Error getting data from getMainTableEq:");
     }
 }
 
@@ -75,7 +75,7 @@ export async function getProjectName(projectName){
         let apiResp = await axios.post(`http://localhost:8085/processoperation`, projectName);
         return apiResp.data;
     }catch(error){
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getProjectName:");
         return []
     }
 }
@@ -90,7 +90,7 @@ export async function getAllProjects(){
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects`);
         return apiResp.data;
     }catch(error){
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getAllProjects:");
         return []
     }
 }
@@ -106,7 +106,7 @@ export async function getAllTp(projectName){
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp`);
         return apiResp.data;
     }catch(error){
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getAllTp:");
         return []
     }
 }
@@ -123,7 +123,7 @@ export async function getAllVersions(projectName, tp){
         let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions`);
         return apiResp.data;
     }catch(error){
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getAllVersions:");
         return []
     }
 }
@@ -157,7 +157,7 @@ export async function getEqByName(name) {
             return null;
         }
     } catch (error) {
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getEqByName:");
         return null;
     }
 }
@@ -172,7 +172,7 @@ export async function getActivityTypeFromAPI() {
         let apiResp = await axios.get("http://localhost:8085/activity_type");
         return apiResp.data;
     } catch (error) {
-        handleError(error, "Error getting data from getProcOps:");
+        handleError(error, "Error getting data from getActivityTypeFromAPI:");
         return null;
     }
 }
@@ -187,7 +187,7 @@ export async function getUtensils() {
         let apiResp = await axios.get("http://localhost:8081/utensils");
         return apiResp.data;
     } catch (error) {
-        return handleError(error, "Error getting data from getProcOps:");
+        return handleError(error, "Error getting data from getUtensils:");
     }
 }
 
@@ -201,7 +201,7 @@ export async function getParams() {
         let apiResp = await axios.get("http://localhost:8085/parameters");
         return apiResp.data;
     } catch (error) {
-        return handleError(error, "Error getting data from getProcOps:");
+        return handleError(error, "Error getting data from getParams:");
 
     }
 }
@@ -217,7 +217,7 @@ export async function postEq(newEq){
         const apiResp = await axios.post("http://localhost:8085/equipment", newEq);
         return apiResp.data; // Return the response data if needed
     } catch (error) {
-        return handleError(error, "Error getting data from getProcOps:");
+        return handleError(error, "Error getting data from postEq:");
     }
 }
 
