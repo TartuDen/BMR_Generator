@@ -91,6 +91,7 @@ app.post("/get_description", async (req, res) => {
     const { equipmentType, activityType } = req.body;
     const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
+
     const { content, other } = getContentAndOtherForEquipmentAndActivityType(operationsMap, equipmentType, activityType);
 
     let contentEq = populateContent(content, localMemory);

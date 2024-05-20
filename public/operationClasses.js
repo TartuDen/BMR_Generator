@@ -6,7 +6,7 @@ export class ProcessOperation {
     opNumber = -1,
     mainEquipment = null,
     typicalActivity = null,
-    materialIn = null,
+    materialIN = null,
     materialOut = null,
     wastes = null,
     startingMaterial = null,
@@ -18,7 +18,7 @@ export class ProcessOperation {
     this.opNumber = opNumber;
     this.mainEquipment = mainEquipment;
     this.typicalActivity = typicalActivity;
-    this.materialIn = materialIn;
+    this.materialIN = materialIN;
     this.materialOut = materialOut;
     this.wastes = wastes;
     this.startingMaterial = startingMaterial;
@@ -47,7 +47,7 @@ export class TypicalActivity {
     vpumpTorrProcess = -1,
     vpumpTorrMin = -1,
     vpumpTorrMax = -1,
-    equipment = []
+    processEquipments = []
   ) {
     this.activityType = activityType;
     this.content = content;
@@ -68,7 +68,7 @@ export class TypicalActivity {
     this.vpumpTorrProcess = vpumpTorrProcess;
     this.vpumpTorrMin = vpumpTorrMin;
     this.vpumpTorrMax = vpumpTorrMax;
-    this.equipment = equipment; // fix this in other code (was additionalEquipment)
+    this.processEquipments = processEquipments; // fix this in other code (was additionalEquipment)
   }
 }
 
@@ -100,15 +100,15 @@ export class Equipment {
 export class Material {
   constructor(
     name = "",
-    WHcode = "",
     mass = -1,
-    volume = -1,
     minMass = -1,
     maxMass = -1,
-    additionalInfo = ""
+    volume = -1,
+    additionalInfo = "",
+    whcode = ""   
   ) {
     this.name = name;
-    this.WHcode = WHcode;
+    this.whcode = whcode;
     this.mass = mass;
     this.volume = volume;
     this.minMass = minMass;
