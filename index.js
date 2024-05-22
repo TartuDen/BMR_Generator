@@ -45,9 +45,10 @@ app.use(dataHandlers);
  */
 app.post("/create_process_op", async (req, res) => {
     console.log("req.body:.................", req.body);
-    const newOp = createProcessOperation(req.body);
+    let unchangedContent = req.session.content;
+    const newOp = createProcessOperation(req.body, unchangedContent);
     console.log("newOp:..................\n",newOp);
-    console.log("newOp.processEquipments:..................\n",newOp.typicalActivity.processEquipments);
+    console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
@@ -102,7 +103,7 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
     let finalFormatContent = contentEqUtsMatParams;
 
-
+    req.session.content = content;
     req.session.equipmentType = equipmentType;
     req.session.activityType = activityType;
     req.session.finalFormatContent = finalFormatContent;
