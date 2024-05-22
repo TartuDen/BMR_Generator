@@ -47,6 +47,8 @@ app.post("/create_process_op", async (req, res) => {
     console.log("req.body:.................", req.body);
     const newOp = createProcessOperation(req.body);
     console.log("newOp:..................\n",newOp);
+    console.log("newOp.processEquipments:..................\n",newOp.typicalActivity.processEquipments);
+
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
     console.log("POST new operation was: ", apiResp);
@@ -99,6 +101,7 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
     let finalFormatContent = contentEqUtsMatParams;
+
 
     req.session.equipmentType = equipmentType;
     req.session.activityType = activityType;

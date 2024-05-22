@@ -191,28 +191,28 @@ function createEquipment(data) {
     const processEquipments = [];
 
     if (data.reactor) {
-        processEquipments.push(new Equipment(data.reactor,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("reactor",data.reactor,  /* add other parameters if available */));
     }
     if (data.conv_oven) {
-        processEquipments.push(new Equipment(data.conv_oven,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("conv_oven",data.conv_oven,  /* add other parameters if available */));
     }
     if (data.balances) {
-        processEquipments.push(new Equipment(data.balances,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("balances",data.balances,  /* add other parameters if available */));
     }
     if (data.d_filter) {
-        processEquipments.push(new Equipment(data.d_filter,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("d_filter",data.d_filter,  /* add other parameters if available */));
     }
     if (data.n_filter) {
-        processEquipments.push(new Equipment(data.n_filter,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("n_filter",data.n_filter,  /* add other parameters if available */));
     }
     if (data.m_pump) {
-        processEquipments.push(new Equipment(data.m_pump,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("m_pump",data.m_pump,  /* add other parameters if available */));
     }
     if (data.o_pump) {
-        processEquipments.push(new Equipment(data.o_pump,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("o_pump",data.o_pump,  /* add other parameters if available */));
     }
     if (data.p_pump) {
-        processEquipments.push(new Equipment(data.p_pump,  /* add other parameters if available */));
+        processEquipments.push(new Equipment("p_pump",data.p_pump,  /* add other parameters if available */));
     }
 
     return processEquipments;
