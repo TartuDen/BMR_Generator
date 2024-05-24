@@ -44,3 +44,4 @@ export class Operation {
         this.other = other;
     }
 }
+

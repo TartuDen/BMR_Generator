@@ -74,6 +74,8 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
 
 
 export function populateContent(content, localMemory) {
+    console.log("content:..........\n",content);
+    console.log("localMem.......\n",localMemory);
 
     const { equipmentSet } = localMemory;
     const equipmentMap = new Map();
@@ -186,43 +188,43 @@ export function populateParams(content, params) {
 }
 
 function createEquipment(data) {
-    const equipment = [];
+    const processEquipments = [];
 
     if (data.reactor) {
-        equipment.push(new Equipment(data.reactor, /* add other parameters if available */));
+        processEquipments.push(new Equipment("reactor",data.reactor,  /* add other parameters if available */));
     }
     if (data.conv_oven) {
-        equipment.push(new Equipment(data.conv_oven, /* add other parameters if available */));
+        processEquipments.push(new Equipment("conv_oven",data.conv_oven,  /* add other parameters if available */));
     }
     if (data.balances) {
-        equipment.push(new Equipment(data.balances, /* add other parameters if available */));
+        processEquipments.push(new Equipment("balances",data.balances,  /* add other parameters if available */));
     }
     if (data.d_filter) {
-        equipment.push(new Equipment(data.d_filter, /* add other parameters if available */));
+        processEquipments.push(new Equipment("d_filter",data.d_filter,  /* add other parameters if available */));
     }
     if (data.n_filter) {
-        equipment.push(new Equipment(data.n_filter, /* add other parameters if available */));
+        processEquipments.push(new Equipment("n_filter",data.n_filter,  /* add other parameters if available */));
     }
     if (data.m_pump) {
-        equipment.push(new Equipment(data.m_pump, /* add other parameters if available */));
+        processEquipments.push(new Equipment("m_pump",data.m_pump,  /* add other parameters if available */));
     }
     if (data.o_pump) {
-        equipment.push(new Equipment(data.o_pump, /* add other parameters if available */));
+        processEquipments.push(new Equipment("o_pump",data.o_pump,  /* add other parameters if available */));
     }
     if (data.p_pump) {
-        equipment.push(new Equipment(data.p_pump, /* add other parameters if available */));
+        processEquipments.push(new Equipment("p_pump",data.p_pump,  /* add other parameters if available */));
     }
 
-    return equipment;
+    return processEquipments;
 }
 
 // Factory method to create TypicalActivity object
 function createTypicalActivity(data) {
     const {
-        activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax, additionalEquipment
+        activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax
     } = data;
 
-    const equipment = createEquipment(data);
+    const processEquipments = createEquipment(data);
 
     return new TypicalActivity(
         activityType,
@@ -244,7 +246,7 @@ function createTypicalActivity(data) {
         vpumpTorrProcess,
         vpumpTorrMin,
         vpumpTorrMax,
-        equipment
+        processEquipments
     );
 }
 
@@ -258,22 +260,29 @@ function createMaterialIn(data) {
     );
 }
 
+function createMainEquipment(data){
+    return {
+        name: data.mainEquipment,
+        code: data[`${data.mainEquipment}`]
+    }
+}
+
 // Factory method to create Operation object
 export function createProcessOperation(data) {
     const {
-        projectName, tp, version, opNumber,  mainEquipmentType, materialOut, wastes
+        projectName, tp, version, opNumber,  materialOut, wastes
     } = data;
-
+    const mainEquipment = createMainEquipment(data)
     const typAct = createTypicalActivity(data);
-    const materialIn = createMaterialIn(data);
+    const materialIN = createMaterialIn(data);
     return new ProcessOperation(
         projectName,
         tp,
         version,
         opNumber,
-        mainEquipmentType,
+        mainEquipment,
         typAct,
-        materialIn,
+        materialIN,
         materialOut,
         wastes
     );
