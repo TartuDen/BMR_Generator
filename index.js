@@ -44,17 +44,17 @@ app.use(dataHandlers);
  * @param {object} res - Express response object
  */
 app.post("/create_process_op", async (req, res) => {
-    console.log("req.body:.................", req.body);
+    // console.log("req.body:.................", req.body);
     let unchangedContent = req.session.content;
     const newOp = createProcessOperation(req.body, unchangedContent);
-    console.log("newOp:..................\n",newOp);
-    console.log("content: .......... \n", req.session.content);
+    // console.log("newOp:..................\n",newOp);
+    // console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;
     let apiResp = await postNewOp(newOp);
-    console.log("POST new operation was: ", apiResp);
+    // console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
-    console.log("br_ops:...............\n", br_ops)
+    // console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
@@ -129,6 +129,7 @@ app.get("/get_description", async (req, res) => {
     const finalFormatContent =req.session.finalFormatContent  ;
     const other= req.session.other  ;
     const localMemory= req.session.localMemory ;
+    console.log("finalFormatContent:..........\n", finalFormatContent);
 
     res.status(200).render("index.ejs", { equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
 });

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactor Loading</title>
+    <style>
+        #output {
+            white-space: pre-wrap; /* Preserves whitespace and line breaks */
+        }
+    </style>
+</head>
+<body>
+    <textarea id="staticText" rows="4" cols="50" >
+Loading into reactor:
+Required amount of [material] is weighed on the balances.
+Weighted material is loaded into reactor [reactor] in portions.
+
+Specified amount: ….. kg (….. - ….. kg)
+    </textarea>
+    <br>
+    <select id="materialSelect">
+        <option value="">--select--</option>
+        <option value="sm.1">sm.1 - 1.1</option>
+    </select>
+    <select id="reactorSelect">
+        <option value="002-15">002-15</option>
+    </select>
+    <br>
+    <div id="output"></div>
+
+    <script>
+        function updateOutput() {
+            const staticText = document.getElementById('staticText').value;
+            const materialSelect = document.getElementById('materialSelect');
+            const reactorSelect = document.getElementById('reactorSelect');
+
+            const materialValue = materialSelect.options[materialSelect.selectedIndex].text;
+            const reactorValue = reactorSelect.options[reactorSelect.selectedIndex].text;
+
+            const combinedText = staticText
+                .replace('[material]', materialValue)
+                .replace('[reactor]', reactorValue);
+
+            document.getElementById('output').innerHTML = combinedText;
+        }
+
+        document.getElementById('materialSelect').addEventListener('change', updateOutput);
+        document.getElementById('reactorSelect').addEventListener('change', updateOutput);
+
+        // Initialize the output
+        updateOutput();
+    </script>
+</body>
+</html>
