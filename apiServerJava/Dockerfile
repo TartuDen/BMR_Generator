@@ -1,7 +1,9 @@
-FROM eclipse-temurin:21
+FROM openjdk:19-jdk-alpine
 
-WORKDIR /opt/app
+WORKDIR /app
 
-COPY build/libs/BMR_Generator-0.0.1-SNAPSHOT.jar /opt/app/app.jar
+COPY build/libs/BMR_Generator-0.0.1-TestVersion.jar /app/BMR_Generator-0.0.1-TestVersion.jar
 
-CMD ["java", "-jar", "/opt/app/app.jar"]
+EXPOSE 8085
+
+ENTRYPOINT ["java", "-jar", "/app/BMR_Generator-0.0.1-TestVersion.jar"]

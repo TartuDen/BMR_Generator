@@ -34,3 +34,44 @@ To verify the health status of the API server:
 
 To retrieve custom application information:
 [http://localhost:8085/actuator/info](http://localhost:8085/actuator/info)
+
+## Install Docker on Linux
+```
+which curl
+sudo apt-get update
+sudo apt-get install curl
+
+curl -fsSL https://get.docker.com/ | sh
+docker -v
+sudo usermod -aG docker admin
+sudo service docker restart
+
+docker build -t bmrimage1:v0.1 . 
+```
+
+## MySQL docker container
+```
+docker pull mysql
+```
+```
+docker run -p 3307:3306 --name mysqlcontainer -e MYSQL_ROOT_PASSWORD="password" -e MYSQL_DATABASE="DB name" -d mysql
+```
+### User should be added "bmradmin"
+```
+ mysql -h 127.0.0.1 -P 3307 -u root -p
+
+SELECT user, host FROM mysql.user;
+```
+### Create a network
+```
+```
+docker network create netmysql
+docker network connect netmysql mysqlcontainer
+
+docker inspect mysqlcontainer
+```
+
+### RUN CONTAINER
+```
+docker run -p 8090:8085 --name bmrconteiner --net netmysql -e MYSQL_HOST=mysqlcontainer -e MYS
+QL_PORT=3306 -e MYSQL_USER=bmradmin -e MYSQL_PASSWORD=password bmrimage1:v0.1
