@@ -219,13 +219,12 @@ function createEquipment(data) {
 }
 
 // Factory method to create TypicalActivity object
-function createTypicalActivity(data, unchangedContent) {
+function createTypicalActivity(data) {
     const {
-        activityType, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax
+        activityType, content, other, durationMin, durationMax, targetTempMin, targetTempMax, initialTempSet, finalTempSet, processTemp, rpmMin, rpmMax, flowMin, flowMax, ppumpSetMin, ppumpSetMax, vpumpTorrProcess, vpumpTorrMin, vpumpTorrMax
     } = data;
 
     const processEquipments = createEquipment(data);
-    const content = unchangedContent;
 
     return new TypicalActivity(
         activityType,
@@ -269,12 +268,12 @@ function createMainEquipment(data){
 }
 
 // Factory method to create Operation object
-export function createProcessOperation(data, unchangedContent) {
+export function createProcessOperation(data) {
     const {
         projectName, tp, version, opNumber,  materialOut, wastes
     } = data;
     const mainEquipment = createMainEquipment(data)
-    const typAct = createTypicalActivity(data, unchangedContent);
+    const typAct = createTypicalActivity(data);
     const materialIN = createMaterialIn(data);
     return new ProcessOperation(
         projectName,

@@ -102,12 +102,24 @@
 
                                             <td>
                                                 <!-- Second column - Description -->
-                                                <div id="description<%= operation.opNumber %>">
-                                                    <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
-                                                        rows="1"><%= operation.typicalActivity.content %></textarea>
-                                                </div>
+                                                <form id="description<%= operation.opNumber %>" method="post" action="#">
+                                                    <div class="editable" contenteditable="true">
+                                                        <%- operation.typicalActivity.content %>
+                                                    </div>
+                                                    <input type="hidden" name="editableContent" id="description<%= operation.opNumber %>">
+                                                    <button type="submit">Submit</button>
+                                                </form>
 
                                             </td>
+                                            <!-- _____________________ script to send data from editable div ____________________ -->
+                                            <script>
+                                                let formID = <%- JSON.stringify(operation.opNumber)%>;
+                                                document.getElementById(divID).addEventListener('submit', function() {
+                                                    var editableDiv = document.querySelector('.editable');
+                                                    var hiddenInput = document.getElementById('editableContent');
+                                                    hiddenInput.value = editableDiv.innerHTML;
+                                                });
+                                            </script>
 
                                             <!-- ______________________________script to remove_____________________________________________ -->
                                             <script>
