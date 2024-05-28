@@ -37,13 +37,11 @@
                                 <!-- First table on top -->
                                 <div class="col-lg-10 col-md-10">
                                     <div class=" mt-3">
-                                        <form action="/operation_table" method="post">
-
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <table class="table">
                                                         <tbody>
-
+                                                            <!-- ____________project__tp__version__selector_________ -->
                                                             <tr class="d-flex justify-content-end align-items-end">
                                                                 <td>
                                                                     <!-- Choose Projects -->
@@ -91,14 +89,13 @@
                                                     </table>
                                                 </div>
                                             </div>
-
-                                            <!-- Last two tables side by side -->
-
                                     </div>
                                 </div>
+                                <!-- Equipment and materials tables -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <table class="table table-info">
+                                            <!-- _______________EQUIPMENT_TABLE_____________ -->
                                             <h2>Select equipment</h2>
                                             <tbody>
                                                 <% equipmentMap.forEach(function(item, index) { %>
@@ -143,19 +140,10 @@
                                                         </td>
                                                     </tr>
                                                     <% }); %>
-
-
-
                                             </tbody>
-
-
-
-
-
                                         </table>
                                     </div>
 
-                                    <!-- New table for loading materials -->
                                     <div class="col-md-6">
                                         <table class="table table-info" id="reagentTable">
                                             <h2>Insert Materials</h2>
@@ -173,12 +161,6 @@
 
 
 
-                                                        <tr>
-                                                            <td><input type="text" name="reagent1" class="form-control"
-                                                                    placeholder="Reagent here"></td>
-                                                            <td><input type="number" name="mass1" class="form-control"
-                                                                    placeholder="mass in kg" step="any" min="0"></td>
-                                                        </tr>
 
 
 

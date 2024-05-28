@@ -111,37 +111,7 @@
                                                 </form>
 
                                             </td>
-                                            <!-- _____________________ script to send data from editable div ____________________ -->
-                                            <script>
-                                                let formID = <%- JSON.stringify(operation.opNumber)%>;
-                                                document.getElementById(divID).addEventListener('submit', function() {
-                                                    var editableDiv = document.querySelector('.editable');
-                                                    var hiddenInput = document.getElementById('editableContent');
-                                                    hiddenInput.value = editableDiv.innerHTML;
-                                                });
-                                            </script>
-
-                                            <!-- ______________________________script to remove_____________________________________________ -->
-                                            <script>
-                                                // Function to adjust textarea height based on content
-                                                function adjustTextareaHeight(textarea) {
-                                                    textarea.style.height = 'auto'; // Reset height to auto
-                                                    textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
-                                                }
-
-                                                // Get the textarea element
-                                                var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
-
-                                                // Call the adjustTextareaHeight function when the content changes
-                                                textarea.addEventListener('input', function () {
-                                                    adjustTextareaHeight(textarea);
-                                                });
-
-                                                // Call the adjustTextareaHeight function initially
-                                                adjustTextareaHeight(textarea);
-                                            </script>
-                                            <!-- ___________________________________________________________________________ -->
-
+                        
                                             <!-- 3rd column - OTHER -->
                                             <td style="width: 15%;">
                                                 <!-- Other fields -->

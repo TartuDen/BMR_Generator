@@ -18,9 +18,12 @@
 
 <form id="editableForm" method="post" action="your-server-endpoint">
     <div class="editable" contenteditable="true">
-        Loading into reactor: Required amount of <select name="material"><option value="">--select--</option><option value="sm.1">sm.1 - 33.2</option><option value="sm.3">sm.3 - 4.3</option></select> is weighed on the balances. Weighted material is loaded into reactor <select name="reactor"><option value="002-16">002-16</option><option value="002-12">002-12</option></select> in portions. Specified amount: ….. kg (….. - ….. kg)
-        Specified amount: 
-        <input type="text" name="specified-amount" placeholder="..... kg (..... - ….. kg)">
+        Loading into reactor:
+        Required amount of <select name="material"><option value="">--select--</option><option value="aaa">aaa - 1</option><option value="bbb">bbb - 2</option><option value="ccc">ccc - 3</option><option value="ddd" selected>ddd - 4</option></select> is weighed on the balances.
+        Using peristaltic pump <select name="p_pump"><option value="001-13">001-13</option></select>, weighted material is pumped into the reactor.
+        
+        Specified amount: ….. kg (….. - ….. kg)
+        
     </div>
     <input type="hidden" name="editableContent" id="editableContent">
     <button type="submit">Submit</button>
