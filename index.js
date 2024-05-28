@@ -80,12 +80,13 @@ app.post("/create_process_op", async (req, res) => {
     // console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;
+    console.log("..................localMem:........\n",localMemory);
     let apiResp = await postNewOp(newOp);
     // console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
     br_ops = updateSelectedOptions(br_ops);
 
-    // console.log("br_ops:...............\n", br_ops)
+    console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
@@ -176,8 +177,9 @@ app.get("/get_description", async (req, res) => {
  */
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
-    console.log("........localMem..........\n",localMemory);
+
     localMemory = convertToMemoryObj(localMemory);
+    console.log(".............newLocalMem...........\n",localMemory);
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);

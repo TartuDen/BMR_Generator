@@ -92,7 +92,7 @@ router.post("/post_eq", async (req,res)=>{
 
     // Create an EquipmentNoOperation object
     const equipment = new EquipmentNoOperation(name, equipmentInfoArray, operationsArray);
-    console.log("equipment:  ",equipment);
+    console.log("equipment.............:  ",equipment);
 
     let apiResp = await postEq(equipment);
     res.redirect(`post_eq?message=${apiResp.data}`)
