@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Editable Content</title>
+    <style>
+        .editable {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<form id="editableForm" method="post" action="your-server-endpoint">
+    <div class="editable" contenteditable="true">
+        Loading into reactor:
+        Required amount of <select name="material"><option value="">--select--</option><option value="aaa">aaa - 1</option><option value="bbb">bbb - 2</option><option value="ccc">ccc - 3</option><option value="ddd" selected>ddd - 4</option></select> is weighed on the balances.
+        Using peristaltic pump <select name="p_pump"><option value="001-13">001-13</option></select>, weighted material is pumped into the reactor.
+        
+        Specified amount: ….. kg (….. - ….. kg)
+        
+    </div>
+    <input type="hidden" name="editableContent" id="editableContent">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('editableForm').addEventListener('submit', function() {
+        var editableDiv = document.querySelector('.editable');
+        var hiddenInput = document.getElementById('editableContent');
+        hiddenInput.value = editableDiv.innerHTML;
+    });
+</script>
+
+</body>
+</html>

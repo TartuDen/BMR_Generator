@@ -30,6 +30,35 @@ app.use(session({
 
 app.use(dataHandlers);
 
+function updateSelectedOptions(br_ops) {
+    for(let index = 0; index<br_ops.length;index++){
+        let operation = br_ops[index]
+        let content = operation.typicalActivity.content;
+        // Update the material select
+        const materialValue = operation.materialIN.name;
+        content = content.replace(/<select name="material">([\s\S]*?)<\/select>/, (match, options) => {
+            return `<select name="material">${setSelectedOption(options, materialValue)}</select>`;
+        });
+
+        // Update the reactor select
+        const reactorValue = operation.mainEquipment.code;
+        content = content.replace(/<select name="reactor">([\s\S]*?)<\/select>/, (match, options) => {
+            return `<select name="reactor">${setSelectedOption(options, reactorValue)}</select>`;
+        });
+
+        br_ops[index].typicalActivity.content = content
+    }
+    return br_ops
+}
+
+function setSelectedOption(options, value) {
+    return options.replace(/<option value="([^"]*)">/g, (match, optionValue) => {
+        if (optionValue === value) {
+            return `<option value="${optionValue}" selected>`;
+        }
+        return match;
+    });
+}
 
 /**
  * Handles POST requests to create a new process operation.
@@ -44,15 +73,19 @@ app.use(dataHandlers);
  * @param {object} res - Express response object
  */
 app.post("/create_process_op", async (req, res) => {
-    console.log("req.body:.................", req.body);
+    // console.log("req.body:.................", req.body);
+
     const newOp = createProcessOperation(req.body);
-    console.log("newOp:..................\n",newOp);
-    console.log("newOp.processEquipments:..................\n",newOp.typicalActivity.processEquipments);
+    // console.log("newOp:..................\n",newOp);
+    // console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;
+    console.log("..................localMem:........\n",localMemory);
     let apiResp = await postNewOp(newOp);
-    console.log("POST new operation was: ", apiResp);
+    // console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
+    br_ops = updateSelectedOptions(br_ops);
+
     console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
@@ -102,7 +135,7 @@ app.post("/get_description", async (req, res) => {
     let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
     let finalFormatContent = contentEqUtsMatParams;
 
-
+    req.session.content = content;
     req.session.equipmentType = equipmentType;
     req.session.activityType = activityType;
     req.session.finalFormatContent = finalFormatContent;
@@ -144,7 +177,9 @@ app.get("/get_description", async (req, res) => {
  */
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
+
     localMemory = convertToMemoryObj(localMemory);
+    console.log(".............newLocalMem...........\n",localMemory);
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);

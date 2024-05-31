@@ -102,34 +102,16 @@
 
                                             <td>
                                                 <!-- Second column - Description -->
-                                                <div id="description<%= operation.opNumber %>">
-                                                    <textarea id="descriptionTextarea<%= operation.opNumber %>" class="form-control"
-                                                        rows="1"><%= operation.typicalActivity.content %></textarea>
-                                                </div>
+                                                <form id="description<%= operation.opNumber %>" method="post" action="#">
+                                                    <div class="editable" contenteditable="true">
+                                                        <%- operation.typicalActivity.content %>
+                                                    </div>
+                                                    <input type="hidden" name="editableContent" id="description<%= operation.opNumber %>">
+                                                    <button type="submit">Submit</button>
+                                                </form>
 
                                             </td>
-
-                                            <!-- ______________________________script to remove_____________________________________________ -->
-                                            <script>
-                                                // Function to adjust textarea height based on content
-                                                function adjustTextareaHeight(textarea) {
-                                                    textarea.style.height = 'auto'; // Reset height to auto
-                                                    textarea.style.height = (textarea.scrollHeight + 1) + 'px'; // Set height to content height
-                                                }
-
-                                                // Get the textarea element
-                                                var textarea = document.getElementById("descriptionTextarea<%= operation.opNumber %>");
-
-                                                // Call the adjustTextareaHeight function when the content changes
-                                                textarea.addEventListener('input', function () {
-                                                    adjustTextareaHeight(textarea);
-                                                });
-
-                                                // Call the adjustTextareaHeight function initially
-                                                adjustTextareaHeight(textarea);
-                                            </script>
-                                            <!-- ___________________________________________________________________________ -->
-
+                        
                                             <!-- 3rd column - OTHER -->
                                             <td style="width: 15%;">
                                                 <!-- Other fields -->
@@ -238,7 +220,6 @@
         </div>
     </div>
 
-    // <script src="ot_scripts.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

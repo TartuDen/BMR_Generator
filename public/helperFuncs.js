@@ -74,9 +74,6 @@ export function getContentAndOtherForEquipmentAndActivityType(operationsMap, equ
 
 
 export function populateContent(content, localMemory) {
-    console.log("content:..........\n",content);
-    console.log("localMem.......\n",localMemory);
-
     const { equipmentSet } = localMemory;
     const equipmentMap = new Map();
 
