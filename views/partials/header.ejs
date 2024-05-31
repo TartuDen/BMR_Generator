@@ -1,6 +1,6 @@
 <header class="bg-dark text-light py-4">
     <header class="p-3 text-bg-dark">
-        <div class="container">
+        <div class="container-fluid">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
               <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
@@ -9,7 +9,6 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
               <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
               <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
               <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
@@ -17,11 +16,19 @@
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
               <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
             </form>
-    
+            <% if(locals.user){%>
+              <div class="text-end">
+                <img src="<%- user.ava %>" alt="user avatar" style="height: 22px; border-radius: 50%;">
+                <span><%= user.user_name %></span>
+                <a href="/logout" class="btn btn-light me-2"><img src="img\7148708_logout_exit_out_icon.png" alt="log out logo" style="height: 22px;"></a>
+
+              </div>
+            <% }else{ %>
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light me-2">Login</button>
-              <button type="button" class="btn btn-warning">Sign-up</button>
+              <a href="/auth/google" class="btn btn-light me-2">LOG IN with <img src="img\7115255_google_logo_search_new_icon.png" alt="google logo" style="height: 22px;"></a>
+              <button type="button" class="btn btn-light">LOG IN with <img src="img\4102573_applications_facebook_media_social_icon.png" alt="facebook logo" style="height: 22px;"></button>
             </div>
+            <% } %>
           </div>
         </div>
       </header>

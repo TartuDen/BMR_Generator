@@ -310,6 +310,34 @@ export function parseOperationsData(operations) {
 
     return result;
 }
+export function updateSelectedOptions(br_ops) {
+    for (let index = 0; index < br_ops.length; index++) {
+        let operation = br_ops[index];
+        let content = operation.typicalActivity.content;
+        // Update the material select
+        const materialValue = operation.materialIN.name;
+        content = content.replace(/<select name="material">([\s\S]*?)<\/select>/, (match, options) => {
+            return `<select name="material">${setSelectedOption(options, materialValue)}</select>`;
+        });
+
+        // Update the reactor select
+        const reactorValue = operation.mainEquipment.code;
+        content = content.replace(/<select name="reactor">([\s\S]*?)<\/select>/, (match, options) => {
+            return `<select name="reactor">${setSelectedOption(options, reactorValue)}</select>`;
+        });
+
+        br_ops[index].typicalActivity.content = content;
+    }
+    return br_ops;
+}
+function setSelectedOption(options, value) {
+    return options.replace(/<option value="([^"]*)">/g, (match, optionValue) => {
+        if (optionValue === value) {
+            return `<option value="${optionValue}" selected>`;
+        }
+        return match;
+    });
+}
 
 
 

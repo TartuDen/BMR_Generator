@@ -159,11 +159,6 @@
                                                     </tr>
                                                     <% }); %>
 
-
-
-
-
-
                                             </tbody>
                                         </table>
                                         <button type="button" class="btn btn-light " id="addRowBtn">+</button>
@@ -244,7 +239,7 @@
 
                     try {
                         // Send POST request using Axios
-                        const response = await axios.post('/', data);
+                        const response = await axios.post('/main_table', data);
                         console.log('POST request successful');
                     } catch (error) {
                         console.error('Error sending POST request:', error);
