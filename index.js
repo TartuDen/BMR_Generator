@@ -102,7 +102,7 @@ app.post("/create_process_op", async (req, res) => {
 app.get("/create_process_op", async (req, res) => {
     const operationsMap = req.session.operationsMap;
     const localMemory = req.session.localMemory;
-    const br_ops = req.session.br_ops;
+    let br_ops = req.session.br_ops;
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
@@ -157,10 +157,11 @@ app.get("/get_description", async (req, res) => {
     const equipmentType = req.session.equipmentType;
     const activityType = req.session.activityType ;
     const operationsMap = req.session.operationsMap ;
-    const br_ops= req.session.br_ops  ;
+    let br_ops= req.session.br_ops  ;
     const finalFormatContent =req.session.finalFormatContent  ;
     const other= req.session.other  ;
     const localMemory= req.session.localMemory ;
+    br_ops = updateSelectedOptions(br_ops);
 
     res.status(200).render("index.ejs", { equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
 });
@@ -204,8 +205,9 @@ app.post("/operation_table", async (req, res) => {
 app.get("/operation_table", async (req, res) => {
     // Parse the query parameters back into their original data structures
     const operationsMap = req.session.operationsMap;
-    const br_ops = req.session.br_ops;
+    let br_ops = req.session.br_ops;
     const localMemory = req.session.localMemory;
+    br_ops = updateSelectedOptions(br_ops);
     res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
 });
 
