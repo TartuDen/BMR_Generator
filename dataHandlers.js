@@ -45,9 +45,10 @@ router.post("/delete_eq", async (req,res)=>{
  * @param {object} res - Express response object
  */
 router.get("/post_eq", async (req,res)=>{
+    const user = req.user;
     const message = req.query.message;
     console.log(message);
-    res.status(200).render("post_eq_page.ejs");
+    res.status(200).render("post_eq_page.ejs",{user});
 })
 
 /**
@@ -145,12 +146,13 @@ router.post("/get_eq", async (req,res)=>{
  * @param {object} res - Express response object
  */
 router.get("/get_eq", async (req,res)=>{
+    const user = req.user;
     const selectedName = req.session.selectedName;
     const selected = req.session.selected;
 
     let equipmentMapFull = await getMainTableEq();
     const names = equipmentMapFull.map(item => item.name);
-    res.status(200).render("get_eq_page.ejs",{names, selectedName, selected});
+    res.status(200).render("get_eq_page.ejs",{user,names, selectedName, selected});
 })
 
 
