@@ -290,6 +290,7 @@ app.get("/", async (req, res) => {
 
 app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"],
+    prompt: "select_account" // This forces Google to always show the account selection prompt
 }))
 
 app.get("/auth/google/main_table", passport.authenticate("google", {
