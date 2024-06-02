@@ -214,6 +214,7 @@ export async function getParams() {
  */
 export async function postEq(newEq){
     try {
+        console.log("..........newEq.............\n",newEq);
         const apiResp = await axios.post("http://3.72.208.221:8090/equipment", newEq);
         return apiResp.data; // Return the response data if needed
     } catch (error) {

@@ -183,5 +183,54 @@ router.post("/delete_op", async(req,res)=>{
     res.redirect("/operation_table");
 })
 
+function createEquipmentNoOperation(formData) {
+    const equipmentInfo = [];
+    const operations = [];
+
+    // Extract equipment info data
+    for (const key in formData) {
+        if (key.startsWith('code_')) {
+            const index = key.split('_')[1];
+            const code = formData[`code_${index}`];
+            const description = formData[`description_${index}`];
+            equipmentInfo.push(new EquipmentInfo(code, description));
+        }
+    }
+
+    // Extract operation data
+    for (const key in formData) {
+        if (key.startsWith('operationType_')) {
+            const index = key.split('_')[1];
+            const operationType = formData[`operationType_${index}`];
+            const content = formData[`content_${index}`];
+            const other = formData[`other_${index}`];
+            operations.push(new Operation(operationType, content, other));
+        }
+    }
+
+    // Extract name
+    const name = formData.name;
+
+    // Create and return EquipmentNoOperation object
+    return new EquipmentNoOperation(name, equipmentInfo, operations);
+}
+
+
+router.post("/test",async (req,res)=>{
+    const name = req.body.eqName;
+    console.log("......name.......\n",name);
+    const apiRespDelete = await deleteEq(name);
+    
+    let newEqOp = createEquipmentNoOperation(req.body);
+
+    let apiRespPost = await postEq(newEqOp);
+
+    console.log(".delete............\n",apiRespDelete);
+    console.log("....post........\n",apiRespPost);
+
+    res.redirect("/get_eq")
+
+})
+
 // Export the router
 export default router;

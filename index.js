@@ -226,6 +226,7 @@ app.post("/main_table", async (req, res) => {
     const { projectName, tp, version } = req.body;
     if (projectName && tp && version) {
         let apiRespData = await getProcessInitInfo(projectName, tp, version);
+        req.session.projectName = projectName;
 
         localMemory = new LocalMemory(apiRespData);
     } else {
@@ -246,22 +247,16 @@ app.post("/main_table", async (req, res) => {
 app.get("/main_table", async (req, res) => {
     if (req.isAuthenticated()) {
         const user = req.user;
-        console.log(".........user............\n", user);
-        let { projectName } = req.query;
+        // console.log(".........user............\n", user);
+        let  projectName = req.session.projectName;
         let equipmentMap = await getMainTableEq();
-        let allProj = await getAllProjects();
         let localMemory;
         if (req.session.localMemory) {
             localMemory = req.session.localMemory
         } else {
             localMemory = new LocalMemory;
         }
-        // let localMemory = await getProcessInitInfo()
-        let allTpFromProj = [];
-        if (projectName) {
-            allTpFromProj = await getAllTp(projectName);
-        }
-        res.status(200).render("main_table.ejs", { user, equipmentMap, localMemory, allProj, allTpFromProj });
+        res.status(200).render("main_table.ejs", { user, equipmentMap, localMemory});
     } else {
         res.redirect("/");
     }
@@ -290,7 +285,7 @@ app.get("/", async (req, res) => {
 
 app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"],
-    prompt: "select_account" // This forces Google to always show the account selection prompt
+    // prompt: "select_account" // This forces Google to always show the account selection prompt
 }))
 
 app.get("/auth/google/main_table", passport.authenticate("google", {
@@ -306,7 +301,6 @@ passport.use("google", new GoogleStrategy({
     callbackURL: "http://localhost:8080/auth/google/main_table",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 }, async (accessToken, refreshToken, profile, cb) => {
-
     try {
         let apiResp = await axios.post("http://localhost:8081/get_user_auth", { email: profile.email });
         if (!apiResp.data.email) {
