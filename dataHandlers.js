@@ -209,7 +209,7 @@ function createEquipmentNoOperation(formData) {
     }
 
     // Extract name
-    const name = formData.name;
+    const name = formData.eqName;
 
     // Create and return EquipmentNoOperation object
     return new EquipmentNoOperation(name, equipmentInfo, operations);
@@ -218,16 +218,9 @@ function createEquipmentNoOperation(formData) {
 
 router.post("/test",async (req,res)=>{
     const name = req.body.eqName;
-    console.log("......name.......\n",name);
     const apiRespDelete = await deleteEq(name);
-    
     let newEqOp = createEquipmentNoOperation(req.body);
-
     let apiRespPost = await postEq(newEqOp);
-
-    console.log(".delete............\n",apiRespDelete);
-    console.log("....post........\n",apiRespPost);
-
     res.redirect("/get_eq")
 
 })
