@@ -2,6 +2,7 @@ package com.bmr.BMR_Generator.dao;
 
 import com.bmr.BMR_Generator.dto.UserDTO;
 import com.bmr.BMR_Generator.entity.user.User;
+import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +51,16 @@ public class UserDAOImpl implements UserDAO{
     }
     
     @Override
+    @Transactional
     public void update(User user, String name) {
+        try {
+            if (deleteByName(name)){
+                throw new BrApiServerException("User not found");
+            };
+            save(user);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while updating User - " + name, e);
+        }
     
     }
     
