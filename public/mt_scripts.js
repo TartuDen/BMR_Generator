@@ -1,4 +1,4 @@
-let urlProcessdata = 'http://localhost:8085/processdata/projects';
+let urlProcessdata = 'http://3.72.208.221:8090/processdata/projects';
 async function fetchData(url) {
 try {
     const response = await axios.get(url);

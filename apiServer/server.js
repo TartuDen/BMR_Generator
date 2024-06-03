@@ -111,6 +111,21 @@ app.get("/main_table_equipment", async (req, res) => {
   res.status(200).json(apiResp);
 })
 
+app.post("/get_user_auth", async(req,res)=>{
+  const user =  {
+    user_name: 'Den',
+    email: 'denver1033@gmail.com',
+    ava: 'https://lh3.googleusercontent.com/a/ACg8ocK2bz82lqcsA1oTBIsOb59Y3pVGeZWI76tPwJegyrrad6Nu5g=s96-c',
+    role: "admin"
+  }
+  res.json(user);
+})
+
+app.post("/reg_user", async(req,res)=>{
+  const {user_name, email, ava} = req.body;
+  res.json({user_name, email, ava})
+})
+
 app.listen(port, async (err) => {
   if (err) throw err;
   await connectToDB();

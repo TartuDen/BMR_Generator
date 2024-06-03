@@ -18,7 +18,7 @@ function handleError(error, message) {
  */
 export async function getProcOps(projectName, tp, version){
     try{
-        let apiResp = await axios.get(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
+        let apiResp = await axios.get(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${version}`);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from getProcOps:");
@@ -34,7 +34,7 @@ export async function getProcOps(projectName, tp, version){
  */
 export async function postNewOp(newOp){
     try{
-        let apiResp = await axios.post(`http://localhost:8085/processoperation`, newOp);
+        let apiResp = await axios.post(`http://3.72.208.221:8090/processoperation`, newOp);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from postNewOp:");
@@ -49,7 +49,7 @@ export async function postNewOp(newOp){
  */
 export async function getMainTableEq() {
     try {
-        let apiResp = await axios.get("http://localhost:8085/main_table_equipment");
+        let apiResp = await axios.get("http://3.72.208.221:8090/main_table_equipment");
         
         if (apiResp.data && Array.isArray(apiResp.data)) {
             let newObj = apiResp.data.map(item => new EquipmentNoOperation(item.name, item.equipmentInfo));
@@ -72,7 +72,7 @@ export async function getMainTableEq() {
  */
 export async function getProjectName(projectName){
     try{
-        let apiResp = await axios.post(`http://localhost:8085/processoperation`, projectName);
+        let apiResp = await axios.post(`http://3.72.208.221:8090/processoperation`, projectName);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from getProjectName:");
@@ -87,7 +87,7 @@ export async function getProjectName(projectName){
  */
 export async function getAllProjects(){
     try{
-        let apiResp = await axios.get(`http://localhost:8085/processdata/projects`);
+        let apiResp = await axios.get(`http://3.72.208.221:8090/processdata/projects`);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from getAllProjects:");
@@ -103,7 +103,7 @@ export async function getAllProjects(){
  */
 export async function getAllTp(projectName){
     try{
-        let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp`);
+        let apiResp = await axios.get(`http://3.72.208.221:8090/processdata/projects/${projectName}/tp`);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from getAllTp:");
@@ -120,7 +120,7 @@ export async function getAllTp(projectName){
  */
 export async function getAllVersions(projectName, tp){
     try{
-        let apiResp = await axios.get(`http://localhost:8085/processdata/projects/${projectName}/tp/${tp}/versions`);
+        let apiResp = await axios.get(`http://3.72.208.221:8090/processdata/projects/${projectName}/tp/${tp}/versions`);
         return apiResp.data;
     }catch(error){
         handleError(error, "Error getting data from getAllVersions:");
@@ -136,7 +136,7 @@ export async function getAllVersions(projectName, tp){
  */
 export async function getEqByName(name) {
     try {
-        let apiResp = await axios.get("http://localhost:8085/equipment/"+name);
+        let apiResp = await axios.get("http://3.72.208.221:8090/equipment/"+name);
 
         
         if (apiResp.data ) {
@@ -169,7 +169,7 @@ export async function getEqByName(name) {
  */
 export async function getActivityTypeFromAPI() {
     try {
-        let apiResp = await axios.get("http://localhost:8085/activity_type");
+        let apiResp = await axios.get("http://3.72.208.221:8090/activity_type");
         return apiResp.data;
     } catch (error) {
         handleError(error, "Error getting data from getActivityTypeFromAPI:");
@@ -198,7 +198,7 @@ export async function getUtensils() {
  */
 export async function getParams() {
     try {
-        let apiResp = await axios.get("http://localhost:8085/parameters");
+        let apiResp = await axios.get("http://3.72.208.221:8090/parameters");
         return apiResp.data;
     } catch (error) {
         return handleError(error, "Error getting data from getParams:");
@@ -214,7 +214,8 @@ export async function getParams() {
  */
 export async function postEq(newEq){
     try {
-        const apiResp = await axios.post("http://localhost:8085/equipment", newEq);
+        console.log("..........newEq.............\n",newEq);
+        const apiResp = await axios.post("http://3.72.208.221:8090/equipment", newEq);
         return apiResp.data; // Return the response data if needed
     } catch (error) {
         return handleError(error, "Error getting data from postEq:");
@@ -229,7 +230,7 @@ export async function postEq(newEq){
  */
 export async function deleteEq(name){
     try{
-        const apiResp = await axios.delete("http://localhost:8085/equipment/"+name);
+        const apiResp = await axios.delete("http://3.72.208.221:8090/equipment/"+name);
         return apiResp.data
     }catch(error){
         return handleError(error, "Error getting data from getProcOps:");
@@ -248,7 +249,7 @@ export async function deleteEq(name){
 export async function getProcessInitInfo(projectName, tp, version){
         if (projectName && tp && version){
                 try{
-            const apiResp = await axios.get(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            const apiResp = await axios.get(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
             return apiResp.data
             }catch(error){
                 return handleError(error, "Error getting data from getProcOps:");
@@ -261,7 +262,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function deleteProcessInitialInfo(projectName, tp, version){
         try{
-            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
             return apiResp.data
         }catch(error){
             return handleError(error, "Error getting data from deleteProcessInitialInfo:");
@@ -270,7 +271,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function postProcessInitialInfo(localMemory){
         try{
-            const apiResp = await axios.post(`http://localhost:8085/processInitialInfo`, localMemory);
+            const apiResp = await axios.post(`http://3.72.208.221:8090/processInitialInfo`, localMemory);
             return apiResp.data
         }catch(error){
             return handleError(error, "Error getting data from postProcessInitialInfo:");
@@ -280,7 +281,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function deleteBr(projectName,tp,version){
         try{
-            const apiResp = await axios.delete(`http://localhost:8085/processoperation/${projectName}/${tp}/${version}`);
+            const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${version}`);
             return apiResp.data;
         }catch(error){
             return handleError(error, "Error deleting data from deleteBr");
@@ -289,7 +290,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function deleteBRfromLocalMemory(projectName,tp,version){
         try{
-            const apiResp = await axios.delete(`http://localhost:8085/processInitialInfo/${projectName}/${tp}/${version}`);
+            const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
             return apiResp.data;
         }catch(error){
             return handleError(error, "Error deleting data from deleteBRfromLocalMemory");
@@ -298,7 +299,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function deleteOpFromBR(projectName, tp, version, opNumber){
         try{
-            const apiResp = await axios.delete(`http://localhost:8085/processoperation/${projectName}/${tp}/${opNumber}/${version}`);
+            const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${opNumber}/${version}`);
             return apiResp.data;
         }catch(error){
             return handleError(error, "Error deleting data from deleteOpFromBR");
@@ -307,7 +308,7 @@ export async function getProcessInitInfo(projectName, tp, version){
 
     export async function updateOpFromBR(projectName, tp, version){
         try{
-            const apiResp = await axios.patch(`http://localhost:8085/processdata/${projectName}/${tp}/${version}`);
+            const apiResp = await axios.patch(`http://3.72.208.221:8090/processdata/${projectName}/${tp}/${version}`);
             
             return apiResp.data;
         }catch(error){

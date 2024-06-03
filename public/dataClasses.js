@@ -23,7 +23,7 @@ export class Reagent {
 
 
 export class EquipmentNoOperation {
-    constructor(name = "", equipmentInfo = [{}], operations = []) {
+    constructor(name = "none", equipmentInfo = [{}], operations = []) {
         this.name = name;
         this.equipmentInfo = equipmentInfo.map(info => new EquipmentInfo(info.code, info.description));
         this.operations = operations.map(op => new Operation(op.operationType, op.content, op.other));

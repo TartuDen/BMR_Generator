@@ -60,6 +60,32 @@
                     </div>
                 </div>
                 
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <em> <strong><%= selectedName %></strong> </em> equipment?
+            </div>
+            <div class="modal-footer">
+                <!-- Form to confirm deletion -->
+                <form action="/delete_eq" method="post">
+                    <input type="hidden" name="name" value="<%= selectedName %>">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+                <!-- Button to close modal -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="/test" method="post">
+
 
 
             <div class="row">
@@ -70,29 +96,7 @@
                                 DELETE equipment
                             </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure you want to delete <em> <strong><%= selectedName %></strong> </em> equipment?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <!-- Form to confirm deletion -->
-                                            <form action="/delete_eq" method="post">
-                                                <input type="hidden" name="name" value="<%= selectedName %>">
-                                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                                            </form>
-                                            <!-- Button to close modal -->
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                         
                         <% if(selected.equipmentInfo){ %>
@@ -106,12 +110,13 @@
                             <tbody>
                                 <!-- Loop through equipmentInfo and generate rows -->
                                 <!-- Replace the equipmentInfo array with your actual data -->
-                                <% selected.equipmentInfo.forEach(info => { %>
+                                <% selected.equipmentInfo.forEach((info, index) => { %>
                                     <tr>
-                                        <td><%= info.code %></td>
-                                        <td><%= info.description %></td>
+                                        <td><input type="text" name="code_<%= index %>" class="form-control" value="<%= info.code %>"></td>
+                                        <td><input type="text" name="description_<%= index %>" class="form-control" value="<%= info.description %>"></td>
                                     </tr>
                                 <% }); %>
+                                
                             </tbody>
                         </table>
                         <% }if (selected.operations){ %>
@@ -126,13 +131,14 @@
                                 <tbody>
                                     <!-- Loop through operations and generate rows -->
                                     <!-- Replace the operations array with your actual data -->
-                                    <% selected.operations.forEach(operation => { %>
+                                    <% selected.operations.forEach((operation, index) => { %>
                                         <tr>
-                                            <td><%= operation.operationType %></td>
-                                            <td><%= operation.content %></td>
-                                            <td><%= operation.other %></td>
+                                            <td><input type="text" name="operationType_<%= index %>" class="form-control" value="<%= operation.operationType %>"></td>
+                                            <td><textarea name="content_<%= index %>" class="form-control" style="resize: none;" rows="4" cols="50"><%= operation.content %></textarea></td>
+                                            <td><textarea name="other_<%= index %>" class="form-control"><%= operation.other %></textarea></td>
                                         </tr>
                                     <% }); %>
+                                    
                                 </tbody>
                             </table>
                         <% } %>
@@ -140,6 +146,9 @@
                     <% } %>
                 </div>
             </div>
+            <input type="hidden" name="eqName" value="<%= selectedName %>">
+            <button type="submit" class="btn btn-danger">submit all</button>
+        </form>
         </div>
         
 

@@ -1,12 +1,19 @@
-import express, { response } from "express"; 
-import bodyParser from "body-parser"; 
+import express, { response } from "express";
+import bodyParser from "body-parser";
 import session from "express-session";
+import passport from 'passport';//Authentication middleware for Node.js.
+import { Strategy as LocalStrategy } from 'passport-local'; // Strategy for username and password authentication with Passport.
+import env from 'dotenv';
+import GoogleStrategy from 'passport-google-oauth2';
+import axios from "axios";
+
 import { getUtensils, getParams, getMainTableEq, getActivityTypeFromAPI, getProcOps, postNewOp, getAllProjects, getAllTp, getProcessInitInfo, deleteProcessInitialInfo, postProcessInitialInfo } from "./public/apiCallFuncs.js";
 import { getContentAndOtherForEquipmentAndActivityType, populateContent, populateUts, populateMaterials, convertToMemoryObj, selectOps } from "./public/helperFuncs.js";
 import { populateParams } from "./public/helperFuncs.js";
 import { createProcessOperation } from "./public/helperFuncs.js";
 import { LocalMemory } from "./public/dataClasses.js";
 import dataHandlers from "./dataHandlers.js";
+import { updateSelectedOptions } from "./public/helperFuncs.js";
 
 
 
@@ -14,7 +21,7 @@ import dataHandlers from "./dataHandlers.js";
 const port = 8080; // Port on which the server will listen
 const app = express(); // Creating an instance of the Express application
 
-let localMemory =  new LocalMemory;
+let localMemory = new LocalMemory;
 let br_ops = []
 
 
@@ -22,14 +29,20 @@ let br_ops = []
 app.use(express.static("public")); // Serving static files from the "public" directory
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing urlencoded request bodies
 app.use(bodyParser.json());
+env.config();
 app.use(session({
-    secret: 'secret-key', // Replace 'secret-key' with a secret key for session encryption
+    secret: process.env.SESSION_SECRET, // Replace 'secret-key' with a secret key for session encryption
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    }
 }));
 
-app.use(dataHandlers);
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use(dataHandlers);
 
 /**
  * Handles POST requests to create a new process operation.
@@ -44,16 +57,20 @@ app.use(dataHandlers);
  * @param {object} res - Express response object
  */
 app.post("/create_process_op", async (req, res) => {
-    console.log("req.body:.................", req.body);
+    // console.log("req.body:.................", req.body);
+
     const newOp = createProcessOperation(req.body);
-    console.log("newOp:..................\n",newOp);
-    console.log("newOp.processEquipments:..................\n",newOp.typicalActivity.processEquipments);
+    // console.log("newOp:..................\n",newOp);
+    // console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;
+    // console.log("..................localMem:........\n",localMemory);
     let apiResp = await postNewOp(newOp);
-    console.log("POST new operation was: ", apiResp);
+    // console.log("POST new operation was: ", apiResp);
     br_ops = await getProcOps(localMemory.projectName, localMemory.tp, localMemory.version);
-    console.log("br_ops:...............\n", br_ops)
+    br_ops = updateSelectedOptions(br_ops);
+
+    // console.log("br_ops:...............\n", br_ops)
     req.session.br_ops = br_ops;
     res.redirect(`/create_process_op`);
 });
@@ -67,10 +84,16 @@ app.post("/create_process_op", async (req, res) => {
  * @param {object} res - Express response object
  */
 app.get("/create_process_op", async (req, res) => {
-    const operationsMap = req.session.operationsMap;
-    const localMemory = req.session.localMemory;
-    const br_ops = req.session.br_ops;
-    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
+    if (req.isAuthenticated()) {
+        const user = req.user;
+        const operationsMap = req.session.operationsMap;
+        const localMemory = req.session.localMemory;
+        let br_ops = req.session.br_ops;
+        res.status(200).render("index.ejs", { user, operationsMap, br_ops, localMemory });
+    } else {
+        res.redirect("/");
+    }
+
 });
 
 
@@ -99,10 +122,10 @@ app.post("/get_description", async (req, res) => {
     let contentEq = populateContent(content, localMemory);
     let contentEqUts = populateUts(contentEq, uts, localMemory);
     let contentEqUtsMat = populateMaterials(contentEqUts, localMemory);
-    let contentEqUtsMatParams =  populateParams(contentEqUtsMat, params);
+    let contentEqUtsMatParams = populateParams(contentEqUtsMat, params);
     let finalFormatContent = contentEqUtsMatParams;
 
-
+    req.session.content = content;
     req.session.equipmentType = equipmentType;
     req.session.activityType = activityType;
     req.session.finalFormatContent = finalFormatContent;
@@ -120,16 +143,21 @@ app.post("/get_description", async (req, res) => {
  * @param {object} res - Express response object
  */
 app.get("/get_description", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const user = req.user;
+        const equipmentType = req.session.equipmentType;
+        const activityType = req.session.activityType;
+        const operationsMap = req.session.operationsMap;
+        let br_ops = req.session.br_ops;
+        const finalFormatContent = req.session.finalFormatContent;
+        const other = req.session.other;
+        const localMemory = req.session.localMemory;
+        br_ops = updateSelectedOptions(br_ops);
+        res.status(200).render("index.ejs", { user, equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
+    } else {
+        res.redirect("/");
+    }
 
-    const equipmentType = req.session.equipmentType;
-    const activityType = req.session.activityType ;
-    const operationsMap = req.session.operationsMap ;
-    const br_ops= req.session.br_ops  ;
-    const finalFormatContent =req.session.finalFormatContent  ;
-    const other= req.session.other  ;
-    const localMemory= req.session.localMemory ;
-
-    res.status(200).render("index.ejs", { equipmentType, activityType, operationsMap, br_ops, finalFormatContent, other, localMemory });
 });
 
 /**
@@ -144,7 +172,9 @@ app.get("/get_description", async (req, res) => {
  */
 app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
+
     localMemory = convertToMemoryObj(localMemory);
+    console.log(".............newLocalMem...........\n", localMemory);
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
@@ -167,11 +197,18 @@ app.post("/operation_table", async (req, res) => {
  * @param {object} res - Express response object
  */
 app.get("/operation_table", async (req, res) => {
-    // Parse the query parameters back into their original data structures
-    const operationsMap = req.session.operationsMap;
-    const br_ops = req.session.br_ops;
-    const localMemory = req.session.localMemory;
-    res.status(200).render("index.ejs", { operationsMap, br_ops, localMemory });
+    if (req.isAuthenticated()) {
+        const user = req.user;
+        // Parse the query parameters back into their original data structures
+        const operationsMap = req.session.operationsMap;
+        let br_ops = req.session.br_ops;
+        const localMemory = req.session.localMemory;
+        br_ops = updateSelectedOptions(br_ops);
+        res.status(200).render("index.ejs", { user, operationsMap, br_ops, localMemory });
+    } else {
+        res.redirect("/");
+    }
+
 });
 
 
@@ -185,18 +222,19 @@ app.get("/operation_table", async (req, res) => {
  * @param {Object} res - The response object.
  * @returns {void}
  */
-app.post("/", async (req,res)=>{
-    const {projectName, tp, version} = req.body;
-    if (projectName && tp && version){
+app.post("/main_table", async (req, res) => {
+    const { projectName, tp, version } = req.body;
+    if (projectName && tp && version) {
         let apiRespData = await getProcessInitInfo(projectName, tp, version);
+        req.session.projectName = projectName;
 
         localMemory = new LocalMemory(apiRespData);
-    }else{
+    } else {
         localMemory = new LocalMemory();
 
     }
     req.session.localMemory = localMemory;
-    res.redirect("/");
+    res.redirect("/main_table");
 })
 
 /**
@@ -206,23 +244,90 @@ app.post("/", async (req,res)=>{
  * @param {object} req - Express request object
  * @param {object} res - Express response object
  */
-app.get("/", async (req, res) => {
-    let { projectName } = req.query;
-    let equipmentMap = await getMainTableEq();
-    let allProj = await getAllProjects();
-    let localMemory;
-    if (req.session.localMemory){
-        localMemory = req.session.localMemory
-    }else{
-        localMemory = new LocalMemory;
+app.get("/main_table", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const user = req.user;
+        // console.log(".........user............\n", user);
+        let  projectName = req.session.projectName;
+        let equipmentMap = await getMainTableEq();
+        let localMemory;
+        if (req.session.localMemory) {
+            localMemory = req.session.localMemory
+        } else {
+            localMemory = new LocalMemory;
+        }
+        res.status(200).render("main_table.ejs", { user, equipmentMap, localMemory});
+    } else {
+        res.redirect("/");
     }
-    // let localMemory = await getProcessInitInfo()
-    let allTpFromProj = [];
-    if (projectName) {
-        allTpFromProj = await getAllTp(projectName);
-    }
-    res.status(200).render("main_table.ejs", { equipmentMap, localMemory, allProj, allTpFromProj });
+
 });
+
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.session.destroy((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.clearCookie('connect.sid'); // 'connect.sid' is the default cookie name used by express-session
+            res.redirect('/');
+        });
+    });
+});
+
+
+app.get("/", async (req, res) => {
+    res.status(200).render("login.ejs");
+})
+
+app.get("/auth/google", passport.authenticate("google", {
+    scope: ["profile", "email"],
+    // prompt: "select_account" // This forces Google to always show the account selection prompt
+}))
+
+app.get("/auth/google/main_table", passport.authenticate("google", {
+    successRedirect: "/main_table",
+    failureRedirect: "/",
+}))
+
+
+// _______________ GOOGLE STRATEGY _________________
+passport.use("google", new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:8080/auth/google/main_table",
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+}, async (accessToken, refreshToken, profile, cb) => {
+    try {
+        let apiResp = await axios.post("http://localhost:8081/get_user_auth", { email: profile.email });
+        if (!apiResp.data.email) {
+            const newUser = await axios.post("http://localhost:8081/reg_user", { user_name: profile.given_name, email: profile.email, ava: profile.photos[0].value });
+            cb(null, newUser.data);
+        } else {
+            //IF user already exist
+            cb(null, apiResp.data);
+        }
+    } catch (err) {
+        console.error("Error during fetching user: ", err.message);
+        cb(err);
+    }
+}))
+
+// passport.serializeUser: is a function provided by Passport that determines which data of the user object should be stored in the session.
+// Once you've determined what data to store, you call the callback cb with null (to indicate that there's no error) and the data you want to store.
+passport.serializeUser((user, cb) => {
+    cb(null, user);
+});
+
+// passport.deserializeUser: is a function provided by Passport that retrieves the data stored in the session and converts it into a user object.
+// Once you've retrieved the user object, you call the callback cb with null (to indicate that there's no error) and the user object.
+passport.deserializeUser((user, cb) => {
+    cb(null, user);
+});
+
 
 /**
  * Starts the server and listens on the specified port.

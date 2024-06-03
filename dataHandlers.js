@@ -45,9 +45,10 @@ router.post("/delete_eq", async (req,res)=>{
  * @param {object} res - Express response object
  */
 router.get("/post_eq", async (req,res)=>{
+    const user = req.user;
     const message = req.query.message;
     console.log(message);
-    res.status(200).render("post_eq_page.ejs");
+    res.status(200).render("post_eq_page.ejs",{user});
 })
 
 /**
@@ -92,7 +93,7 @@ router.post("/post_eq", async (req,res)=>{
 
     // Create an EquipmentNoOperation object
     const equipment = new EquipmentNoOperation(name, equipmentInfoArray, operationsArray);
-    console.log("equipment:  ",equipment);
+    console.log("equipment.............:  ",equipment);
 
     let apiResp = await postEq(equipment);
     res.redirect(`post_eq?message=${apiResp.data}`)
@@ -145,12 +146,13 @@ router.post("/get_eq", async (req,res)=>{
  * @param {object} res - Express response object
  */
 router.get("/get_eq", async (req,res)=>{
+    const user = req.user;
     const selectedName = req.session.selectedName;
     const selected = req.session.selected;
 
     let equipmentMapFull = await getMainTableEq();
     const names = equipmentMapFull.map(item => item.name);
-    res.status(200).render("get_eq_page.ejs",{names, selectedName, selected});
+    res.status(200).render("get_eq_page.ejs",{user,names, selectedName, selected});
 })
 
 
@@ -179,6 +181,48 @@ router.post("/delete_op", async(req,res)=>{
     let apiRespUpdOp = await updateOpFromBR(projectName, tp, version);
     console.log("apiRespUpdOP:\n",apiRespUpdOp);
     res.redirect("/operation_table");
+})
+
+function createEquipmentNoOperation(formData) {
+    const equipmentInfo = [];
+    const operations = [];
+
+    // Extract equipment info data
+    for (const key in formData) {
+        if (key.startsWith('code_')) {
+            const index = key.split('_')[1];
+            const code = formData[`code_${index}`];
+            const description = formData[`description_${index}`];
+            equipmentInfo.push(new EquipmentInfo(code, description));
+        }
+    }
+
+    // Extract operation data
+    for (const key in formData) {
+        if (key.startsWith('operationType_')) {
+            const index = key.split('_')[1];
+            const operationType = formData[`operationType_${index}`];
+            const content = formData[`content_${index}`];
+            const other = formData[`other_${index}`];
+            operations.push(new Operation(operationType, content, other));
+        }
+    }
+
+    // Extract name
+    const name = formData.eqName;
+
+    // Create and return EquipmentNoOperation object
+    return new EquipmentNoOperation(name, equipmentInfo, operations);
+}
+
+
+router.post("/test",async (req,res)=>{
+    const name = req.body.eqName;
+    const apiRespDelete = await deleteEq(name);
+    let newEqOp = createEquipmentNoOperation(req.body);
+    let apiRespPost = await postEq(newEqOp);
+    res.redirect("/get_eq")
+
 })
 
 // Export the router

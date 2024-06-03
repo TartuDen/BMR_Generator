@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <title>Login</title>
+    <style>
+        body {
+            background: 
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.616), rgba(255, 255, 255, 0.999)), 
+                url('img/chem_bg.jpg') no-repeat bottom center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .login-buttons img {
+            height: 22px;
+            margin-right: 8px;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="container login-container">
+        <h1 class="mb-4">Welcome to Batch Record Generator</h1>
+        <p class="mb-4">Your one-stop solution for managing projects and operations efficiently.</p>
+        <div class="login-buttons">
+            <a href="/auth/google" class="btn btn-light mb-2 w-20">LOG IN with 
+                <img src="img/7115255_google_logo_search_new_icon.png" alt="Google logo">
+            </a>
+            <a href="#" class="btn btn-light mb-2 w-20">LOG IN with 
+                <img src="img/4102573_applications_facebook_media_social_icon.png" alt="Facebook logo">
+            </a>
+            <!-- Add more login options if needed -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>

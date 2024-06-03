@@ -1,0 +1,1014 @@
+<!-- main_table.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <title>Main Table</title>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-light py-4">
+        <header class="p-3 text-bg-dark">
+            <div class="container-fluid">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                            <use xlink:href="#bootstrap"></use>
+                        </svg>
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                    </ul>
+
+                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+                    </form>
+
+                    <div class="text-end">
+                        <img src="https://lh3.googleusercontent.com/a/ACg8ocK2bz82lqcsA1oTBIsOb59Y3pVGeZWI76tPwJegyrrad6Nu5g=s96-c" alt="user avatar" style="height: 22px; border-radius: 50%;">
+                        <span>Den</span>
+                        <a href="/logout"
+                            class="btn btn-light me-2"><img src="img\7148708_logout_exit_out_icon.png" alt="log out logo" style="height: 22px;"></a>
+
+                    </div>
+
+                </div>
+            </div>
+        </header>
+    </header>
+
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-2">
+                <div class="sidebar">
+                    <!-- You can add links, navigation, or any other content here -->
+                    <div class="d-flex flex-column flex-shrink-0 p-3 text-dark">
+                        <a href="/"
+                            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                            <span class="fs-4">Main Menu</span>
+                        </a>
+                        <hr>
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            <li class="nav-item mb-3">
+                                <a href="/main_table" class="nav-link active" aria-current="page">
+                                    <i class="bi bi-house me-2"></i>
+                                    Main Table
+                                </a>
+                            </li>
+
+
+                            <!-- Divider -->
+                            <hr class="nav-divider">
+                            <h3>Admin panel:</h3>
+                            <!-- Admin Panel Links -->
+                            <li class="nav-item mb-3">
+                                <a href="/get_eq" class="nav-link admin-link active" aria-current="page">
+                                    <i class="bi bi-house me-2"></i>
+                                    GET-DEL Eq/Ops
+                                </a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="/post_eq" class="nav-link admin-link active" aria-current="page">
+                                    <i class="bi bi-house me-2"></i>
+                                    POST Eq/Ops
+                                </a>
+                            </li>
+
+
+                        </ul>
+
+                        <!-- <li class="nav-item mb-3">
+                <a href="/get_del_params" class="nav-link active" aria-current="page">
+                    <i class="bi bi-house me-2"></i>
+                    GET-DEL params
+                </a>
+            </li> -->
+                        </ul>
+                        <hr>
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="img\default_user.svg" alt="" height="32" width="32" class="me-2">
+                                <strong>User</strong>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                <li><a class="dropdown-item" href="#">New project...</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- some problems with this column -->
+            <div class="col-lg-9 col-md-9 mt-3">
+
+                <form action="/operation_table" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!-- First table on top -->
+                            <div class="col-lg-10 col-md-10">
+                                <div class=" mt-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <table class="table">
+                                                <tbody>
+                                                    <!-- ____________project__tp__version__selector_________ -->
+                                                    <tr class="d-flex justify-content-end align-items-end">
+                                                        <td>
+                                                            <!-- Choose Projects -->
+                                                            <div class="form-group">
+                                                                <label for="inputFieldProject">Choose Project
+                                                                            Name:</label>
+                                                                <input type="text" class="form-control"
+                                                                            name="projectName" id="inputFieldProject"
+                                                                            list="datalistProject"
+                                                                            value="">
+                                                                <datalist id="datalistProject"></datalist>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <!-- Choose TP -->
+                                                            <div class="form-group">
+                                                                <label for="inputFieldTP">Choose TP:</label>
+                                                                <input type="text" class="form-control"
+                                                                            name="tp" id="inputFieldTP"
+                                                                            list="datalistTP"
+                                                                            value="">
+                                                                <datalist id="datalistTP"></datalist>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <!-- Choose Version -->
+                                                            <div class="form-group">
+                                                                <label for="inputFieldVersion">Choose
+                                                                            Version:</label>
+                                                                <input type="text" class="form-control"
+                                                                            name="version" id="inputFieldVersion"
+                                                                            list="datalistVersion"
+                                                                            value="">
+                                                                <datalist id="datalistVersion"></datalist>
+                                                            </div>
+                                                        </td>
+                                                        <td class="d-flex justify-self-end">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                        style="width: 100px;" onclick="submitForm()">get
+                                                                        data</button>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Equipment and materials tables -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-info">
+                                        <!-- _______________EQUIPMENT_TABLE_____________ -->
+                                        <h2>Select equipment</h2>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <td>
+                                                    <select id="id1_0"
+                                                                name="id1_0"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-11111" >001-11111
+                                                                                glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-22222" >001-22222
+                                                                                metal
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="id2_0"
+                                                                name="id2_0"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-11111" >001-11111
+                                                                                glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-22222" >001-22222
+                                                                                metal
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    balances
+                                                </th>
+                                                <td>
+                                                    <select id="balancesid1_1"
+                                                                name="balancesid1_1"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="007-1" >007-1
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-10" >007-10
+                                                                                max=2kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-12" >007-12
+                                                                                max=1kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-16" >007-16
+                                                                                max=220kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-21" >007-21
+                                                                                max=1.3kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-25" >007-25
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-26" >007-26
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-27" >007-27
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-34" >007-34
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-6" >007-6
+                                                                                max=10kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-20" >007-20
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-23" >007-23
+                                                                                max=150kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-24" >007-24
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-39" >007-39
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-40" >007-40
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-41" >007-41
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-42" >007-42
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-43" >007-43
+                                                                                max=1kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-44" >007-44
+                                                                                max=120kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="007-45" >007-45
+                                                                                max=60kg
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="balancesid2_1"
+                                                                name="balancesid2_1"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="007-1" >007-1
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-10" >007-10
+                                                                                max=2kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-12" >007-12
+                                                                                max=1kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-16" >007-16
+                                                                                max=220kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-21" >007-21
+                                                                                max=1.3kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-25" >007-25
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-26" >007-26
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-27" >007-27
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-34" >007-34
+                                                                                max=3.5kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-6" >007-6
+                                                                                max=10kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-20" >007-20
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-23" >007-23
+                                                                                max=150kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-24" >007-24
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-39" >007-39
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-40" >007-40
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-41" >007-41
+                                                                                max=3kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-42" >007-42
+                                                                                max=30kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-43" >007-43
+                                                                                max=1kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-44" >007-44
+                                                                                max=120kg
+                                                                    </option>
+                                                                    
+                                                                    <option value="007-45" >007-45
+                                                                                max=60kg
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    conv_oven
+                                                </th>
+                                                <td>
+                                                    <select id="conv_ovenid1_2"
+                                                                name="conv_ovenid1_2"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="012-13" >012-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-14" >012-14
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-16" >012-16
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-6" >012-6
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="conv_ovenid2_2"
+                                                                name="conv_ovenid2_2"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="012-13" >012-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-14" >012-14
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-16" >012-16
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-6" >012-6
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    d_filter
+                                                </th>
+                                                <td>
+                                                    <select id="d_filterid1_3"
+                                                                name="d_filterid1_3"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="046-4" >046-4
+                                                                                ss 40/80L
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-6" >046-6
+                                                                                ss 30/45L
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-7" >046-7
+                                                                                ss agit 100/140L
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="d_filterid2_3"
+                                                                name="d_filterid2_3"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="046-4" >046-4
+                                                                                ss 40/80L
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-6" >046-6
+                                                                                ss 30/45L
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-7" >046-7
+                                                                                ss agit 100/140L
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    m_pump
+                                                </th>
+                                                <td>
+                                                    <select id="m_pumpid1_4"
+                                                                name="m_pumpid1_4"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-22" >001-22
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-23" >001-23
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-24" >001-24
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="m_pumpid2_4"
+                                                                name="m_pumpid2_4"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-22" >001-22
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-23" >001-23
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-24" >001-24
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    n_filter
+                                                </th>
+                                                <td>
+                                                    <select id="n_filterid1_5"
+                                                                name="n_filterid1_5"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="046-1" >046-1
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-13" >046-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-14" >046-14
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-2" >046-2
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="046-3" >046-3
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="n_filterid2_5"
+                                                                name="n_filterid2_5"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="046-1" >046-1
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-13" >046-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-14" >046-14
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-2" >046-2
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="046-3" >046-3
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    o_pump
+                                                </th>
+                                                <td>
+                                                    <select id="o_pumpid1_6"
+                                                                name="o_pumpid1_6"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-38" >001-38
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-43" >001-43
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="o_pumpid2_6"
+                                                                name="o_pumpid2_6"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-38" >001-38
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-43" >001-43
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    p_pump
+                                                </th>
+                                                <td>
+                                                    <select id="p_pumpid1_7"
+                                                                name="p_pumpid1_7"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-13" >001-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-21" >001-21
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="001-29" >001-29
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="p_pumpid2_7"
+                                                                name="p_pumpid2_7"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="001-13" >001-13
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-21" >001-21
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="001-29" >001-29
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    reactor
+                                                </th>
+                                                <td>
+                                                    <select id="reactorid1_8"
+                                                                name="reactorid1_8"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="002-10" >002-10
+                                                                                30L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-11" >002-11
+                                                                                15L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-12" >002-12
+                                                                                150L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-13" >002-13
+                                                                                100L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-14" >002-14
+                                                                                100L g-lined
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-15" >002-15
+                                                                                150L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-16" >002-16
+                                                                                50L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="002-17" >002-17
+                                                                                100L glass
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="reactorid2_8"
+                                                                name="reactorid2_8"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="002-10" >002-10
+                                                                                30L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-11" >002-11
+                                                                                15L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-12" >002-12
+                                                                                150L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-13" >002-13
+                                                                                100L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-14" >002-14
+                                                                                100L g-lined
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-15" >002-15
+                                                                                150L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-16" >002-16
+                                                                                50L glass
+                                                                    </option>
+                                                                    
+                                                                    <option value="002-17" >002-17
+                                                                                100L glass
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    vac_oven
+                                                </th>
+                                                <td>
+                                                    <select id="vac_ovenid1_9"
+                                                                name="vac_ovenid1_9"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="012-10" >012-10
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-15" >012-15
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-17" >012-17
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                                    <option value="012-9" >012-9
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                        
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                    <select id="vac_ovenid2_9"
+                                                                name="vac_ovenid2_9"
+                                                                class="form-select" style="width: 100%;">
+                                                                <option value="">⛏️</option>
+                                                                
+                                                                    <option value="012-10" >012-10
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-15" >012-15
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-17" >012-17
+                                                                                
+                                                                    </option>
+                                                                    
+                                                                    <option value="012-9" >012-9
+                                                                                
+                                                                    </option>
+                                                                    
+                                                            </select>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <table class="table table-info" id="reagentTable">
+                                        <h2>Insert Materials</h2>
+                                        <tbody>
+
+
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn btn-light " id="addRowBtn">+</button>
+
+
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary mb-5" type="submit">Get Operations</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-3 mt-auto">
+        <div class="container">
+            <footer class="py-3 my-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                </ul>
+                <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
+            </footer>
+        </div>
+    </footer>
+
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <!-- script to populate project/tp/version on the page -->
+
+    <script src="mt_scripts.js"></script>
+
+    <script>
+        // JavaScript to add material
+                document.addEventListener('DOMContentLoaded', function () {
+                    const addRowBtn = document.getElementById('addRowBtn');
+                    const reagentTable = document.getElementById('reagentTable');
+                    let rowCounter = 1; // Counter for row IDs
+
+                    addRowBtn.addEventListener('click', function () {
+                        // Increment row counter
+                        rowCounter++;
+
+                        // Create new row
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td><input type="text" name="reagent${rowCounter}" class="form-control" placeholder="Reagent here"></td>
+                            <td><input type="number" name="mass${rowCounter}" class="form-control" placeholder="mass in kg" step="any"  min="0"></td>
+                        `;
+
+                        // Append new row to table
+                        reagentTable.appendChild(newRow);
+                    });
+                });
+
+    </script>
+
+    <script>
+        function refreshPage() {
+                    location.reload();
+                }
+    </script>
+
+    <script>
+        //script to send axios.post to proxy server with projectName, tp and version data, to get localMemory
+                async function submitForm() {
+                    // Get input values
+                    const projectName = document.getElementById('inputFieldProject').value;
+                    const tp = document.getElementById('inputFieldTP').value;
+                    const version = document.getElementById('inputFieldVersion').value;
+
+                    // Prepare data to send
+                    const data = {
+                        projectName: projectName,
+                        tp: tp,
+                        version: version
+                    };
+
+                    try {
+                        // Send POST request using Axios
+                        const response = await axios.post('/main_table', data);
+                        console.log('POST request successful');
+                    } catch (error) {
+                        console.error('Error sending POST request:', error);
+                    }
+                    refreshPage();
+                }
+    </script>
+
+</body>
+
+</html>
