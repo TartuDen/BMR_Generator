@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -18,6 +19,6 @@ public class Parameter {
     private long id;
     
     @Column(name = "name", unique = true)
-    @NonNull
+    @NotBlank
     private String name;
 }

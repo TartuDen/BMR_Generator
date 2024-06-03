@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class AdditionalEquipment {
     private long id;
     
     @Column(name = "name")
-    @NonNull
+    @NotBlank
     private String name;
     
     @Column(name = "code")

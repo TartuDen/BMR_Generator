@@ -1,6 +1,8 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Entity
@@ -15,7 +17,7 @@ public class EquipmentInfo {
     private long id;
     
     @Column(name = "code", unique = true)
-    @NonNull
+    @NotBlank
     private String code;
     
     @Column(name = "description")

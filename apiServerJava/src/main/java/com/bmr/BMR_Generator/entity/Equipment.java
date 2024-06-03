@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Equipment {
     private long id;
     
     @Column(name = "name", unique = true)
-    @NonNull
+    @NotBlank
     private String name;
     
     @OneToMany(

@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class Operation {
     private long id;
     
     @Column(name = "operation_type")
-    @NonNull
+    @NotBlank
     private String operationType;
     
     @Column(name = "content", length = 1000)

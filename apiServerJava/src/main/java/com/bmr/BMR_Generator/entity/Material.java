@@ -1,6 +1,7 @@
 package com.bmr.BMR_Generator.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class Material {
     private long id;
     
     @Column(name = "name", nullable = false)
-    @NonNull
+    @NotBlank
     private String name;
     
     @Column(name = "whcode", nullable = false)
