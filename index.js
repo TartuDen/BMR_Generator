@@ -60,7 +60,7 @@ app.post("/create_process_op", async (req, res) => {
     // console.log("req.body:.................", req.body);
 
     const newOp = createProcessOperation(req.body);
-    console.log("newOp:..................\n",newOp);
+    // console.log("newOp:..................\n",newOp);
     // console.log("content: .......... \n", req.session.content);
 
     const localMemory = req.session.localMemory;

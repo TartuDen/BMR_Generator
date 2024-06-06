@@ -103,9 +103,7 @@
                                             <td>
                                                 <!-- Second column - Description -->
                                                 <form id="description<%= operation.opNumber %>" method="post" action="#">
-                                                    <div class="editable" contenteditable="true">
-                                                        <%- operation.typicalActivity.content %>
-                                                    </div>
+                                                    <div class="editable" contenteditable="true"><%- operation.typicalActivity.content %></div>
                                                     <input type="hidden" name="editableContent" id="description<%= operation.opNumber %>">
                                                     <button type="submit">Submit</button>
                                                 </form>

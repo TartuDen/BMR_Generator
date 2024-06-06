@@ -134,7 +134,7 @@
                                     <% selected.operations.forEach((operation, index) => { %>
                                         <tr>
                                             <td><input type="text" name="operationType_<%= index %>" class="form-control" value="<%= operation.operationType %>"></td>
-                                            <td><textarea name="content_<%= index %>" class="form-control" style="resize: none;" rows="4" cols="50"><%= operation.content %></textarea></td>
+                                            <td><textarea name="content_<%= index %>" class="form-control" rows="6" cols="50"><%= operation.content %></textarea></td>
                                             <td><textarea name="other_<%= index %>" class="form-control"><%= operation.other %></textarea></td>
                                         </tr>
                                     <% }); %>
