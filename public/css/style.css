@@ -54,3 +54,10 @@
     background-color: #dc7535 !important; /* Add !important to ensure override */
     color: white !important; /* Add !important to ensure override */
 }
+.editable {
+    white-space: pre-wrap; /* This preserves whitespace including new lines */
+    padding: 10px;
+    border: 1px solid #ccc; /* Optional: Add some styling to make the editable area more visible */
+    text-align: left; /* Aligns text to the right */
+    min-height: 100px; /* Optional: Set a minimum height */
+}
