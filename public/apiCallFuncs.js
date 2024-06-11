@@ -260,58 +260,58 @@ export async function getProcessInitInfo(projectName, tp, version){
         }
     }
 
-    export async function deleteProcessInitialInfo(projectName, tp, version){
-        try{
-            const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
-            return apiResp.data
-        }catch(error){
-            return handleError(error, "Error getting data from deleteProcessInitialInfo:");
-        }
+export async function deleteProcessInitialInfo(projectName, tp, version){
+    try{
+        const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
+        return apiResp.data
+    }catch(error){
+        return handleError(error, "Error getting data from deleteProcessInitialInfo:");
     }
+}
 
-    export async function postProcessInitialInfo(localMemory){
-        try{
-            const apiResp = await axios.post(`http://3.72.208.221:8090/processInitialInfo`, localMemory);
-            return apiResp.data
-        }catch(error){
-            return handleError(error, "Error getting data from postProcessInitialInfo:");
-        }
+export async function postProcessInitialInfo(localMemory){
+    try{
+        const apiResp = await axios.post(`http://3.72.208.221:8090/processInitialInfo`, localMemory);
+        return apiResp.data
+    }catch(error){
+        return handleError(error, "Error getting data from postProcessInitialInfo:");
     }
+}
 
 
-    export async function deleteBr(projectName,tp,version){
-        try{
-            const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${version}`);
-            return apiResp.data;
-        }catch(error){
-            return handleError(error, "Error deleting data from deleteBr");
-        }
+export async function deleteBr(projectName,tp,version){
+    try{
+        const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${version}`);
+        return apiResp.data;
+    }catch(error){
+        return handleError(error, "Error deleting data from deleteBr");
     }
+}
 
-    export async function deleteBRfromLocalMemory(projectName,tp,version){
-        try{
-            const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
-            return apiResp.data;
-        }catch(error){
-            return handleError(error, "Error deleting data from deleteBRfromLocalMemory");
-        }
+export async function deleteBRfromLocalMemory(projectName,tp,version){
+    try{
+        const apiResp = await axios.delete(`http://3.72.208.221:8090/processInitialInfo/${projectName}/${tp}/${version}`);
+        return apiResp.data;
+    }catch(error){
+        return handleError(error, "Error deleting data from deleteBRfromLocalMemory");
     }
+}
 
-    export async function deleteOpFromBR(projectName, tp, version, opNumber){
-        try{
-            const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${opNumber}/${version}`);
-            return apiResp.data;
-        }catch(error){
-            return handleError(error, "Error deleting data from deleteOpFromBR");
-        }
+export async function deleteOpFromBR(projectName, tp, version, opNumber){
+    try{
+        const apiResp = await axios.delete(`http://3.72.208.221:8090/processoperation/${projectName}/${tp}/${opNumber}/${version}`);
+        return apiResp.data;
+    }catch(error){
+        return handleError(error, "Error deleting data from deleteOpFromBR");
     }
+}
 
-    export async function updateOpFromBR(projectName, tp, version){
-        try{
-            const apiResp = await axios.patch(`http://3.72.208.221:8090/processdata/${projectName}/${tp}/${version}`);
-            
-            return apiResp.data;
-        }catch(error){
-            return handleError(error, "Error getting data from updateOpFromBR");
-        }
+export async function updateOpFromBR(projectName, tp, version){
+    try{
+        const apiResp = await axios.patch(`http://3.72.208.221:8090/processdata/${projectName}/${tp}/${version}`);
+        
+        return apiResp.data;
+    }catch(error){
+        return handleError(error, "Error getting data from updateOpFromBR");
     }
+}

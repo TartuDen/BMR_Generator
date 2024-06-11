@@ -174,7 +174,6 @@ app.post("/operation_table", async (req, res) => {
     localMemory = req.body;
 
     localMemory = convertToMemoryObj(localMemory);
-    console.log(".............newLocalMem...........\n", localMemory);
     let apiResp1 = await deleteProcessInitialInfo(localMemory.projectName, localMemory.tp, localMemory.version);
     let apiResp2 = await postProcessInitialInfo(localMemory);
     let apiResp3 = await getProcessInitInfo(localMemory.projectName, localMemory.tp, localMemory.version);
@@ -203,6 +202,7 @@ app.get("/operation_table", async (req, res) => {
         const operationsMap = req.session.operationsMap;
         let br_ops = req.session.br_ops;
         const localMemory = req.session.localMemory;
+        // console.log("..........br_ops.........\n",br_ops);
         br_ops = updateSelectedOptions(br_ops);
         res.status(200).render("index.ejs", { user, operationsMap, br_ops, localMemory });
     } else {
