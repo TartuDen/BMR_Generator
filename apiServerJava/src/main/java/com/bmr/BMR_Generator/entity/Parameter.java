@@ -20,5 +20,6 @@ public class Parameter {
     
     @Column(name = "name", unique = true)
     @NotBlank
+    @NonNull
     private String name;
 }

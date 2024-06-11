@@ -7,7 +7,7 @@ import com.bmr.BMR_Generator.rest.response.Response;
 import java.util.List;
 
 public interface UserService {
-    Response saveUser (UserDTO userDTO);
+    Response saveUser (User userFormRequest);
     Response deleteUserByName (String name);
     Response updateUserByName (String name);
     List<UserDTO> getAllUsers();

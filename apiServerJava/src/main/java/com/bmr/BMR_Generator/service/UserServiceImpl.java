@@ -26,7 +26,7 @@ public class UserServiceImpl extends BaseService implements UserService{
     }
     
     @Override
-    public Response saveUser(UserDTO userRequest) {
+    public Response saveUser(User userRequest) {
         try {
             User user = createUserFromRequest(userRequest);
             userDAO.save(user);
@@ -37,13 +37,16 @@ public class UserServiceImpl extends BaseService implements UserService{
         }
     }
     
-    private User createUserFromRequest(UserDTO userRequest) {
+    private User createUserFromRequest(User userRequest) {
         User user = new User(userRequest.getUsername(), userRequest.getEmail());
         addRoles(userRequest, user);
         return user;
     }
     
-    private void addRoles(UserDTO userRequest, User user) {
+    private void addRoles(User userRequest, User user) {
+        user.setAuthorities(userRequest.getAuthorities()
+                .stream().peek(authority -> authority.setUser(user))
+                .collect(Collectors.toList()));
 
     }
     
