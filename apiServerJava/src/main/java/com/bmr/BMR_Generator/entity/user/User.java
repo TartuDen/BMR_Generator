@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +14,13 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class User {
     @Id
     @Column(length = 50, unique = true)
     @NotBlank
+    @NonNull
     private String username;
     
     @Column(nullable = false)
@@ -24,6 +28,7 @@ public class User {
     
     @Column(length = 50, nullable = false, unique = true)
     @NotBlank
+    @NonNull
     private String email;
     
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

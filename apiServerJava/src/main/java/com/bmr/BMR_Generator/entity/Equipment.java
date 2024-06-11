@@ -20,6 +20,7 @@ public class Equipment {
     
     @Column(name = "name", unique = true)
     @NotBlank
+    @NonNull
     private String name;
     
     @OneToMany(

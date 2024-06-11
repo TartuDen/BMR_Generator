@@ -1,0 +1,64 @@
+package com.bmr.BMR_Generator.service;
+
+import com.bmr.BMR_Generator.dao.EquipmentDAO;
+import com.bmr.BMR_Generator.dao.EquipmentDAOImpl;
+import com.bmr.BMR_Generator.dao.UserDAO;
+import com.bmr.BMR_Generator.dto.UserDTO;
+import com.bmr.BMR_Generator.entity.Equipment;
+import com.bmr.BMR_Generator.entity.user.User;
+import com.bmr.BMR_Generator.rest.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class UserServiceImpl extends BaseService implements UserService{
+    private final UserDAO userDAO;
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+    
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+    
+    @Override
+    public Response saveUser(UserDTO userRequest) {
+        try {
+            User user = createUserFromRequest(userRequest);
+            userDAO.save(user);
+            return generateResponse(200, "User saved successfully");
+        } catch (Exception e) {
+            LOGGER.error("Failed to save equipment", e);
+            return generateResponse(500, "Failed to save User: " + e.getMessage());
+        }
+    }
+    
+    private User createUserFromRequest(UserDTO userRequest) {
+        User user = new User(userRequest.getUsername(), userRequest.getEmail());
+        addRoles(userRequest, user);
+        return user;
+    }
+    
+    private void addRoles(UserDTO userRequest, User user) {
+
+    }
+    
+    @Override
+    public Response deleteUserByName(String name) {
+        return null;
+    }
+    
+    @Override
+    public Response updateUserByName(String name) {
+        return null;
+    }
+    
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return null;
+    }
+}
