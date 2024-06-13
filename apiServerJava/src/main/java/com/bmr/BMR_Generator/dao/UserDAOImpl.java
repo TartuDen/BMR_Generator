@@ -39,11 +39,10 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public boolean deleteByName(String name) {
         try {
-            int deletedCount = entityManager.createQuery("DELETE FROM User WHERE username = :name")
-                    .setParameter("name", name)
-                    .executeUpdate();
-            
-            return deletedCount > 0;
+            User foundUser = findUserByName(name);
+            entityManager.remove(foundUser);
+          
+            return true;
         } catch (Exception e) {
             LOGGER.error("Error occurred while deleting User - " + name, e);
             return false;
@@ -65,8 +64,12 @@ public class UserDAOImpl implements UserDAO{
     }
     
     @Override
-    public UserDTO findUserByName(String username) {
-        return new UserDTO(entityManager.find(User.class, username));
+    public User findUserByName(String username) {
+        User foundUser = entityManager.find(User.class, username);
+        if (foundUser == null) {
+            throw new BrApiServerException("User not found");
+        }
+        return foundUser;
     }
     
     @Override

@@ -25,6 +25,15 @@ public class UserServiceImpl extends BaseService implements UserService{
         this.userDAO = userDAO;
     }
     
+    private User getUserByName (String name){
+        return userDAO.findUserByName(name);
+    }
+    
+    @Override
+    public UserDTO getUserDTObyName(String name) {
+        return new UserDTO(getUserByName(name));
+    }
+    
     @Override
     public Response saveUser(User userRequest) {
         try {
@@ -52,7 +61,15 @@ public class UserServiceImpl extends BaseService implements UserService{
     
     @Override
     public Response deleteUserByName(String name) {
-        return null;
+        try {
+            boolean result = userDAO.deleteByName(name);
+            return result ?
+                    generateResponse(200, "User deleted successfully")
+                    : generateResponse(400, "User was not deleted");
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete user", e);
+            return generateResponse(500, "Failed to delete User: " + e.getMessage());
+        }
     }
     
     @Override

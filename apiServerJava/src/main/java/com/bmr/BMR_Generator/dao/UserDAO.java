@@ -10,6 +10,6 @@ public interface UserDAO {
     void save (User user);
     boolean deleteByName (String name);
     void update(User user, String name);
-    UserDTO findUserByName (String name);
+    User findUserByName (String name);
     List<UserDTO> getAllUsers();
 }

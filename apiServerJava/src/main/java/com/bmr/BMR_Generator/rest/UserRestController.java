@@ -5,9 +5,7 @@ import com.bmr.BMR_Generator.entity.user.User;
 import com.bmr.BMR_Generator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserRestController {
@@ -20,7 +18,16 @@ public class UserRestController {
     
     @PostMapping("/user")
     public ResponseEntity<?> saveUser (@RequestBody User user){
-        System.out.println(user);
         return ResponseEntity.ok(userService.saveUser(user));
+    }
+    
+    @DeleteMapping("/user/{name}")
+    public ResponseEntity<?> deleteUser (@PathVariable String name){
+        return ResponseEntity.ok(userService.deleteUserByName(name));
+    }
+    
+    @GetMapping("/user/{name}")
+    public UserDTO get (@PathVariable String name){
+        return userService.getUserDTObyName(name);
     }
 }
