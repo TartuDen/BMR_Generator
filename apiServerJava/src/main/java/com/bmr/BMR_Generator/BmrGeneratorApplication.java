@@ -18,9 +18,9 @@ public class BmrGeneratorApplication {
 		SpringApplication.run(BmrGeneratorApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(){
-		return  args -> {
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(){
+//		return  args -> {
+//		};
+//	}
 }

@@ -2,6 +2,7 @@ package com.bmr.BMR_Generator.rest;
 
 import com.bmr.BMR_Generator.dto.UserDTO;
 import com.bmr.BMR_Generator.entity.user.User;
+import com.bmr.BMR_Generator.rest.response.Response;
 import com.bmr.BMR_Generator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +19,38 @@ public class UserRestController {
     }
     
     @PostMapping
-    public ResponseEntity<?> saveUser (@RequestBody User userFromRequest){
-        return ResponseEntity.ok(userService.saveUser(userFromRequest));
+    public ResponseEntity<Response> saveUser (@RequestBody User userFromRequest){
+        Response response = userService.saveUser(userFromRequest);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
     
-    @DeleteMapping("/{name}")
-    public ResponseEntity<?> deleteUser (@PathVariable String name){
-        return ResponseEntity.ok(userService.deleteUserByName(name));
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Response> deleteUser (@PathVariable String username){
+        Response response = userService.deleteUserByName(username);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
     
-    @GetMapping("/{name}")
-    public UserDTO get (@PathVariable String name){
-        return userService.getUserDTObyName(name);
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
+        UserDTO userDTO = userService.getUserDTObyName(username);
+        return ResponseEntity.ok(userDTO);
     }
     
-    @PatchMapping
-    public ResponseEntity<?> updateUser (@RequestBody User user){
-        return ResponseEntity.ok(userService.updateUser(user));
+    @PutMapping
+    public ResponseEntity<Response> updateUser(@RequestBody User user) {
+        Response response = userService.updateUser(user);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+    
+    @DeleteMapping("/{username}/roles/{role}")
+    public ResponseEntity<Response> removeRole(@PathVariable String username, @PathVariable String role) {
+        Response response = userService.removeRole(role, username);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+    
+    @PatchMapping("/{username}/roles/{role}")
+    public ResponseEntity<Response> addRole(@PathVariable String username, @PathVariable String role) {
+        Response response = userService.addRole(role, username);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

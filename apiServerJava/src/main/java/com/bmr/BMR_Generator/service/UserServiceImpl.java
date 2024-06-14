@@ -85,7 +85,38 @@ public class UserServiceImpl extends BaseService implements UserService{
     }
     
     @Override
+    public Response removeRole(String role, String userName) {
+        try {
+            boolean result = userDAO.removeRoleFormUserByName(role, userName);
+            return result ?
+                    generateResponse(200, "Role removed successfully")
+                    : generateResponse(400, "Role was not removed");
+        } catch (Exception e) {
+            LOGGER.error("Failed to remove role", e);
+            return generateResponse(500, "Failed to remove role: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public Response addRole(String role, String userName) {
+        try {
+            boolean result = userDAO.addRoleToUserByName(role, userName);
+            return result ?
+                    generateResponse(200, "Role added successfully")
+                    : generateResponse(400, "Role was not added");
+        } catch (Exception e) {
+            LOGGER.error("Failed to remove role", e);
+            return generateResponse(500, "Failed to add role: " + e.getMessage());
+        }
+    }
+    
+    @Override
     public List<UserDTO> getAllUsers() {
-        return null;
+        try {
+            return userDAO.getAllUsers();
+        } catch (Exception e) {
+            LOGGER.error("Failed to retrieve all users", e);
+            return List.of();
+        }
     }
 }

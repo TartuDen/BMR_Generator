@@ -12,4 +12,6 @@ public interface UserDAO {
     boolean update(User user);
     User findUserByName (String name);
     List<UserDTO> getAllUsers();
+    boolean removeRoleFormUserByName (String role, String name);
+    boolean addRoleToUserByName (String role, String name);
 }

@@ -11,5 +11,8 @@ public interface UserService {
     Response saveUser (User userFormRequest);
     Response deleteUserByName (String name);
     Response updateUser (User userFormRequest);
+    Response removeRole (String role, String userName);
+    Response addRole (String role, String userName);
     List<UserDTO> getAllUsers();
+    
 }

@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "authorities")
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class Authority {
     @Id

@@ -1,7 +1,9 @@
 package com.bmr.BMR_Generator.dao;
 
 import com.bmr.BMR_Generator.dto.UserDTO;
+import com.bmr.BMR_Generator.entity.user.Authority;
 import com.bmr.BMR_Generator.entity.user.User;
+import com.bmr.BMR_Generator.entity.user.UserRole;
 import com.bmr.BMR_Generator.rest.response.BrApiServerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,4 +81,62 @@ public class UserDAOImpl implements UserDAO{
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    @Transactional
+    public boolean removeRoleFormUserByName(String role, String name) {
+        try {
+            UserRole userRole = UserRole.valueOf(role);
+            User user = findUserByName(name);
+            if (user != null) {
+                Iterator<Authority> iterator = user.getAuthorities().iterator();
+                while (iterator.hasNext()) {
+                    Authority authority = iterator.next();
+                    if (authority.getRole() == userRole) {
+                        iterator.remove();
+                        entityManager.remove(authority);
+                        break;
+                    }
+                }
+                entityManager.merge(user);
+                return true;
+            } else {
+                LOGGER.error("User not found: " + name);
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Invalid role: " + role, e);
+            return false;
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while removing role from User - " + name, e);
+            return false;
+        }
+    }
+    
+    @Override
+    @Transactional
+    public boolean addRoleToUserByName(String role, String name) {
+        try {
+            UserRole userRole = UserRole.valueOf(role);
+            User user = findUserByName(name);
+            if (user != null) {
+                Authority authority = new Authority(userRole);
+                authority.setUser(user);
+                user.addAuthority(authority);
+                
+                entityManager.merge(user);
+                return true;
+            } else {
+                LOGGER.error("User not found: " + name);
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Invalid role: " + role, e);
+            return false;
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while adding role to the User - " + name, e);
+            return false;
+        }
+    }
 }
+
