@@ -56,7 +56,6 @@ public class UserServiceImpl extends BaseService implements UserService{
         user.setAuthorities(userRequest.getAuthorities()
                 .stream().peek(authority -> authority.setUser(user))
                 .collect(Collectors.toList()));
-
     }
     
     @Override
@@ -73,8 +72,15 @@ public class UserServiceImpl extends BaseService implements UserService{
     }
     
     @Override
-    public Response updateUserByName(String name) {
-        return null;
+    public Response updateUser(User userFormRequest) {
+        try {
+            User user = createUserFromRequest(userFormRequest);
+            userDAO.update(user);
+            return generateResponse(200, "User updated successfully");
+        } catch (Exception e) {
+            LOGGER.error("Failed to save equipment", e);
+            return generateResponse(500, "Failed to update User: " + e.getMessage());
+        }
     }
     
     @Override

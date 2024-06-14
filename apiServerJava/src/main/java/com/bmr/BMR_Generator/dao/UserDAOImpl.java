@@ -51,16 +51,14 @@ public class UserDAOImpl implements UserDAO{
     
     @Override
     @Transactional
-    public void update(User user, String name) {
+    public boolean update(User user) {
         try {
-            if (deleteByName(name)){
-                throw new BrApiServerException("User not found");
-            };
-            save(user);
+            entityManager.merge(user);
+            return true;
         } catch (Exception e) {
-            LOGGER.error("Error occurred while updating User - " + name, e);
+            LOGGER.error("Error occurred while updating User - " + user.getUsername(), e);
+            return false;
         }
-    
     }
     
     @Override

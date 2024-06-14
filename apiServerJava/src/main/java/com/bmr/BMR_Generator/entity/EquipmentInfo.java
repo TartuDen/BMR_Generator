@@ -20,7 +20,7 @@ public class EquipmentInfo {
     @NotBlank
     private String code;
     
-    @Column(name = "description")
+    @Column(name = "description", length = 1500)
     @NonNull
     private String description;
     

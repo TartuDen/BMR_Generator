@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/users")
 public class UserRestController {
     private final UserService userService;
     
@@ -16,18 +17,23 @@ public class UserRestController {
         this.userService = userService;
     }
     
-    @PostMapping("/user")
-    public ResponseEntity<?> saveUser (@RequestBody User user){
-        return ResponseEntity.ok(userService.saveUser(user));
+    @PostMapping
+    public ResponseEntity<?> saveUser (@RequestBody User userFromRequest){
+        return ResponseEntity.ok(userService.saveUser(userFromRequest));
     }
     
-    @DeleteMapping("/user/{name}")
+    @DeleteMapping("/{name}")
     public ResponseEntity<?> deleteUser (@PathVariable String name){
         return ResponseEntity.ok(userService.deleteUserByName(name));
     }
     
-    @GetMapping("/user/{name}")
+    @GetMapping("/{name}")
     public UserDTO get (@PathVariable String name){
         return userService.getUserDTObyName(name);
+    }
+    
+    @PatchMapping
+    public ResponseEntity<?> updateUser (@RequestBody User user){
+        return ResponseEntity.ok(userService.updateUser(user));
     }
 }

@@ -10,6 +10,6 @@ public interface UserService {
     UserDTO getUserDTObyName (String name);
     Response saveUser (User userFormRequest);
     Response deleteUserByName (String name);
-    Response updateUserByName (String name);
+    Response updateUser (User userFormRequest);
     List<UserDTO> getAllUsers();
 }
