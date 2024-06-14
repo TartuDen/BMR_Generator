@@ -48,6 +48,7 @@ public class UserServiceImpl extends BaseService implements UserService{
     
     private User createUserFromRequest(User userRequest) {
         User user = new User(userRequest.getUsername(), userRequest.getEmail());
+        user.setEnabled(userRequest.isEnabled());
         addRoles(userRequest, user);
         return user;
     }

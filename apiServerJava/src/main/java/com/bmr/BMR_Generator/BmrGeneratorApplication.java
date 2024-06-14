@@ -12,6 +12,7 @@ public class BmrGeneratorApplication {
 	// TODO: POST NOT worked with ID
 	// TODO: PATCH based on ID
 	// TODO: ADD Equipment to the ProcessOperation
+	// TODO: ADD controller to change UserRole
 
 	public static void main(String[] args) {
 		SpringApplication.run(BmrGeneratorApplication.class, args);
