@@ -9,20 +9,24 @@ To run the application locally, follow these steps:
 1. **Install Node.js and npm**: If you haven't already, install Node.js and npm (Node Package Manager) from the official Node.js website: [https://nodejs.org](https://nodejs.org).
 
 2. **Clone the Repository**: Clone the repository containing the proxy server code to your local machine using Git:
-   ```bash
-   git clone https://github.com/TartuDen/BMR_Generator```
+```bash
+   git clone https://github.com/TartuDen/BMR_Generator
+```
    
 
 3. **Navigate to the Project Directory**: Change your current directory to the project directory:
-    ```bash
-    cd <project_directory>```
+```bash
+    cd <project_directory>
+```
 
 4. **Install Dependencies**: Use npm to install the required dependencies specified in the package.json file:
-    ```bash
-    npm install```
+```bash
+    npm install
+```
 5. **Start the Server**: Start the Express server using the following command:
-    ```bash
-    node index.js```
+```bash
+    node index.js
+```
 
 
 ## Overview
@@ -47,16 +51,17 @@ Simple login page with email and password
 
 ### Table Structure
 
-###*Header*
-On the header of the table we have different section for different type of equipment, for example 2 drop down lists for reactors, 2 dd lists for pumps, 2 dd lists for balances.
+### *Header*
+On the header of the table, we have different sections for different types of equipment, for example, 2 drop-down lists for reactors, 2 dd lists for pumps, and 2 dd lists for balances.
 
-###*Creation part*
+### *Creation part*
 
 The batch record table consists of the following columns:
 1. **Sequential Number**: Sequential numbering of operations.
-2. **Equipment and Activity Type**: Selection of equipment for the operation along with its code. Based on equipment selected, second drop down list is populated with relative operations for this equipment.
-3. **Description**: main equipment and acitvity type are selected, description will be loaded from the data base. The description has specail placeholders for selection additional data, like <additional equipment>, <setting for equipment>, <material that is used in operation>;
-4. **Other**: Empty fields for operators to record actual data.
+2. **Equipment and Activity Type**: Selection of equipment for the operation along with its code. Based on the equipment selected, the second drop-down list is populated with relative operations for this equipment.
+3. **Description**: main equipment and activity type are selected, description will be loaded from the database.
+   The description has specific placeholders for the selection of additional data, like additional equipment, setting for equipment, material that is used in operation;
+5. **Other**: Empty fields for operators to record actual data.
 
 ## Equipment Types
 
@@ -74,11 +79,11 @@ The application supports various equipment types commonly used in pharmaceutical
 ## User case example.
 
 ### Header
-After login, on the top of page have header section of the table. Header consists of 2 columns:
+After login, on the top of the page have a header section of the table. The header consists of 2 columns:
 ![alt text](./public/img/header.png)
 
 **Main Equipment**
-1. **Reactor** drop-down list we select reactor 002-17; Second reactor in second dd list will remain empty, our process requires only one reactor.
+1. **Reactor** drop-down list we select reactor 002-17; the Second reactor in the second dd list will remain empty, our process requires only one reactor.
 2. **Oven** - 012-13
 3. **Balances** - 007-42 and 007-10;
 4. **Peristaltic pump** - 001-13;
@@ -104,7 +109,7 @@ Here's an example of how the process description is structured:
     - **Type of Activity**: Loading of Solid
         **Description**:
             The required amount of {select material} is weighed on the balances {select balances} using jug {jug}.
-            Material is loaded into reactor {select reactor} via 60 mm flange port using funnel {select funnel}.
+            Material is loaded into reactor {select reactor} via a 60 mm flange port using funnel {select funnel}.
             The 60 mm flange port is closed.
             ***NB! In the description, variables within curly braces {} indicate placeholders for specific details that need to be filled in by the operator, such as materials, balances, jug, and funnel.***
-- Press **Save** and operation, together with sequence code, all relevant equipment, utensils and material used in operation will be saved in a struct.
+- Press **Save** and operation, together with sequence code, all relevant equipment, utensils, and material used in operation will be saved in a struct.
