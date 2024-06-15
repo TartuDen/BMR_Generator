@@ -75,11 +75,9 @@ public class TypicalActivity {
     @Column(name = "vpumptorrmax")
     private Double vpumpTorrMax;
     
-    @OneToOne
-    @JoinColumn(name = "processoperation_id", nullable = false)
+    @OneToOne(mappedBy = "typicalActivity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @Getter(AccessLevel.NONE)
     private ProcessOperation processOperation;
     
     @OneToMany(

@@ -15,7 +15,7 @@ ADD CONSTRAINT unique_version_opNumber UNIQUE (version, opNumber);
  */
 @Entity
 @Table(name = "processoperation", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"version", "opNumber"})
+        @UniqueConstraint(columnNames = {"version", "opNumber", "projectName"})
 })
 @Data
 @NoArgsConstructor
@@ -45,8 +45,9 @@ public class ProcessOperation {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "main_equipment_id", referencedColumnName = "id")
     private ProcessEquipment mainEquipment;
-
-    @OneToOne(mappedBy = "processOperation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "typical_activity_id", referencedColumnName = "id")
     private TypicalActivity typicalActivity;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
