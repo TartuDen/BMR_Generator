@@ -19,7 +19,7 @@ public class Operation {
     @NotBlank
     private String operationType;
     
-    @Column(name = "content", length = 1000)
+    @Column(name = "content", length = 1500)
     @NonNull
     private String content;
     

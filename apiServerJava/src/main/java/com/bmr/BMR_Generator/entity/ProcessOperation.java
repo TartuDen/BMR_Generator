@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /*
 ALTER TABLE processoperation
 ADD CONSTRAINT unique_version_opNumber UNIQUE (version, opNumber);
